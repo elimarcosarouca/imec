@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<h:head>
+		
+		<f:facet name="first">
+			<f:loadBundle basename="messages" var="msg" />
+       	 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<title>:: #{msg.project_name} :: #{empty pageTitle ? '*' : pageTitle}</title>
+			<link rel="icon" href="#{request.contextPath}/resources/imagens/favicon.ico" />
+		</f:facet>
+		
+		<!-- FIXME unificar css -->
+		<link type="text/css" rel="stylesheet" 	href="#{request.contextPath}/resources/estilos/main.css" />
+
+	</h:head>
+	
+	<h:body>
+	
+		<p:layout fullPage="true">
+
+			<p:layoutUnit position="center">
+				<h:form>
+					<h:messages />
+					<h:outputText value="Desculpe, você não tem permissão para acessar a página requisitada. =/" />
+				</h:form>
+			</p:layoutUnit>
+	
+			<p:layoutUnit position="south" size="30">
+				<div align="right">
+					<h:outputText value="Powered by" />
+					<a href="#">SS - Software Solutions</a>
+				</div>
+			</p:layoutUnit>
+			
+		</p:layout>  
+		
+	</h:body>
+</html>
