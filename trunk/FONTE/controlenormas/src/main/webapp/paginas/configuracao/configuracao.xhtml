@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	template="/resources/layout/register_template.xhtml">
+
+	<ui:param name="pageHeader" value="Configuração"/>
+	<ui:param name="pageTitle" value="Configuração"/>
+	<ui:param name="managedBean" value="#{configuracaoControlador}"/>
+	<ui:param name="widthContainer" value="99%"/>
+	<ui:param name="renderCancelar" value="false"/>
+
+	<ui:define name="register_region">
+	
+		<h:panelGrid id="panelCadastro" columns="2">
+			
+			<ss:input label="Dia de Vencimento" value="#{configuracaoControlador.entidade.diaVencimento}" type="number" maxlength="2" size="3" dir="rtl" decimalPlaces="0" />
+				
+			<h:panelGrid columns="2" width="500" columnClasses="input_label, input_required" rendered="#{configuracaoControlador.usuarioLogado.login eq 'master'}" >
+			 		
+			 		<p:column width="150px">
+						<h:outputLabel value="Tema" for="tema" />
+				 		<h:outputText value="  * " styleClass="input_required" />
+			 		</p:column>
+			 		
+			 		<p:column style="align:left">
+		               <p:themeSwitcher id="tema" value="#{configuracaoControlador.entidade.tema}" style="width:155px;float:left;margin:15px;" effect="fade">
+		                   <f:selectItem itemLabel="Escolha um tema" itemValue="" />
+		                   <f:selectItems value="#{configuracaoControlador.themes}" />
+		                   <p:ajax listener="#{configuracaoControlador.salvar}" />
+		               </p:themeSwitcher>
+		               
+			 		</p:column>
+			 		
+	 		</h:panelGrid>	
+		</h:panelGrid>
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+		
+	<context:component-scan base-package="br.com.ss" />
+
+	<context:spring-configured />
+
+	<http use-expressions="true" auto-config="true" >	<!-- teste: auto-config="true"  -->
+		<intercept-url pattern="/javax.faces.resource/**" access="permitAll" />
+		<intercept-url pattern="/resources/**" access="permitAll" />
+		<intercept-url pattern="/login.xhtml" access="permitAll" />
+
+<!-- 		<intercept-url pattern="/paginas/**" access="isAuthenticated()" /> -->
+		<intercept-url pattern="/**" access="isAuthenticated()" />
+		<intercept-url pattern="/index.xhtml" access="isAuthenticated()"  />
+
+		<custom-filter ref="requestFilter" after="SECURITY_CONTEXT_FILTER" />
+		
+		<form-login login-page="/login.xhtml" 
+					default-target-url="/index.xhtml"
+					authentication-failure-url="/index.xhtml?erro=true"
+					/>	
+		<!--
+		<logout logout-success-url="/login.xhtml" />
+					
+		<custom-filter position="CONCURRENT_SESSION_FILTER" ref="concurrencyFilter" />
+		
+		<session-management session-authentication-strategy-ref="sas" />
+		
+		<access-denied-handler error-page="/acessoNegado.xhtml?erro=true" />
+		-->
+	</http>
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider ref="authenticationProvider" />
+	</authentication-manager>
+
+	<beans:bean id="authenticatorController" class="br.com.ss.core.seguranca.web.auth.AuthenticatorController" > <!-- scope="prototype" -->
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+	</beans:bean>
+	<beans:bean id="authenticationProvider" class="br.com.ss.core.seguranca.web.auth.SSAuthenticationManager" />
+	
+
+	<beans:bean id="requestFilter" class="br.com.ss.core.web.filter.RequestFilter" />
+
+	<!-- ==============  
+	<beans:bean id="loginRedirectInterceptor" class="br.com.ss.core.web.security.LoginRedirectInterceptor" />
+	
+	<beans:bean id="handlerMapping" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+		<beans:property name="interceptors" ref="loginRedirectInterceptor" />
+	</beans:bean>
+	-->
+	
+	<!-- ==========x-x-xx-x================= 
+	<beans:bean id="userSession" class="br.com.ss.core.seguranca.dominio.Usuario" scope="session">
+		<aop:scoped-proxy />
+	</beans:bean>
+	-->
+	
+	<!-- ========== Security ==================
+	
+	<beans:bean id="concurrencyFilter" class="org.springframework.security.web.session.ConcurrentSessionFilter">
+		<beans:property name="sessionRegistry" ref="sessionRegistry" />
+		<beans:property name="expiredUrl" value="/login.xhtml" />
+	</beans:bean>
+	
+	<beans:bean id="sas" class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy">
+		<beans:constructor-arg name="sessionRegistry" ref="sessionRegistry" />
+		<beans:property name="maximumSessions" value="1" />
+	</beans:bean>
+	
+	<beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />
+
+	 -->
+</beans:beans>
