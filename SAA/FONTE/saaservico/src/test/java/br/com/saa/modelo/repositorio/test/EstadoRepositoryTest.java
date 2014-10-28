@@ -12,7 +12,7 @@ import br.com.saa.modelo.entidade.Estado;
 import br.com.saa.modelo.repositorio.EstadoRepositorio;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:META-INF/application-context.xml")
+@ContextConfiguration(locations = "classpath:META-INF/applicationContextServicoSaa.xml")
 // @ContextConfiguration(locations="classpath:META-INF/test-context.xml")
 public class EstadoRepositoryTest {
 
