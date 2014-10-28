@@ -32,11 +32,11 @@ public class Usuario {
 	@Column(name = "id_saa_usuario")
 	private Long id;
 
-	@Column(name = "nome_razao_social", nullable = false, length = 60)
-	private String nomeRazaoSocial;
+	@Column(name = "nome", nullable = false, length = 60)
+	private String nome;
 
-	@Column(name = "cpf_cnpj", nullable = false, length = 14, unique = true)
-	private String cpfCnpj;
+	@Column(name = "login", nullable = false, length = 14, unique = true)
+	private String login;
 
 	@Column(name = "senha", nullable = false, length = 60)
 	private String senha;
@@ -74,20 +74,36 @@ public class Usuario {
 		this.id = id;
 	}
 
-	public String getNomeRazaoSocial() {
-		return nomeRazaoSocial;
+	public String getLogin() {
+		return login;
 	}
 
-	public void setNomeRazaoSocial(String nomeRazaoSocial) {
-		this.nomeRazaoSocial = nomeRazaoSocial;
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
-	public String getCpfCnpj() {
-		return cpfCnpj;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setCpfCnpj(String cpfCnpj) {
-		this.cpfCnpj = cpfCnpj;
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public Municipio getMunicipio() {
+		return municipio;
+	}
+
+	public void setMunicipio(Municipio municipio) {
+		this.municipio = municipio;
+	}
+
+	public Set<UsuarioPerfil> getUsuarioPerfiis() {
+		return usuarioPerfiis;
+	}
+
+	public void setUsuarioPerfiis(Set<UsuarioPerfil> usuarioPerfiis) {
+		this.usuarioPerfiis = usuarioPerfiis;
 	}
 
 	public String getSenha() {

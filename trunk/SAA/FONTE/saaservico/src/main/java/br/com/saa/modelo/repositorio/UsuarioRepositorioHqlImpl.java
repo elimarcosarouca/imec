@@ -24,12 +24,11 @@ public class UsuarioRepositorioHqlImpl extends RepositorioGenerico implements
 		// nao deve exibir o usuario master
 		condictions.add(" lower( ent.login ) <> 'master' ");
 
-		if (notEmpty(entity.getNomeRazaoSocial())) {
-			condictions
-					.add(" lower( ent.nomeRazaoSocial ) like :nomeRazaoSocial ");
+		if (notEmpty(entity.getNome())) {
+			condictions.add(" lower( ent.nome ) like :nome ");
 		}
-		if (notEmpty(entity.getCpfCnpj())) {
-			condictions.add(" lower( ent.cpfCnpj ) like :cpfCnpj ");
+		if (notEmpty(entity.getLogin())) {
+			condictions.add(" lower( ent.login ) like :login ");
 		}
 		if (notEmpty(entity.getStatus())) {
 			condictions.add(" ent.status = :status ");
@@ -39,12 +38,11 @@ public class UsuarioRepositorioHqlImpl extends RepositorioGenerico implements
 
 		Query query = entityManager.createQuery(generateHql(sb.toString(),
 				condictions) + orderBy);
-		if (notEmpty(entity.getNomeRazaoSocial())) {
-			query.setParameter("nomeRazaoSocial",
-					"%" + entity.getNomeRazaoSocial() + "%");
+		if (notEmpty(entity.getNome())) {
+			query.setParameter("nome", "%" + entity.getNome() + "%");
 		}
-		if (notEmpty(entity.getCpfCnpj())) {
-			query.setParameter("cpfCnpj", "%" + entity.getCpfCnpj() + "%");
+		if (notEmpty(entity.getLogin())) {
+			query.setParameter("login", "%" + entity.getLogin() + "%");
 		}
 		if (notEmpty(entity.getStatus())) {
 			query.setParameter("status", entity.getStatus());
