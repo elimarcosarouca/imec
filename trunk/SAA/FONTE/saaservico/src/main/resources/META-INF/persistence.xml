@@ -1,6 +1,6 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
 	version="1.0">
-	<persistence-unit name="tothought-tutorial"
+	<persistence-unit name="persistence-unit-saa"
 		transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<properties>
@@ -10,7 +10,7 @@
 		</properties>
 	</persistence-unit>
 
-	<persistence-unit name="tothought-tutorial-test"
+	<persistence-unit name="persistence-unit-saa-test"
 		transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<properties>

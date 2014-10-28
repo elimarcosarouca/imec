@@ -19,7 +19,7 @@
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="datasource" />
-		<property name="persistenceUnitName" value="tothought-tutorial" />
+		<property name="persistenceUnitName" value="persistence-unit-saa" />
 	</bean>
 
 	<!-- Transaction Manager -->
