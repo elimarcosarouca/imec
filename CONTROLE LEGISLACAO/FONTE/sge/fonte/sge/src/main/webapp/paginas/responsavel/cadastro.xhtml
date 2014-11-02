@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	template="/resources/layout/register_template.xhtml">
+
+	<ui:param name="pageHeader" value="Cadastro de Responsável"/>
+	<ui:param name="pageTitle" value="Cadastro de Responsável"/>
+	<ui:param name="managedBean" value="#{responsavelControlador}"/>
+	<ui:param name="widthContainer" value="950px"/>
+
+	<ui:define name="register_region">
+	
+		<h:panelGrid id="panelCadastro" columns="2">
+
+			<ss:input label="Nome" required="true" value="#{responsavelControlador.entidade.nome}" maxlength="60" />
+		
+			<ss:input label="Endereço" required="true" value="#{responsavelControlador.entidade.endereco}" maxlength="60" />
+			
+			<ss:input label="Bairro" required="true" value="#{responsavelControlador.entidade.bairro}" maxlength="60" />
+
+			<ss:input label="CEP" value="#{responsavelControlador.entidade.cep}" type="mask" mask="99999-999" watermark="99999-999" maxlength="9" />
+
+			<ss:input label="Celular" value="#{responsavelControlador.entidade.celular}" type="mask" mask="9999-9999" watermark="9999-9999" maxlength="10" />
+
+			<ss:input label="Fone Residencial" value="#{responsavelControlador.entidade.foneResidencial}" type="mask" mask="9999-9999" watermark="9999-9999" maxlength="10" />
+
+			<ss:input label="Fone Comercial" value="#{responsavelControlador.entidade.foneComercial}" type="mask" mask="9999-9999" watermark="9999-9999" maxlength="10" />
+
+			<ss:input label="Profissão" required="true" value="#{responsavelControlador.entidade.profissao}" maxlength="30" />
+		
+			<ss:input label="E-mail" value="#{responsavelControlador.entidade.email}" email="true" maxlength="40" />
+			
+			<ss:input label="CPF" required="true" value="#{responsavelControlador.entidade.cpf}" validatorComp="cpfValidator" type="mask" watermark="999.999.999-99" mask="999.999.999-99" maxlength="14" />
+
+			<ss:input label="RG" required="true" value="#{responsavelControlador.entidade.rg}" type="mask" watermark="99999999-9" maxlength="10" />
+				 
+			<ss:comboBox label="Sexo" required="true" selectOne="true" value="#{responsavelControlador.entidade.sexo}" list="#{responsavelControlador.sexoList}" />
+
+			<ss:input type="date" label="Data Nascimento" required="true" watermark="99/99/99" value="#{responsavelControlador.entidade.dataNascimento}" />
+			
+			<ss:comboBox label="Sexo" required="true" selectOne="true" value="#{responsavelControlador.entidade.estadoCivil}" list="#{responsavelControlador.estadoCivilList}" />
+
+		</h:panelGrid>
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="robson.ramos (generated)" id="1414428003635-1">
+        <createTable tableName="acad_aluno">
+            <column autoIncrement="true" name="id_aluno" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="alergia" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="" name="bairro" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="celular" type="VARCHAR(9)"/>
+            <column name="cep" type="VARCHAR(9)"/>
+            <column name="cpf" type="VARCHAR(14)"/>
+            <column name="data_cadastro" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_nascimento" type="datetime"/>
+            <column name="descricao_alegia" type="VARCHAR(200)"/>
+            <column name="descricao_remedio" type="VARCHAR(200)"/>
+            <column name="email" type="VARCHAR(40)"/>
+            <column defaultValue="" name="endereco" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fone_mae" type="VARCHAR(9)"/>
+            <column name="fone_pai" type="VARCHAR(9)"/>
+            <column name="fone_residencial" type="VARCHAR(9)"/>
+            <column name="grau_parentesco" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mae" type="VARCHAR(60)"/>
+            <column name="naturalidade" type="VARCHAR(30)"/>
+            <column defaultValue="" name="nome" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pai" type="VARCHAR(60)"/>
+            <column name="rg" type="VARCHAR(10)"/>
+            <column name="sexo" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uf" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_responsavel" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-2">
+        <createTable tableName="acad_boletim">
+            <column autoIncrement="true" name="id_boletim" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="id_matricula" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-3">
+        <createTable tableName="acad_configuracao">
+            <column autoIncrement="true" name="id_configuracao" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="dia_vencimento" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tema" type="VARCHAR(20)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-4">
+        <createTable tableName="acad_curso">
+            <column autoIncrement="true" name="id_curso" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column defaultValue="" name="nome" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="valor" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-5">
+        <createTable tableName="acad_curso_disciplina">
+            <column name="data" type="datetime"/>
+            <column defaultValueNumeric="0" name="id_curso" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="0" name="id_disciplina" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-6">
+        <createTable tableName="acad_disciplina">
+            <column autoIncrement="true" name="id_disciplina" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="descricao" type="VARCHAR(100)"/>
+            <column defaultValue="" name="nome" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-7">
+        <createTable tableName="acad_matricula">
+            <column autoIncrement="true" name="id_matricula" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="data" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="integral" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="texto_relatorio" type="VARCHAR(255)"/>
+            <column name="valor" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_aluno" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_turma" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-8">
+        <createTable tableName="acad_mensalidade">
+            <column autoIncrement="true" name="id_mensalidade" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="data_pagamento" type="date"/>
+            <column name="data_vencimento" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="observacao" type="VARCHAR(255)"/>
+            <column name="sequencial" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status_pagamento" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="valor_pagamento" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="valor_vencimento" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_matricula" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_usuario" type="BIGINT(19)"/>
+            <column name="id_usuario_atualizacao" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-9">
+        <createTable tableName="acad_observacao">
+            <column autoIncrement="true" name="id_observacao" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column defaultValue="" name="tx_observacao" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="matricula" type="BIGINT(19)"/>
+            <column name="id_usuario" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-10">
+        <createTable tableName="acad_professor">
+            <column autoIncrement="true" name="id_professor" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column defaultValue="" name="bairro" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="celular" type="VARCHAR(9)"/>
+            <column defaultValue="" name="cep" type="VARCHAR(9)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="" name="cpf" type="VARCHAR(14)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_cadastro" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_nascimento" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(40)"/>
+            <column defaultValue="" name="endereco" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fone_comercial" type="VARCHAR(9)"/>
+            <column name="fone_residencial" type="VARCHAR(9)"/>
+            <column defaultValue="" name="nome" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="" name="rg" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sexo" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-11">
+        <createTable tableName="acad_responsavel">
+            <column autoIncrement="true" name="id_responsavel" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column defaultValue="" name="bairro" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="celular" type="VARCHAR(9)"/>
+            <column name="cep" type="VARCHAR(9)"/>
+            <column defaultValue="" name="cpf" type="VARCHAR(14)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_nascimento" type="datetime"/>
+            <column name="email" type="VARCHAR(40)"/>
+            <column defaultValue="" name="endereco" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fone_comercial" type="VARCHAR(9)"/>
+            <column name="fone_residencial" type="VARCHAR(9)"/>
+            <column defaultValue="" name="nome" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="" name="profissao" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="" name="rg" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sexo" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-12">
+        <createTable tableName="acad_turma">
+            <column autoIncrement="true" name="id_turma" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="ano" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="numero_vagas" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="situacao" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="turno" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_curso" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-13">
+        <createTable tableName="acad_turma_disciplina">
+            <column name="data" type="datetime"/>
+            <column defaultValueNumeric="0" name="id_turma" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="0" name="id_disciplina" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-14">
+        <createTable tableName="saa_empresa">
+            <column autoIncrement="true" name="id_empresa" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="razao_social" type="VARCHAR(60)"/>
+            <column defaultValue="" name="nome_fantasia" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bairro" type="VARCHAR(60)"/>
+            <column defaultValue="" name="cnpj" type="VARCHAR(18)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(40)"/>
+            <column name="endereco" type="VARCHAR(60)"/>
+            <column name="celular" type="VARCHAR(9)"/>
+            <column name="fone" type="VARCHAR(9)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-15">
+        <createTable tableName="saa_perfil">
+            <column autoIncrement="true" name="id_perfil" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column defaultValue="" name="imagem" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="" name="nome" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_sistema" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-16">
+        <createTable tableName="saa_perfil_rotina">
+            <column name="data" type="datetime"/>
+            <column defaultValueNumeric="0" name="id_perfil" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="0" name="id_rotina" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-17">
+        <createTable tableName="saa_rotina">
+            <column autoIncrement="true" name="id_rotina" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column defaultValue="" name="acao" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="" name="imagem" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="" name="nome" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="TINYINT(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_sistema" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-18">
+        <createTable tableName="saa_sistema">
+            <column autoIncrement="true" name="id_sistema" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column defaultValue="" name="codigo" type="VARCHAR(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="" name="descricao" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="" name="imagem" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="" name="nome" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-19">
+        <createTable tableName="saa_usuario">
+            <column autoIncrement="true" name="id_usuario" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="login" type="VARCHAR(30)"/>
+            <column defaultValue="" name="nome" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="senha" type="VARCHAR(64)"/>
+            <column name="status" type="SMALLINT(5) UNSIGNED">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tipo_usuario" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-20">
+        <createTable tableName="saa_usuario_perfil">
+            <column name="data" type="datetime"/>
+            <column defaultValueNumeric="0" name="id_perfil" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="0" name="id_usuario" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-21">
+        <addPrimaryKey columnNames="id_curso, id_disciplina" constraintName="PRIMARY" tableName="acad_curso_disciplina"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-22">
+        <addPrimaryKey columnNames="id_disciplina, id_turma" constraintName="PRIMARY" tableName="acad_turma_disciplina"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-23">
+        <addPrimaryKey columnNames="id_perfil, id_rotina" constraintName="PRIMARY" tableName="saa_perfil_rotina"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-24">
+        <addPrimaryKey columnNames="id_perfil, id_usuario" constraintName="PRIMARY" tableName="saa_usuario_perfil"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-25">
+        <addUniqueConstraint columnNames="cnpj" constraintName="UK_80r8bcl23aucmghxjqt8ckfcc" deferrable="false" disabled="false" initiallyDeferred="false" tableName="saa_empresa"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-26">
+        <addUniqueConstraint columnNames="login" constraintName="UK_ckrgsi99ta2s36tkydejud4wy" deferrable="false" disabled="false" initiallyDeferred="false" tableName="saa_usuario"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-27">
+        <addUniqueConstraint columnNames="codigo" constraintName="UK_ghac1kmyt6ytqt8bxwmxy0dfb" deferrable="false" disabled="false" initiallyDeferred="false" tableName="saa_sistema"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-28">
+        <addForeignKeyConstraint baseColumnNames="id_curso" baseTableName="acad_turma" constraintName="FK_2qed6ismnk8dlxohh3ie29tb5" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_curso" referencedTableName="acad_curso"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-29">
+        <addForeignKeyConstraint baseColumnNames="id_rotina" baseTableName="saa_perfil_rotina" constraintName="FK_4ey8g8nxrvbs411mm26qda1bf" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_rotina" referencedTableName="saa_rotina"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-30">
+        <addForeignKeyConstraint baseColumnNames="id_turma" baseTableName="acad_matricula" constraintName="FK_4fr9y18xpqymx6wyobq1ixdn7" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_turma" referencedTableName="acad_turma"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-31">
+        <addForeignKeyConstraint baseColumnNames="id_sistema" baseTableName="saa_perfil" constraintName="FK_4hy4snh41hywvhfpa8omdlnqm" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_sistema" referencedTableName="saa_sistema"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-32">
+        <addForeignKeyConstraint baseColumnNames="id_sistema" baseTableName="saa_rotina" constraintName="FK_54mvu1oxkbqkwg0ifkj9867ar" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_sistema" referencedTableName="saa_sistema"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-33">
+        <addForeignKeyConstraint baseColumnNames="id_perfil" baseTableName="saa_usuario_perfil" constraintName="FK_fpjsxglutlk7m5aho59hito8q" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_perfil" referencedTableName="saa_perfil"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-34">
+        <addForeignKeyConstraint baseColumnNames="id_curso" baseTableName="acad_curso_disciplina" constraintName="FK_gvsiecwjppuxl61exe7xlblfk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_curso" referencedTableName="acad_curso"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-35">
+        <addForeignKeyConstraint baseColumnNames="id_matricula" baseTableName="acad_mensalidade" constraintName="FK_id_matricula" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_matricula" referencedTableName="acad_matricula"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-36">
+        <addForeignKeyConstraint baseColumnNames="id_usuario" baseTableName="acad_mensalidade" constraintName="FK_id_usuario" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_usuario" referencedTableName="saa_usuario"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-37">
+        <addForeignKeyConstraint baseColumnNames="id_usuario_atualizacao" baseTableName="acad_mensalidade" constraintName="FK_id_usuario_atualizacao" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_usuario" referencedTableName="saa_usuario"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-38">
+        <addForeignKeyConstraint baseColumnNames="id_disciplina" baseTableName="acad_curso_disciplina" constraintName="FK_j9mg4c35y4ye8nkqvaoqcouyx" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_disciplina" referencedTableName="acad_disciplina"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-39">
+        <addForeignKeyConstraint baseColumnNames="id_perfil" baseTableName="saa_perfil_rotina" constraintName="FK_kh4c63uwlsyajnqj66sv6btu5" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_perfil" referencedTableName="saa_perfil"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-40">
+        <addForeignKeyConstraint baseColumnNames="matricula" baseTableName="acad_observacao" constraintName="FK_mihvaxpbu34ne567r35y46qmn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_matricula" referencedTableName="acad_matricula"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-41">
+        <addForeignKeyConstraint baseColumnNames="id_matricula" baseTableName="acad_boletim" constraintName="FK_mq5q6rbkuuuum3poa3ojvag6u" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_matricula" referencedTableName="acad_matricula"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-42">
+        <addForeignKeyConstraint baseColumnNames="id_usuario" baseTableName="saa_usuario_perfil" constraintName="FK_ooqm83bohskwfg89ng9g3kgra" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_usuario" referencedTableName="saa_usuario"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-43">
+        <addForeignKeyConstraint baseColumnNames="id_disciplina" baseTableName="acad_boletim" constraintName="FK_p8d9kggflelbutgso6bn9mpek" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_disciplina" referencedTableName="acad_disciplina"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-44">
+        <addForeignKeyConstraint baseColumnNames="id_aluno" baseTableName="acad_matricula" constraintName="FK_psjpgyxt6vvv2jfsfii1jvpa6" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_aluno" referencedTableName="acad_aluno"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-45">
+        <addForeignKeyConstraint baseColumnNames="id_usuario" baseTableName="acad_observacao" constraintName="FK_q8h5b61shdfwk5ispw07dnqvn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_usuario" referencedTableName="saa_usuario"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-46">
+        <addForeignKeyConstraint baseColumnNames="id_responsavel" baseTableName="acad_aluno" constraintName="FK_responsavel" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_responsavel" referencedTableName="acad_responsavel"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-47">
+        <addForeignKeyConstraint baseColumnNames="id_turma" baseTableName="acad_turma_disciplina" constraintName="FK_tgmm7cchb962gh5lvjqdaim3w" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_turma" referencedTableName="acad_turma"/>
+    </changeSet>
+    <changeSet author="robson.ramos (generated)" id="1414428003635-48">
+        <addForeignKeyConstraint baseColumnNames="id_disciplina" baseTableName="acad_turma_disciplina" constraintName="FK_tmf6l1l872tifrujdj883egvs" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id_disciplina" referencedTableName="acad_disciplina"/>
+    </changeSet>
+</databaseChangeLog>

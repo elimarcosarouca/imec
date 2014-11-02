@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	template="/resources/layout/register_template.xhtml">
+
+	<ui:param name="pageHeader" value="Cadastro de Matrícula"/>
+	<ui:param name="pageTitle" value="Cadastro de Matrícula"/>
+	<ui:param name="managedBean" value="#{alunoMatriculaControlador}"/>
+	<ui:param name="widthContainer" value="950px"/>
+
+	<ui:define name="register_region">
+	
+		<c:set var="isPersistent" value="#{alunoMatriculaControlador.entidade.isPersistent()}"/>
+		
+		<h:panelGrid columns="2">
+			
+			<c:if test="#{isPersistent}">
+				<ss:input label="Aluno" disabled="true" required="true"
+							value="#{alunoMatriculaControlador.entidade.aluno.nome}"  />
+			</c:if>
+			<c:if test="#{not isPersistent}">
+				<ss:autoComplete label="Aluno" required="true" 
+			       				value="#{alunoMatriculaControlador.alunoMatricula}"
+			       				bean="#{matriculaControlador}"
+			       				completeMethod="listarAlunos"
+			                    itemLabel="#{item.nome}" />
+			</c:if>		
+		
+			<ss:comboBox label="Turma" required="true" foreignKey="true" selectOne="true"
+						update="form" 
+						listener="#{alunoMatriculaControlador.selectTurma(true)}"
+						value="#{alunoMatriculaControlador.entidade.turma}"
+						atributo="#{item.curso.nome} - #{item.turno} - #{item.ano}"
+						list="#{alunoMatriculaControlador.turmas}" />
+			
+			<ss:input id="vagas" label="Vagas Disponíveis" style="width: 40px;" readonly="true" type="number" dir="rtl" decimalPlaces="0"
+						value="#{alunoMatriculaControlador.entidade.turma.vagasDisponiveis}" />
+			
+			<ss:input id="valor" label="Valor" required="true" value="#{alunoMatriculaControlador.entidade.valor}" type="number" style="width: 70px;" dir="rtl" />
+			
+			<ss:input label="Data da Matrícula" type="date" required="true" value="#{alunoMatriculaControlador.entidade.data}" dir="rtl" size="40" />
+			
+			<ss:comboBox label="Mensalidades apartir de" required="true" selectOne="true" 
+						value="#{alunoMatriculaControlador.mesSelecionado}" 
+						list="#{alunoMatriculaControlador.mesesList}" />
+	        
+	        <ss:comboBox label="Turno Integral?" required="true" selectOne="true" 
+						value="#{alunoMatriculaControlador.entidade.integral}"
+						list="#{alunoMatriculaControlador.naoSimList}" />
+	        
+	        <ss:comboBox label="Situação" required="true" selectOne="true" 
+	        			update="pnlObservacao"
+	        			listener="#{alunoMatriculaControlador.renderObservacao}" 
+						value="#{alunoMatriculaControlador.entidade.status}"
+						list="#{alunoMatriculaControlador.statusMatriculaList}" />
+	        
+		</h:panelGrid>
+		
+        <p:outputPanel id="pnlObservacao">
+	        	<ss:input label="Justificativa" value="#{alunoMatriculaControlador.observacaoMatricula.txObservacao}" 
+        				type="textarea" rendered="#{alunoMatriculaControlador.entidade.status.id ne 0}" 
+        				required="true" width="900" cols="95" />
+		</p:outputPanel>	
+		
+	</ui:define>
+	
+</ui:composition>

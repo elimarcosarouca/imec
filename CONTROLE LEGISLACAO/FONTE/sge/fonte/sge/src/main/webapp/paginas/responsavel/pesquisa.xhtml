@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss2="http://www.3iti.com.br/jsf/componentes"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	template="/resources/layout/search_template.xhtml">
+
+	<ui:param name="pageTitle" value="Responsável"/>
+	<ui:param name="pageHeader" value="Responsável"/>
+	<ui:param name="managedBean" value="#{responsavelControlador}"/>
+	
+	<ui:define name="search_filter">
+
+		<ss:input label="Nome" size="40" value="#{responsavelControlador.pesquisa.nome}" />
+		
+		<ss:input label="Nome do Aluno" size="40" value="#{responsavelControlador.aluno.nome}" />
+	
+	</ui:define>
+
+	<ui:define name="grid_region">
+
+		<ss:grid managedBean="#{responsavelControlador}" >
+			
+			<ss2:column value="#{item.nome}" header="Nome" sortBy="nome"  />
+			
+			<ss2:column value="#{item.getAlunosAsString()}" header="Alunos" />
+			
+			<ss2:column value="#{item.celular}" header="Celular" sortBy="celular"  />
+			
+			<ss2:column value="#{item.foneResidencial}" header="Fone Residencial" sortBy="foneResidencial"  />
+			
+			<ss2:column value="#{item.email}" header="E-mail" sortBy="email"  />
+			
+		</ss:grid>
+		
+	</ui:define>
+
+</ui:composition>

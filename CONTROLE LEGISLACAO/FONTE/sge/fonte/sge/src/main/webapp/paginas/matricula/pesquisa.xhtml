@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss2="http://www.3iti.com.br/jsf/componentes"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	template="/resources/layout/search_template.xhtml">
+
+	<ui:param name="pageTitle" value="Matrícula" />
+	<ui:param name="pageHeader" value="Matrícula" />
+	<ui:param name="managedBean" value="#{matriculaControlador}" />
+	<ui:param name="reloadPage" value="true" />
+	
+	<!-- ==== Filtro de pesquisa ======= -->
+	<ui:define name="search_filter">
+
+		<ss:autoComplete label="Aluno"
+			value="#{matriculaControlador.pesquisa.aluno}"
+			bean="#{matriculaControlador}" completeMethod="listarAlunos"
+			itemLabel="#{item.nome}" size="40" />
+
+		<ss:autoComplete label="Curso"
+			value="#{matriculaControlador.pesquisa.turma.curso}"
+			bean="#{matriculaControlador}" completeMethod="listarCursos"
+			itemLabel="#{item.nome}" size="40" />
+
+		<ss:input label="Ano da Turma"
+			value="#{matriculaControlador.pesquisa.turma.ano}" type="number"
+			decimalPlaces="0" style="width: 70px;" dir="rtl" />
+
+		<ss:comboBox label="Turno da Turma"
+			value="#{matriculaControlador.pesquisa.turma.turno}"
+			list="#{matriculaControlador.turnoList}" />
+
+		<ss:comboBox label="Situação"
+			value="#{matriculaControlador.pesquisa.status}"
+			list="#{matriculaControlador.statusList}" />
+
+	</ui:define>
+
+	<!-- ==== Grid ======= -->
+	<ui:define name="grid_region">
+
+		<ss:grid managedBean="#{matriculaControlador}" renderedActionColumn="false">
+
+			<ss2:column value="#{item.aluno.nome}" header="Aluno" sortBy="aluno.nome" />
+			<ss2:column value="#{item.turma.curso.nome}" header="Curso" sortBy="turma.curso.nome" width="80" />
+			<ss2:column value="#{item.turma.ano}" header="Ano" sortBy="turma.ano" textAlign="center" width="60" />
+			<ss2:column value="#{item.turma.turno}" header="Turno" sortBy="turma.turno" converter="turnoConverter" width="90" />
+			<ss2:column value="#{item.valor}" header="Valor" sortBy="valor" width="70" convertNumber="true" currencySymbol=" " textAlign="right" />
+			<ss2:column value="#{item.data}" header="Data Matrícula" sortBy="data" convertDate="true" width="120" textAlign="center" />
+			<ss2:column value="#{item.integral}" header="Hor. Integral?" sortBy="integral" converter="simNaoConverter" textAlign="center" width="110" />
+			<ss2:column value="#{item.status}" header="Situação" sortBy="status" converter="statusMatriculaConverter" textAlign="center" width="90" />
+
+			<ss2:actionColumn managedBean="#{alunoMatriculaControlador}" renderedRemove="false" buttonsAdded="1">
+
+				<p:commandButton value="Contrato" ajax="false"
+							onclick="this.form.target='_blank'" 
+							icon="ui-icon-print"
+							styleClass="ui-priority-primary"
+							action="#{matriculaControlador.imprimirContrato(item)}" />
+
+			</ss2:actionColumn>
+
+		</ss:grid>
+
+	</ui:define>
+
+</ui:composition>

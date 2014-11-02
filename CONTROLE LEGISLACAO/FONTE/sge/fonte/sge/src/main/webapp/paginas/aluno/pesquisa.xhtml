@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss2="http://www.3iti.com.br/jsf/componentes"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	template="/resources/layout/search_template.xhtml">
+
+	<ui:param name="pageTitle" value="Aluno"/>
+	<ui:param name="pageHeader" value="Aluno"/>
+	<ui:param name="managedBean" value="#{alunoControlador}"/>
+	
+	
+	<!-- ==== Filtro de pesquisa ======= -->
+	<ui:define name="search_filter">
+			
+		<ss:input label="Nome" size="40" value="#{alunoControlador.pesquisa.nome}" />
+	
+		<ss:comboBox label="Sexo" value="#{alunoControlador.pesquisa.sexo}" list="#{alunoControlador.sexoList}" />
+	
+		<ss:autoComplete label="Responsável"
+	       				value="#{alunoControlador.pesquisa.responsavel}"
+	       				bean="#{alunoControlador}"
+	       				completeMethod="listarResponsavel"
+	                    itemLabel="#{item.nome}" 
+	                    size="40" />
+						
+	</ui:define>
+	
+	
+	<!-- ==== Grid ======= -->
+	<ui:define name="grid_region">	
+	
+		<ss:grid managedBean="#{alunoControlador}" renderedActionColumn="false">
+			
+			<ss2:column value="#{item.nome}" header="Nome" sortBy="nome"  />
+			
+			<ss2:column value="#{item.responsavel.nome}" header="Responsável" sortBy="responsavel.nome" />
+			
+			<ss2:actionColumn managedBean="#{alunoControlador}" buttonsAdded="1">
+				<p:commandButton value="Matrícula" title="Matrícula"
+							action="#{alunoMatriculaControlador.showModalMatricula(item)}"
+							oncomplete="PF('dlgMatricula').show();" 
+							styleClass="ui-priority-primary"
+							icon="ui-icon-note"
+							update=":dialogMatricula" />
+			</ss2:actionColumn>
+			
+		</ss:grid>
+		 		
+	</ui:define>
+	
+	
+	<!-- ===== Modals ========= -->
+	<ui:define name="modal_region">
+		
+		<ui:include src="matricula.xhtml" />
+		
+	</ui:define>
+	
+</ui:composition>

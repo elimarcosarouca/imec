@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ss2="http://www.3iti.com.br/jsf/componentes"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<p:panel id="pnlGridMat" rendered="#{not alunoMatriculaControlador.modalCadastro}">
+	
+		<f:facet name="footer">
+	       	<p:commandButton value="Fechar" 
+			       		styleClass="ui-priority-primary" icon="ui-icon-circle-close" 
+			       		onclick="PF('dlgMatricula').hide();" />  
+			       		
+			<p:spacer width="5px" />       		
+			       		
+			<p:commandButton id="btnNovaMat" value="Novo" update=":formDlg"
+							icon="ui-icon-circle-plus" styleClass="ui-priority-primary"
+							oncomplete="PF('dlgMatricula').show();"
+							action="#{alunoMatriculaControlador.showModalCadastroMatricula}" />
+		</f:facet>
+
+		<ss:grid managedBean="#{alunoMatriculaControlador}" list="alunoMatriculas" renderedActionColumn="false">
+			
+			<ss2:column value="#{item.turma.curso.nome}" header="Curso" sortBy="turma.curso.nome" />
+			<ss2:column value="#{item.turma.ano}" header="Ano" sortBy="turma.ano" />
+			<ss2:column value="#{item.turma.turno}" header="Turno" sortBy="turma.turno" />
+			<ss2:column value="#{item.valor}" header="Valor" sortBy="valor" width="80" convertNumber="true" currencySymbol=" " textAlign="right" />
+			<ss2:column value="#{item.status}" header="Situação" sortBy="status" />
+			<ss2:column value="#{item.integral}" header="Hor. Integral?" sortBy="integral" converter="simNaoConverter" />
+			
+			<ss2:actionColumn managedBean="#{alunoMatriculaControlador}" renderedDetail="false" renderedRemove="false" buttonsAdded="1">
+			
+				<p:commandButton value="Detalhe"
+								icon="ui-icon-folder-collapsed"
+								styleClass="ui-priority-primary"
+								oncomplete="PF('dlgMatricula').show();"
+								action="#{alunoMatriculaControlador.showModalCadastroMatricula(item)}"
+								update=":formDlg" title="Detalhe" />
+				
+			</ss2:actionColumn>
+			
+		</ss:grid>
+	
+	</p:panel>
+
+</ui:component>

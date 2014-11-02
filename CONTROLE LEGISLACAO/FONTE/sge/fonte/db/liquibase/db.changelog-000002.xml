@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+ 
+	<changeSet author="joyce.silva" id="1408136670542-1110">
+	    <sqlFile path="../scripts/data/CATEGORIA_CID.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1111">
+	    <sqlFile path="../scripts/data/CID.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1112">
+	    <sqlFile path="../scripts/data/PERFIL.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1113">
+	    <sqlFile path="../scripts/data/PERFIL_SERVICO.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1114">
+	    <sqlFile path="../scripts/data/SYS_TIPO_ANTECEDENTE.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1115">
+	    <sqlFile path="../scripts/data/SYS_CARACTERISTICA_ANTECEDENTE.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1116">
+	    <sqlFile path="../scripts/data/SYS_ENUM_TABELA.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1117">
+	    <sqlFile path="../scripts/data/SYS_IDENTIFICADOR_DEMANDA.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1118">
+	    <sqlFile path="../scripts/data/SYS_INSTRUMENTO_AVALIACAO.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1119">
+	    <sqlFile path="../scripts/data/SYS_PERG_BIOMECANICO.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1120">
+	    <sqlFile path="../scripts/data/SYS_PERG_CENSO_ERGONOMIA.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1121">
+	    <sqlFile path="../scripts/data/SYS_PERG_EXAME_FISICO.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1122">
+	    <sqlFile path="../scripts/data/SYS_PERGUNTA_HIST_OCUPACIONAL.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1123">
+	    <sqlFile path="../scripts/data/SYS_PERGUNTAS_REG_ACIDENTES.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1124">
+	    <sqlFile path="../scripts/data/SYS_PERIODICIDADE_EXAME_OCUP.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1125">
+	    <sqlFile path="../scripts/data/SYS_REGIAO_CORPO.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1126">
+	    <sqlFile path="../scripts/data/SYS_SERVICO.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1127">
+	    <sqlFile path="../scripts/data/SYS_TIPO_CONCLUSAO.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1128">
+	    <sqlFile path="../scripts/data/UNIDADE.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1129">
+	    <sqlFile path="../scripts/data/SYS_TIPO_EXAME_BIOMETRICO.sql"/>
+	</changeSet>
+
+	<changeSet author="joyce.silva" id="1408136670542-1130">
+	    <sqlFile path="../scripts/data/SYS_TIPO_EXAME_CLINICO.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1131">
+	    <sqlFile path="../scripts/data/SYS_TIPO_EXAME_OCUPACIONAL.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1132">
+	    <sqlFile path="../scripts/data/SYS_TIPO_INDICE_ABSENTEISMO.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1133">
+	    <sqlFile path="../scripts/data/SYS_TIPO_LICENCA.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1134">
+	    <sqlFile path="../scripts/data/SYS_TIPO_OPERACAO.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1135">
+	    <sqlFile path="../scripts/data/SYS_TIPO_SERVICO.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1136">
+	    <sqlFile path="../scripts/data/SYS_TIPO_UND_ORGANIZACIONAL.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1137">
+	    <sqlFile path="../scripts/data/SYS_TIPO_USUARIO.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1138">
+	    <sqlFile path="../scripts/data/SYS_TURNO.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1139">
+	    <sqlFile path="../scripts/data/UNIDADE_ORGANIZACIONAL.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1140">
+	    <sqlFile path="../scripts/data/PESSOA.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1141">
+	    <sqlFile path="../scripts/data/USUARIO.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1142">
+	    <sqlFile path="../scripts/data/USUARIO_PERFIL.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1143">
+	    <sqlFile path="../scripts/data/USUARIO_UND_ORGANIZACIONAL.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1144">
+	    <sqlFile path="../scripts/data/EMAIL_NOTIFICACAO.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1145">
+	    <sqlFile path="../scripts/data/SETOR.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1146">
+	    <sqlFile path="../scripts/data/EMAIL_NOTIFICACAO_SETOR.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1147">
+	    <sqlFile path="../scripts/data/PESSOA_JURIDICA.sql"/>
+	</changeSet>
+	
+	<changeSet author="joyce.silva" id="1408136670542-1148">
+	    <sqlFile path="../scripts/data/PESSOA_JURIDICA_UND_ORGANIZACI.sql"/>
+	</changeSet>
+	
+	
+	
+</databaseChangeLog>

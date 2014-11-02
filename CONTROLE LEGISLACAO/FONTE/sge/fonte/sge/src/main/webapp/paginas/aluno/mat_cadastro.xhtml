@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<p:panel id="pnlCadMat" rendered="#{alunoMatriculaControlador.modalCadastro}">
+	
+		<f:facet name="footer">      		
+			       		
+			<p:commandButton id="btnRetornar" value="Retornar" update=":formDlg"
+							icon="ui-icon-circle-arrow-w" styleClass="ui-priority-primary"
+							oncomplete="PF('dlgMatricula').show();"
+							action="#{alunoMatriculaControlador.retornarModalPesquisaMatricula}" 
+							immediate="true" />
+		
+			<p:spacer width="5px" />
+			
+			<p:commandButton id="btnCadastro" value="Salvar" update=":formDlg :msgGrowl"
+							icon="ui-icon-disk" styleClass="ui-priority-primary"
+							oncomplete="PF('dlgMatricula').show();"
+							action="#{alunoMatriculaControlador.salvar}" />
+		</f:facet>
+
+		<h:panelGrid columns="2" columnClasses="grid" style="padding: 2px 0px 0px 4px;">
+			
+			<ss:comboBox label="Turma" required="true" foreignKey="true" selectOne="true"
+						update="formDlg" immediate="true"
+						valueChangeListener="#{alunoMatriculaControlador.turmaChanged}"
+						value="#{alunoMatriculaControlador.entidade.turma}"
+						atributo="#{item.curso.nome} - #{item.turno} - #{item.ano}"
+						list="#{alunoMatriculaControlador.turmas}" >
+				<!-- FIXME 
+					nao estah atualizando a turma ao retornar para a pesquisa e selecionar outra matricula.
+					O erro eh so no xhtml, a regra esta correta. -->			
+			</ss:comboBox>
+
+			<ss:input id="vagas" label="Vagas Disponíveis" style="width: 40px;" readonly="true" type="number" dir="rtl" decimalPlaces="0"
+						value="#{alunoMatriculaControlador.entidade.turma.vagasDisponiveis}" />
+			
+			<ss:input id="valor" label="Valor" required="true" value="#{alunoMatriculaControlador.entidade.valor}" type="number" style="width: 70px;" dir="rtl" />
+			
+			<ss:input label="Data da Matrícula" type="date" required="true" value="#{alunoMatriculaControlador.entidade.data}" dir="rtl" size="40" />
+			
+			<ss:comboBox label="Mensalidades apartir de" required="true" selectOne="true" 
+						value="#{alunoMatriculaControlador.mesSelecionado}" 
+						list="#{alunoMatriculaControlador.mesesList}" />
+	        
+	        <ss:comboBox label="Turno Integral?" required="true" selectOne="true" 
+						value="#{alunoMatriculaControlador.entidade.integral}"
+						list="#{alunoMatriculaControlador.naoSimList}" />
+	        
+	        <ss:comboBox label="Situação" required="true" selectOne="true" update="pnlObservacao"
+						value="#{alunoMatriculaControlador.entidade.status}" 
+						listener="#{alunoMatriculaControlador.renderObservacao()}"
+						list="#{alunoMatriculaControlador.statusMatriculaList}" />
+	        
+		</h:panelGrid>
+		
+        <p:outputPanel id="pnlObservacao">
+        	<ss:input label="Justificativa" 
+        			value="#{alunoMatriculaControlador.observacaoMatricula.txObservacao}" 
+       				type="textarea" 
+       				rendered="#{alunoMatriculaControlador.entidade.status.id ne 0}" 
+       				required="true" width="900" cols="90" />
+		</p:outputPanel>
+		
+	</p:panel>
+	
+</ui:component>

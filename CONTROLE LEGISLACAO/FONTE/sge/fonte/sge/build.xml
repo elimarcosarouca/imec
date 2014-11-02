@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<project name="build-project" default="HotDeploy" basedir=".">
+ 	<property name="jboss.perfil" value="B:/Java/jboss-as-7.2.0.Final/standalone" />
+	<property name="jboss.deploy" value="${jboss.perfil}/deployments" />
+	<property name="project.name" value="incentive-web" />
+	<property name="ear.name" value="incentive.ear" />
+
+	<property name="classes.dir" value="./build/classes" />
+	<property name="web.dir" value="./WebContent" />
+
+	<target name="HotDeploy" description="copia para o servidor de aplicacao" unless="eclipse.running">
+
+		<copy todir="${jboss.deploy}/${ear.name}/${project.name}.war/">
+			<fileset dir="${web.dir}" >
+				<include name="**/*.*" />
+			</fileset>
+		</copy>
+
+		<copy todir="${jboss.deploy}/${ear.name}/">
+			<fileset dir="../incentive/EarContent">
+				<include name="**/*.*" />
+			</fileset>
+		</copy>
+
+		<copy todir="${jboss.deploy}/${ear.name}/${project.name}.war/WEB-INF/classes">
+			<fileset dir="${classes.dir}" />
+		</copy>
+
+	</target>
+
+
+	<target name="CleanWorkTmp" description="excluir arquivos temporários do jboss">
+		<delete dir="${jboss.perfil}/log" />
+		<delete dir="${jboss.perfil}/tmp" />
+	</target>
+
+	<target name="CleanAll" description="exclui todo o ear" depends="CleanWorkTmp">
+		<delete dir="${jboss.deploy}/${ear.name}" />
+	</target>
+
+	<target name="HotDeployAll" description="HotDeploy de todos os projetos ">
+		<subant antfile="incentive-ejb/build-ejb.xml" target="HotDeploy" buildpath="../">
+		</subant>
+		<subant antfile="incentive-web/build-web.xml" target="HotDeploy" buildpath="../">
+		</subant>
+	</target>
+
+	<target name="CleanAllAndHotDeployAll" depends="CleanAll, HotDeployAll" description="Limpa e faz deploy de todos os projetos" />
+
+</project>

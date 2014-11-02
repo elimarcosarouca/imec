@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13998452041720" configfile="/sge/src/main/webapp/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="178" id="pf14034565632850" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf14034565632861 pf14034565632862" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="338" y="562" id="pf14034565632863" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf14034565632861 pf14034565632864" path="/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="login.xhtml" x="122" y="562" id="pf14034565632866" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf14034565632864" path="/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="relatorio.xhtml" x="338" y="178" id="pf14034565632867" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" inlinks="pf14034565632862" path="/relatorio.xhtml"/>
+  <links id="pf14034565632861" target="pf14034565632863" source="pf14034565632850" outcome="home" redirect="true"/>
+  <links id="pf14034565632864" target="pf14034565632863" source="pf14034565632866" outcome="home" redirect="true"/>
+  <links id="pf14034565632862" target="pf14034565632867" source="pf14034565632850" outcome="relatorio" redirect="true"/>
+</pageflow:Pageflow>
