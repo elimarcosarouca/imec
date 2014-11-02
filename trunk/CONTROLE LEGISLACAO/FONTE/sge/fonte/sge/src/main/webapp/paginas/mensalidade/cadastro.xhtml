@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	template="/resources/layout/register_template.xhtml">
+
+	<ui:param name="pageHeader" value="Cadastro de Mensalidade"/>
+	<ui:param name="pageTitle" value="Cadastro de Mensalidade"/>
+	<ui:param name="managedBean" value="#{mensalidadeControlador}"/>
+	<ui:param name="widthContainer" value="950px"/>
+
+	<ui:define name="register_region">
+	
+		<h:panelGrid columns="2">
+		
+			<ss:input label="Matricula" style="width: 40px;" readonly="true" type="number" dir="rtl" decimalPlaces="0"
+						value="#{mensalidadeControlador.entidade.matricula.idMatricula}" />
+			
+			<ss:input label="Curso" readonly="true" value="#{mensalidadeControlador.entidade.matricula.turma.curso.nome}" />
+			
+			<ss:input label="Aluno" readonly="true" size="40" value="#{mensalidadeControlador.entidade.matricula.aluno.nome}" />
+			
+			<ss:input label="Mês" readonly="true" value="#{mensalidadeControlador.entidade.getMesSequencial()}" />
+			
+			<ss:input label="Vencimento" type="date" required="true" value="#{mensalidadeControlador.entidade.dataVencimento}" dir="rtl" size="40" />
+			
+			<ss:input label="Valor Mensalidade" required="true" value="#{mensalidadeControlador.entidade.valorVencimento}" type="number" style="width: 70px;" dir="rtl" />
+			
+			 <ss:comboBox label="Situação" required="true" selectOne="true" immediate="true"
+			 			update="pnlObservacao" 
+						value="#{mensalidadeControlador.entidade.statusPagamento}"
+						list="#{mensalidadeControlador.statusList}" />
+			
+			<ss:input label="Mens. criada por" readonly="true" value="#{mensalidadeControlador.entidade.usuario.nome}" />
+			
+			<p:outputPanel autoUpdate="true">
+				<ss:input label="Valor Pago" required="true" render="#{mensalidadeControlador.entidade.statusPagamento.id eq 1}" value="#{mensalidadeControlador.entidade.valorPagamento}" type="number" style="width: 70px;" dir="rtl" />
+			
+			</p:outputPanel>
+
+			<p:outputPanel autoUpdate="true">			
+				<ss:input label="Pagamento" type="date" required="true" value="#{mensalidadeControlador.entidade.dataPagamento}"
+						render="#{mensalidadeControlador.entidade.statusPagamento.id eq 1}"  dir="rtl" size="40" labelStyle="input-label-bold-for-panels" />
+			</p:outputPanel>
+			
+			<p:outputPanel autoUpdate="true">
+				<ss:input label="Atualizado por" readonly="true" value="#{mensalidadeControlador.entidade.usuarioAtualizacao.nome}" 
+							render="#{mensalidadeControlador.statusInicial.id ne 0}" labelStyle="input-label-bold-for-panels" />
+			</p:outputPanel>
+						
+		</h:panelGrid>
+	        
+	        <p:outputPanel id="pnlObservacao">
+	        	
+	        	<ss:input label="Justificativa" value="#{mensalidadeControlador.entidade.observacao}" 
+        				type="textarea" rendered="#{mensalidadeControlador.entidade.statusPagamento.id eq 2}" 
+        				required="true" width="900" cols="95" labelStyle="input-label-bold-for-panels" />
+	        
+			</p:outputPanel>	
+			
+	</ui:define>
+	
+</ui:composition>

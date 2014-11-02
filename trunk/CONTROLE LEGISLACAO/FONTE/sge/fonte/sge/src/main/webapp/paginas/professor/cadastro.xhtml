@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	template="/resources/layout/register_template.xhtml">
+
+	<ui:param name="pageHeader" value="Cadastro de Professor"/>
+	<ui:param name="pageTitle" value="Cadastro de Professor"/>
+	<ui:param name="managedBean" value="#{professorControlador}"/>
+	<ui:param name="widthContainer" value="950px"/>
+
+	<ui:define name="register_region">
+	
+		<h:panelGrid id="panelCadastro" columns="2">
+		
+			<ss:input id="nome" label="Nome" required="true" value="#{professorControlador.entidade.nome}" maxlength="60" />
+			
+			<ss:input id="endereco" label="Endereço" required="true" value="#{professorControlador.entidade.endereco}" maxlength="60" />
+			
+			<ss:input id="bairro" label="Bairro" required="true" value="#{professorControlador.entidade.bairro}" maxlength="60" />
+	
+			<ss:input id="cep" label="CEP" value="#{professorControlador.entidade.cep}" required="true" type="mask" mask="99999-999" watermark="99999-999" maxlength="9" />
+			
+			<ss:input id="foneResidencial" label="Fone Residencial" value="#{professorControlador.entidade.foneResidencial}" type="mask" mask="9999-9999" watermark="9999-9999" maxlength="9" />
+	
+			<ss:input id="foneComercial" label="Fone Comercial" value="#{professorControlador.entidade.foneComercial}" type="mask" mask="9999-9999" watermark="9999-9999" maxlength="9" />
+	
+			<ss:input id="celular" label="Celular" value="#{professorControlador.entidade.celular}" type="mask" mask="9999-9999" watermark="9999-9999" maxlength="10" />
+	
+			<ss:input id="email" label="E-mail" value="#{professorControlador.entidade.email}" email="true" maxlength="40" />
+			
+			<ss:input id="cpf" label="CPF" required="true" value="#{professorControlador.entidade.cpf}" validatorComp="cpfValidator" type="mask" watermark="999.999.999-99" mask="999.999.999-99"  maxlength="14" />
+	
+			<ss:input id="rg" label="RG" required="true" value="#{professorControlador.entidade.rg}" type="mask" watermark="99999999-9" maxlength="10" />
+				 
+			<ss:comboBox id="sexo" label="Sexo" required="true" selectOne="true" value="#{professorControlador.entidade.sexo}" list="#{professorControlador.sexoList}" />
+	
+			<ss:input id="dataNasc" type="date" label="Data Nascimento" watermark="99/99/99" required="true" value="#{professorControlador.entidade.dataNascimento}" />
+	
+		</h:panelGrid>
+	</ui:define>
+	
+</ui:composition>

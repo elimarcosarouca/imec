@@ -1,0 +1,2 @@
+liquibase --driver=org.postgresql.Driver --classpath=postgresql.jar --changeLogFile=db.changelog-master.xml --url="jdbc:postgresql://postgresql.cmdbrlab.net.br:5432/license_manager" --username=licenseuser --password=LICENseUSER@ update
+pause

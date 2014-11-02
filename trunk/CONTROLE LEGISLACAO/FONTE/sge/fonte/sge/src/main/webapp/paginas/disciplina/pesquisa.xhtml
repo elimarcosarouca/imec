@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	xmlns:ss2="http://www.3iti.com.br/jsf/componentes"
+	template="/resources/layout/search_template.xhtml">
+
+	<ui:param name="pageTitle" value="Disciplina"/>
+	<ui:param name="pageHeader" value="Disciplina"/>
+	<ui:param name="managedBean" value="#{disciplinaControlador}"/>
+	
+	<ui:define name="search_filter">
+		
+		<ss:input label="Nome" size="40" value="#{disciplinaControlador.pesquisa.nome}" />
+			
+	</ui:define>
+	
+	<ui:define name="grid_region">
+	
+		<ss:grid managedBean="#{disciplinaControlador}">
+			
+			<ss2:column value="#{item.nome}" header="Nome" sortBy="nome" />
+			<ss2:column value="#{item.descricao}" header="Descrição" sortBy="descricao" />
+				
+		</ss:grid>
+
+	</ui:define>
+	
+</ui:composition>

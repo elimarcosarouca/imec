@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	template="/resources/layout/register_template.xhtml">
+
+	<ui:param name="pageHeader" value="Cadastro de Turma"/>
+	<ui:param name="pageTitle" value="Cadastro de Turma"/>
+	<ui:param name="managedBean" value="#{turmaControlador}"/>
+	<ui:param name="widthContainer" value="950px"/>
+
+	<ui:define name="register_region">
+	
+		<h:panelGrid id="panelCadastro" columns="2">
+		
+			<ss:comboBox label="Ano" required="true" value="#{turmaControlador.entidade.ano}" selectOne="true" list="#{turmaControlador.anos}" filter="false" />
+			 
+			<ss:comboBox label="Turno" required="true" value="#{turmaControlador.entidade.turno}" selectOne="true" list="#{turmaControlador.turnos}" filter="false" />
+		
+			<ss:comboBox label="Curso" required="true" foreignKey="true" atributo="#{item.nome}" selectOne="true" value="#{turmaControlador.entidade.curso}" list="#{turmaControlador.cursos}" />
+			
+			<ss:input label="Sala" size="10" required="true" value="#{turmaControlador.entidade.sala}" />
+			
+			<ss:input label="Número de Vagas" type="number" dir="rtl" size="3" decimalPlaces="0" required="true" value="#{turmaControlador.entidade.numeroVagas}" />
+			
+			<ss:comboBox label="Situação" required="true" value="#{turmaControlador.entidade.situacao}" selectOne="true" list="#{turmaControlador.situacoes}" filter="false" />
+		
+		</h:panelGrid>
+	</ui:define>
+	
+</ui:composition>

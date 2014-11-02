@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss2="http://www.3iti.com.br/jsf/componentes"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	template="/resources/layout/search_template.xhtml">
+
+	<ui:param name="pageTitle" value="Mensalidade" />
+	<ui:param name="pageHeader" value="Mensalidade" />
+	<ui:param name="managedBean" value="#{mensalidadeControlador}" />
+	<ui:param name="disabledBtnNew" value="true" />
+
+
+	<ui:define name="search_filter">
+
+		<ss:autoComplete label="Aluno"
+						value="#{mensalidadeControlador.pesquisa.matricula.aluno}"
+						bean="#{mensalidadeControlador}" 
+						completeMethod="listarAlunos"
+						itemLabel="#{item.nome}" 
+						size="40" />
+
+		<ss:input label="Matrícula" value="#{mensalidadeControlador.pesquisa.matricula.idMatricula}" type="number" decimalPlaces="0" size="6" />
+
+		<ss:comboBox label="Situação" 
+					filter="false"
+					value="#{mensalidadeControlador.pesquisa.statusPagamento}"
+					list="#{mensalidadeControlador.statusList}" />
+
+		<ss:input label="Período inicial" type="date" value="#{mensalidadeControlador.dataInicio}" ajax="true" />
+
+		<ss:input label="Período final" type="date" value="#{mensalidadeControlador.dataFim}" ajax="true" />
+
+		<ss:comboBox label="Pesquisar por" 
+					filter="false"
+					value="#{mensalidadeControlador.tipoPesquisaData}"
+					list="#{mensalidadeControlador.tipoPesquisaDataList}" />
+			
+	</ui:define>
+
+	<ui:define name="grid_region">
+
+		<ss:grid managedBean="#{mensalidadeControlador}" renderedRemove="false" renderedActionColumn="false">
+
+			<ss2:column value="#{item.matricula.id}" header="Matrícula" sortBy="matricula.id" textAlign="right" width="80" />
+			<ss2:column value="#{item.matricula.aluno.nome}" header="Aluno" sortBy="matricula.aluno.nome" />
+			<ss2:column value="#{item.matricula.turma.curso.nome}" header="Curso" sortBy="matricula.turma.curso.nome" width="120" />
+			<ss2:column value="#{item.valorVencimento}" header="Valor" sortBy="valorVencimento" width="80" convertNumber="true" currencySymbol=" " textAlign="right" />
+			<ss2:column value="#{item.dataVencimento}" header="Vencimento" sortBy="dataVencimento" convertDate="true" width="120" textAlign="center" />
+			<ss2:column value="#{item.dataPagamento}" header="Pagamento" sortBy="dataPagamento" convertDate="true" width="120" textAlign="center" />
+			<ss2:column value="#{item.statusPagamento}" header="Situação" sortBy="statusPagamento" textAlign="center" width="110"/>
+			
+			<ss2:actionColumn managedBean="#{mensalidadeControlador}" renderedRemove="false" buttonsAdded="1">
+
+				<p:commandButton value="Recibo" ajax="false"
+								onclick="this.form.target='_blank'" 
+								icon="ui-icon-print"
+								rendered="#{item.statusPagamento.id eq 1}"
+								styleClass="ui-priority-primary"
+								action="#{mensalidadeControlador.imprimirRecibo(item)}" />
+
+			</ss2:actionColumn>
+
+		</ss:grid>
+
+	</ui:define>
+
+	<ui:define name="modal_region">
+		<!-- FIXME #Peninha nao precisa mais do modal.. -->
+		<ui:include src="modalRelatorio.xhtml" />
+
+	</ui:define>
+
+</ui:composition>

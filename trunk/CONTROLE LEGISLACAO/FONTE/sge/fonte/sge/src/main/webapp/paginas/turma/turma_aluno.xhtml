@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:ss2="http://www.3iti.com.br/jsf/componentes"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component">
+
+	<p:dialog id="dialogAlunos" width="650" resizable="true" modal="true"
+		appendToBody="true"
+		header="Alunos matriculados para a turma: #{turmaControlador.turmaSelecaoModal.curso.nome} - #{turmaControlador.turmaSelecaoModal.ano} (#{turmaControlador.turmaSelecaoModal.turno.descricao})"
+		widgetVar="dlgModal" closable="true" draggable="true">
+
+		<h:form id="formDlg">
+
+			<p:panel id="pnlModal">
+
+				<ss:grid managedBean="#{turmaControlador}" list="listaAluno"
+					renderedActionColumn="false"
+					emptyMessage="Nenhum aluno matriculado para esta turma.">
+
+					<ss2:column value="#{item.nome}" header="Nome" sortBy="nome" />
+
+					<ss2:column value="#{item.responsavel.nome}" header="Responsável"
+						sortBy="responsavel.nome" />
+
+				</ss:grid>
+
+				<f:facet name="footer">
+					<p:commandButton value="Fechar"
+						action="#{turmaControlador.closeModal()}"
+						styleClass="ui-priority-primary" icon="ui-icon-circle-close"
+						onclick="PF('dlgModal').hide();" immediate="true" />
+
+					<p:commandButton id="btnImprimirr" onclick="form.target='_blank'"
+						ajax="false" value="Imprimir" action="#{turmaControlador.imprimirAlunosTurma()}"
+						disabled="false" icon="ui-icon-print"
+						styleClass="ui-priority-primary" immediate="true" />
+						
+				</f:facet>
+			</p:panel>
+
+		</h:form>
+
+	</p:dialog>
+
+</ui:component>

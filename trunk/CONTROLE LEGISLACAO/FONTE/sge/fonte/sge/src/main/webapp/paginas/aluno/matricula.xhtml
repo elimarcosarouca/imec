@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<p:dialog id="dialogMatricula" width="1050" resizable="true" modal="true" appendToBody="true"
+		header="#{not alunoMatriculaControlador.modalCadastro ? 'Matrículas' : 'Cadastro de Matrícula' }: #{alunoMatriculaControlador.alunoMatricula.nome}"
+		widgetVar="dlgMatricula" closable="true" draggable="true">
+
+		<h:panelGrid cellpadding="0" cellspacing="0" style="margin-left: 10px;">
+			<p:growl 	id="msgGrowl" 	globalOnly="true" showDetail="true"  />
+		</h:panelGrid>
+<!-- 		<p:growl id="msg" showDetail="false" escape="false" globalOnly="false" /> -->
+	
+		<h:form id="formDlg" >
+
+			<!-- =========  Pesquisa de Matricula  ========== -->
+			<ui:include src="mat_pesquisa.xhtml" />
+
+			<!-- =========  Cadastro de Matricula  ========== -->
+			<ui:include src="mat_cadastro.xhtml" />
+
+		</h:form>
+
+	</p:dialog>
+
+</ui:component>

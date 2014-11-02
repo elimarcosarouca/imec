@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	template="/resources/layout/register_template.xhtml">
+
+	<ui:param name="pageHeader" value="Cadastro de Empresa"/>
+	<ui:param name="pageTitle" value="Cadastro de Empresa"/>
+	<ui:param name="managedBean" value="#{empresaControlador}"/>
+	<ui:param name="widthContainer" value="950px"/>
+
+	<ui:define name="register_region">
+	
+		<ss:input id="razao" label="Razão Social" required="true" value="#{empresaControlador.entidade.razaoSocial}" maxlength="60" size="40" />
+		
+		<ss:input id="nomeFant" label="Nome Fantasia" required="true" value="#{empresaControlador.entidade.nomeFantasia}" maxlength="60" size="40"/>
+		
+		<ss:input id="endereco" label="Endereço" required="true" value="#{empresaControlador.entidade.endereco}" maxlength="60" size="40" />
+		
+		<ss:input id="bairro" label="Bairro" required="true" value="#{empresaControlador.entidade.bairro}" maxlength="60" size="40" />
+		
+		<ss:input id="cnpj" label="CNPJ" required="true" value="#{empresaControlador.entidade.cnpj}" type="mask" mask="99.999.999/9999-99" watermark="99.999.999/9999-99" maxlength="18" />
+		
+		<ss:input id="email" label="Email" required="true" value="#{empresaControlador.entidade.email}" email="true" maxlength="40" size="30" />
+		
+		<ss:input id="fone" label="Fone" required="true" value="#{empresaControlador.entidade.fone}" type="mask" mask="9999-9999" watermark="9999-9999" maxlength="9"  />
+		
+		<ss:input id="celular" label="Celular" required="true" value="#{empresaControlador.entidade.celular}" type="mask" mask="9999-9999" watermark="9999-9999" maxlength="9"  />
+		
+	</ui:define>
+	
+</ui:composition>

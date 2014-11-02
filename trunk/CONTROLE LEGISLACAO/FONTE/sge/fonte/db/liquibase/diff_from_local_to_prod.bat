@@ -1,0 +1,1 @@
+liquibase --driver=org.postgresql.Driver --classpath=postgresql.jar  --url="jdbc:postgresql://postgresql.cmdbrlab.net.br:5432/license_manager" --username=licenseuser --password=LICENseUSER@ diffChangeLog --referenceUrl="jdbc:postgresql://127.0.0.1:5432/license_manager" --referenceUsername=postgres  --referencePassword=root --referenceDriver=org.postgresql.Driver >> diff.log.xml

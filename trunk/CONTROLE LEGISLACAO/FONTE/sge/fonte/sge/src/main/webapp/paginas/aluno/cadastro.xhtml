@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	template="/resources/layout/register_template.xhtml">
+
+	<ui:param name="pageHeader" value="Cadastro de Aluno" />
+	<ui:param name="pageTitle" value="Cadastro de Aluno" />
+	<ui:param name="containerTitle" value="Dados Básicos" />
+	<ui:param name="managedBean" value="#{alunoControlador}" />
+	<ui:param name="widthContainer" value="99%" />
+
+	<ui:define name="register_region">
+
+		<h:panelGrid id="panelCadastro" columns="2">
+
+			<ss:input id="nome" label="Nome" required="true" value="#{alunoControlador.entidade.nome}" size="50" maxlength="60" width="600" />
+
+			<ss:input id="endereco" label="Endereço" required="true" value="#{alunoControlador.entidade.endereco}" maxlength="60" size="50" width="600" />
+
+			<ss:autoComplete id="resp" label="Responsável" value="#{alunoControlador.entidade.responsavel}" bean="#{alunoControlador}" required="true" completeMethod="listarResponsavel" itemLabel="#{item.nome}" size="50" width="600" />
+
+			<ss:input id="bairro" label="Bairro" required="true" value="#{alunoControlador.entidade.bairro}" maxlength="60" />
+
+			<ss:comboBox label="Grau de Parentesco" required="true" selectOne="true" 
+						value="#{alunoControlador.entidade.grauParentesco}" 
+						list="#{alunoControlador.grauParentescoList}" 
+						immediate="true"
+						valueChangeListener="#{alunoControlador.grauParentescoChanged}"
+						update="infoAditional"
+						 />
+
+			<ss:input id="naturalidade" label="Naturalidade" required="true" value="#{alunoControlador.entidade.naturalidade}" maxlength="60" />
+
+			<ss:input id="dataNasc" type="date" label="Data Nascimento" watermark="99/99/99" required="true" value="#{alunoControlador.entidade.dataNascimento}" />
+
+			<ss:comboBox id="uf" label="UF" required="true" selectOne="true" value="#{alunoControlador.entidade.uf}" list="#{alunoControlador.ufList}" />
+
+			<ss:comboBox id="sexo" label="Sexo" required="true" selectOne="true" value="#{alunoControlador.entidade.sexo}" list="#{alunoControlador.sexoList}" />
+
+			<ss:comboBox id="alergia" label="Possui Alergia?" required="true" immediate="true" update="pnlAlergia" selectOne="true" value="#{alunoControlador.entidade.alergia}" list="#{alunoControlador.alergiaList}" />
+
+			<ss:input id="descRemedio" type="textarea" label="Medicação" immediate="true" 
+					value="#{alunoControlador.entidade.descricaoRemedio}" rows="3" cols="48" maxlength="200" width="600" />
+
+			<p:outputPanel id="pnlAlergia">
+				<p:outputPanel rendered="#{alunoControlador.entidade.alergia.value eq true}">
+					<ss:input label="Descrever Alergia" 
+							value="#{alunoControlador.entidade.descricaoAlegia}" 
+							required="true" immediate="true" 
+							type="textarea" rows="3" cols="48" maxlength="200" width="600" labelStyle="input-label-bold-for-panels" />
+				</p:outputPanel>
+			</p:outputPanel>
+			
+			
+		</h:panelGrid>
+
+	</ui:define>
+	
+	
+	<ui:define name="aditional_region">
+		
+		<p:accordionPanel id="infoAditional">
+		
+			<p:tab title="Informaçoes Adicionais" closable="false" titletip="Dados adicionais do Aluno">
+				<h:panelGrid columns="2">
+		
+					<ss:input id="mae" label="Mae" value="#{alunoControlador.entidade.mae}" maxlength="60" />
+		
+					<ss:input id="foneMae" label="Telefone Mãe" value="#{alunoControlador.entidade.foneMae}" type="mask" mask="9999-9999" watermark="9999-9999" maxlength="10" />
+								
+					<ss:input id="pai" label="Pai" value="#{alunoControlador.entidade.pai}" maxlength="60" />
+
+					<ss:input id="fonePai" label="Telefone Pai" value="#{alunoControlador.entidade.fonePai}" type="mask" mask="9999-9999" watermark="9999-9999" maxlength="10" />
+		
+					<ss:input id="email" label="E-mail" value="#{alunoControlador.entidade.email}" email="true" maxlength="40" />
+
+					<ss:input id="foneResidencial" label="Fone Residencial" value="#{alunoControlador.entidade.foneResidencial}" type="mask" mask="9999-9999" watermark="9999-9999" maxlength="10" />
+		
+					<ss:input id="rg" label="RG" value="#{alunoControlador.entidade.rg}" type="mask" watermark="99999999-9" maxlength="10" />
+									
+					<ss:input id="celular" label="Celular Aluno" value="#{alunoControlador.entidade.celular}" type="mask" mask="9999-9999" watermark="9999-9999" maxlength="10" />
+		
+					<ss:input id="cpf" label="CPF" value="#{alunoControlador.entidade.cpf}" validatorComp="cpfValidator" type="mask" watermark="999.999.999-99" mask="999.999.999-99" maxlength="14" />
+		
+					<ss:input id="cep" label="CEP" value="#{alunoControlador.entidade.cep}" type="mask" mask="99999-999" watermark="99999-999" maxlength="9" />
+
+				</h:panelGrid>
+			</p:tab>
+		
+		</p:accordionPanel>
+		
+	</ui:define>
+	
+	
+	<ui:define name="aditional_button_region">
+		
+		<p:commandButton value="Imprimir Ficha" ajax="false" immediate="true"
+				onclick="this.form.target='_blank'" icon="ui-icon-print"
+				styleClass="ui-priority-primary"
+				rendered="#{alunoControlador.entidade.isPersistent()}"
+				action="#{alunoControlador.imprimirFicha}" />
+	</ui:define>
+	
+</ui:composition>

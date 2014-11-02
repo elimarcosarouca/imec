@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet author="kleyson.santiago" id="1408136670542-1150">
+		<addColumn tableName="Usuario">
+			<column name="NB_TENTATIVAS" type="SMALLINT"/>
+		</addColumn>
+	 </changeSet>
+	 
+	 <changeSet author="kleyson.santiago" id="1408136670542-1151">
+		<addColumn  tableName="Usuario">
+			<column name="DT_DATA_TENTATIVA_LOGIN" type="DATE"/>
+		</addColumn>
+	 </changeSet>
+	
+</databaseChangeLog>
