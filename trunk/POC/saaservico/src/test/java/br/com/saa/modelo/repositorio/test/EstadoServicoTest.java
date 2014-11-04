@@ -7,7 +7,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import br.com.saa.modelo.entidade.Estado;
-import br.com.saa.servico.ServicoEstado;
+import br.com.saa.servico.EstadoServico;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:META-INF/applicationContextServicoSaa.xml")
@@ -16,7 +16,7 @@ import br.com.saa.servico.ServicoEstado;
 public class EstadoServicoTest {
 
 	@Autowired
-	ServicoEstado repository;
+	EstadoServico repository;
 
 	@Test
 	public void test() {

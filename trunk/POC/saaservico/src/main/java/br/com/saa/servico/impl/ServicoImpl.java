@@ -1,4 +1,4 @@
-package br.com.saa.servico;
+package br.com.saa.servico.impl;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.saa.modelo.entidade.AbstractEntity;
 import br.com.saa.modelo.repositorio.GenericRepositorio;
+import br.com.saa.servico.Servico;
 
 @Service
 public class ServicoImpl<T extends AbstractEntity, ID extends Serializable>

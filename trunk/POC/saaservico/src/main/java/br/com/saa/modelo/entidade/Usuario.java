@@ -1,5 +1,6 @@
 package br.com.saa.modelo.entidade;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
@@ -24,7 +25,9 @@ import flexjson.transformer.DateTransformer;
 
 @Entity
 @Table(name = "saa_usuario")
-public class Usuario extends AbstractEntity {
+public class Usuario extends AbstractEntity implements Serializable {
+
+	private static final long serialVersionUID = -3558406268122435705L;
 
 	@Id
 	@GeneratedValue(generator = "SEQ_SAA_USUARIO", strategy = GenerationType.SEQUENCE)
