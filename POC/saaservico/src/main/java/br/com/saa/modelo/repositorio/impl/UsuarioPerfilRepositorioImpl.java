@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import br.com.saa.modelo.entidade.Usuario;
 import br.com.saa.modelo.entidade.UsuarioPerfil;
-import br.com.saa.modelo.repositorio.GenericRepositorioImpl;
 import br.com.saa.modelo.repositorio.UsuarioPerfilRepositorio;
 
 @Repository

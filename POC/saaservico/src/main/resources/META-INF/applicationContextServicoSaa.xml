@@ -24,19 +24,19 @@
 	</bean>
 
 	<!--injeta o datasource e o persistence-unit-saa no Entity Manager -->
-	<bean id="entityManagerFactorySaaServico"
+	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="datasource" />
 		<property name="persistenceUnitName" value="persistence-unit-saa" />
 	</bean>
 
 	<!-- inserir o controle de transação Transaction Manager -->
-	<bean id="transactionManagerSaaServico" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactorySaaServico" />
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 
-	<tx:annotation-driven transaction-manager="transactionManagerSaaServico" />
+	<tx:annotation-driven transaction-manager="transactionManager" />
 
 	<!-- setar o diretorio das classes Jpa Repositories -->
-	<jpa:repositories base-package="br.com.saa.modelo.repositorio" />
+<!-- 	<jpa:repositories base-package="br.com.saa.modelo.repositorio" /> -->
 </beans>
