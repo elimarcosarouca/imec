@@ -5,7 +5,6 @@ import java.io.Serializable;
 import org.springframework.stereotype.Repository;
 
 import br.com.saa.modelo.entidade.Municipio;
-import br.com.saa.modelo.repositorio.GenericRepositorioImpl;
 import br.com.saa.modelo.repositorio.MunicipioRepositorio;
 
 @Repository

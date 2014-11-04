@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import br.com.saa.modelo.entidade.PerfilRotina;
 import br.com.saa.modelo.entidade.Rotina;
-import br.com.saa.modelo.repositorio.GenericRepositorioImpl;
 import br.com.saa.modelo.repositorio.PerfilRotinaRepositorio;
 
 @Repository

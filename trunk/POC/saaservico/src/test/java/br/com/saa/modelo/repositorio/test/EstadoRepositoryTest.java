@@ -13,7 +13,7 @@ import br.com.saa.modelo.repositorio.EstadoRepositorio;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:META-INF/applicationContextServicoSaa.xml")
 // @ContextConfiguration(locations="classpath:META-INF/test-context.xml")
-@Ignore
+//@Ignore
 public class EstadoRepositoryTest {
 
 	@Autowired
@@ -22,7 +22,7 @@ public class EstadoRepositoryTest {
 	@Test
 	public void test() {
 		Estado estado = new Estado();
-		estado.setNome("Paráaaa");
+		estado.setNome("Paráaaasss");
 		estado.setUf("PA");
 
 		repository.save(estado);

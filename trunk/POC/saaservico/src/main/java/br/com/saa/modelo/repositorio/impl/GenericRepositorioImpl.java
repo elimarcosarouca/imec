@@ -1,4 +1,4 @@
-package br.com.saa.modelo.repositorio;
+package br.com.saa.modelo.repositorio.impl;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.saa.modelo.entidade.AbstractEntity;
+import br.com.saa.modelo.repositorio.GenericRepositorio;
 
 @SuppressWarnings("unchecked")
 @Repository

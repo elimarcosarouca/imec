@@ -21,7 +21,7 @@ public class EstadoServicoTest {
 	@Test
 	public void test() {
 		Estado estado = new Estado();
-		estado.setNome("Paráaaaww");
+		estado.setNome("Paráaraaww");
 		estado.setUf("PA");
 
 		repository.save(estado);

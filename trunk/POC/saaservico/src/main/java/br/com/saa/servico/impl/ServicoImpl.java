@@ -39,7 +39,6 @@ public class ServicoImpl<T extends AbstractEntity, ID extends Serializable>
 
 	@Override
 	public AbstractEntity merge(AbstractEntity entity, boolean flush) {
-		// TODO Auto-generated method stub
 		return dao.merge(entity, flush);
 	}
 
@@ -75,12 +74,10 @@ public class ServicoImpl<T extends AbstractEntity, ID extends Serializable>
 
 	@Override
 	public void flush() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void flush(boolean flush) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

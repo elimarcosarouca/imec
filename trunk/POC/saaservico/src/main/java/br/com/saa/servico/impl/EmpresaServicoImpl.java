@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import br.com.saa.modelo.entidade.Empresa;
 import br.com.saa.servico.EmpresaServico;
 
-@Service
+//@Service
 public class EmpresaServicoImpl extends ServicoImpl<Empresa, Serializable>
 		implements EmpresaServico {
 
