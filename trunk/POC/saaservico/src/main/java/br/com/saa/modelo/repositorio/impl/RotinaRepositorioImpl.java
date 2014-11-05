@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.saa.modelo.entidade.Perfil;
 import br.com.saa.modelo.entidade.Rotina;
@@ -14,6 +15,7 @@ import br.com.saa.modelo.entidade.Sistema;
 import br.com.saa.modelo.repositorio.RotinaRepositorio;
 
 @Repository
+@Transactional
 @SuppressWarnings("unchecked")
 public class RotinaRepositorioImpl extends
 		GenericRepositorioImpl<Rotina, Serializable> implements

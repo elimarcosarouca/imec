@@ -37,7 +37,7 @@ public class Estado extends AbstractEntity implements Serializable {
 	@Column(length = 30, nullable = false, unique = true)
 	private String nome;
 
-	@Column( nullable = false, columnDefinition="char(2)")
+	@Column( nullable = false, columnDefinition="char(2)", unique = true)
 	private String uf;
 
 	@OneToMany(mappedBy = "estado")

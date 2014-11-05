@@ -2,9 +2,15 @@ package br.com.saa.modelo.repositorio;
 
 import java.io.Serializable;
 
+import javax.persistence.NoResultException;
+
 import br.com.saa.modelo.entidade.Usuario;
 
-public interface UsuarioRepositorio extends GenericRepositorio<Usuario, Serializable> {
+public interface UsuarioRepositorio extends
+		GenericRepositorio<Usuario, Serializable> {
+
+	public Usuario findByLoginAndSenha(String login, String senha)
+			throws NoResultException;
 
 	/*
 	 * @Query("select u from Usuario u where u.login = :login") public Usuario

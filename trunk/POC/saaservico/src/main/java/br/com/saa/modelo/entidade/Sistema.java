@@ -40,7 +40,7 @@ public class Sistema extends AbstractEntity implements Serializable {
 	@Column(length = 200, nullable = false)
 	private String descricao;
 
-	@Column(length = 100, nullable = false)
+	@Column(length = 100, nullable = false, unique = true)
 	private String nome;
 
 	@Column(length = 100, nullable = false)
