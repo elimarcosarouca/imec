@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss2="http://www.3iti.com.br/jsf/componentes"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	template="/resources/layout/search_template.xhtml">
+
+	<ui:param name="pageTitle" value="Home" />
+	<ui:param name="renderSearch" value="false" />
+	<ui:param name="managedBean" value="#{homeControlador}" />
+	<ui:param name="reloadPage" value="true" />
+	<ui:param name="listaPesquisa" value="mensalidadesAtraso" />
+
+	<ui:define name="grid_region">
+			
+		<!-- FIXME add mais conteudo -->
+		
+		<p:outputPanel rendered="#{configuracaoControlador.usuarioLogado.tipoUsuario.id eq 1
+									or configuracaoControlador.usuarioLogado.tipoUsuario.id eq 2}" >
+			
+			<ss:container title="Mensalidades em atraso" width="850px" >
+			
+				
+				<h:panelGrid columns="1" cellpadding="0" cellspacing="0" style="margin-top: 10;">
+					
+					<ss:autoComplete label="Aluno"
+									value="#{homeControlador.aluno}"
+									bean="#{mensalidadeControlador}" 
+									completeMethod="listarAlunos"
+									itemLabel="#{item.nome}" 
+									size="40" />
+					
+					<ss:comboBox label="Situação" 
+								filter="false"
+								value="#{homeControlador.statusPagamento}"
+								list="#{homeControlador.statusList}" />				
+	
+					<hr />
+					
+	               	<ss:button id="btnSearch" type="pesquisa" method="reload" managedBean="#{homeControlador}" />
+	               
+				</h:panelGrid>
+				
+				<p:outputPanel autoUpdate="true">
+					
+					<ss:grid managedBean="#{homeControlador}" list="mensalidadesAtraso" renderedActionColumn="false" >
+						
+						<ss2:column value="#{item.matricula.aluno.nome}" header="Nome" sortBy="matricula.aluno.nome" width="220"  />
+						<ss2:column value="#{item.matricula.turma.curso.nome} - #{item.matricula.turma.turno}" header="Curso" sortBy="matricula.turma.curso.nome" />
+						<ss2:column value="#{item.valorVencimento}" header="Valor" sortBy="valorVencimento" width="70" convertNumber="true" currencySymbol=" " textAlign="right" />
+						<ss2:column value="#{item.dataVencimento}" header="Vencimento" sortBy="dataVencimento" convertDate="true" width="100" textAlign="center" />
+						
+						<ss2:actionColumn renderedDetail="false" renderedRemove="false" buttonsAdded="2">
+			
+							<p:commandButton value="Recibo" ajax="false"
+											onclick="this.form.target='_blank'" 
+											icon="ui-icon-print"
+											rendered="#{item.statusPagamento.id eq 1}"
+											styleClass="ui-priority-primary"
+											action="#{mensalidadeControlador.imprimirRecibo(item)}" />
+			
+							<p:commandButton value="Baixar" 
+											ajax="false"
+											icon="ui-icon-folder-collapsed"
+											styleClass="ui-priority-primary"
+											action="#{mensalidadeControlador.detalheHome(item)}" />
+						</ss2:actionColumn>
+						
+					</ss:grid>
+					
+				</p:outputPanel>
+				
+			</ss:container>
+			
+		</p:outputPanel>
+	</ui:define>
+
+</ui:composition>
