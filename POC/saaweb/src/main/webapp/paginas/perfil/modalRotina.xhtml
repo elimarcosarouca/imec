@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<p:dialog id="dialogRotina" header="Rotina" widgetVar="dlgRotina" modal="true" appendToBody="true">
+	
+		<h:form id="formDlg">
+			<p:growl id="msg" showDetail="false" escape="false" globalOnly="false" />
+
+			<h4 style="margin-top: 0">Selecione as Rotinas para associar ao Perfil: #{perfilRotinaControlador.perfilModalRotina.nome}</h4>
+
+			<p:pickList id="plUsuPerf"
+						value="#{perfilRotinaControlador.dualListRotina}" 
+						effect="bounce"
+						converter="perfilRotinaConverter" 
+						var="pr"
+						itemLabel="#{pr.rotina.nome}" 
+						itemValue="#{pr}"
+						showSourceControls="false" 
+						showTargetControls="false"
+						showCheckbox="false" 
+						showSourceFilter="true" 
+						showTargetFilter="true">
+
+				<f:facet name="sourceCaption">Disponíveis</f:facet>
+				<f:facet name="targetCaption">Atribuídas</f:facet>
+
+				<p:ajax event="transfer" listener="#{perfilRotinaControlador.onTransfer}" update="msg" />
+
+				<p:column style="width:75%;">#{pr.rotina.nome}</p:column>
+
+			</p:pickList>
+
+			<p:commandButton value="Fechar" onclick="PF('dlgRotina').hide();" styleClass="ui-priority-primary" />
+
+		</h:form>
+		
+	</p:dialog>
+
+</ui:component>
