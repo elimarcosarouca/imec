@@ -18,7 +18,7 @@
 	<bean id="datasource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.postgresql.Driver" />
-		<property name="url" value="jdbc:postgresql://localhost:5432/portal" />
+		<property name="url" value="jdbc:postgresql://localhost:5432/saa" />
 		<property name="username" value="postgres" />
 		<property name="password" value="admin" />
 	</bean>
@@ -38,5 +38,5 @@
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
 	<!-- setar o diretorio das classes Jpa Repositories -->
-<!-- 	<jpa:repositories base-package="br.com.saa.modelo.repositorio" /> -->
+	<!-- <jpa:repositories base-package="br.com.saa.modelo.repositorio" /> -->
 </beans>

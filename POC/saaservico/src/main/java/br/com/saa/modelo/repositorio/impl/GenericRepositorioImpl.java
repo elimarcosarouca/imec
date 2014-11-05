@@ -37,10 +37,11 @@ public abstract class GenericRepositorioImpl<T extends AbstractEntity, ID extend
 		entityManager.flush();
 	}
 
-	@Override
-	public AbstractEntity getByPrimaryKey(AbstractEntity abstractEntity) {
-		return entityManager.find(persistentClass, abstractEntity.getId());
-	}
+	/*
+	 * @Override public AbstractEntity getByPrimaryKey(AbstractEntity
+	 * abstractEntity) { return entityManager.find(persistentClass,
+	 * abstractEntity.getId()); }
+	 */
 
 	@Override
 	public AbstractEntity getByPrimaryKey(Long id) {

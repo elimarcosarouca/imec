@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.saa.modelo.entidade.PerfilRotina;
 import br.com.saa.modelo.entidade.Rotina;
 import br.com.saa.modelo.repositorio.PerfilRotinaRepositorio;
 
 @Repository
+@Transactional
 @SuppressWarnings("unchecked")
 public class PerfilRotinaRepositorioImpl extends
 		GenericRepositorioImpl<PerfilRotina, Serializable> implements

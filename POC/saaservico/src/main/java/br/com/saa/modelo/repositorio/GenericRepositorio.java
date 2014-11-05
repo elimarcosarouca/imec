@@ -9,7 +9,7 @@ public interface GenericRepositorio<T extends AbstractEntity, ID extends Seriali
 
 	public void save(AbstractEntity abstractEntity);
 
-	public AbstractEntity getByPrimaryKey(AbstractEntity entity);
+	// public AbstractEntity getByPrimaryKey(AbstractEntity entity);
 
 	public AbstractEntity getByPrimaryKey(Long id);
 
