@@ -8,14 +8,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaQuery;
 
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.saa.modelo.entidade.AbstractEntity;
 import br.com.saa.modelo.repositorio.GenericRepositorio;
 
 @SuppressWarnings("unchecked")
-//@Repository
 @Transactional
 public abstract class GenericRepositorioImpl<T extends AbstractEntity, ID extends Serializable>
 		implements GenericRepositorio<T, ID> {

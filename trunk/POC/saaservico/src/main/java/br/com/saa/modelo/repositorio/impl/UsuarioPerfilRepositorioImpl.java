@@ -1,6 +1,5 @@
 package br.com.saa.modelo.repositorio.impl;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +14,7 @@ import br.com.saa.modelo.repositorio.UsuarioPerfilRepositorio;
 @Repository
 @SuppressWarnings("unchecked")
 public class UsuarioPerfilRepositorioImpl extends
-		GenericRepositorioImpl<UsuarioPerfil, Serializable> implements
+		GenericRepositorioImpl<UsuarioPerfil, Long> implements
 		UsuarioPerfilRepositorio {
 
 	@Override

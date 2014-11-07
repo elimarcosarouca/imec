@@ -1,6 +1,5 @@
 package br.com.saa.modelo.repositorio.impl;
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -12,7 +11,7 @@ import br.com.saa.modelo.repositorio.PerfilRotinaRepositorio;
 @Repository
 @SuppressWarnings("unchecked")
 public class PerfilRotinaRepositorioImpl extends
-		GenericRepositorioImpl<PerfilRotina, Serializable> implements
+		GenericRepositorioImpl<PerfilRotina, Long> implements
 		PerfilRotinaRepositorio {
 
 	@Override

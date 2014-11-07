@@ -1,6 +1,5 @@
 package br.com.saa.modelo.repositorio.impl;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +13,8 @@ import br.com.saa.modelo.repositorio.PerfilRepositorio;
 
 @Repository
 @SuppressWarnings("unchecked")
-public class PerfilRepositorioImpl extends
-		GenericRepositorioImpl<Perfil, Serializable> implements
-		PerfilRepositorio {
+public class PerfilRepositorioImpl extends GenericRepositorioImpl<Perfil, Long>
+		implements PerfilRepositorio {
 
 	@Override
 	public List<Perfil> listaPerfilPorSistemaPorUsuario(int sistemaId,
