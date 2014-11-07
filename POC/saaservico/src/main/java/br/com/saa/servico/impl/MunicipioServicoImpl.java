@@ -20,7 +20,7 @@ public class MunicipioServicoImpl extends GenericServico<Municipio, Long>
 	private MunicipioRepositorio repositorio;
 
 	@Override
-	protected GenericRepositorio<Municipio, Long> getDao() {
+	protected GenericRepositorio<Municipio, Long> getRepositorio() {
 		return repositorio;
 	}
 

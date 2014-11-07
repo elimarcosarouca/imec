@@ -20,7 +20,7 @@ public class EstadoServicoImpl extends GenericServico<Estado, Long> implements
 	private EstadoRepositorio repositorio;
 
 	@Override
-	protected GenericRepositorio<Estado, Long> getDao() {
+	protected GenericRepositorio<Estado, Long> getRepositorio() {
 		return repositorio;
 	}
 

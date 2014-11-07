@@ -23,7 +23,7 @@ public class PerfilRotinaServicoImpl extends GenericServico<PerfilRotina, Long> 
 	private PerfilRotinaRepositorio repositorio;
 
 	@Override
-	protected GenericRepositorio<PerfilRotina, Long> getDao() {
+	protected GenericRepositorio<PerfilRotina, Long> getRepositorio() {
 		return repositorio;
 	}
 
