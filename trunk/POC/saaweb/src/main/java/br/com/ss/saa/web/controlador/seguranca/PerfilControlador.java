@@ -35,8 +35,6 @@ public class PerfilControlador extends ControladorGenerico<Perfil> {
 	@ManagedProperty(value = "#{rotinaRepositorioImpl}")
 	private RotinaRepositorio rotinaRepositorio;
 
-	/* --------- Overrides ------------------ */
-
 	@Override
 	public void init() {
 		carregarPerfis();
@@ -68,8 +66,7 @@ public class PerfilControlador extends ControladorGenerico<Perfil> {
 
 	@Override
 	protected GenericRepositorio<Perfil, Long> getService() {
-		//return this.servico;
-		return null;
+		return this.servico;
 	}
 
 	@Override

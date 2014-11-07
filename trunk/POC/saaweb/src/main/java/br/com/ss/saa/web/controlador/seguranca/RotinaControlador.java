@@ -1,13 +1,17 @@
 package br.com.ss.saa.web.controlador.seguranca;
 
+import java.io.Serializable;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
-import br.com.ss.core.seguranca.dominio.Perfil;
-import br.com.ss.core.seguranca.dominio.Rotina;
-import br.com.ss.core.seguranca.servico.IService;
-import br.com.ss.core.seguranca.servico.RotinaServico;
+import br.com.saa.modelo.entidade.AbstractEntity;
+import br.com.saa.modelo.entidade.Perfil;
+import br.com.saa.modelo.entidade.Rotina;
+import br.com.saa.modelo.repositorio.GenericRepositorio;
+import br.com.saa.servico.RotinaServico;
+import br.com.saa.servico.Servico;
 import br.com.ss.core.web.controlador.ControladorGenerico;
 
 @ManagedBean
@@ -25,7 +29,6 @@ public class RotinaControlador extends ControladorGenerico<Rotina> {
 
 	private final String LISTAR_ROTINAS = "listar_rotinas";
 
-
 	@Override
 	protected String getNomeRelatorioJasper() {
 		// FIXME #Peninha: verificar relatorio
@@ -36,18 +39,19 @@ public class RotinaControlador extends ControladorGenerico<Rotina> {
 	public String getTituloRelatorio() {
 		return "RELATÓRIO DE ROTINA";
 	}
-	
-	@Override
-	protected IService<Rotina, Long> getService() {
-		return servico;
-	}
 
+	@Override
+//	protected Servico<Rotina, Long> getService() {
+	protected  GenericRepositorio<Rotina, Long> getService(){
+//		return servico;
+		return null;
+	}
 
 	public String listarRotinas(Perfil perfil) {
 		this.perfil = perfil;
 		return listarRotinas();
 	}
-	
+
 	public String listarRotinas() {
 		this.listaPesquisa = servico.listaRotinasPorPerfil(this.perfil.getId());
 		this.colunas = 4; // Util.definirTamanhoColuna(rotinas.size());
@@ -55,15 +59,15 @@ public class RotinaControlador extends ControladorGenerico<Rotina> {
 	}
 
 	public String telaRelatorio(Rotina rotina) {
-		return rotina.getAcao() ;
+		return rotina.getAcao();
 	}
 
+	/* --------------- Gets/Sets ---------------------- */
 
-	/* --------------- Gets/Sets ----------------------*/
-	
 	public Perfil getPerfil() {
 		return perfil;
 	}
+
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
 	}
