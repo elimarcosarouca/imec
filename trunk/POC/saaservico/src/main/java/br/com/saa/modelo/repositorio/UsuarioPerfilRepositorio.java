@@ -9,5 +9,5 @@ public interface UsuarioPerfilRepositorio extends
 		GenericRepositorio<UsuarioPerfil, Long> {
 
 	public List<UsuarioPerfil> findByUsuario(Usuario usuario);
-
+	
 }

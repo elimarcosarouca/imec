@@ -1,5 +1,6 @@
 package br.com.saa.modelo.repositorio.test;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import br.com.saa.servico.EstadoServico;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:META-INF/applicationContextServicoSaa.xml")
 // @ContextConfiguration(locations="classpath:META-INF/test-context.xml")
-//@Ignore
+@Ignore
 public class EstadoRepositoryTest {
 
 	@Autowired

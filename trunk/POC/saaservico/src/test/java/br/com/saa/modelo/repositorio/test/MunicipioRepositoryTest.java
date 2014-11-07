@@ -14,7 +14,7 @@ import br.com.saa.modelo.repositorio.MunicipioRepositorio;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:META-INF/applicationContextServicoSaa.xml")
 // @ContextConfiguration(locations="classpath:META-INF/test-context.xml")
- @Ignore
+@Ignore
 public class MunicipioRepositoryTest {
 
 	@Autowired

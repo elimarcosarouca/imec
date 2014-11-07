@@ -9,6 +9,8 @@ public interface PerfilRepositorio extends GenericRepositorio<Perfil, Long> {
 
 	public List<Perfil> listaPerfilPorSistemaPorUsuario(int sistemaId,
 			Long usuarioId);
+	
+	public List<Perfil> listaPerfilNotInUsuario(Long idUsuario);
 
 	public List<Perfil> listaPerfil(Sistema sistema);
 
