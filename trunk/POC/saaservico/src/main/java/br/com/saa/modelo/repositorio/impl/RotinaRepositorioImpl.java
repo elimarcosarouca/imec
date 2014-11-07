@@ -66,9 +66,39 @@ public class RotinaRepositorioImpl extends GenericRepositorioImpl<Rotina, Long>
 	}
 
 	@Override
-	public List<Rotina> findBySistemaByNomeLike(Sistema sistema) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Rotina> listaRotinasPorPerfil(Long id) {
+		return entityManager
+				.createNativeQuery(
+						"SELECT i.* FROM saa_rotina i, saa_perfil_rotina b "
+						+ "where i.id_rotina = b.id_rotina and id_perfil = "
+								+ id, Rotina.class).getResultList();
+
+	}
+
+	@Override
+	public List<Rotina> pesquisar(Rotina entity) {
+		StringBuilder sb = new StringBuilder();
+		List<String> condictions = new ArrayList<String>();
+
+		sb.append(" select rot from Rotina rot ");
+
+		if (notEmpty(entity.getSistema())) {
+			condictions.add(" rot.sistema = :sistema ");
+		}
+		if (notEmpty(entity.getNome())) {
+			condictions.add(" rot.nome like :nome ");
+		}
+		String orderBy = " order by rot.nome ";
+
+		Query query = entityManager.createQuery(generateHql(sb.toString(),
+				condictions) + orderBy);
+		if (notEmpty(entity.getSistema())) {
+			query.setParameter("sistema", entity.getSistema());
+		}
+		if (notEmpty(entity.getNome())) {
+			query.setParameter("nome", "%" + entity.getNome() + "%");
+		}
+		return query.getResultList();
 	}
 
 }

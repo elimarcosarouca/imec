@@ -2,6 +2,7 @@ package br.com.saa.modelo.repositorio.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Query;
 
@@ -18,7 +19,7 @@ public class UsuarioPerfilRepositorioImpl extends
 		UsuarioPerfilRepositorio {
 
 	@Override
-	public List<UsuarioPerfil> findByUsuario(Usuario usuario) {
+	public Set<UsuarioPerfil> findByUsuario(Usuario usuario) {
 		StringBuilder sb = new StringBuilder();
 		List<String> condictions = new ArrayList<String>();
 
@@ -37,7 +38,7 @@ public class UsuarioPerfilRepositorioImpl extends
 			query.setParameter("usuario", usuario);
 		}
 
-		return query.getResultList();
+		return (Set<UsuarioPerfil>) query.getResultList();
 	}
 
 }

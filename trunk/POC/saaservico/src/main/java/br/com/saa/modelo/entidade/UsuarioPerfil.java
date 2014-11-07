@@ -45,8 +45,8 @@ public class UsuarioPerfil extends AbstractEntity implements Serializable {
 	private Usuario usuario;
 
 	@ManyToOne
-	@JoinColumn(name = "id_saa_rotina")
-	private Rotina rotina;
+	@JoinColumn(name = "id_saa_perfil")
+	private Perfil perfil;
 
 	public Date getData() {
 		return data;
@@ -72,12 +72,12 @@ public class UsuarioPerfil extends AbstractEntity implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public Rotina getRotina() {
-		return rotina;
+	public Perfil getPerfil() {
+		return perfil;
 	}
 
-	public void setRotina(Rotina rotina) {
-		this.rotina = rotina;
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
 	}
 
 	public static UsuarioPerfil fromJsonToObject(String json) {

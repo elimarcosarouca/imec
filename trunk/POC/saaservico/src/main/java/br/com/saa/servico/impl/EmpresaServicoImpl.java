@@ -20,7 +20,7 @@ public class EmpresaServicoImpl extends GenericServico<Empresa, Long> implements
 	private EmpresaRepositorio repositorio;
 
 	@Override
-	protected GenericRepositorio<Empresa, Long> getDao() {
+	protected GenericRepositorio<Empresa, Long> getRepositorio() {
 		return repositorio;
 	}
 

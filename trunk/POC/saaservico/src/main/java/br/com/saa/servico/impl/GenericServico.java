@@ -12,11 +12,11 @@ public abstract class GenericServico<T extends AbstractEntity, ID extends Serial
 
 	private static final long serialVersionUID = 8852196823485825472L;
 
-	protected abstract GenericRepositorio<T, Long> getDao();
+	protected abstract GenericRepositorio<T, Long> getRepositorio();
 
 	@Override
 	public void save(AbstractEntity abstractEntity) {
-		getDao().save(abstractEntity);
+		getRepositorio().save(abstractEntity);
 
 	}
 

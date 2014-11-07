@@ -24,7 +24,7 @@ public class RotinaServicoImpl extends GenericServico<Rotina, Long> implements
 	private RotinaRepositorio repositorio;
 
 	@Override
-	protected GenericRepositorio<Rotina, Long> getDao() {
+	protected GenericRepositorio<Rotina, Long> getRepositorio() {
 		return repositorio;
 	}
 
@@ -39,7 +39,12 @@ public class RotinaServicoImpl extends GenericServico<Rotina, Long> implements
 	}
 
 	@Override
-	public List<Rotina> findBySistemaByNomeLike(Sistema sistema) {
-		return repositorio.findBySistemaByNomeLike(sistema);
+	public List<Rotina> listaRotinasPorPerfil(Long id) {
+		return repositorio.listaRotinasPorPerfil(id);
+	}
+
+	@Override
+	public List<Rotina> pesquisar(Rotina rotina) {
+		return repositorio.pesquisar(rotina);
 	}
 }

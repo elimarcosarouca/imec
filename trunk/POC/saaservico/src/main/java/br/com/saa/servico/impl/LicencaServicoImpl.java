@@ -20,7 +20,7 @@ public class LicencaServicoImpl extends GenericServico<Licenca, Long> implements
 	private LicencaRepositorio repositorio;
 
 	@Override
-	protected GenericRepositorio<Licenca, Long> getDao() {
+	protected GenericRepositorio<Licenca, Long> getRepositorio() {
 		return repositorio;
 	}
 

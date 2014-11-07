@@ -1,9 +1,12 @@
 package br.com.saa.servico.impl;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.saa.modelo.entidade.Usuario;
 import br.com.saa.modelo.entidade.UsuarioPerfil;
 import br.com.saa.modelo.repositorio.GenericRepositorio;
 import br.com.saa.modelo.repositorio.UsuarioPerfilRepositorio;
@@ -20,8 +23,13 @@ public class UsuarioPerfilServicoImpl extends
 	private UsuarioPerfilRepositorio repositorio;
 
 	@Override
-	protected GenericRepositorio<UsuarioPerfil, Long> getDao() {
+	protected GenericRepositorio<UsuarioPerfil, Long> getRepositorio() {
 		return repositorio;
+	}
+
+	@Override
+	public Set<UsuarioPerfil> findByUsuario(Usuario usuario) {
+		return repositorio.findByUsuario(usuario);
 	}
 
 }

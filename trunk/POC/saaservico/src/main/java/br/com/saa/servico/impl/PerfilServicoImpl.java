@@ -23,7 +23,7 @@ public class PerfilServicoImpl extends GenericServico<Perfil, Long> implements
 	private PerfilRepositorio repositorio;
 
 	@Override
-	protected GenericRepositorio<Perfil, Long> getDao() {
+	protected GenericRepositorio<Perfil, Long> getRepositorio() {
 		return repositorio;
 	}
 

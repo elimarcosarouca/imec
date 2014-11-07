@@ -20,8 +20,7 @@ public class UsuarioSistemaServicoImpl extends
 	private UsuarioSistemaRepositorio repositorio;
 
 	@Override
-	protected GenericRepositorio<UsuarioSistema, Long> getDao() {
+	protected GenericRepositorio<UsuarioSistema, Long> getRepositorio() {
 		return repositorio;
 	}
-
 }

@@ -12,6 +12,8 @@ public interface RotinaServico extends Servico<Rotina, Long> {
 
 	public List<Rotina> findBySistema(Sistema sistema);
 
-	public List<Rotina> findBySistemaByNomeLike(Sistema sistema);
+	public List<Rotina> listaRotinasPorPerfil(Long id);
+
+	public List<Rotina> pesquisar(Rotina entity);
 
 }

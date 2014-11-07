@@ -23,7 +23,7 @@ public class UsuarioServicoImpl extends GenericServico<Usuario, Long> implements
 	private UsuarioRepositorio repositorio;
 
 	@Override
-	protected GenericRepositorio<Usuario, Long> getDao() {
+	protected GenericRepositorio<Usuario, Long> getRepositorio() {
 		return repositorio;
 	}
 

@@ -67,7 +67,7 @@ public class Usuario extends AbstractEntity implements Serializable {
 
 	@OneToMany(mappedBy = "usuario")
 	@Column(name = "id_saa_usuario")
-	private Set<UsuarioPerfil> usuarioPerfiis;
+	private Set<UsuarioPerfil> usuarioPerfils;
 
 	public Long getId() {
 		return id;
@@ -101,12 +101,12 @@ public class Usuario extends AbstractEntity implements Serializable {
 		this.municipio = municipio;
 	}
 
-	public Set<UsuarioPerfil> getUsuarioPerfiis() {
-		return usuarioPerfiis;
+	public Set<UsuarioPerfil> getUsuarioPerfils() {
+		return usuarioPerfils;
 	}
 
-	public void setUsuarioPerfiis(Set<UsuarioPerfil> usuarioPerfiis) {
-		this.usuarioPerfiis = usuarioPerfiis;
+	public void setUsuarioPerfils(Set<UsuarioPerfil> usuarioPerfils) {
+		this.usuarioPerfils = usuarioPerfils;
 	}
 
 	public String getSenha() {
