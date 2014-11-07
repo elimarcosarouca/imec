@@ -1,6 +1,5 @@
 package br.com.saa.modelo.repositorio.impl;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +14,8 @@ import br.com.saa.modelo.repositorio.RotinaRepositorio;
 
 @Repository
 @SuppressWarnings("unchecked")
-public class RotinaRepositorioImpl extends
-		GenericRepositorioImpl<Rotina, Serializable> implements
-		RotinaRepositorio {
+public class RotinaRepositorioImpl extends GenericRepositorioImpl<Rotina, Long>
+		implements RotinaRepositorio {
 
 	@Override
 	public List<Rotina> findByPerfil(Perfil perfil) {

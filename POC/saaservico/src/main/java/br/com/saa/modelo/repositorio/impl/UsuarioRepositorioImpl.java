@@ -1,6 +1,5 @@
 package br.com.saa.modelo.repositorio.impl;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +13,7 @@ import br.com.saa.modelo.repositorio.UsuarioRepositorio;
 
 @Repository
 public class UsuarioRepositorioImpl extends
-		GenericRepositorioImpl<Usuario, Serializable> implements
-		UsuarioRepositorio {
+		GenericRepositorioImpl<Usuario, Long> implements UsuarioRepositorio {
 
 	@Override
 	public Usuario findByLoginAndSenha(String login, String senha)
