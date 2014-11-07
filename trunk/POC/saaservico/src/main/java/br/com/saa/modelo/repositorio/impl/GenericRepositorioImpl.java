@@ -15,7 +15,7 @@ import br.com.saa.modelo.entidade.AbstractEntity;
 import br.com.saa.modelo.repositorio.GenericRepositorio;
 
 @SuppressWarnings("unchecked")
-@Repository
+//@Repository
 @Transactional
 public abstract class GenericRepositorioImpl<T extends AbstractEntity, ID extends Serializable>
 		implements GenericRepositorio<T, ID> {
