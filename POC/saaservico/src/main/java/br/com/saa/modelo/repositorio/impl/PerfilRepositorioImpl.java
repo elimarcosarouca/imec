@@ -45,5 +45,17 @@ public class PerfilRepositorioImpl extends GenericRepositorioImpl<Perfil, Long>
 		}
 		return query.getResultList();
 	}
+	
+	@Override
+	public List<Perfil> listaPerfilNotInUsuario(Long idUsuario) {
+		return entityManager.createNativeQuery(
+				"select p.* from saa_perfil p "
+				+ "where p.id_perfil not in ( "
+				+ "select id_perfil from saa_usuario_perfil up "
+				+ "where up.id_usuario = "
+				+ idUsuario +")",
+				Perfil.class).getResultList();
+
+	}
 
 }
