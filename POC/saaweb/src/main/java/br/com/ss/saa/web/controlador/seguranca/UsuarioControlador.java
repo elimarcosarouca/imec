@@ -13,7 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import br.com.saa.core.web.utils.StringUtil;
 import br.com.saa.modelo.entidade.Perfil;
 import br.com.saa.modelo.entidade.Usuario;
+import br.com.saa.modelo.repositorio.GenericRepositorio;
 import br.com.saa.modelo.repositorio.UsuarioRepositorio;
+import br.com.saa.servico.Servico;
 import br.com.ss.core.web.controlador.ControladorGenerico;
 import br.com.ss.saa.web.enumerated.StatusUsuario;
 import br.com.ss.saa.web.enumerated.TipoUsuario;
@@ -66,7 +68,7 @@ public class UsuarioControlador extends ControladorGenerico<Usuario> {
 
 	@Override
 	public String getTituloRelatorio() {
-		return "RELATÓRIO DE USU�?RIO";
+		return "RELATÓRIO DE USUÁRIO";
 	}
 	
 	
@@ -79,12 +81,11 @@ public class UsuarioControlador extends ControladorGenerico<Usuario> {
 		
 		return super.salvar();
 	}
-
+	
 	@Override
-	protected IService<Usuario, Long> getService() {
-		return servico;
+	protected GenericRepositorio<Usuario, Long> getService() {
+		return this.servico;
 	}
-
 
 	public String editarSenha() {
 		this.entidade = (Usuario) SecurityContextHolder.getContext()

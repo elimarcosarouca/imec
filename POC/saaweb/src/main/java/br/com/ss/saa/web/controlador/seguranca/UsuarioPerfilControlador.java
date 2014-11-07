@@ -13,12 +13,12 @@ import javax.faces.bean.SessionScoped;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
-import br.com.ss.core.seguranca.dominio.Perfil;
-import br.com.ss.core.seguranca.dominio.Usuario;
-import br.com.ss.core.seguranca.dominio.UsuarioPerfil;
-import br.com.ss.core.seguranca.servico.UsuarioPerfilServico;
-import br.com.ss.core.seguranca.servico.UsuarioServico;
-import br.com.ss.core.web.utils.FacesUtils;
+import br.com.saa.modelo.entidade.Perfil;
+import br.com.saa.modelo.entidade.Usuario;
+import br.com.saa.modelo.entidade.UsuarioPerfil;
+import br.com.saa.servico.UsuarioPerfilServico;
+import br.com.saa.servico.UsuarioServico;
+import br.com.ss.saa.web.utils.FacesUtils;
 
 @ManagedBean
 @SessionScoped
@@ -29,37 +29,38 @@ public class UsuarioPerfilControlador {
 
 	private static final String MSG_ERRO = "Ocorreu um erro ao executar a operação!";
 
-
 	@ManagedProperty(value = "#{usuarioServicoImpl}")
 	private UsuarioServico usuarioServico;
 
 	@ManagedProperty(value = "#{usuarioPerfilServicoImpl}")
 	private UsuarioPerfilServico usuarioPerfilServico;
 
-    private DualListModel<UsuarioPerfil> dualListPerfil;  
-    
+	private DualListModel<UsuarioPerfil> dualListPerfil;
+
 	private List<UsuarioPerfil> listaUsuPerfilNotInUsuario;
-	
+
 	@PostConstruct
 	public void init() {
 		dualListPerfil = new DualListModel<UsuarioPerfil>();
 	}
 
-	public void showModalPerfil( Usuario usuario ) {
+	public void showModalPerfil(Usuario usuario) {
 		listaUsuPerfilNotInUsuario = new ArrayList<UsuarioPerfil>();
-		List<Perfil> listaPerfilNotInUsuario = usuarioPerfilServico.listaPerfilNotInUsuario(usuario.getId());
-		
-		for ( Perfil perfil : listaPerfilNotInUsuario ) {
+		List<Perfil> listaPerfilNotInUsuario = usuarioServico
+				.listaPerfilNotInUsuario(usuario.getId());
+
+		for (Perfil perfil : listaPerfilNotInUsuario) {
 			UsuarioPerfil usuarioPerfil = createUsuarioPerfil(perfil, usuario);
 			listaUsuPerfilNotInUsuario.add(usuarioPerfil);
 		}
 		// faz o fetch de UsuarioPerfil
-		List<UsuarioPerfil> usuPerfis = usuarioPerfilServico.findByUsuario(usuario);
+		List<UsuarioPerfil> usuPerfis = usuarioPerfilServico
+				.findByUsuario(usuario);
 		usuario.setUsuarioPerfil(usuPerfis);
-		dualListPerfil = new DualListModel<UsuarioPerfil>(listaUsuPerfilNotInUsuario, usuario.getUsuarioPerfil());
+		dualListPerfil = new DualListModel<UsuarioPerfil>(
+				listaUsuPerfilNotInUsuario, usuario.getUsuarioPerfil());
 	}
 
-	
 	private UsuarioPerfil createUsuarioPerfil(Perfil perfil, Usuario usuario) {
 		UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
 		usuarioPerfil.setData(new Date());
@@ -68,9 +69,8 @@ public class UsuarioPerfilControlador {
 		return usuarioPerfil;
 	}
 
-	
 	@SuppressWarnings("unchecked")
-	public void onTransfer(TransferEvent event) {  
+	public void onTransfer(TransferEvent event) {
 
 		boolean add = event.isAdd();
 		List<UsuarioPerfil> usuPerfis = (List<UsuarioPerfil>) event.getItems();
@@ -85,29 +85,26 @@ public class UsuarioPerfilControlador {
 
 		FacesUtils.addMessage(msg, null, FacesMessage.SEVERITY_INFO);
 	}
-	
-	
-	private void salvarUsuario(UsuarioPerfil usuarioPerfil, boolean add ) {
+
+	private void salvarUsuario(UsuarioPerfil usuarioPerfil, boolean add) {
 
 		try {
-			
-			if ( add ) {
+
+			if (add) {
 				usuarioPerfilServico.salvar(usuarioPerfil);
 			} else {
 				usuarioPerfilServico.remover(usuarioPerfil);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			FacesUtils.addMessage(MSG_ERRO, null, FacesMessage.SEVERITY_ERROR);
 		}
-		
+
 	}
 
-
-
 	/* ---------- Gets/Sets --------------- */
-	
+
 	public UsuarioServico getUsuarioServico() {
 		return usuarioServico;
 	}
@@ -120,11 +117,12 @@ public class UsuarioPerfilControlador {
 		return usuarioPerfilServico;
 	}
 
-	public void setUsuarioPerfilServico(UsuarioPerfilServico usuarioPerfilServico) {
+	public void setUsuarioPerfilServico(
+			UsuarioPerfilServico usuarioPerfilServico) {
 		this.usuarioPerfilServico = usuarioPerfilServico;
 	}
 
-    public DualListModel<UsuarioPerfil> getDualListPerfil() {
+	public DualListModel<UsuarioPerfil> getDualListPerfil() {
 		return dualListPerfil;
 	}
 
