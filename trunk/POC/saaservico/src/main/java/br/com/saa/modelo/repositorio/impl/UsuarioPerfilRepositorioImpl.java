@@ -7,14 +7,12 @@ import java.util.List;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import br.com.saa.modelo.entidade.Usuario;
 import br.com.saa.modelo.entidade.UsuarioPerfil;
 import br.com.saa.modelo.repositorio.UsuarioPerfilRepositorio;
 
 @Repository
-@Transactional
 @SuppressWarnings("unchecked")
 public class UsuarioPerfilRepositorioImpl extends
 		GenericRepositorioImpl<UsuarioPerfil, Serializable> implements

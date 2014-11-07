@@ -34,7 +34,7 @@ public class Municipio extends AbstractEntity implements Serializable {
 	@Column(name = "id_saa_municipio")
 	private Long id;
 
-	@Column(length = 30, nullable = false)
+	@Column(length = 30, nullable = false, unique = true)
 	private String nome;
 	
 	@ManyToOne

@@ -5,7 +5,7 @@ import java.util.List;
 
 import br.com.saa.modelo.entidade.AbstractEntity;
 
-public interface Servico<T extends AbstractEntity, ID extends Serializable> {
+public interface Servico<T, ID extends Serializable> {
 
 	public void save(AbstractEntity abstractEntity);
 
