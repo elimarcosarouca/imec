@@ -27,11 +27,12 @@
 		<property name="persistenceUnitName" value="persistence-unit-saa" />
 	</bean>
 
-	<!-- inserir o controle de transação Transaction Manager -->
+	<!-- inserir o Transaction Manager -->
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 
+	<!-- inserir o gerenciamento de transação Transaction Manager -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
 </beans>
