@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contrato-parte1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="00455a14-9539-4c54-a1f0-1693d68558d6">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="empresa" class="br.com.ss.academico.dominio.Empresa"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="aluno" class="br.com.ss.academico.dominio.Aluno">
+		<fieldDescription><![CDATA[aluno]]></fieldDescription>
+	</field>
+	<field name="checked" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[checked]]></fieldDescription>
+	</field>
+	<field name="class" class="java.lang.Class">
+		<fieldDescription><![CDATA[class]]></fieldDescription>
+	</field>
+	<field name="data" class="java.util.Date">
+		<fieldDescription><![CDATA[data]]></fieldDescription>
+	</field>
+	<field name="id" class="java.lang.Long">
+		<fieldDescription><![CDATA[id]]></fieldDescription>
+	</field>
+	<field name="idMatricula" class="java.lang.Long">
+		<fieldDescription><![CDATA[idMatricula]]></fieldDescription>
+	</field>
+	<field name="integral" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[integral]]></fieldDescription>
+	</field>
+	<field name="mensalidades" class="java.util.List">
+		<fieldDescription><![CDATA[mensalidades]]></fieldDescription>
+	</field>
+	<field name="observacoes" class="java.util.List">
+		<fieldDescription><![CDATA[observacoes]]></fieldDescription>
+	</field>
+	<field name="persistent" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[persistent]]></fieldDescription>
+	</field>
+	<field name="status" class="br.com.ss.academico.enumerated.StatusMatricula">
+		<fieldDescription><![CDATA[status]]></fieldDescription>
+	</field>
+	<field name="turma" class="br.com.ss.academico.dominio.Turma">
+		<fieldDescription><![CDATA[turma]]></fieldDescription>
+	</field>
+	<field name="valor" class="java.lang.Double">
+		<fieldDescription><![CDATA[valor]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="18" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="776" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="26" uuid="605890f8-0342-49f1-a1c5-71d9a38ca6cf"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[1. O responsável pela matrícula terá o prazo de 30 dias para entrega de todos os documentos pendentes do aluno (a) a ausência dos mesmos impossibilitará a escola de expedir declarações, recibos, históricos ou transferências.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="-17" width="213" height="16" uuid="7dc0f675-5b63-4186-b9e8-5c00bb77938e"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[REGIMENTO ESCOLAR:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="28" width="555" height="13" uuid="80a6fc2c-6671-435a-b44b-f9771c5ea8dc"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[2. Nenhum documento será entregue a não ser pelo responsável da matrícula.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="42" width="555" height="13" uuid="b58bb70c-f588-415e-91c8-1e175afc02e7"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[3. O aluno só fará avaliação do 1° bimestre mediante a entrega de transferência do ano anterior.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="56" width="555" height="13" uuid="91daed3b-4948-4379-8c16-567b72a7c3b1"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[4. No período de avaliações, não teremos os cursos de Balé. Futsal e Informática. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="70" width="555" height="26" uuid="5032448a-5f71-45fd-9c36-645bc8fb386e"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[5. O aluno será entregue somente ao responsável . Caso outra pessoa venha buscá-lo deve ser comunicado a direção com antecedência. O mesmo deverá apresentar o crachá de identificação do aluno.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="97" width="555" height="13" uuid="27532c79-919a-4f04-9dd0-6369c719301b"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[6. Fica na responsabilidade do responsável (pai ou condutor) tirar a criança e o seu material escolar do veículo e entregar na escola.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="111" width="555" height="13" uuid="7691a1c2-6be3-4335-ac76-5703f27aea42"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[7. A liberação do aluno (a) antes do término das aulas deve ser solicitada à coordenação da escola.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="125" width="555" height="39" uuid="2dbec3f3-0a9d-4583-97e4-9c597e6e6f91"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[8. Visando o trabalho organizado e garantindo a total segurança dos alunos a escola fornecerá um crachá de identificação do aluno. O crachá deverá ser apresentado pelo responsável no horário de saída do aluno. Será cobrado pela 2° via do crachá a quantia de R$ 5,00 para a confecção do mesmo. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="165" width="555" height="13" uuid="e9c00784-6c9c-43ae-a727-d95da0a39a09"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[9. Horário Escolar: de segunda a sexta de 7:00h às 17:30h.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="179" width="555" height="13" uuid="953cda31-1653-402d-9865-ae624d72e956"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[10. Horário de aula: matutino - 7:00h as 11:00h vespertino – 13:00h as 17:00h]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="193" width="555" height="13" uuid="c1668551-913f-4687-949c-333aced46d68"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[11. Horário da creche: de segunda a sexta de 7:00h às 17:30h.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="207" width="555" height="13" uuid="82e6c518-ecbb-42f4-84c3-5ab26235a33d"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[12. Havendo necessidade de a criança ser medicada, o medicamento deve ser entregue para a professora.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="221" width="555" height="39" uuid="cbe42b7a-b363-4530-ab45-f36fcb81ad07"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[13. A tolerância na entrada e saída dos alunos na escola é de 15 (quinze) minutos. A reincidência no atraso implicará registro no livro de ocorrência. Ultrapassando o horário de saída caracteriza-se descaso e displicência, gerando constrangimento à criança. Na terceira reincidência o responsável será chamado ao Conselho Tutelar.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="261" width="555" height="13" uuid="32d8c01d-2666-4ab5-902d-aa3e08248f78"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[14. O aluno da creche estuda no turno matutino ou vespertino no outro horário ele faz as tarefas para casa, assiste vídeo, brinca.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="275" width="555" height="26" uuid="0ea3221e-5ae9-4721-b554-0ac9a3c45417"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[15. A creche se responsabilizará pelo café da manha e almoço. O lanche da manhã e tarde fica a critério do responsável mandar na lancheira ou comprar na cantina da escola.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="302" width="555" height="26" uuid="72393016-7eb4-4a05-a3a2-76744525e0d6"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[16. Ao solicitar declaração ou transferência, a escola se responsabiliza de entregar no prazo máximo de 05 (cinco) dias úteis para declaração e 30 (trinta) para transferência. Ao custo de R$ 5,00 (cinco reais) para declaração e R$ 10,00 (quinze reais) para transferência.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="329" width="555" height="26" uuid="460c3688-a804-41ed-a401-391789403b99"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[17. O aluno que frequentemente não quiser fazer as atividades, não trouxer os trabalhos  e desobedecer à professora, ficará suspenso do balé, informática ou futsal da semana. Na reincidência o responsável assinará um termo de compromisso e responsabilidade.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="356" width="555" height="39" uuid="8a780890-cbce-4175-aa55-03889af07827"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[18. O aluno que frequentemente cometer indisciplina, desacatar a professora e qualquer membro da escola, agredir os colegas e danificar o patrimônio da escola será advertido ou suspenso, dependendo da gravidade do problema, fica a critério da direção da escola os dias suspensos.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="396" width="555" height="26" uuid="835a5c05-f3ab-42e5-9d5a-a20e745fffde"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[19. O material entregue na escola pelos pais deve constar o nome do aluno e deve ser conferido na presença dos pais, os itens em falta, providenciado no prazo de 15 dias]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="423" width="555" height="26" uuid="315ff1ed-375e-48b2-a421-1578dbb439e7"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[20. Todo material escolar assim como os livros e apostilas devem ser adquiridos com antecedência, pois são utilizados a partir da segunda semana de aula.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="450" width="555" height="13" uuid="63d223d1-0c73-4a89-9817-843a58e8c839"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[21. Caso o aluno esteja impossibilitado de praticar qualquer atividade física, o pai deverá comunicar a professora com antecedência.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="464" width="555" height="13" uuid="eb8fd50f-9c25-4ea5-95e5-7786a7231d30"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[22. Todo fardamento necessário para o aluno deverá ser adquirido na escola, no prazo de 30 dias ao iniciar as aulas.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="478" width="555" height="39" uuid="c60a3121-87d6-440a-a5c2-ef749c5edf15"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[23. Não será permitido o uso de: Celular, Boné, viseira, sandália , sapatos de saltos, (somente tênis) camiseta, short, bracelete, maquiagem exagerada, penteado tipo metaleiro, corrente, piercin, cabelo cumprido e brinco ou adorno feminino (menino), pois os mesmos não fazem parte do uniforme escolar.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="518" width="555" height="13" uuid="49ce40c6-a514-4b37-af65-23dbdf46b297"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[24. Sendo escola de princípios cristãos a mesma não realiza festa como: Carnaval, Festa Junina e Halloween.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="532" width="555" height="26" uuid="221670eb-8dcd-40a2-b6b4-391777f4cbf5"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[25. Para melhor rendimento no aprendizado do aluno evite que o mesmo falte, em caso de doenças, apresente atestado médico para justificar-se.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="559" width="555" height="26" uuid="36e77910-aabe-441d-8c7c-6e95fecebff8"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[26. Os esclarecimentos sobre qualquer procedimento adotado pela escola,  mesmos os procedimentos de rotina, serão repassados aos pais através de informativo.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="586" width="555" height="13" uuid="e2f8a5bd-0d72-4895-b1bd-750aee0a9f4f"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[27. Dúvidas a mais, podem ser esclarecidas diretamente com a direção da escola.]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="610" width="225" height="102" uuid="08493c8c-c57d-4fd3-ba9a-71645cc7837a"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="225" y="610" width="330" height="102" uuid="eac0a659-bf26-4d10-9bce-974b0827ca36"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="610" width="225" height="13" uuid="b9a90a41-e8c9-4cbf-98c4-160410fda0c5"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Carimbo da escola]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="324" y="613" width="225" height="13" uuid="fef81e2e-99c6-4b9d-8e1b-4818d7470095"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Manaus (AM) _______/ ________/_________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="238" y="682" width="311" height="13" uuid="e9679f5e-52e2-427b-99ab-462403cc316b"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[_______________________________________________________]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="296" y="628" width="253" height="15" uuid="5e6f2835-cf14-4185-bfc6-cf9fa4f37ade"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CENTRO EDUCACIONAL BOM JESUS"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="296" y="643" width="253" height="15" uuid="542b2824-0f3c-4323-b4ac-f47edf6331d5"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CNPJ "+$P{empresa}.getCnpj()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="238" y="695" width="311" height="15" uuid="6ab3a65c-357b-4aea-acd9-9a0c4dfa7804"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Responsável / Contratante " + $F{aluno}.getResponsavel().getNome()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="722" width="555" height="15" uuid="fd4528d1-a26e-43ea-9038-8962d6e59786"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empresa}.getEndereco() + ", " + $P{empresa}.getBairro()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<ui:composition>
+	
+	<c:if test="#{empty header}">	<!-- Texto do cabeçalho da coluna. -->
+		<c:set var="header" value=""/>
+	</c:if>
+	<c:if test="#{empty sortBy}">	<!-- Atributo da entidade osado para a ordenação na coluna. -->
+		<c:set var="sortBy" value=""/>
+	</c:if>
+	<c:if test="#{empty textAlign}">	<!-- Alinhamento do texto: left, center, right -->
+		<c:set var="textAlign" value="left"/>
+	</c:if>
+	
+	<c:if test="#{empty rendered}">
+		<c:set var="rendered" value="true"/>
+	</c:if>
+	
+	<c:if test="#{empty colspan}">
+		<c:set var="colspan" value="1"/>
+	</c:if>
+	<c:if test="#{empty width}">
+		<c:set var="width" value=""/>
+	</c:if>
+	
+	<c:if test="#{empty converter}">
+		<c:set var="converter" value=""/>
+	</c:if>
+	
+	<c:if test="#{empty convertNumber}">
+		<c:set var="convertNumber" value="false"/>
+	</c:if>
+	<c:if test="#{empty numberType}">
+		<c:set var="numberType" value="currency"/>
+	</c:if>
+	<c:if test="#{empty currencySymbol}">
+		<c:set var="currencySymbol" value="R$"/>
+	</c:if>
+	
+	<c:if test="#{empty convertDate}">
+		<c:set var="convertDate" value="false"/>
+	</c:if>
+	<c:if test="#{empty pattern}">
+		<c:set var="pattern" value="dd/MM/yyyy"/>
+	</c:if>
+	<c:if test="#{empty dateStyle}">
+		<c:set var="dateStyle" value="medium"/>
+	</c:if>
+
+	<c:if test="#{empty exportable}">
+		<c:set var="exportable" value="true" />
+	</c:if>
+	
+	
+	<c:set var="textAlignFull" value="text-align:#{textAlign}"/>
+	
+	<c:set var="style" value="#{not empty style ? style : textAlignFull }" />
+
+	<p:column style="#{style}" headerText="#{header}" sortBy="#{sortBy}" rendered="#{rendered}" width="#{width}" colspan="#{colspan}" exportable="#{exportable}">
+		<h:outputText value="#{value}" >
+			<c:if test="#{not empty converter}">
+				<f:converter converterId="#{converter}" />
+			</c:if>
+			<c:if test="#{convertNumber}">
+				<f:convertNumber maxFractionDigits="2" type="#{numberType}" currencySymbol="#{currencySymbol}"/>
+			</c:if>
+			<c:if test="#{convertDate}">
+				<f:convertDateTime pattern="#{pattern}" dateStyle="#{dateStyle}" />
+			</c:if>
+		</h:outputText>
+		<ui:insert />
+	</p:column>
+
+</ui:composition>
+
+</html>

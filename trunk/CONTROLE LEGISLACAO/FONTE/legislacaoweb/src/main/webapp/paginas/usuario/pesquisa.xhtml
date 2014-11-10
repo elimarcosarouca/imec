@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss2="http://www.3iti.com.br/jsf/componentes"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	template="/resources/layout/search_template.xhtml">
+
+	<ui:param name="pageTitle" value="Usuário"/>
+	<ui:param name="pageHeader" value="Usuário"/>
+	<ui:param name="managedBean" value="#{usuarioControlador}"/>
+	<ui:param name="renderPrintButton" value="false"/>
+
+
+	<ui:define name="search_filter">
+	
+		<ss:input label="Login" value="#{usuarioControlador.pesquisa.login}" />
+	
+		<ss:input label="Nome" value="#{usuarioControlador.pesquisa.nome}" />
+		
+		<ss:comboBox label="Tipo de Usuário" value="#{usuarioControlador.pesquisa.tipoUsuario}" list="#{usuarioControlador.tipoUsuarioList}" />
+		
+		<ss:comboBox label="Situação" value="#{usuarioControlador.pesquisa.status}" list="#{usuarioControlador.statusUsuarioList}" />
+		
+	</ui:define>
+	
+	<ui:define name="grid_region">
+
+		<ss:grid managedBean="#{usuarioControlador}" renderedActionColumn="false">
+		
+			<ss2:column value="#{item.login}" header="Login" sortBy="login"  />
+			<ss2:column value="#{item.nome}" header="Nome" sortBy="nome"  />
+			<ss2:column value="#{item.tipoUsuario.descricao}" header="Tipo de Usuário" sortBy="tipoUsuario.descricao"  />
+			
+			<ss2:column value="#{item.status.descricao}" header="Situação" sortBy="status" textAlign="center"/>
+		
+			<ss2:actionColumn managedBean="#{usuarioControlador}" buttonsAdded="1">
+				<p:commandButton value="Perfil" title="Perfil"
+								action="#{usuarioPerfilControlador.showModalPerfil(item)}"
+								oncomplete="PF('dlgPerfil').show();" icon="ui-icon-bookmark"
+								update=":formDlg" />
+			</ss2:actionColumn>
+			
+			<!--  FIXME validar/refatorar os metodos ausentes: usuarioPerfilControlador.manterUsuario(item)
+			<p:commandButton ajax="false" value="Detalhe"
+							action=" usuarioPerfilControlador.manterUsuario(item) "
+							styleClass="ui-priority-primary" icon="ui-icon-pencil"
+							update=":form" title="Manter Usuário" />
+			 -->
+			 
+		</ss:grid>
+		
+	</ui:define>
+	
+	
+	<ui:define name="modal_region">
+	
+		<ui:include src="modalPerfil.xhtml" />
+		
+	</ui:define>
+
+</ui:composition>
