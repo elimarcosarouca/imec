@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<cc:interface>
+	<cc:attribute name="managedBean" required="true" />
+	<cc:attribute name="type" required="true" shortDescription="Tipo de botao: pesquisa, novo, detalhe, exclusao, salvar, cancelar" />
+	<cc:attribute name="method" />
+	<cc:attribute name="label" />
+	<cc:attribute name="title" />
+	<cc:attribute name="icon" />
+	<cc:attribute name="update" />
+	<cc:attribute name="ajax" default="true" />
+	<cc:attribute name="render" default="true" />
+	<cc:attribute name="disabledBtn" default="false" />
+	<cc:attribute name="id" />
+	
+	<!-- exclusao -->
+	<cc:attribute name="item" default="#{item}" shortDescription="Item selecionado no grid" />
+	<cc:attribute name="msgExclusao" default="Tem certeza que deseja excluir o registro?"/>
+	
+	<cc:attribute name="onclick" />
+	
+	<cc:attribute name="styleClass" default="ui-priority-primary" />
+	
+</cc:interface>
+
+<cc:implementation>
+
+	<c:if test="#{cc.attrs.type eq 'exclusao'}">
+		<c:set var="label"  value="#{empty cc.attrs.label ? 'Excluir' : cc.attrs.label}" />
+		<c:set var="title"  value="#{not empty cc.attrs.title ? cc.attrs.title : label}" />
+		<c:set var="icon"  	value="#{not empty cc.attrs.icon ? cc.attrs.icon : 'ui-icon-trash'}" />
+		<c:set var="method"  value="#{not empty cc.attrs.method ? cc.attrs.method : 'excluir'}" />
+		<c:set var="update"  value="#{empty cc.attrs.update ? ':form:grid' : cc.attrs.update}" />
+		
+		<p:commandButton value="#{label}" 
+						title="#{title}"
+						action="#{cc.attrs.managedBean[method]}" 
+						icon="#{icon}"
+						onclick="if (!confirm('#{cc.attrs.msgExclusao}')) return false;"
+						rendered="#{cc.attrs.render}"
+						disabled="#{cc.attrs.disabledBtn}"
+						update="#{update}" 
+						styleClass="#{cc.attrs.styleClass}"
+						ajax="#{cc.attrs.ajax}" >
+			<f:setPropertyActionListener target="#{managedBean.itemToRemove}" value="#{cc.attrs.item}" />
+		</p:commandButton>
+
+	</c:if>
+	
+	<c:if test="#{cc.attrs.type eq 'detalhe'}" >
+		<c:set var="label"  value="#{empty cc.attrs.label ? 'Detalhe' : cc.attrs.label}" />
+		<c:set var="icon"  value="#{not empty cc.attrs.icon ? cc.attrs.icon : 'ui-icon-folder-collapsed'}" />
+		<c:set var="method"  value="#{not empty cc.attrs.method ? cc.attrs.method : 'detalhe'}" />
+		<c:set var="id"  value="#{not empty cc.attrs.id ? cc.attrs.id : 'btnDetail'}" />
+		
+		<p:commandButton id="#{id}" 
+						value="#{label}" 
+						action="#{cc.attrs.managedBean[method]}" 
+						icon="#{icon}"
+						rendered="#{cc.attrs.render}"
+						disabled="#{cc.attrs.disabledBtn}"
+						update="#{cc.attrs.update}" 
+						styleClass="#{cc.attrs.styleClass}"
+						ajax="#{cc.attrs.ajax}" >
+			<f:setPropertyActionListener target="#{managedBean.entidade}" value="#{cc.attrs.item}" />
+		</p:commandButton>
+	</c:if>
+	
+	<c:if test="#{cc.attrs.type eq 'pesquisa'}" >
+		<c:set var="label"  value="#{empty cc.attrs.label ? 'Pesquisar' : cc.attrs.label}" />
+		<c:set var="icon"  value="#{not empty cc.attrs.icon ? cc.attrs.icon : 'ui-icon-search'}" />
+		<c:set var="method"  value="#{not empty cc.attrs.method ? cc.attrs.method : 'pesquisar'}" />
+		<c:set var="id"  value="#{not empty cc.attrs.id ? cc.attrs.id : 'btnSearch'}" />
+		
+		<p:commandButton id="#{id}" 
+						value="#{label}" 
+						action="#{cc.attrs.managedBean[method]}" 
+						icon="#{icon}"
+						rendered="#{cc.attrs.render}"
+						disabled="#{cc.attrs.disabledBtn}"
+						update="#{cc.attrs.update}" 
+						styleClass="#{cc.attrs.styleClass}"
+						ajax="#{cc.attrs.ajax}" />
+	</c:if>
+
+	<c:if test="#{cc.attrs.type eq 'novo'}" >
+		<c:set var="label"  value="#{empty cc.attrs.label ? 'Novo' : cc.attrs.label}" />
+		<c:set var="icon"  value="#{not empty cc.attrs.icon ? cc.attrs.icon : 'ui-icon-circle-plus'}" />
+		<c:set var="method"  value="#{not empty cc.attrs.method ? cc.attrs.method : 'novo'}" />
+		<c:set var="id"  value="#{not empty cc.attrs.id ? cc.attrs.id : 'btnNew'}" />
+		
+		<p:commandButton id="#{id}" 
+						value="#{label}" 
+						action="#{cc.attrs.managedBean[method]}" 
+						icon="#{icon}"
+						rendered="#{cc.attrs.render}"
+						disabled="#{cc.attrs.disabledBtn}"
+						update="#{cc.attrs.update}" 
+						styleClass="#{cc.attrs.styleClass}"
+						ajax="#{cc.attrs.ajax}" />
+	</c:if>
+
+	<c:if test="#{cc.attrs.type eq 'salvar'}" >
+		<c:set var="label"  value="#{empty cc.attrs.label ? 'Salvar' : cc.attrs.label}" />
+		<c:set var="icon"  value="#{not empty cc.attrs.icon ? cc.attrs.icon : 'ui-icon-disk'}" />
+		<c:set var="method"  value="#{not empty cc.attrs.method ? cc.attrs.method : 'salvar'}" />
+		<c:set var="id"  value="#{not empty cc.attrs.id ? cc.attrs.id : 'btnSalvar'}" />
+		
+		<p:commandButton id="#{id}" 
+						value="#{label}" 
+						action="#{cc.attrs.managedBean[method]}" 
+						icon="#{icon}"
+						rendered="#{cc.attrs.render}"
+						disabled="#{cc.attrs.disabledBtn}"
+						update="#{cc.attrs.update}" 
+						styleClass="#{cc.attrs.styleClass}"
+						ajax="#{cc.attrs.ajax}" />
+	</c:if>
+	
+	<c:if test="#{cc.attrs.type eq 'cancelar'}" >
+		<c:set var="label"  value="#{empty cc.attrs.label ? 'Retornar' : cc.attrs.label}" />
+		<c:set var="icon"  value="#{not empty cc.attrs.icon ? cc.attrs.icon : 'ui-icon-circle-arrow-w'}" />
+		<c:set var="method"  value="#{not empty cc.attrs.method ? cc.attrs.method : 'cancelar'}" />
+		<c:set var="id"  value="#{not empty cc.attrs.id ? cc.attrs.id : 'btnCancelar'}" />
+		
+		<p:commandButton id="#{id}" 
+						value="#{label}" 
+						action="#{cc.attrs.managedBean[method]}" 
+						icon="#{icon}"
+						immediate="true" 
+						rendered="#{cc.attrs.render}"
+						disabled="#{cc.attrs.disabledBtn}"
+						update="#{cc.attrs.update}" 
+						styleClass="#{cc.attrs.styleClass}"
+						onclick="#{cc.attrs.onclick}"
+						ajax="#{cc.attrs.ajax}" />
+	</c:if>
+	
+</cc:implementation>
+
+</html>

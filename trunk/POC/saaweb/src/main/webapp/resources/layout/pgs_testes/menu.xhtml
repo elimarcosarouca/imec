@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:fpfweb="http://www.fpf.br/jsf"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+
+	<h:form id="formMenu">
+		<div class="pmenu_label">
+			<ui:repeat var="item" value="#{menu}" varStatus="i">
+			<table width="198" border="0" cellspacing="0" cellpadding="0" style="cursor: pointer;">
+				<tr>
+					<td height="30" align="center" valign="top">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td align="left" valign="middle" onclick="toggle_it('#{item.id}Div');toggle_it('#{item.id}mais');toggle_it('#{item.id}menos')">
+								<div id="menuEsquerda" />
+							</td>
+							<td width="100%" align="left" valign="middle" height="30"
+								onclick="toggle_it('#{item.id}Div');toggle_it('#{item.id}mais');toggle_it('#{item.id}menos')"
+								background="#{facesContext.externalContext.requestContextPath}/components-fpf-web/menu/images/menu_fund_item_meio.jpg">
+								<rich:spacer width="5px" />
+								<h:outputText styleClass="menu" value="#{msgMenu[item.id]}" />
+							</td>
+							<td align="right" valign="middle"
+								onclick="toggle_it('#{item.id}Div');toggle_it('#{item.id}mais');toggle_it('#{item.id}menos')">
+								<span id='#{item.id}menos' style='display: inline;'>
+									<div id="menuDireitaInLine" />
+								</span>
+								<span id='#{item.id}mais' style='display: none;'>
+									<div id="menuDireitaNone" />
+								</span>
+							</td>
+						</tr>
+					</table>
+					</td>
+				</tr>
+			</table>
+			<div class="pmenu_item" id="#{item.id}Div" style="display: none">
+			<table cellspacing='0' cellpadding='0' width="100%" bgcolor="#004981">
+				<ui:repeat var="itemLista" value="#{item.subItems}">
+					<tr>
+						<td valign="middle" width="30px" align="center">
+							<h:graphicImage value="/images/menu_subitem_topic.png">
+								<s:conversationId />
+							</h:graphicImage>
+						</td>
+						<td align="left" valign="middle" width="84%">				
+							<s:link
+								value="#{msgMenu[itemLista.id]}"
+								rendered="${empty itemLista.subItems}"
+								view="#{itemLista.getServiceUrl()}" styleClass="MenuTextSubItem"
+								propagation="none">
+								<f:param name="valueParam" value="#{msgMenu[itemLista.id]}"/>
+							</s:link>
+							<a4j:commandLink rendered="${!empty itemLista.subItems}"
+								value="${msgMenu[itemLista.id]}" styleClass="MenuTextSubItem"
+								action="#{br.fpf.components.menu.MenuController.setListMenu(itemLista.subItems,msgMenu[itemLista.id], msgMenu[item.id])}">
+								<s:conversationPropagation type="none" />
+							</a4j:commandLink>
+						</td>
+					</tr>
+					<tr>
+						<td height="5" colspan="2"></td>
+					</tr>
+				</ui:repeat>
+			</table>
+			</div>
+			</ui:repeat>
+		</div>
+	</h:form>
+</ui:composition>
