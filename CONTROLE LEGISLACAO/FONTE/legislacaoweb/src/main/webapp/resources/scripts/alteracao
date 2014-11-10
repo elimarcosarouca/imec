@@ -1,0 +1,1 @@
+UPDATE `sge`.`acad_responsavel` SET `estado_civil`='O' WHERE `id_responsavel`='1';
