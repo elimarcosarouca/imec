@@ -6,28 +6,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.ss.model.entidade.Estado;
-import br.com.ss.model.repositorio.EstadoRepositorio;
+import br.com.ss.model.entidade.TipoDocumento;
 import br.com.ss.model.repositorio.GenericRepositorio;
-import br.com.ss.model.servico.EstadoServico;
+import br.com.ss.model.repositorio.TipoDocumentoRepositorio;
+import br.com.ss.model.servico.TipoDocumentoServico;
 
 @Service
 @Transactional
-public class EstadoServicoImpl extends GenericServico<Estado, Long> implements
-		EstadoServico {
+public class TipoDocumentoServicoImpl extends
+		GenericServico<TipoDocumento, Long> implements TipoDocumentoServico {
 
 	private static final long serialVersionUID = 9126372622766341131L;
 
 	@Autowired
-	private EstadoRepositorio repositorio;
+	private TipoDocumentoRepositorio repositorio;
 
 	@Override
-	protected GenericRepositorio<Estado, Long> getDao() {
+	protected GenericRepositorio<TipoDocumento, Long> getDao() {
 		return repositorio;
 	}
 
 	@Override
-	public List<Estado> pesquisar(Estado abstractEntity) {
+	public List<TipoDocumento> pesquisar(TipoDocumento abstractEntity) {
 		return this.repositorio.pesquisar(abstractEntity);
 	}
 

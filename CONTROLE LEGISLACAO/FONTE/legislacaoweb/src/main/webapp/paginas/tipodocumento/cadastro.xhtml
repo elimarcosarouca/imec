@@ -10,19 +10,16 @@
 	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
 	template="/resources/layout/register_template.xhtml">
 
-	<ui:param name="pageHeader" value="Cadastro de Turma" />
-	<ui:param name="pageTitle" value="Cadastro de Turma" />
-	<ui:param name="managedBean" value="#{estadoControlador}" />
+	<ui:param name="pageHeader" value="Cadastro de Tipo de Documento" />
+	<ui:param name="pageTitle" value="Cadastro de Tipo de Documento" />
+	<ui:param name="managedBean" value="#{tipoDocumentoControlador}" />
 	<ui:param name="widthContainer" value="950px" />
 
 	<ui:define name="register_region">
 		<h:panelGrid id="panelCadastro" columns="2">
 
 			<ss:input label="Nome" required="true"
-				value="#{estadoControlador.entidade.nome}" />
-
-			<ss:input label="Nome" required="true"
-				value="#{estadoControlador.entidade.uf}" />
+				value="#{tipoDocumentoControlador.entidade.nome}" />
 
 		</h:panelGrid>
 	</ui:define>

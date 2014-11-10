@@ -15,6 +15,7 @@ import javax.faces.convert.FacesConverter;
  * 
  */
 @FacesConverter("selectOneUsingObjectConverter")
+@SuppressWarnings("rawtypes")
 public class SelectOneUsingObjectConverter implements Converter {
 
 	@Override
@@ -25,6 +26,7 @@ public class SelectOneUsingObjectConverter implements Converter {
 
 		try {
 			Integer id = Integer.valueOf(value);
+			
 			Collection items = (Collection) component.getAttributes().get(
 					"items");
 			return findById(items, id);
