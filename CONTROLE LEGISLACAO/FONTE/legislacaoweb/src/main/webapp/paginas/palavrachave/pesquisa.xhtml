@@ -11,22 +11,23 @@
 	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
 	template="/resources/layout/search_template.xhtml">
 
-	<ui:param name="pageTitle" value="Emissor" />
-	<ui:param name="pageHeader" value="Emissor" />
-	<ui:param name="managedBean" value="#{emissorControlador}" />
+	<ui:param name="pageTitle" value="Palavra Chave" />
+	<ui:param name="pageHeader" value="Palavra Chave" />
+	<ui:param name="managedBean" value="#{palavraChaveControlador}" />
 	<ui:param name="renderPrintButton" value="false" />
 	<ui:param name="width" value="100%" />
 
 	<ui:define name="search_filter">
 
-		<ss:input label="Nome" value="#{emissorControlador.pesquisa.nome}" />
+		<ss:input label="Nome"
+			value="#{palavraChaveControlador.pesquisa.nome}" />
 
 	</ui:define>
 
 	<ui:define name="grid_region">
 
-		<ss:grid managedBean="#{emissorControlador}"
-			renderedActionColumn="false" >
+		<ss:grid managedBean="#{palavraChaveControlador}"
+			renderedActionColumn="false">
 
 			<ss2:column value="#{item.nome}" header="Nome" sortBy="nome" />
 

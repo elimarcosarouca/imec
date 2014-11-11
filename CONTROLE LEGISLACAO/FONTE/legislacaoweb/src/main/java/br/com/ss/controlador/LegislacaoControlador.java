@@ -4,19 +4,18 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
-import br.com.ss.model.entidade.Emissor;
+import br.com.ss.model.entidade.Legislacao;
+import br.com.ss.model.servico.LegislacaoServico;
 import br.com.ss.model.servico.Servico;
-import br.com.ss.model.servico.EmissorServico;
 
 @ManagedBean
 @SessionScoped
-public class EmissorControlador extends
-		ControladorGenerico<Emissor> {
+public class LegislacaoControlador extends ControladorGenerico<Legislacao> {
 
 	private static final long serialVersionUID = -6832271293709421841L;
 
-	@ManagedProperty(value = "#{emissorServicoImpl}")
-	private EmissorServico servico;
+	@ManagedProperty(value = "#{LegislacaoServicoImpl}")
+	private LegislacaoServico servico;
 
 	private String nomeRelatorio = "estado.jasper";
 
@@ -27,11 +26,11 @@ public class EmissorControlador extends
 
 	@Override
 	public String getTituloRelatorio() {
-		return "RELATÓRIO DE EMISSOR";
+		return "RELATÓRIO DE CURSO";
 	}
 
 	@Override
-	protected Servico<Emissor, Long> getService() {
+	protected Servico<Legislacao, Long> getService() {
 		return this.servico;
 	}
 
@@ -39,11 +38,11 @@ public class EmissorControlador extends
 		this.nomeRelatorio = nomeRelatorio;
 	}
 
-	public EmissorServico getServico() {
+	public LegislacaoServico getServico() {
 		return servico;
 	}
 
-	public void setServico(EmissorServico servico) {
+	public void setServico(LegislacaoServico servico) {
 		this.servico = servico;
 	}
 }
