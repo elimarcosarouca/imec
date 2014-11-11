@@ -4,19 +4,19 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
-import br.com.ss.model.entidade.Emissor;
+import br.com.ss.model.entidade.Filial;
+import br.com.ss.model.servico.FilialServico;
 import br.com.ss.model.servico.Servico;
-import br.com.ss.model.servico.EmissorServico;
 
 @ManagedBean
 @SessionScoped
-public class EmissorControlador extends
-		ControladorGenerico<Emissor> {
+public class FilialControlador extends
+		ControladorGenerico<Filial> {
 
 	private static final long serialVersionUID = -6832271293709421841L;
 
-	@ManagedProperty(value = "#{emissorServicoImpl}")
-	private EmissorServico servico;
+	@ManagedProperty(value = "#{filialServicoImpl}")
+	private FilialServico servico;
 
 	private String nomeRelatorio = "estado.jasper";
 
@@ -27,11 +27,11 @@ public class EmissorControlador extends
 
 	@Override
 	public String getTituloRelatorio() {
-		return "RELATÓRIO DE EMISSOR";
+		return "RELATÓRIO DE CURSO";
 	}
 
 	@Override
-	protected Servico<Emissor, Long> getService() {
+	protected Servico<Filial, Long> getService() {
 		return this.servico;
 	}
 
@@ -39,11 +39,11 @@ public class EmissorControlador extends
 		this.nomeRelatorio = nomeRelatorio;
 	}
 
-	public EmissorServico getServico() {
+	public FilialServico getServico() {
 		return servico;
 	}
 
-	public void setServico(EmissorServico servico) {
+	public void setServico(FilialServico servico) {
 		this.servico = servico;
 	}
 }
