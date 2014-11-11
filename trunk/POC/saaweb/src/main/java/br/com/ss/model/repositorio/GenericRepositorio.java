@@ -33,6 +33,4 @@ public interface GenericRepositorio<T, ID extends Serializable> {
 
 	List<T> listAll();
 	
-//	List<T> pesquisar(T abstractEntity);
-	
 }

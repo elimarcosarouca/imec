@@ -9,24 +9,24 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 
 import br.com.ss.enumerado.UF;
-import br.com.ss.model.entidade.Estado;
-import br.com.ss.model.servico.EstadoServico;
+import br.com.ss.model.entidade.Licenca;
+import br.com.ss.model.servico.LicencaServico;
 import br.com.ss.model.servico.Servico;
 
 @ManagedBean
 @SessionScoped
-public class EstadoControlador extends ControladorGenerico<Estado> {
+public class LicencaControlador extends ControladorGenerico<Licenca> {
 
 	private static final long serialVersionUID = -6832271293709421841L;
 
-	@ManagedProperty(value = "#{estadoServicoImpl}")
-	private EstadoServico servico;
+	@ManagedProperty(value = "#{licencaServicoImpl}")
+	private LicencaServico servico;
 
 	private List<SelectItem> ufList;
 
 	private UF ufSelecionada;
 
-	private String nomeRelatorio = "estado.jasper";
+	private String nomeRelatorio = "licenca.jasper";
 
 	@Override
 	protected void init() {
@@ -48,7 +48,7 @@ public class EstadoControlador extends ControladorGenerico<Estado> {
 	}
 
 	@Override
-	protected Servico<Estado, Long> getService() {
+	protected Servico<Licenca, Long> getService() {
 		return this.servico;
 	}
 
@@ -56,11 +56,11 @@ public class EstadoControlador extends ControladorGenerico<Estado> {
 		this.nomeRelatorio = nomeRelatorio;
 	}
 
-	public EstadoServico getServico() {
+	public LicencaServico getServico() {
 		return servico;
 	}
 
-	public void setServico(EstadoServico servico) {
+	public void setServico(LicencaServico servico) {
 		this.servico = servico;
 	}
 

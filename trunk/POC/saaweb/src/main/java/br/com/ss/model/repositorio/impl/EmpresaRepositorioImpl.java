@@ -1,6 +1,5 @@
 package br.com.ss.model.repositorio.impl;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,28 +7,23 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
-import br.com.ss.model.entidade.Estado;
-import br.com.ss.model.repositorio.EstadoRepositorio;
+import br.com.ss.model.entidade.Empresa;
+import br.com.ss.model.repositorio.EmpresaRepositorio;
 
 @Repository
 @SuppressWarnings("unchecked")
-public class EstadoRepositorioImpl extends GenericRepositorioImpl<Estado, Long>
-		implements EstadoRepositorio, Serializable {
-
-	private static final long serialVersionUID = 4598749258534199622L;
+public class EmpresaRepositorioImpl extends
+		GenericRepositorioImpl<Empresa, Long> implements EmpresaRepositorio {
 
 	@Override
-	public List<Estado> pesquisar(Estado abstractEntity) {
+	public List<Empresa> pesquisar(Empresa abstractEntity) {
 		StringBuilder sb = new StringBuilder();
 		List<String> condictions = new ArrayList<String>();
 
-		sb.append(" select est from Estado est ");
+		sb.append(" select est from Empresa est ");
 
 		if (notEmpty(abstractEntity.getNome())) {
 			condictions.add(" lower( est.nome ) like :nome ");
-		}
-		if (notEmpty(abstractEntity.getUf())) {
-			condictions.add(" est.uf = :uf ");
 		}
 
 		String orderBy = " order by est.nome";
@@ -40,10 +34,7 @@ public class EstadoRepositorioImpl extends GenericRepositorioImpl<Estado, Long>
 			query.setParameter("nome", "%"
 					+ abstractEntity.getNome().trim().toLowerCase() + "%");
 		}
-		if (notEmpty(abstractEntity.getUf())) {
-			query.setParameter("uf", abstractEntity.getUf());
-		}
+
 		return query.getResultList();
 	}
-
 }
