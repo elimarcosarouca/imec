@@ -7,20 +7,21 @@ import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
 import flexjson.transformer.DateTransformer;
 
-public enum StatusUsuario {
+public enum StatusRotina {
 
-	ATIVA("A", "Ativa"), INATIVA("I", "Inativa");
+	ATIVA("A", "Ativa"), BLOQUEADO("B", "Bloqueado"), SEM_LICENCA("S",
+			"Sem licenca");
 
 	private String id;
 	private String descricao;
 
-	private StatusUsuario(String id, String descricao) {
+	private StatusRotina(String id, String descricao) {
 		this.id = id;
 		this.descricao = descricao;
 	}
 
-	public static StatusUsuario getEnum(String id) {
-		for (StatusUsuario sit : StatusUsuario.values()) {
+	public static StatusRotina getEnum(String id) {
+		for (StatusRotina sit : StatusRotina.values()) {
 			if (sit.id == id)
 				return sit;
 		}
@@ -35,9 +36,9 @@ public enum StatusUsuario {
 		return this.descricao;
 	}
 
-	public static StatusUsuario fromJsonToObject(String json) {
-		return new JSONDeserializer<StatusUsuario>().use(null,
-				StatusUsuario.class).deserialize(json);
+	public static StatusRotina fromJsonToObject(String json) {
+		return new JSONDeserializer<StatusRotina>().use(null,
+				StatusRotina.class).deserialize(json);
 	}
 
 	public String toJson() {
@@ -47,7 +48,7 @@ public enum StatusUsuario {
 						Date.class).serialize(this);
 	}
 
-	public static String toJsonArray(Collection<StatusUsuario> collection) {
+	public static String toJsonArray(Collection<StatusRotina> collection) {
 		return new JSONSerializer().exclude("*.class").serialize(collection);
 	}
 }

@@ -1,6 +1,5 @@
 package br.com.ss.model.repositorio.impl;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,41 +7,35 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
-import br.com.ss.model.entidade.Estado;
-import br.com.ss.model.repositorio.EstadoRepositorio;
+import br.com.ss.model.entidade.Sistema;
+import br.com.ss.model.repositorio.SistemaRepositorio;
 
 @Repository
-@SuppressWarnings("unchecked")
-public class EstadoRepositorioImpl extends GenericRepositorioImpl<Estado, Long>
-		implements EstadoRepositorio, Serializable {
+public class SistemaRepositorioImpl extends
+		GenericRepositorioImpl<Sistema, Long> implements SistemaRepositorio {
 
-	private static final long serialVersionUID = 4598749258534199622L;
-
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Estado> pesquisar(Estado abstractEntity) {
+	public List<Sistema> pesquisar(Sistema abstractEntity) {
 		StringBuilder sb = new StringBuilder();
 		List<String> condictions = new ArrayList<String>();
 
-		sb.append(" select est from Estado est ");
+		sb.append(" select est from Sistema est ");
 
 		if (notEmpty(abstractEntity.getNome())) {
 			condictions.add(" lower( est.nome ) like :nome ");
 		}
-		if (notEmpty(abstractEntity.getUf())) {
-			condictions.add(" est.uf = :uf ");
-		}
 
-		String orderBy = " order by est.nome";
+		String orderBy = "  ";
 
 		Query query = entityManager.createQuery(generateHql(sb.toString(),
 				condictions) + orderBy);
+
 		if (notEmpty(abstractEntity.getNome())) {
 			query.setParameter("nome", "%"
 					+ abstractEntity.getNome().trim().toLowerCase() + "%");
 		}
-		if (notEmpty(abstractEntity.getUf())) {
-			query.setParameter("uf", abstractEntity.getUf());
-		}
+
 		return query.getResultList();
 	}
 

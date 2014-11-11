@@ -3,14 +3,14 @@ package br.com.ss.model.entidade;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -23,26 +23,23 @@ import flexjson.transformer.DateTransformer;
  * 
  */
 @Entity
-@Table(name = "SAA_ESTADO")
-public class Estado extends AbstractEntity implements Serializable {
+@Table(name = "SAA_EMPRESA")
+public class Empresa extends AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = 6773795801485294271L;
 
 	@Id
-	@GeneratedValue(generator = "SEQ_SAA_ESTADO", strategy = GenerationType.SEQUENCE)
-	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_SAA_ESTADO", name = "SEQ_SAA_ESTADO")
-	@Column(name = "ID_SAA_ESTADO")
+	@GeneratedValue(generator = "SEQ_SAA_EMPRESA", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_SAA_EMPRESA", name = "SEQ_SAA_EMPRESA")
+	@Column(name = "ID_SAA_EMPRESA")
 	private Long id;
 
-	@Column(length = 30, nullable = false, unique = true)
+	@Column(length = 60, nullable = false)
 	private String nome;
 
-	@Column(nullable = false, columnDefinition = "char(2)")
-	private String uf;
-
-	@OneToMany(mappedBy = "estado")
-	@Column(name = "ID_SAA_ESTADO")
-	private Set<Municipio> municipios;
+	@ManyToOne
+	@JoinColumn(name = "ID_SAA_USUARIO", nullable = false)
+	private Usuario usuario;
 
 	public Long getId() {
 		return id;
@@ -60,16 +57,16 @@ public class Estado extends AbstractEntity implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getUf() {
-		return uf;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setUf(String uf) {
-		this.uf = uf;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
-	public static Estado fromJsonToObject(String json) {
-		return new JSONDeserializer<Estado>().use(null, Estado.class)
+	public static Empresa fromJsonToObject(String json) {
+		return new JSONDeserializer<Empresa>().use(null, Empresa.class)
 				.deserialize(json);
 	}
 
@@ -80,7 +77,7 @@ public class Estado extends AbstractEntity implements Serializable {
 						Date.class).serialize(this);
 	}
 
-	public static String toJsonArray(Collection<Estado> collection) {
+	public static String toJsonArray(Collection<Empresa> collection) {
 		return new JSONSerializer().exclude("*.class").serialize(collection);
 	}
 
