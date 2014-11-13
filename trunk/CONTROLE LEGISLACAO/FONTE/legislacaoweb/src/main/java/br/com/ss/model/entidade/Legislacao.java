@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import br.com.ss.academico.enumerated.Competencia;
+import br.com.ss.enumerated.Competencia;
 
 /**
  * The persistent class for the iansa_curso database table.
