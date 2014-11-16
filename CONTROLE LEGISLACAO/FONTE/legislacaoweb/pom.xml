@@ -259,12 +259,14 @@
 			<version>2.1</version>
 		</dependency>
 
-		<!-- EL -->
+		<!-- EL 
 		<dependency>
 			<groupId>org.glassfish.web</groupId>
 			<artifactId>el-impl</artifactId>
 			<version>2.2</version>
 		</dependency>
+		
+		-->
 
 		<!-- Tomcat 6 need this 
 		<dependency>
@@ -317,7 +319,7 @@
 			<version>1.2.1</version>
 		</dependency>
 
-		<!-- Primefaces Themes -->
+		<!-- Primefaces Themes 
 		<dependency>
 			<groupId>org.primefaces.themes</groupId>
 			<artifactId>all-themes</artifactId>
@@ -329,6 +331,8 @@
 			<artifactId>redmond</artifactId>
 			<version>${primefaces-theme.version}</version>
 		</dependency>
+		
+		-->
 
 		<dependency>
 			<groupId>net.sf.flexjson</groupId>
