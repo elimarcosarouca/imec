@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:head>
+	<title><ui:insert name="titulo_pagina">Lembrar Senha</ui:insert>
+	</title>
+
+	<link type="text/css" rel="stylesheet"
+		href="resources/estilos/style-custom.css" />
+	<link type="text/css" rel="stylesheet"
+		href="resources/css/config_component.css" />
+</h:head>
+<h:body styleClass="body">
+
+	<h:form id="form">
+		<p:growl id="growl" />
+		<div id="principal">
+
+			<div class="login">
+
+				<h1>Senha de usuário</h1>
+
+				<p:panel id="pnl">
+
+					<h:panelGrid columns="2" cellpadding="5">
+
+						<h:outputLabel value="Login: " />
+
+						<f:metadata>
+							<f:viewParam name="userName"
+								value="#{recuperaSenhaControlador.usuario.userName}" />
+							<f:viewParam name="token"
+								value="#{recuperaSenhaControlador.token}" />
+						</f:metadata>
+						<p:inputText id="login" required="true" disabled="true"
+							value="#{recuperaSenhaControlador.usuario.userName}"
+							style="width: 100%; float: left;" />
+
+						<h:outputText value="Senha: " />
+						<p:password id="senha1" required="true"
+							value="#{recuperaSenhaControlador.usuario.senha}"
+							style="width: 100%; float: left;"
+							validatorMessage="Senhas não conferem" match="senha2">
+							<p:ajax event="keyup" update=":form:pnlEnviar" />
+						</p:password>
+
+						<h:outputText value="Confirmar Senha: " />
+						<p:password id="senha2"
+							value="#{recuperaSenhaControlador.confirmaSenha}"
+							style="width: 100%; float: left;">
+							<p:ajax event="keyup" update=":form:pnlEnviar" />
+						</p:password>
+
+					</h:panelGrid>
+
+					<h:panelGrid id="pnlEnviar">
+						<p:commandButton id="saveButton" value="Salvar"
+							rendered="#{ fn:length(recuperaSenhaControlador.confirmaSenha) > 0  }"
+							action="#{recuperaSenhaControlador.modificarSenha}"
+							update="growl" />
+
+					</h:panelGrid>
+				</p:panel>
+
+				<br />
+
+			</div>
+		</div>
+	</h:form>
+</h:body>
+</html>

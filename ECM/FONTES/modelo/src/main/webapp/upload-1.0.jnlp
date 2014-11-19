@@ -1,0 +1,26 @@
+<?xml  encoding="UTF-8"?>
+   <jnlp href="upload-1.0.jnlp">
+    <information>
+      <title>scanner.jar</title>
+      <vendor>Fucapi.br</vendor>      
+      <homepage href="http://www.fucapi.br"/>
+    </information>
+    <resources>
+		<j2se version="1.6+" java-vm-args="-Xms256m -Xmx512m" href="http://java.sun.com/products/autodl/j2se" />
+		<jar href="resources/lib/scanner.jar" main="true" />
+		<jar href="resources/lib/itext-2.1.7.jar" download="eager" />
+		<jar href="resources/lib/Scan_.jar" download="eager" />
+		<jar href="resources/lib/uk.co.mmscomputing.device.twain.jar" download="eager" />
+		<jar href="resources/lib/httpclient-4.2.3.jar" download="eager" />
+		<jar href="resources/lib/httpcore-4.2.2.jar" download="eager" />
+		<jar href="resources/lib/commons-logging-1.0.4.jar" download="eager"  />
+		<jar href="resources/lib/httpmime-4.2.jar" download="eager" />
+		
+    </resources>
+	<security>
+		<all-permissions/>
+  	</security>
+    <applet-desc name="upload-1.0" 
+				 main-class="br.fucapi.teste.scanner.ScannerImageTest" width="400" height="300">
+    </applet-desc>
+</jnlp>

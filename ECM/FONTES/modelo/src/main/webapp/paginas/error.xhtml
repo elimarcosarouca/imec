@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:form>
+		<div align="center">
+					<p:graphicImage library="imagens" name="erro.jpg" />
+					<br />
+					<br />
+					<b><p:outputLabel
+							value="#{erroControladorBean.msgErro}" /></b>
+					<div align="left">
+						<p:panel id="display" header="Informaões" style="margin-top:20px;">
+							<p:panelGrid columns="2">
+								<p:outputLabel value="E-mail" />
+								<p:outputLabel value="#{erroControladorBean.email}"/>
+
+								<p:outputLabel value="Usuário" />
+								<p:outputLabel value="#{erroControladorBean.usuario}"/>
+
+								<p:outputLabel value="Data/Hora" />
+								<p:outputLabel value="#{erroControladorBean.dataFormatada}"/>
+
+								<p:outputLabel value="Próximo passo" />
+								<p:outputLabel value="Contactar o suporte" />
+
+								<p:outputLabel value="Comentario" />
+								<p:inputTextarea value="#{erroControladorBean.comentario}"/>
+
+								<p:outputLabel value="Envio do relatório de erro" />
+								<p:outputLabel>Clique <p:commandLink
+										value="aqui" actionListener="#{erroControladorBean.enviarRelatorioErro}"/> para enviar relatório de erro</p:outputLabel>
+							</p:panelGrid>
+						</p:panel>
+					</div>
+					<br />
+					<p:commandButton value="OK" update=":paginaCentral">
+						<f:setPropertyActionListener
+							target="#{paginaCentralControladorBean.paginaCentral}" value="paginas/teste.xhtml" />
+					</p:commandButton>
+		</div>
+	</h:form>
+</ui:component>
