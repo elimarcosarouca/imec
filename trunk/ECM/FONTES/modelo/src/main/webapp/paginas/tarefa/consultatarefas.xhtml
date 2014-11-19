@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<h:form id="form" cellpadding="5">
+
+		<p:panel header="Consulta de Tarefas" style="width:99%">
+			<p:growl id="msg" />
+			<h:message for="dataInicial" errorClass="errorMessage"/>
+			<h:message for="dataFinal" errorClass="errorMessage"/>
+			
+			<p:fieldset legend="Tarefa">
+				<h:panelGrid columns="4" cellpadding="2" title="Tarefa">
+					<h:outputText styleClass="ui-priority-primary" value="Situação: " />
+					<h:outputText styleClass="ui-priority-primary" value="Executor: " />
+					<h:outputText styleClass="ui-priority-primary" value="Data Início:"  />
+					<h:outputText styleClass="ui-priority-primary" value="Data Final:"  />
+
+					<p:selectOneMenu value="#{consultaTarefaControlador.status}" style="width:300px;">
+						<f:selectItem itemLabel="" />
+						<f:selectItem itemLabel="PENDENTE" itemValue="PENDENTE" />
+						<f:selectItem itemLabel="CONCLUÍDO" itemValue="CONCLUÍDO" />
+					</p:selectOneMenu>
+
+					<p:inputText value="#{sessaoControladorBean.usuario.userName}"
+						rendered="#{!sessaoControladorBean.usuario.getCapabilities().isAdmin()}"
+						disabled="true" />
+
+					<p:selectOneMenu value="#{consultaTarefaControlador.usuario.userName}" style="width:300px;"
+						rendered="#{sessaoControladorBean.usuario.getCapabilities().isAdmin()}" >
+						<f:selectItem itemLabel="" />
+						<f:selectItems value="#{consultaTarefaControlador.listaUsuarios}"
+							var="usuario" itemLabel="#{usuario.userName}"
+							itemValue="#{usuario.userName}" />
+					</p:selectOneMenu>
+					
+					<p:inputMask id="dataInicial" value="#{consultaTarefaControlador.dataInicial}" 
+						mask="99/99/9999" size="10" converterMessage="Digite uma data final válida">
+                    	<f:convertDateTime pattern="dd/MM/yyyy" type="date"/>
+					</p:inputMask>
+					
+					<p:inputMask id="dataFinal" value="#{consultaTarefaControlador.dataFinal}" 
+						mask="99/99/9999" size="10" converterMessage="Digite uma data final válida">
+                    	<f:convertDateTime pattern="dd/MM/yyyy" type="date"/>
+					</p:inputMask>
+					
+				</h:panelGrid>
+				
+			</p:fieldset>
+			
+			<p/>
+
+			<p:fieldset legend="Solicitação">
+				<h:panelGrid columns="2" cellspacing="2" style="width:35%">
+					<h:outputText value="Protocolo:" styleClass="ui-priority-primary" />
+					<h:outputLabel value="Tipo de Solicitação:" styleClass="ui-priority-primary" />
+
+					<p:inputText id="idProtocolo" value="#{consultaTarefaControlador.variaveisSolicitacao.protocolo}" />
+
+					<p:selectOneMenu value="#{consultaTarefaControlador.variaveisSolicitacao.tipoSolicitacao}">
+						<f:selectItem itemLabel="" />
+						<f:selectItems value="#{consultaTarefaControlador.listaProcessosDefinicao}"
+							var="modelo" itemLabel="#{modelo.name}"
+							itemValue="#{modelo.name}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+
+			</p:fieldset>
+			<p/>			
+			<p:commandButton id="pesquisa" icon="ui-icon-search"
+					actionListener="#{consultaTarefaControlador.pesquisar}"
+					styleClass="ui-priority-primary"
+					value="Pesquisa" update=":form" />
+		</p:panel>
+		
+		<p:blockUI block="pesquisa" trigger="pesquisa">  
+	        Processando...<br />  
+	        <p:graphicImage value="/resources/imagens/ajax-loader.gif"/>  
+	    </p:blockUI>  
+
+		<p:panel header="Lista de Tarefas" style="width:99%">
+			<p:dataTable id="gridSearch" var="item" rows="10" paginator="true"
+				value="#{consultaTarefaControlador.listaTarefa}"
+				paginatorPosition="bottom" paginatorAlwaysVisible="true"
+				emptyMessage="Nenhum registro encontrado."
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15,20">
+
+				<p:column style="text-align:left" headerText="Protocolo"
+					sortBy="#{item.variaveisProcesso.protocolo}">
+					<h:outputText value="#{item.variaveisProcesso.protocolo}" />
+				</p:column>
+
+				<p:column style="text-align:left" headerText="Tipo de Solicitação"
+					sortBy="#{item.processDefinitionId}">
+					<h:outputText value="#{item.processDefinitionId}" />
+				</p:column>
+				
+				<p:column style="text-align:left" headerText="Descrição da Tarefa" sortBy="#{item.name}">
+					<h:outputText value="#{item.name}" />
+				</p:column>
+				
+				<p:column style="text-align:left" headerText="Situação da Tarefa" >
+					<h:outputText value="Pendente" rendered="#{empty item.endTime}"/>
+					<h:outputText value="Concluído" rendered="#{not empty item.endTime}"/>
+				</p:column>
+				
+				<p:column style="text-align:left" headerText="Executor"
+					sortBy="#{item.assignee}">
+					<h:outputText value="#{item.assignee}" />
+				</p:column>
+				
+				<p:column style="text-align:left" headerText="Data da Tarefa"
+					sortBy="#{item.startTime}">
+					<h:outputText value="#{item.startTime}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column style="text-align:center;" headerText="Ações" >
+					<p:commandButton ajax="true" 
+							onclick="PF('alteracaoExecutor').show()" 
+							rendered="#{sessaoControladorBean.usuario.getCapabilities().isAdmin() and item.endTime == null}"
+							styleClass="ui-priority-primary" icon="ui-icon-person"
+							title="Alterar executor" update=":formDialog">
+						<f:setPropertyActionListener target="#{consultaTarefaControlador.tarefaAlteracao}" value="#{item}" />	
+					</p:commandButton>	
+
+					<p:commandButton ajax="false"
+						action="#{consultaTarefaControlador.detalhe(item)}" icon="ui-icon-newwin"
+						title="Detalhe" update=":form" />
+				</p:column>
+
+			</p:dataTable>
+
+		</p:panel>
+
+	</h:form>
+		
+	<p:dialog id="alteracaoExecutorDialog" header="Alterar executor da tarefa" widgetVar="alteracaoExecutor"  
+			modal="true" appendToBody="true" closable="false" width="30%" hideEffect="blind">  
+	    <div align="center">
+		    <h:form id="formDialog" style="align: center;">
+		    	
+	    	    <h:panelGrid columns="1" cellpadding="2" title="Tarefa">
+				    <p:outputLabel value="Executor Atual:" />
+				    <p:inputText value="#{consultaTarefaControlador.tarefaAlteracao.assignee}" disabled="true"/>
+				    
+				    <h:outputText value="Executor Novo:" />
+				    <p:selectOneMenu value="#{consultaTarefaControlador.usuarioExecutor.userName}" style="width:300px;" >
+						<f:selectItems value="#{consultaTarefaControlador.listaUsuarios}"
+							var="usuario" itemLabel="#{usuario.userName}"
+							itemValue="#{usuario.userName}" />
+					</p:selectOneMenu>
+				</h:panelGrid>		
+				
+				<p:commandButton value="Cancelar" onclick="sucessoDialog.hide()"
+					 global="false" immediate="true" style="height:32px;width:25%"/>
+					
+				<p:commandButton value="Salvar" ajax="true" onclick="alteracaoExecutor.hide();"
+					actionListener="#{consultaTarefaControlador.alterarExecutor()}" global="false"
+					style="height:32px;width:25%" update=":form"/>
+			</h:form>
+		</div>
+	</p:dialog>
+</ui:component>

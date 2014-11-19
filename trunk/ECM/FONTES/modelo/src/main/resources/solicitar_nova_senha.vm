@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<p>Prezado Usu&aacute;rio, </p>
+<p>Siga as orienta&ccedil;&otilde;es abaixo: </p>
+<p>Acesse este link para definir sua senha:<br />
+  <a href="${urlSenha}">${urlSenha}</a><br />
+  Prezado usu&aacute;rio, o prazo m&aacute;ximo para defini&ccedil;&atilde;o de sua senha  &eacute; de 24 Horas a partir da data de envio deste e-mail. Caso contr&aacute;rio ser&aacute;  necess&aacute;rio uma nova solicita&ccedil;&atilde;o.</p>
+<p>Atenciosamente<br />
+  GEDEasy</p>
+<p>N&Atilde;O REPONDA ESTA MENSAGEM<br />
+  Este e-mail &eacute; gerado automaticamente.</p>
+</body>
+</html>

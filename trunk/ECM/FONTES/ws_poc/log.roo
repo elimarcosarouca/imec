@@ -1,0 +1,21 @@
+// Spring Roo UNKNOWN VERSION log opened at 2013-09-04 11:06:19
+// Spring Roo 1.2.3.RELEASE [rev 7fd62b6] log opened at 2013-09-04 11:08:01
+project --topLevelPackage br.fucapi.wspoc --projectName wspoc
+persistence setup --provider HIBERNATE --database HYPERSONIC_IN_MEMORY 
+entity jpa --class ~.domain.Pessoa --activeRecord false
+field string --fieldName nome --sizeMax 200
+field number --fieldName cpf --type java.lang.Long
+repository jpa --interface ~.repository.PessoaRepositorio --entity ~.domain.Pessoa
+service --interface ~.service.PessoaServico --entity ~.domain.Pessoa
+json all 
+web mvc json setup
+web mvc json all 
+web mvc all --package ~.controller
+quit
+// Spring Roo 1.2.3.RELEASE [rev 7fd62b6] log closed at 2013-09-04 11:21:49
+// Spring Roo 1.2.3.RELEASE [rev 7fd62b6] log opened at 2013-09-04 11:49:17
+// Spring Roo 1.2.3.RELEASE [rev 7fd62b6] log closed at 2013-09-04 11:55:11
+// Spring Roo 1.2.3.RELEASE [rev 7fd62b6] log opened at 2013-09-04 11:58:29
+// Spring Roo 1.2.3.RELEASE [rev 7fd62b6] log closed at 2013-09-04 13:10:09
+// Spring Roo 1.2.4.RELEASE [rev 75337cf] log opened at 2013-11-26 08:34:31
+// Spring Roo 1.2.4.RELEASE [rev 75337cf] log closed at 2013-11-26 15:35:43

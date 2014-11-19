@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+<style type="text/css">
+.ui-picklist-source,.ui-picklist-target {
+	height: 400px;
+	width: 400px;
+}
+</style>
+
+	<h:form id="form">
+		<p:panel header="Detalhe de Grupo" style="width:99%">
+			<p:outputLabel value="Grupo : " styleClass="ui-priority-primary" />
+			<p:inputText id="grupo" required="true" maxlength="40"
+				value="#{grupoControladorBean.usuarioGrupo.fullName}"
+				requiredMessage="Nome do Grupo" size="30" disabled="true"/>
+		</p:panel>
+	
+		<p style="height: 1%"/>
+		
+		<p:panel id="panel" closable="false" footer="*Campos Obrigatórios"
+			header="Associar Usuário(s) ao Grupo" style="width:99%">
+			<p:growl id="msg" />
+			
+			<div align="center">
+				<p:pickList id="pojoPickList" value="#{grupoControladorBean.usuarios_pick}" var="usuario"
+					effect="bounce" itemValue="#{usuario}"
+					itemLabel="#{usuario.firstName} - #{usuario.lastName}"
+					converter="usuarioConverter" showSourceControls="true"
+					showTargetControls="true" showCheckbox="true"
+					showSourceFilter="true" showTargetFilter="true"
+					filterMatchMode="contains">
+					
+					<p:ajax event="transfer" listener="#{grupoControladorBean.onTransfer}" update="msg" /> 
+
+					<f:facet name="sourceCaption">Listagem de usuários</f:facet>
+					<f:facet name="targetCaption">Usuários selecionados</f:facet>
+
+					<p:column style="width:25%"> 
+						<p:graphicImage value="/resources/imagens/barca/#{usuario.userName}.jpg" width="30" height="40" />
+					</p:column>
+					
+					<p:column style="width:75%;">
+                        #{usuario.firstName} #{usuario.lastName}
+                    </p:column>
+				</p:pickList>
+			</div>
+				
+		</p:panel>
+		
+		<p:commandButton id="btnVoltar" value="Cancelar" immediate="true"
+				actionListener="#{grupoControladorBean.telaVoltar}"
+				icon="ui-icon-circle-arrow-w" style="margin-right:20px;"
+				styleClass="ui-priority-primary" update=":form" />
+		
+	</h:form>
+</ui:component>
