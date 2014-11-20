@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss2="http://www.3iti.com.br/jsf/componentes"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	template="/resources/layout/search_template.xhtml">
+
+	<ui:param name="pageTitle" value="Sistema" />
+	<ui:param name="pageHeader" value="Sistema" />
+	<ui:param name="managedBean" value="#{sistemaControlador}" />
+	<ui:param name="renderPrintButton" value="false" />
+	<ui:param name="width" value="100%" />
+
+	<ui:define name="search_filter">
+
+		<ss:input label="Nome" value="#{sistemaControlador.pesquisa.nome}" />
+
+	</ui:define>
+
+	<ui:define name="grid_region">
+
+		<ss:grid managedBean="#{sistemaControlador}"
+			renderedActionColumn="false">
+
+			<ss2:column value="#{item.nome}" header="Nome" sortBy="nome" />
+			<ss2:column value="#{item.codigo}" header="Código" sortBy="codigo" />
+			<ss2:column value="#{item.valor}" header="Valor" sortBy="valor" />
+
+		</ss:grid>
+
+		<p:carousel value="#{sistemaControlador.listaPesquisa}"
+			headerText="Basic" var="car" itemStyleClass="carItem">
+			<h:panelGrid columns="2" style="width:100%" cellpadding="5"
+				columnClasses="label,value">
+				<h:outputText value="Id:" />
+				<h:outputText value="#{car.id}" />
+
+				<h:outputText value="Year" />
+				<h:outputText value="#{car.nome}" />
+			</h:panelGrid>
+
+			<f:facet name="footer">
+                In total there are #{fn:length(sistemaControlador.listaPesquisa)} cars.
+        </f:facet>
+		</p:carousel>
+
+	</ui:define>
+
+</ui:composition>
