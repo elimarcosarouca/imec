@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+				xmlns:c="http://java.sun.com/jsp/jstl/core"
+				xmlns:p="http://primefaces.org/ui"
+	  			xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+				template="/resources/layout/template.xhtml">
+  	
+		<!--  ====== Params ================ 
+			. Obrigatorios: 
+				- managedBean
+		 -->
+	  
+	  <ui:define name="content">
+  		
+  		<c:if test="#{empty widthContainer}" >
+  			<c:set var="widthContainer" value="100%" />
+  		</c:if>
+  		
+  		<c:if test="#{empty renderCancelar}" >
+  			<c:set var="renderCancelar" value="true" />
+  		</c:if>
+  		
+  		<c:if test="#{empty disabledBtnSalvar}" >
+  			<c:set var="disabledBtnSalvar" value="false" />
+  		</c:if>
+  		
+  		<c:if test="#{empty containerTitle}" >
+  			<c:set var="containerTitle" value="Preencher campos" />
+  		</c:if>
+  		
+  		<ui:param name="pageTitle" value="-- TODO definir titulo --"/>
+  		
+  		<div class="mainForm">
+			
+			<h:form id="form" enctype="multipart/form-data">
+			
+				<div class="titlePanel">
+					<ss:titlePanel title="#{pageHeader}" />
+				</div>
+				
+				<div class="messagePanel">
+					<h:panelGrid cellpadding="0" cellspacing="0" >
+						<p:messages id="msg" 		globalOnly="true" />
+						<p:growl 	id="msgGrowl"	globalOnly="true" showDetail="true" />
+					</h:panelGrid>
+				</div>
+				
+				<h:panelGrid width="100%" styleClass="grid">
+					
+					
+					<ss:container title="#{containerTitle}" >
+						
+						<div class="registerRegion">
+							<ui:insert name="register_region"  />
+						</div>
+						
+						<div class="aditionalRegion">
+							<ui:insert name="aditional_region"  />
+						</div>
+						
+						<hr/>
+						
+						<div>
+							<h:outputText value="* " styleClass="required" />
+							<h:outputText value="Campos obrigatórios" styleClass="labelBold" />
+						</div>	
+					
+					</ss:container>
+	                
+				</h:panelGrid>
+					
+				<!-- ==== Button ======= -->
+				<h:panelGrid columns="4" cellpadding="2" style="padding: 2px 0px 0px 4px;">
+				
+					<c:if test="#{renderCancelar}">
+						<ss:button id="btnCancelar" type="cancelar" managedBean="#{managedBean}" update=":form" />
+					</c:if>
+					
+					<ss:button id="btnSalvar" disabledBtn="#{disabledBtnSalvar}" type="salvar" managedBean="#{managedBean}" update=":form :form:msg" />
+					
+					<ui:insert name="aditional_button_region" />
+					
+				</h:panelGrid>
+				
+				<p:blockUI block=":form" trigger="btnSalvar:btnSalvar">
+		        	PROCESSANDO...<br />
+					<p:graphicImage value="/resources/imagens/ajax-loader.gif" />
+				</p:blockUI>
+				
+			</h:form>
+			
+  		</div>
+  		
+	</ui:define>
+
+</ui:composition>
