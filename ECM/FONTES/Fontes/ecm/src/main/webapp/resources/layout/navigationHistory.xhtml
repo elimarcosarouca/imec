@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+			xmlns:ui="http://java.sun.com/jsf/facelets"
+			xmlns:h="http://java.sun.com/jsf/html"
+			xmlns:f="http://java.sun.com/jsf/core"
+    		xmlns:c="http://java.sun.com/jsp/jstl/core"
+			xmlns:p="http://primefaces.org/ui">
+
+	<table width="100%" border="0" cellpadding="0" cellspacing="0" >
+		<tr>
+			<td height="20">
+				<table cellpadding="0" cellspacing="0" border="0">
+					<tr>
+						<td valign="middle">
+							<p:graphicImage styleClass="ui-breadcrumb" />
+						</td>
+
+						<td valign="middle">
+							
+							<span class="header_text">
+							
+								<c:forEach var="item" items="#{navigationHistory.history}">
+									|&#x00A0;
+									<h:commandLink action="#{pageUtils.redirectForUrl(item.url)}"
+													actionListener="#{navigationHistory.clearAfterUrl(item)}" 
+													value="#{item.label}"/>
+								</c:forEach>
+								
+							</span>
+
+						</td>
+					</tr>
+				</table>
+			
+			</td>
+			
+		</tr>
+	</table>
+
+</ui:component>

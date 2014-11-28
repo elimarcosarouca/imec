@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	template="/resources/layout/register_template_upload.xhtml">
+
+	<ui:param name="pageHeader" value="Cadastro de Processo" />
+	<ui:param name="pageTitle" value="Cadastro de Processo" />
+	<ui:param name="managedBean" value="#{processoVideolarControlador}" />
+	<ui:param name="widthContainer" value="950px" />
+
+	<ui:define name="register_region">
+		<h:panelGrid id="panelCadastro" columns="2">
+
+			<ss:autoComplete id="setor" label="Setor"
+				value="#{processoVideolarControlador.setor}"
+				bean="#{processoVideolarControlador}" required="true"
+				completeMethod="listarSetor" itemLabel="#{item.nome}" size="50"
+				width="50" />
+
+			<ss:autoComplete id="unidade" label="Unidade"
+				value="#{processoVideolarControlador.unidade}"
+				bean="#{processoVideolarControlador}" required="true"
+				completeMethod="listarUnidade" itemLabel="#{item.nome}" size="50"
+				width="50" />
+
+			<ss:autoComplete id="postoCopia" label="Posto de Cópia"
+				value="#{processoVideolarControlador.postoCopia}"
+				bean="#{processoVideolarControlador}" required="true"
+				completeMethod="listarPostoCopia" itemLabel="#{item.nome}" size="50"
+				width="50" />
+
+			<ss:autoComplete id="tipoDocumento" label="Tipo do Documento"
+				value="#{processoVideolarControlador.tipoDocumento}"
+				bean="#{processoVideolarControlador}" required="true"
+				completeMethod="listarTipoDocumento" itemLabel="#{item.nome}"
+				size="50" width="50" />
+
+			<ss:input label="Descrição"
+				value="#{processoVideolarControlador.descricao}" required="true"
+				immediate="true" type="textarea" rows="3" cols="48" maxlength="200"
+				width="600" labelStyle="input-label-bold-for-panels" />
+
+			<p:fileUpload value="#{processoVideolarControlador.file}"
+				mode="simple" skinSimple="true" />
+
+
+
+			<p:commandButton value="Submit" ajax="false"
+				actionListener="#{processoVideolarControlador.upload}" />
+
+		</h:panelGrid>
+	</ui:define>
+
+</ui:composition>

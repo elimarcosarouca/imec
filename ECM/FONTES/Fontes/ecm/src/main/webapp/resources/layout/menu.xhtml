@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="formMenu">
+
+		<div>
+
+			<p:menubar>
+			
+				<p:menuitem value="Processo Videolar" icon="ui-icon-close"
+					url="/paginas/processo/videolar/cadastro.xhtml" />
+
+				<p:menuitem value="Tipo de Documento" icon="ui-icon-close"
+					url="/paginas/tipodocumento/pesquisa.xhtml" />
+
+				<p:menuitem value="Setor" icon="ui-icon-close"
+					url="/paginas/setor/pesquisa.xhtml" />
+
+				<p:menuitem value="Unidade" icon="ui-icon-close"
+					url="/paginas/unidade/pesquisa.xhtml" />
+
+				<p:menuitem value="Posto de Copia" icon="ui-icon-close"
+					url="/paginas/postocopia/pesquisa.xhtml" />
+					
+
+				<f:facet name="options">
+					<p:inputText style="margin-right:10px" placeholder="Search" />
+					<p:commandButton type="button" value="Logout"
+						icon="ui-icon-extlink" />
+				</f:facet>
+			</p:menubar>
+
+		</div>
+
+	</h:form>
+</ui:component>
