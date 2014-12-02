@@ -19,38 +19,36 @@
 		<h:panelGrid id="panelCadastro" columns="2">
 
 			<ss:autoComplete id="setor" label="Setor"
-				value="#{processoVideolarControlador.setor}"
+				value="#{processoVideolarControlador.processo.setor}"
 				bean="#{processoVideolarControlador}" required="true"
 				completeMethod="listarSetor" itemLabel="#{item.nome}" size="50"
 				width="50" />
 
 			<ss:autoComplete id="unidade" label="Unidade"
-				value="#{processoVideolarControlador.unidade}"
+				value="#{processoVideolarControlador.processo.unidade}"
 				bean="#{processoVideolarControlador}" required="true"
 				completeMethod="listarUnidade" itemLabel="#{item.nome}" size="50"
 				width="50" />
 
 			<ss:autoComplete id="postoCopia" label="Posto de Cópia"
-				value="#{processoVideolarControlador.postoCopia}"
+				value="#{processoVideolarControlador.processo.postoCopia}"
 				bean="#{processoVideolarControlador}" required="true"
 				completeMethod="listarPostoCopia" itemLabel="#{item.nome}" size="50"
 				width="50" />
 
 			<ss:autoComplete id="tipoDocumento" label="Tipo do Documento"
-				value="#{processoVideolarControlador.tipoDocumento}"
+				value="#{processoVideolarControlador.processo.tipoDocumento}"
 				bean="#{processoVideolarControlador}" required="true"
 				completeMethod="listarTipoDocumento" itemLabel="#{item.nome}"
 				size="50" width="50" />
 
 			<ss:input label="Descrição"
-				value="#{processoVideolarControlador.descricao}" required="true"
-				immediate="true" type="textarea" rows="3" cols="48" maxlength="200"
-				width="600" labelStyle="input-label-bold-for-panels" />
+				value="#{processoVideolarControlador.processo.descricao}"
+				required="true" immediate="true" type="textarea" rows="3" cols="48"
+				maxlength="200" width="600" labelStyle="input-label-bold-for-panels" />
 
-			<p:fileUpload value="#{processoVideolarControlador.file}"
+			<p:fileUpload value="#{processoVideolarControlador.processo.file}"
 				mode="simple" skinSimple="true" />
-
-
 
 			<p:commandButton value="Submit" ajax="false"
 				actionListener="#{processoVideolarControlador.upload}" />
