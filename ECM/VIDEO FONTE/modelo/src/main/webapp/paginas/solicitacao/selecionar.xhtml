@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form id="form">
+
+		<p:panel id="panel" header="Iniciar Processo"
+			style="margin-bottom:10px;">
+			<p:messages id="messages" />
+
+			<h:panelGrid columns="1" style="width: 100%;">
+				<h:outputLabel value="Processo" styleClass="ui-priority-primary" />
+				<p:selectOneMenu
+					value="#{solicitacaoControlador.processoDefinicao.id}"
+					style="width:400px;" rendered="true"
+					requiredMessage="o processo deve ser informado">
+					<f:selectItems
+						value="#{solicitacaoControlador.listaProcessosDefinicao}"
+						var="modelo" itemLabel="#{modelo.name} - VERSÃO #{modelo.version}"
+						itemValue="#{modelo.id}" />
+				</p:selectOneMenu>
+
+			</h:panelGrid>
+		</p:panel>
+
+		<p:commandButton id="buttonAvancar" value="Avançar" ajax="true" update=":form"
+			styleClass="ui-priority-primary" icon="ui-icon-circle-arrow-e"
+			action="#{solicitacaoControlador.telaStartSolicitacao()}" />
+
+	</h:form>
+
+</ui:component>

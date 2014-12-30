@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<h:form id="form" cellpadding="5">
+
+		<p:panel header="Pesquisa de Solicitacoes" style="width:99%">
+			<h:panelGrid columns="4" cellpadding="3">
+
+				<p:outputLabel styleClass="ui-priority-primary" value="Situação " />
+				<p:outputLabel value="Solicitante " styleClass="ui-priority-primary" />
+				<p:outputLabel value="Coordenador " styleClass="ui-priority-primary" />
+				<p:outputLabel value="Diretor " styleClass="ui-priority-primary" />
+				
+				<p:selectOneMenu value="#{pesquisaSolicitacaoControlador.status}"
+					style="width:220px;">
+					<f:selectItem itemLabel="PENDENTE" itemValue="PENDENTE" />
+					<f:selectItem itemLabel="CONCLUÍDO" itemValue="CONCLUÍDO" />
+					<f:selectItem itemLabel="CANCELADO" itemValue="CANCELADO" />
+					<f:selectItem itemLabel="TODOS" itemValue="TODOS" />
+				</p:selectOneMenu>
+				
+				<p:inputText id="solicitante" required="false" maxlength="40"
+					size="30"
+					value="#{pesquisaSolicitacaoControlador.variaveisSolicitacao.solicitante}" />
+				
+				<p:inputText id="coordenador" required="false" maxlength="40"
+					size="30"
+					value="#{pesquisaSolicitacaoControlador.variaveisSolicitacao.coordenador}" />
+					
+				<p:inputText id="diretor" required="false" maxlength="40" size="30"
+					value="#{pesquisaSolicitacaoControlador.variaveisSolicitacao.diretor}" />
+					
+			</h:panelGrid>
+			<h:panelGrid columns="3" cellpadding="3">
+				<p:outputLabel value="Funcionário" styleClass="ui-priority-primary" />
+				<p:outputLabel value="Treinamento" styleClass="ui-priority-primary" />
+				<p:outputLabel value="Custo" styleClass="ui-priority-primary" />
+				
+				<p:inputText id="funcionario" required="false" maxlength="40"
+					size="30"
+					value="#{pesquisaSolicitacaoControlador.variaveisSolicitacao.funcionario}" />
+
+				<p:inputText id="treinamento" required="false" maxlength="40"
+					size="30"
+					value="#{pesquisaSolicitacaoControlador.variaveisSolicitacao.treinamento}" />
+
+
+				
+				<p:inputText id="custo" required="false" maxlength="40" size="30"
+					value="#{pesquisaSolicitacaoControlador.variaveisSolicitacao.custoEstimado}" />
+
+				<p:commandButton id="pesquisa" icon="ui-icon-search"
+					action="#{pesquisaSolicitacaoControlador.pesquisar}"
+					value="Pesquisa Avançada" update=":form" />
+
+			</h:panelGrid>
+			
+		<p:blockUI block="pesquisa" trigger="pesquisa">  
+	        Processando...<br />  
+	        <p:graphicImage value="/resources/imagens/ajax-loader.gif"/>  
+	    </p:blockUI>  
+
+		</p:panel>
+
+			<p:dataTable id="grid" var="item"
+			value="#{pesquisaSolicitacaoControlador.listaResultado}" rows="10"
+			paginator="true" paginatorPosition="bottom"
+			paginatorAlwaysVisible="true"
+			emptyMessage="Nenhum registro encontrado."
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15,20">
+
+			<p:column style="text-align:left" headerText="Protocolo">
+				<h:outputText value="#{item.businessKey}" />
+			</p:column>
+
+			<p:column style="text-align:left" headerText="Solicitante">
+				<h:outputText value="#{item.variaveisProcesso.solicitante}" />
+			</p:column>
+
+			<p:column style="text-align:left" headerText="Coordenador">
+				<h:outputText value="#{item.variaveisProcesso.coordenador}" />
+			</p:column>
+
+			<p:column style="text-align:left" headerText="Diretor">
+				<h:outputText value="#{item.variaveisProcesso.diretor}" />
+			</p:column>
+
+			<p:column style="text-align:left" headerText="Funcionário">
+				<h:outputText value="#{item.variaveisProcesso.funcionario}" />
+			</p:column>
+
+			<p:column style="text-align:left" headerText="Treinamento">
+				<h:outputText value="#{item.variaveisProcesso.treinamento}" />
+			</p:column>
+
+			<p:column style="text-align:left" headerText="Custo">
+				<h:outputText value="#{item.variaveisProcesso.custoEstimado}" />
+			</p:column>
+
+			<f:facet name="footer">
+				<h:outputText
+					value="#{fn:length(pesquisaSolicitacaoControlador.listaResultado)} Registro(s) encontrado(s)." />
+			</f:facet>
+
+		</p:dataTable>
+
+		<h:panelGrid style="width:99%">
+			<p:commandButton id="imprimir" icon="ui-icon-disk" value="Imprimir"
+				update=":form" />
+		</h:panelGrid>
+
+	</h:form>
+</ui:component>

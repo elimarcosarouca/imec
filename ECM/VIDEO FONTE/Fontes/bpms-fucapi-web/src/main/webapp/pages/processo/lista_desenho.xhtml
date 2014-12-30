@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	template="/pages/util/layout/layoutComplex.xhtml">
+
+	<!-- ==== Grid ======= -->
+	<ui:define name="content">
+
+		<h:form enctype="multipart/form-data" id="formSearch">
+			<p:panel id="panelCadastro"
+				header="Informe os dados do desenho [ Protocolo - #{processoControle.protocolo.sequencial}/#{processoControle.protocolo.ano} ]"
+				style="margin-bottom:10px; width: 99%;">
+
+				<h:panelGrid columns="6" cellpadding="6">
+
+					<h:outputText value="Familia " styleClass="ui-priority-primary" />
+					<p:selectOneMenu value="#{processoControle.familiaProduto}"
+						converter="familiaProdutoConverter" style="width:200px;">
+						<f:selectItems value="#{processoControle.familiaProdutos}"
+							var="fami" itemLabel="#{fami.nome}" itemValue="#{fami}" />
+					</p:selectOneMenu>
+
+					<h:outputLabel value="Situação:" for="situacao"
+						styleClass="ui-priority-primary" />
+					<p:selectOneMenu id="situacao"
+						value="#{processoControle.desenho.situacaoVersaoAtual}"
+						style="width: 110px">
+						<f:selectItems value="#{processoControle.situacaos}" var="ms"
+							itemLabel="#{ms.description}" itemValue="#{ms}" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Tipo " styleClass="ui-priority-primary" />
+					<p:selectOneMenu value="#{processoControle.tipoDesenho}"
+						converter="tipoDesenhoConverter" style="width:200px;">
+						<f:selectItems value="#{processoControle.tipoDesenhos}"
+							var="tipDes" itemLabel="#{tipDes.nome}" itemValue="#{tipDes}" />
+					</p:selectOneMenu>
+
+					<h:outputLabel value="Grupo:" for="grupo"
+						styleClass="ui-priority-primary" />
+					<p:inputText id="grupo" style="width: 110px"
+						value="#{processoControle.desenho.grupo}" />
+
+					<h:outputLabel value="Complemento:" for="complemento"
+						styleClass="ui-priority-primary" />
+					<p:inputText id="complemento" style="width: 110px"
+						value="#{processoControle.desenho.complemento}" />
+
+					<h:outputLabel value="Revisao/Edição:" for="revisaoEdicao"
+						styleClass="ui-priority-primary" />
+					<p:inputText id="revisaoEdicao" style="width: 110px"
+						value="#{processoControle.desenho.revisaoEdicao}" />
+
+					<h:outputLabel value="Protocolo Anterior:" for="protocoloAnterior"
+						styleClass="ui-priority-primary" />
+					<p:inputText id="protocoloAnterior"
+						style="width: 110px; background-color:#E0FFFF" readonly="true"
+						value="#{processoControle.desenho.protocoloAnterior}" />
+
+					<h:outputLabel value="Observação:" for="protocoloObservacao"
+						styleClass="ui-priority-primary" />
+					<p:inputText id="protocoloObservacao" style="width: 110px"
+						value="#{processoControle.desenho.observacaoDesenhoAnterior}" />
+
+					<h:outputLabel value="Situação documento substituido:"
+						for="situacaoVersaoAnterior" styleClass="ui-priority-primary" />
+					<p:selectOneMenu id="situacaoVersaoAnterior"
+						value="#{processoControle.desenho.situacaoVersaoAnterior}"
+						style="width: 110px">
+						<f:selectItems
+							value="#{processoControle.situacaoDesenhoSubstituidos}" var="sds"
+							itemLabel="#{sds.description}" itemValue="#{sds}" />
+					</p:selectOneMenu>
+
+					<p:commandButton id="basic" value="Protocolo Anterior"
+						onclick="dlg.show()" immediate="true" />
+
+				</h:panelGrid>
+
+		
+
+			</p:panel>
+
+			<p:panel id="panelDesenho" header="Informe o Desenho"
+				style="margin-bottom:10px; width: 99%;">
+
+				<h:panelGrid columns="6">
+
+					<p:fileUpload value="#{processoControle.desenho.file}"
+						label="selecione um arquivo" mode="simple" id="desenho"
+						required="true" />
+
+					<p:commandButton value="Anexar Desenho" ajax="false"
+						icon="ui-icon-image" styleClass="ui-priority-primary"
+						actionListener="#{processoControle.uploadNovoDesenho}" />
+
+				</h:panelGrid>
+
+			</p:panel>
+
+			<p:panel id="panelGrid" header="Listagem de Desenhos"
+				style="margin-bottom:10px; width: 99%;">
+				<p:messages id="messages" />
+				<p:dataTable id="dataTable" var="item"
+					value="#{processoControle.desenhos}" rows="10" paginator="true"
+					paginatorPosition="bottom" paginatorAlwaysVisible="true"
+					emptyMessage="Nenhum registro encontrado."
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15,20">
+
+					<p:column style="text-align:left" headerText="Família do Produto">
+						<h:outputText value="#{item.familia.nome}" />
+					</p:column>
+
+					<p:column style="text-align:left"
+						headerText="Desenho [ Tipo Grupo Complemento ]">
+						<h:outputText
+							value="#{item.tipoDesenho.nome} #{item.grupo} #{item.complemento}" />
+					</p:column>
+
+					<p:column style="text-align:left" headerText="Revisão/Edição">
+						<h:outputText value="#{item.revisaoEdicao}" />
+					</p:column>
+
+					<p:column style="text-align:left" headerText="Situação">
+						<h:outputText value="#{item.situacaoVersaoAtual}" />
+					</p:column>
+
+					<p:column style="text-align:left" headerText="Novo Desenho">
+						<h:outputText value="#{item.file.fileName}" />
+					</p:column>
+
+					<p:column style="text-align:center; width:100px"
+						headerText="Excluir">
+
+						<p:commandButton action="#{processoControle.excluir(item)}"
+							icon="ui-icon-trash" title="Excluir" update="dataTable" />
+
+					</p:column>
+
+					<f:facet name="footer">
+						<h:outputText
+							value="#{fn:length(processoControle.desenhos)} Registro(s) encontrado(s)." />
+					</f:facet>
+
+				</p:dataTable>
+				<p:commandButton id="btnVoltar" value="Voltar"
+					action="#{processoControle.telaStart}"
+					icon="ui-icon-circle-arrow-w" style="margin-right:20px;"
+					styleClass="ui-priority-primary" />
+
+				<p:commandButton id="buttonAvancar" value="Avançar" ajax="true"
+					icon="ui-icon-circle-arrow-e" update="panelGrid, messages"
+					styleClass="ui-priority-primary"
+					action="#{processoControle.telaArquivo}" />
+			</p:panel>
+
+		</h:form>
+		
+		<p:dialog id="dialog" widgetVar="dlg" dynamic="true"
+					header="Pesquisa de Desenho" appendToBody="true" modal="true"
+					>
+					<h:form id="formDialog">
+
+						<p:panel id="panel" header="Filtro de Pesquisa de Desenho"
+							style="margin-bottom:10px;">
+	
+							<h:panelGrid columns="4">
+	
+								<p:outputLabel value="Grupo" styleClass="ui-priority-primary" />
+								<p:inputText id="metadadoDesenhoGrupo"
+									value="#{processoControle.metadadoDesenho.grupo}" size="40" />
+	
+								<p:outputLabel value="Complemento"
+									styleClass="ui-priority-primary" />
+								<p:inputText id="metadadoDesenhoComplemento"
+									value="#{processoControle.metadadoDesenho.complemento}"
+									size="40" />
+	
+							</h:panelGrid>
+	
+							<h:panelGrid id="msg" cellpadding="1">
+								<p:growl id="msgGrowl" />
+							</h:panelGrid>
+	
+							<h:panelGrid id="pnlButtons" columns="2">
+	
+								<p:commandButton id="btnSearh" value="Pesquisar"
+									actionListener="#{processoControle.pesquisarDesenhos}"
+									icon="ui-icon-search" style="margin-right:20px;"
+									styleClass="ui-priority-primary" 
+									update=":formDialog:panelGridMetadadoDesenho :formDialog:grid"/>
+	
+								<p:defaultCommand target=":formDialog:btnSearh" />
+	
+							</h:panelGrid>
+						</p:panel>
+	
+						<h:panelGrid id="panelGridMetadadoDesenho">
+	
+							<p:dataTable id="grid" var="item"
+								value="#{processoControle.metadadoDesenhos}" rows="10"
+								paginator="true" paginatorPosition="bottom"
+								paginatorAlwaysVisible="true"
+								emptyMessage="Nenhum registro encontrado."
+								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="10,20,30,40">
+	
+								<p:column style="text-align:left" headerText="Protocolo">
+									<h:outputText value="#{item.businessKey}" />
+								</p:column>
+	
+								<p:column style="text-align:left"
+									headerText="Desenho [ Tipo Grupo Complemento ]">
+									<h:outputText
+										value="#{item.tipoDesenho.nome} #{item.grupo} #{item.complemento}" />
+								</p:column>
+	
+								<p:column style="text-align:left" headerText="Desenho">
+									<h:outputText value="#{item.nomeArquivo}" />
+								</p:column>
+	
+								<p:column style="text-align:left" headerText="Origem">
+									<h:outputText value="#{item.origem.sigla}" />
+								</p:column>
+	
+								<p:column style="text-align:left" headerText="Tipo Documento">
+									<h:outputText value="#{item.tipoDocumento.sigla}" />
+								</p:column>
+	
+								<p:column style="text-align:left" headerText="Situacao">
+									<h:outputText value="#{item.situacaoVersaoAtual}" />
+								</p:column>
+	
+								<p:column style="text-align:center; width:100px"
+									headerText="Cadastrado em">
+									<h:outputText value="#{item.dataCadastro}">
+										<f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss" />
+									</h:outputText>
+								</p:column>
+	
+								<p:column style="text-align:center; width:100px"
+									headerText="Alterado em">
+									<h:outputText value="#{item.dataAlteracao}">
+										<f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss" />
+									</h:outputText>
+								</p:column>
+	
+								<p:column style="text-align:center; width:100px"
+									headerText="Detalhe">
+									<p:commandButton
+										action="#{processoControle.selecionarMetadadoDesenho(item)}"
+										icon="ui-icon-search" title="Editar"
+										update=":formSearch:panelCadastro"
+										styleClass="ui-priority-primary" oncomplete="dlg.hide()" />
+								</p:column>
+	
+								<f:facet name="footer">
+									<h:outputText
+										value="#{fn:length(processoControle.metadadoDesenhos)} Registro(s) encontrado(s)." />
+								</f:facet>
+	
+							</p:dataTable>	
+						</h:panelGrid>
+					</h:form>
+				</p:dialog>
+
+	</ui:define>
+
+</ui:composition>

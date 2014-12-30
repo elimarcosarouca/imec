@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/pages/util/layout/layoutComplex.xhtml">
+
+	<ui:param name="pageTitle" value="Cadastro de Família de Produto" />
+	<ui:param name="pageHeader" value="Cadastro de Família de Produto" />
+	<ui:param name="managedBean" value="#{familiaProdutoControle}" />
+
+	<ui:define name="content">
+		<div align="center"
+			style="width: 100%; height: 90%; position: absolute;">
+			<h:form id="formSearch" prependId="false">
+
+				<h:panelGrid id="msg" cellpadding="1">
+					<p:growl id="msgGrowl" />
+				</h:panelGrid>
+
+				<!-- ==== Filtro ===== -->
+				<p:panel id="panel" header="Filtro de Pesquisa -  #{pageHeader}"
+					style="margin-bottom:10px;">
+
+					<h:panelGrid columns="2">
+
+						<h:outputLabel value="Nome" styleClass="ui-priority-primary" />
+
+						<p:inputText id="nome"
+							value="#{familiaProdutoControle.search.nome}" size="40" />
+
+					</h:panelGrid>
+
+					<!-- ==== Button ======= -->
+					<h:panelGrid id="pnlButtons" columns="3" >
+						<p:commandButton id="btnSearh" value="Pesquisar"
+							action="#{familiaProdutoControle.search}"
+							update=":formSearch:panelGrid :formSearch:msg :formSearch:pnlButtons"
+							icon="ui-icon-search" style="margin-right:20px;"
+							styleClass="ui-priority-primary" />
+
+						<p:defaultCommand target="btnSearh" />
+						
+						<p:commandButton id="btnNew" value="Novo"
+							icon="ui-icon-circle-plus" styleClass="ui-priority-primary"
+							action="#{familiaProdutoControle.cadastrar}" ajax="true" />
+
+					</h:panelGrid>
+
+				</p:panel>
+
+				<!-- ==== Grid ======= -->
+				<h:panelGrid id="panelGrid" width="100%">
+
+					<p:dataTable id="grid" var="item"
+						value="#{familiaProdutoControle.resultList}" rows="10"
+						paginator="true" paginatorPosition="bottom"
+						paginatorAlwaysVisible="true"
+						emptyMessage="Nenhum registro encontrado."
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15,20">
+
+						<p:column style="text-align:left" headerText="Nome">
+							<h:outputText value="#{item.nome}" />
+						</p:column>
+
+						<p:column style="text-align:center; width:100px"
+							headerText="Detalhe">
+
+							<p:commandButton action="#{familiaProdutoControle.editar(item)}"
+								styleClass="ui-priority-primary" icon="ui-icon-search"
+								title="Detalhe" />
+
+						</p:column>
+
+						<f:facet name="footer">
+							<h:outputText
+								value="#{fn:length(familiaProdutoControle.resultList)} Registro(s) encontrado(s)." />
+						</f:facet>
+
+					</p:dataTable>
+
+				</h:panelGrid>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

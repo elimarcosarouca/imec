@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/pages/util/layout/layoutComplex.xhtml">
+
+	<ui:param name="pageTitle" value="Cadastro de Tipo de Desenho" />
+	<ui:param name="pageHeader" value="Cadastro de Tipo de Desenho" />
+
+	<ui:define name="content">
+
+		<c:if test="#{empty widthContainer}">
+			<c:set var="widthContainer" value="100%" />
+		</c:if>
+
+		<h:form id="formRegister" prependId="false">
+
+			<h:panelGrid cellpadding="6">
+				<p:messages id="msg" />
+			</h:panelGrid>
+
+			<p:panel footer="* Campos obrigatórios" style="width:100%">
+
+				<p:panel header="Cadastro de Tipo de Desenho" style="width:100%">
+
+					<p:outputLabel value="Nome *: " styleClass="ui-priority-primary" />
+					<p:inputText id="nome" value="#{tipoDesenhoControle.entity.nome}"
+						required="true" maxlength="40"
+						requiredMessage="informe o nome do tipo de desenho" size="30" />
+
+				</p:panel>
+			</p:panel>
+
+			<!-- ==== Button ======= -->
+			<h:panelGrid columns="2" cellpadding="5">
+				<p:commandButton id="btnSave" value="Salvar"
+					action="#{tipoDesenhoControle.save}" update="msg"
+					icon="ui-icon-disk" style="margin-right:20px;"
+					styleClass="ui-priority-primary" />
+
+				<p:commandButton id="btnCancel" value="Cancelar"
+					action="#{tipoDesenhoControle.cancel}" immediate="true"
+					icon="ui-icon-cancel" style="margin-right:20px;"
+					styleClass="ui-priority-primary" />
+			</h:panelGrid>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

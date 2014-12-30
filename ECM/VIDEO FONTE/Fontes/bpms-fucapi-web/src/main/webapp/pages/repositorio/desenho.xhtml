@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	template="/pages/util/layout/layoutComplex.xhtml">
+
+	<!-- ==== Grid ======= -->
+	<ui:define name="content">
+		<div align="left"
+			style="width: 100%; height: 90%; position: absolute;">
+			<h:form id="form" enctype="multipart/form-data">
+
+				<h:panelGrid id="msg" cellpadding="1">
+					<p:growl id="msgGrowl" />
+				</h:panelGrid>
+
+				<!-- ==== Filtro ===== -->
+				<p:panel header="Filtro de pesquisa" style="width:99%;">
+					<h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+						<h:outputText value="Documento " styleClass="ui-priority-primary"/>
+						<p:inputText value="#{explorerControle.nomeDesenho}"
+							style="width:200px;" />
+
+						<p:commandButton id="btnSearh" value="Pesquisar" styleClass="ui-priority-primary" 
+							action="#{explorerControle.pesquisarDesenhos}" update="grid" />
+
+						<p:defaultCommand target="btnSearh" />
+					</h:panelGrid>
+					
+				</p:panel>
+			
+				<p:dataTable id="grid" var="item" style="width:100%;"
+						value="#{explorerControle.documentos}" rows="15" paginator="true"
+						paginatorPosition="bottom" paginatorAlwaysVisible="false"
+						emptyMessage="Nenhum registro encontrado."
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15,20">
+
+						<p:column style="text-align:left" headerText="Documento">
+							<h:outputText value="#{item.nomeDocumento}" />
+						</p:column>
+	
+						<p:column style="text-align:left" headerText="Versão Atual">
+							<h:outputText value="#{item.lastVersion}" />
+						</p:column>
+	
+						<p:column style="text-align:left" headerText="Última modificação">
+							<h:outputText value="#{item.lastModification}">
+								<f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss" />
+							</h:outputText>
+						</p:column>
+	
+						<p:column style="text-align:left" headerText="Opção">
+							<p:commandButton id="download" value="Baixar Arquivo" ajax="false" immediate="true"
+								actionListener="#{explorerControle.baixarArquivo(item)}"
+								icon="ui-icon-document" styleClass="ui-priority-primary" >
+								<p:fileDownload value="#{explorerControle.file}" />
+							</p:commandButton>
+						</p:column>
+	
+						<f:facet name="footer">
+							<h:outputText
+								value="#{fn:length(explorerControle.documentos)} Registro(s) encontrado(s)." />
+						</f:facet>
+					</p:dataTable>
+			
+				<c:if test="#{loginControle.administrador == true}">	
+					<p:panel header="Anexar Arquivo" style="width:99%;">
+						<p:fileUpload value="#{explorerControle.arquivoUpload}"
+							label="selecione um arquivo" mode="simple" id="arquivo" requiredMessage="O arquivo não foi selecionado"
+							required="true" />
+	
+						<p:commandButton value="Anexar Arquivo" ajax="false"
+							icon="ui-icon-image" styleClass="ui-priority-primary"
+							actionListener="#{explorerControle.anexarArquivo}" 
+							update="docTree"/>
+					</p:panel>		
+				</c:if>
+				  
+				<p:tree id="docTree" value="#{explorerControle.root}" var="doc" 
+					dynamic="true" selectionMode="single" cache="false" 
+					selection="#{explorerControle.selectedNode}"
+					style="width:100%; height:100%; border-style: hidden; overflow: auto;" >
+
+					<p:ajax event="expand" listener="#{explorerControle.onNodeExpand}" />
+					<p:ajax event="collapse"
+						listener="#{explorerControle.onNodeCollapse}" />
+					<p:ajax event="select" listener="#{explorerControle.onNodeSelect}"
+						update=":form:grid" />
+					<p:ajax event="unselect"
+						listener="#{explorerControle.onNodeUnselect}" />
+
+					<p:treeNode id="nodeFolder" expandedIcon="ui-icon-folder-open"
+						collapsedIcon="ui-icon-folder-collapsed">
+						<h:outputText value="#{doc.nomeDocumento}" />
+					</p:treeNode>
+
+					<p:treeNode id="nodeDocument" type="document" icon="ui-icon-document">
+						<h:outputText value="#{doc.nomeDocumento}" />
+					</p:treeNode>
+
+					<p:treeNode id="nodePicture" type="picture" icon="ui-icon-image">
+						<h:outputText value="#{doc.nomeDocumento}" />
+					</p:treeNode>
+
+					<p:treeNode id="nodeMp3" type="mp3" icon="ui-icon-video">
+						<h:outputText value="#{doc.nomeDocumento}" />
+					</p:treeNode>
+				</p:tree>
+				
+				<p:blockUI block="docTree" 
+					trigger=":form:docTree:nodeFolder">
+								processando...<br />
+					<p:graphicImage value="/resources/imagem/ajax-loader.gif" />
+				</p:blockUI>			
+				<p:blockUI block="docTree" 
+					trigger=":form:docTree:nodeDocument">
+								processando...<br />
+					<p:graphicImage value="/resources/imagem/ajax-loader.gif" />
+				</p:blockUI>
+				<p:blockUI block="docTree" 
+					trigger=":form:docTree:nodePicture">
+								processando...<br />
+					<p:graphicImage value="/resources/imagem/ajax-loader.gif" />
+				</p:blockUI>
+				<p:blockUI block="docTree" 
+					trigger=":form:docTree:nodeMp3">
+								processando...<br />
+					<p:graphicImage value="/resources/imagem/ajax-loader.gif" />
+				</p:blockUI>
+			</h:form>
+		</div>
+		
+	</ui:define>
+
+</ui:composition>

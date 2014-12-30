@@ -1,0 +1,3 @@
+Neste diretório deve estar os arquivos do tipo .jrxml e .jasper de origem do IReport, caso a estrutura do relatório 
+contenha imagem deve estar neste diretório tambem.
+Lembre-se que o nome do seu relatorio é mapeado no view.properties e no controller da Entidade.

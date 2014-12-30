@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<f:view contentType="text/html">
+	<h:head>
+		<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>SISTEMA 3D - SIEMENS</title>
+		</f:facet>
+
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/resources/css/screen.css" />
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/resources/css/default.css" />
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/resources/css/syntaxhighlighter.css" />
+
+		<style type="text/css">
+.ui-datatable .ui-datatable-footer {
+	text-align: left;
+}
+</style>
+
+		<style type="text/css">
+.ui-layout-north {
+	z-index: 20 !important;
+	overflow: visible !important;;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+	overflow: visible !important;
+}
+</style>
+<script type="text/javascript">
+        function setSize () {
+         $(".ui-dialog").css ({
+            "width": 1024,
+            "height": 300,
+            "left": "15%",
+            "top": "10%",
+            "margin-left": 0,
+            "margin-top": -450
+          });
+        }
+    </script>
+	</h:head>
+
+	<h:body>
+
+		<p:layout fullPage="true">
+
+			<p:layoutUnit id="top" position="north" size="50">
+				<h:form>
+					<div style="width: 100%">
+						<div style="float: left; width: 25%; vertical-align: middle;">
+							<h:graphicImage url="/resources/imagem/logo.jpg" />
+						</div>
+
+						<div style="float: left; width: 35%; vertical-align: middle;">
+							<h:graphicImage url="/resources/imagem/LogoSistema3D.jpg" />
+						</div>
+
+						<div
+							style="float: left; width: 10%; text-align: center; vertical-align: middle;">
+							<p:outputLabel
+								style="font-size: 18px; width:10%; text-align:center; vertical-align: middle;"
+								value="#{loginControle.usuario.firstName} #{loginControle.usuario.lastName}" />
+						</div>
+
+						<div
+							style="float: left; width: 5%; text-align: center; vertical-align: middle;">
+							<p:commandLink id="ajax" action="#{loginControle.logoff}"
+								style="margin-right:20px; ">
+								<h:outputText value="Sair" style="font-size: 18px; color: blue;" />
+							</p:commandLink>
+						</div>
+
+						<div style="float: right; width: 15%; text-align: left;">
+							<p:themeSwitcher value="#{guestPreferences.theme}"
+								style="width:165px" effect="fade" id="statefulSwitcher">
+								<f:selectItem itemLabel="Selecione o tema" itemValue="" />
+								<f:selectItems value="#{themeSwitcherBean.themes}" />
+							</p:themeSwitcher>
+						</div>
+
+					</div>
+
+				</h:form>
+			</p:layoutUnit>
+
+			<p:layoutUnit id="left" position="west" size="15%" resizable="true"
+				closable="false" collapsible="true" header="Menu" minSize="200">
+				<p:panel header="Minhas Solicitações">
+
+					<p:commandLink value="Solicitações" id="processo"
+						action="#{processoControle.init}" style="margin-right:20px;" />
+				</p:panel>
+
+				<p:panel header="Minhas Tarefas">
+					<c:if test="#{loginControle.administrador == true}">
+						<p:commandLink value="Tarefas" action="#{tarefaControle.init}"
+							id="tarefa" style="margin-right:20px;" />
+						<br />
+						<br />
+					</c:if>
+
+					<p:commandLink value="Pendência de Leitura" id="pendencia"
+						action="#{pendenciaControle.init}" style="margin-right:20px;" />
+
+				</p:panel>
+
+				<p:panel header="Repositório">
+					<p:commandLink value="Diretório de Arquivos" id="explorer"
+						action="#{explorerControle.init}" style="margin-right:20px;" />
+				</p:panel>
+
+				<p:panel header="Consultas Desenhos">
+					<p:commandLink value="Pesquisa Personalizada" id="desenho"
+						action="#{desenhoControle.init}" style="margin-right:20px;" />
+				</p:panel>
+
+				<c:if test="#{loginControle.administrador == true}">
+					<p:panel header="Cadastro Diversos">
+						<p:commandLink value="Família de Produto" id="familiaProduto"
+							action="#{familiaProdutoControle.init}"
+							style="margin-right:20px;" />
+						<br />
+						<br />
+						<p:commandLink value="Tipo de Documento" id="tipoDocumento"
+							action="#{tipoDocumentoControle.init}" style="margin-right:20px;" />
+						<br />
+						<br />
+						<p:commandLink value="Tipo de Desenho" id="tipoDesenho"
+							action="#{tipoDesenhoControle.init}" style="margin-right:20px;" />
+						<br />
+						<br />
+						<p:commandLink value="Origem" action="#{origemControle.init}" id="origem"
+							style="margin-right:20px;" />
+
+					</p:panel>
+				</c:if>
+
+				<p:blockUI block="center" 
+				trigger="processo">
+							processando...<br />
+					<p:graphicImage value="/resources/imagem/ajax-loader.gif" />
+				</p:blockUI>
+				
+				<p:blockUI block="center" 
+				trigger="tarefa">
+							processando...<br />
+					<p:graphicImage value="/resources/imagem/ajax-loader.gif" />
+				</p:blockUI>
+				
+				<p:blockUI block="center" 
+				trigger="pendencia">
+							processando...<br />
+					<p:graphicImage value="/resources/imagem/ajax-loader.gif" />
+				</p:blockUI>
+				
+				<p:blockUI block="center" 
+				trigger="explorer">
+							processando...<br />
+					<p:graphicImage value="/resources/imagem/ajax-loader.gif" />
+				</p:blockUI>
+				
+				<p:blockUI block="center" 
+				trigger="desenho">
+							processando...<br />
+					<p:graphicImage value="/resources/imagem/ajax-loader.gif" />
+				</p:blockUI>
+				
+				<p:blockUI block="center" 
+				trigger="familiaProduto">
+							processando...<br />
+					<p:graphicImage value="/resources/imagem/ajax-loader.gif" />
+				</p:blockUI>
+				
+				<p:blockUI block="center" 
+				trigger="tipoDocumento">
+							processando...<br />
+					<p:graphicImage value="/resources/imagem/ajax-loader.gif" />
+				</p:blockUI>
+				
+				<p:blockUI block="center" 
+				trigger="tipoDesenho">
+							processando...<br />
+					<p:graphicImage value="/resources/imagem/ajax-loader.gif" />
+				</p:blockUI>
+				
+				<p:blockUI block="center" 
+				trigger="origem">
+							processando...<br />
+					<p:graphicImage value="/resources/imagem/ajax-loader.gif" />
+				</p:blockUI>
+
+			</p:layoutUnit>
+
+			<p:layoutUnit id="center" position="center" size="80%"
+				resizable="true">
+
+				<ui:insert name="content" />
+
+			</p:layoutUnit>
+
+		</p:layout>
+
+	</h:body>
+
+</f:view>
+</html>

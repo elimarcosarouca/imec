@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/pages/util/layout/layoutComplex.xhtml">
+
+	<ui:param name="pageTitle" value="Cadastro de Tarefa" />
+	<ui:param name="pageHeader" value="Cadastro de Tarefa" />
+	<ui:param name="managedBean" value="#{processoControle}" />
+
+	<ui:define name="content">
+
+		<h:form id="formSearch" prependId="false">
+
+			<p:panel header="Dados do Desenho " style="width:99%">
+
+				<h:panelGrid id="panelGrid" width="100%" columns="4">
+
+					<h:outputLabel
+						value="Família do Produto: #{processoControle.desenho.familia.nome}"
+						styleClass="ui-priority-primary" />
+
+					<h:outputLabel
+						value="Tipo: #{processoControle.desenho.tipoDesenho.nome}"
+						styleClass="ui-priority-primary" />
+
+					<h:outputLabel value="Grupo: #{processoControle.desenho.grupo}"
+						styleClass="ui-priority-primary" />
+
+					<h:outputLabel
+						value="Complemento: #{processoControle.desenho.complemento}"
+						styleClass="ui-priority-primary" />
+
+					<h:outputLabel
+						value="Revisão/Edição: #{processoControle.desenho.revisaoEdicao}"
+						styleClass="ui-priority-primary" />
+
+					<h:outputLabel
+						value="Protocolo Anterior / OM: #{processoControle.desenho.protocoloAnterior}"
+						styleClass="ui-priority-primary" />
+
+					<h:outputLabel
+						value="Observação: #{processoControle.desenho.observacaoDesenhoAnterior}"
+						styleClass="ui-priority-primary" />
+
+					<h:outputLabel
+						value="Situação Versão Anteiro: #{processoControle.desenho.situacaoVersaoAnterior}"
+						styleClass="ui-priority-primary" />
+
+					<p:commandButton id="download1" value="Baixar Desenho" ajax="false"
+						styleClass="ui-priority-primary"
+						actionListener="#{processoControle.downloadDesenho()}"
+						icon="ui-icon-document">
+						<p:fileDownload value="#{processoControle.file}" />
+					</p:commandButton>
+
+					<p:commandButton id="download2" value="Baixar Desenho Substituido"
+						ajax="false" styleClass="ui-priority-primary"
+						actionListener="#{processoControle.downloadDesenhoSubstituido()}"
+						icon="ui-icon-document">
+						<p:fileDownload value="#{processoControle.file}" />
+					</p:commandButton>
+
+				</h:panelGrid>
+
+			</p:panel>
+
+			<p:commandButton id="btnVoltar" value="Voltar"
+				action="#{processoControle.telaListaDetalhe}"
+				icon="ui-icon-circle-arrow-w" style="margin-right:20px;"
+				styleClass="ui-priority-primary" />
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

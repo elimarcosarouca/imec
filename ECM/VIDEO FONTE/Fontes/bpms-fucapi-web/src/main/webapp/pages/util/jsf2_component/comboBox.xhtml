@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<cc:interface>
+	
+		<cc:attribute name="idCmb" required="false" default="id" />
+		<cc:attribute name="label" required="false" />	
+		<cc:attribute name="required" required="false" default="false" />
+		<cc:attribute name="disabled" required="false" default="false" />
+		<cc:attribute name="selectOne" required="false" default="false" />
+		<cc:attribute name="selectAll" required="false" default="#{not cc.attrs.selectOne ? true : false}" />
+		<cc:attribute name="selectOneMsg" required="false" default="-- Selecione um registro --" />
+		<cc:attribute name="selectAllMsg" required="false" default="-- Todos os registros --" />
+		
+		<cc:attribute name="effect" default="fade" />
+		
+		<cc:attribute name="foreignKey" required="false" default="false" shortDescription="Indica se o item é uma entidade ou não. Caso, false o item deve ser do tipo SelectItem." />
+		<cc:attribute name="atributo" required="false" shortDescription="Usado quando foreignKey for true" />
+		
+		<cc:attribute name="value" required="true" />
+		<cc:attribute name="list" required="true" />
+		
+	</cc:interface>
+	
+	<cc:implementation>
+	
+		<h:panelGrid columns="2" width="500" columnClasses="input_label, input_required">
+		  
+		 		<p:column>
+					<h:outputLabel value="#{cc.attrs.label}" for="#{cc.attrs.id}" rendered="#{not empty cc.attrs.label}"/>
+			 		<h:outputText value="  * " styleClass="input_required" rendered="#{cc.attrs.required}" />
+			 		<p:spacer width="50px" height="5px"/>
+		 		</p:column>
+		 		
+		 		<p:column>
+		 			<c:if test="#{not cc.attrs.foreignKey}">
+						<p:selectOneMenu id="#{cc.attrs.id}" value="#{cc.attrs.value}" required="#{cc.attrs.required}" disabled="#{cc.attrs.disabled}" effect="#{cc.attrs.effect}">
+							<c:if test="#{cc.attrs.selectOne}">
+					        	<f:selectItem itemLabel="#{cc.attrs.selectOneMsg}" itemValue="" />
+				        	</c:if>
+				        	<c:if test="#{cc.attrs.selectAll}">
+					        	<f:selectItem itemLabel="#{cc.attrs.selectAllMsg}" itemValue="" />
+				        	</c:if>
+				            <f:selectItems value="#{cc.attrs.list}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+				            <ui:insert />
+				        </p:selectOneMenu>
+		 			</c:if>
+		 			
+		 			<c:if test="#{cc.attrs.foreignKey}">
+				        <p:selectOneMenu id="#{cc.attrs.id}" value="#{cc.attrs.value}" required="#{cc.attrs.required}" disabled="#{cc.attrs.disabled}" effect="#{cc.attrs.effect}" converter="entityConverter">
+				        	<c:if test="#{cc.attrs.selectOne}">
+					        	<f:selectItem itemLabel="#{cc.attrs.selectOneMsg}" itemValue="" />
+				        	</c:if>
+				        	<c:if test="#{cc.attrs.selectAll}">
+					        	<f:selectItem itemLabel="#{cc.attrs.selectAllMsg}" itemValue="" />
+				        	</c:if>
+				            <f:selectItems value="#{cc.attrs.list}" var="item" itemLabel="#{cc.attrs.atributo}" itemValue="#{item}"/>
+				            <ui:insert />
+				        </p:selectOneMenu>
+			        </c:if>
+					<h:message for="#{cc.attrs.id}" styleClass="error" />
+		 		</p:column>
+		 		
+		</h:panelGrid>
+ 		
+	</cc:implementation>
+	
+</html>

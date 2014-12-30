@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="fluxoAprovacao" name="FLUXO DE APROVAÇÃO" isExecutable="true">
+    <startEvent id="startevent1" name="Start Processo" activiti:initiator="kermit" activiti:formKey="formStart">
+      <extensionElements>
+        <activiti:formProperty id="tipoDocumentoId" name="tipoDocumentoId" type="string"></activiti:formProperty>
+        <activiti:formProperty id="origemId" name="origemId" type="string"></activiti:formProperty>
+        <activiti:formProperty id="descricao" name="descricao" type="string"></activiti:formProperty>
+        <activiti:formProperty id="dataInicial" name="dataInicial" type="string" datePattern="dd-MM-yyyy hh:mm" required="true"></activiti:formProperty>
+        <activiti:formProperty id="dataFinal" name="dataFinal" type="string" datePattern="dd-MM-yyyy hh:mm" required="true"></activiti:formProperty>
+        <activiti:formProperty id="sequencial" name="sequencial" type="string"></activiti:formProperty>
+        <activiti:formProperty id="ano" name="ano" type="string"></activiti:formProperty>
+      </extensionElements>
+    </startEvent>
+    <userTask id="revisarOM" name="Revisar OM" activiti:assignee="kermit">
+      <extensionElements>
+        <activiti:formProperty id="parecerRevisao" name="parecerRevisao" type="string" required="true"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="revisarOM"></sequenceFlow>
+    <userTask id="aprovarOm" name="Aprovar OM" activiti:assignee="kermit">
+      <extensionElements>
+        <activiti:formProperty id="parecerAprovacao" name="parecerAprovacao" type="string" required="true"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow2" sourceRef="revisarOM" targetRef="aprovarOm"></sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow3" sourceRef="aprovarOm" targetRef="endevent1"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_fluxoAprovacao">
+    <bpmndi:BPMNPlane bpmnElement="fluxoAprovacao" id="BPMNPlane_fluxoAprovacao">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="80.0" y="160.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="530.0" y="160.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="revisarOM" id="BPMNShape_revisarOM">
+        <omgdc:Bounds height="55.0" width="105.0" x="172.0" y="150.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="aprovarOm" id="BPMNShape_aprovarOm">
+        <omgdc:Bounds height="55.0" width="105.0" x="370.0" y="150.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="115.0" y="177.0"></omgdi:waypoint>
+        <omgdi:waypoint x="172.0" y="177.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="277.0" y="177.0"></omgdi:waypoint>
+        <omgdi:waypoint x="370.0" y="177.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="475.0" y="177.0"></omgdi:waypoint>
+        <omgdi:waypoint x="530.0" y="177.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

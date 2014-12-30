@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="form">
+
+		<p:panel id="panel" closable="false" style="width:99%"
+			header="Detalhe da solicitação">
+			<p:growl id="msg" />
+			<h:panelGrid columns="5" style="width:99%">
+
+				<p:outputLabel value="Protocolo:" style="width:95%" />
+				<p:outputLabel value="Custo Estimado:" />
+				<p:outputLabel value="Local:" />
+				<p:outputLabel value="Situação:" />
+				<p:outputLabel value="Data Criação:" />
+
+				<p:inputText id="treinamento" disabled="true" style="width:75%"
+					styleClass="ui-priority-primary"
+					value="#{treinamentoControlador.processoInstancia.businessKey}" />
+
+				<p:inputText id="custoEstimado" disabled="true" style="width:75%"
+					styleClass="ui-priority-primary"
+					value="#{treinamentoControlador.processoInstancia.variaveisProcesso.custoEstimado}" />
+
+				<p:inputText id="local" disabled="true" style="width:75%"
+					styleClass="ui-priority-primary"
+					value="#{treinamentoControlador.processoInstancia.variaveisProcesso.local}" />
+
+				<p:inputText disabled="true" style="width:75%"
+					styleClass="ui-priority-primary"
+					value="#{treinamentoControlador.processoInstancia.variaveisProcesso.situacao}" />
+
+				<p:inputText id="dataCriacao" disabled="true" style="width:75%"
+					value="#{treinamentoControlador.processoInstancia.variaveisProcesso.dataInicial}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</p:inputText>
+
+				<p:outputLabel value="Funcionário Beneficiado:" />
+				<p:outputLabel value="Data Inicial:" />
+				<p:outputLabel value="Data Final:" />
+				<p:outputLabel value="Tipo de Solicitação" />
+				<p:outputLabel value="Solicitante" />
+
+
+				<p:inputText id="funcionario" disabled="true" style="width:75%"
+					styleClass="ui-priority-primary"
+					value="#{treinamentoControlador.processoInstancia.variaveisProcesso.funcionario}" />
+
+				<p:inputText id="dataInicial" disabled="true" style="width:75%"
+					value="#{treinamentoControlador.processoInstancia.variaveisProcesso.dataInicial}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</p:inputText>
+
+				<p:inputText id="dataFinal" disabled="true" style="width:75%"
+					value="#{treinamentoControlador.processoInstancia.variaveisProcesso.dataFinal}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</p:inputText>
+
+				<p:inputText id="treino" disabled="true" style="width:75%"
+					styleClass="ui-priority-primary" value="TREINAMENTO" />
+
+				<p:inputText disabled="true" style="width:75%"
+					styleClass="ui-priority-primary"
+					value="#{treinamentoControlador.processoInstancia.variaveisProcesso.solicitante}" />
+
+			</h:panelGrid>
+
+			
+			<h:panelGrid style="width:99%"
+				rendered="#{treinamentoControlador.processoInstancia.variaveisProcesso.cancelado}">
+
+				<p:outputLabel value="Justificativa:" />
+				<p:inputText disabled="true" style="width:95%"
+					styleClass="ui-priority-primary"
+					value="#{treinamentoControlador.processoInstancia.variaveisProcesso.motivoCancelamento}" />
+
+			</h:panelGrid>
+
+			<h:panelGrid style="width:99%">
+				<p:outputLabel value="Descricao Treinamento:" />
+				<p:inputTextarea id="descricao" disabled="true"
+					styleClass="ui-priority-primary"
+					value="#{treinamentoControlador.processoInstancia.variaveisProcesso.descricao}"
+					style="width:99%" />
+
+			</h:panelGrid>
+		</p:panel>
+
+		<p:panel header="Histórico de Tarefas">
+			<p:dataTable id="gridSearch" var="item" rows="10" paginator="true"
+				value="#{treinamentoControlador.tarefaInstancias}"
+				paginatorPosition="bottom" paginatorAlwaysVisible="true"
+				emptyMessage="Nenhum registro encontrado."
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15,20">
+
+				<p:column style="text-align:left" headerText="Proprietário"
+					sortBy="#{item.assignee}">
+					<h:outputText value="#{item.assignee}" />
+				</p:column>
+
+				<p:column style="text-align:left" headerText="Tarefa"
+					sortBy="#{item.name}}">
+					<h:outputText value="#{item.name}" />
+				</p:column>
+
+				<p:column style="text-align:left" headerText="Tipo de Solicitação"
+					sortBy="#{item.variaveisProcesso.tipoSolicitacao}">
+					<h:outputText value="#{item.variaveisProcesso.tipoSolicitacao}" />
+				</p:column>
+
+				<p:column style="text-align:left" headerText="Situação"
+					sortBy="#{item.endTime}">
+					<h:outputText rendered="#{empty item.endTime}" value="Em andamento" />
+					<h:outputText rendered="#{not empty item.endTime}"
+						value="Finalizado" />
+
+				</p:column>
+
+				<p:column style="text-align:center; width:100px" headerText="Ações"
+					exportable="false">
+
+					<p:commandButton
+						action="#{treinamentoControlador.detalheTarefa(item)}"
+						icon="ui-icon-newwin" title="Detalhe" ajax="false"
+						styleClass="ui-priority-primary" update=":form" />
+
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+
+		<h:panelGrid style="width:99%" columns="2">
+			<p:commandButton id="buttonRetornar" value="Voltar" ajax="false"
+				styleClass="ui-priority-primary" icon="ui-icon-circle-arrow-w"
+				action="#{treinamentoControlador.telaPesquisa}" update=":form" />
+
+		</h:panelGrid>
+
+	</h:form>
+
+</ui:component>

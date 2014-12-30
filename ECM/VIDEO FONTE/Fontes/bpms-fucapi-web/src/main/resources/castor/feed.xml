@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<mapping>
+	<description>Descricao da resposta do WSS para Geracao de PIN para o cliente</description>
+	<!-- NAMESPACE DESENVOLVIMENTO = http://www.portal.fucapi.br -->
+	<!-- NAMESPACE HOMOLOGACAO = http://www.suframa.gov.br/webservices/gerarpin -->
+	<class name="br.fucapi.bpms.web.dominio.dto.Feed">	
+		<map-to xml="feed" ns-uri="http://www.w3.org/2005/Atom" />
+		
+		<field name="id" type="string">
+		  <bind-xml name="id" node="element"/>
+		</field>
+		
+		<field name="title" type="string">
+		  <bind-xml name="title" node="element"/>
+	   </field>	   
+	   
+	   <field name="entrys" collection="arraylist" type="br.fucapi.bpms.web.dominio.dto.Entry">
+			<bind-xml name="entry" node="element" />
+		</field>   
+   </class>
+   
+   <class name="br.fucapi.bpms.web.dominio.dto.Entry" auto-complete="false">
+   		<map-to xml="entry"/>
+   		
+   		<field name="id" type="string">
+		  <bind-xml name="id" node="element"/>
+		</field>
+		
+		<field name="title" type="string">
+		  <bind-xml name="title" node="element"/>
+	   </field>	  
+	   
+	   <field name="object" type="br.fucapi.bpms.web.dominio.dto.Object">
+	   		  <bind-xml name="object" node="element"/>
+	   </field>
+   	</class>
+   	
+   	
+   	<class name="br.fucapi.bpms.web.dominio.dto.Object" auto-complete="false">
+   		<map-to xml="object" ns-uri="http://docs.oasis-open.org/ns/cmis/restatom/200908/" ns-prefix="cmisra"/>
+   		 
+	   <field name="properties" type="br.fucapi.bpms.web.dominio.dto.Properties">
+	   		  <bind-xml name="properties" node="element"/>
+	   </field>
+   	</class>
+   	
+   	<class name="br.fucapi.bpms.web.dominio.dto.Properties" auto-complete="false">
+   		<map-to xml="properties" ns-uri="http://docs.oasis-open.org/ns/cmis/core/200908/" ns-prefix="cmis" />
+   		 <field name="propertiesId" collection="arraylist" type="br.fucapi.bpms.web.dominio.dto.PropertyId">
+			<bind-xml name="propertyId" node="element" />
+		</field>  
+		<field name="propertiesString" collection="arraylist" type="br.fucapi.bpms.web.dominio.dto.PropertyString">
+			<bind-xml name="propertyString" node="element" />
+		</field>    
+   		
+   		<field name="propertiesDateTime" collection="arraylist" type="br.fucapi.bpms.web.dominio.dto.PropertyDateTime">
+			<bind-xml name="propertyDateTime" node="element" />
+		</field>  
+   	</class>
+   	
+   	<class name="br.fucapi.bpms.web.dominio.dto.PropertyId" auto-complete="false">
+   		<map-to xml="propertyId" ns-uri="http://docs.oasis-open.org/ns/cmis/core/200908/" ns-prefix="cmis"/>
+   		 <field name="value" type="string">
+	   		  <bind-xml name="value" node="element"/>
+	  	 </field>
+	  	 <field name="definitionId" type="string">
+	   		  <bind-xml name="propertyDefinitionId" node="attribute"/>
+	     </field>   		
+   	</class>
+   	
+   	<class name="br.fucapi.bpms.web.dominio.dto.PropertyString" auto-complete="false">
+   		<map-to xml="propertyString" ns-uri="http://docs.oasis-open.org/ns/cmis/core/200908/" ns-prefix="cmis"/>
+   		 <field name="value" type="string">
+	   		  <bind-xml name="value" node="element"/>
+	  	 </field>
+	  	 <field name="definitionId" type="string">
+	   		  <bind-xml name="propertyDefinitionId" node="attribute"/>
+	     </field>   		
+   	</class>
+   
+   <class name="br.fucapi.bpms.web.dominio.dto.PropertyDateTime" auto-complete="false">
+   		<map-to xml="propertyDateTime" ns-uri="http://docs.oasis-open.org/ns/cmis/core/200908/" ns-prefix="cmis"/>
+   		 <field name="value" type="string">
+	   		  <bind-xml name="value" node="element"/>
+	  	 </field>
+	  	 <field name="definitionId" type="string">
+	   		  <bind-xml name="propertyDefinitionId" node="attribute"/>
+	     </field>   		
+   	</class>
+   
+</mapping>

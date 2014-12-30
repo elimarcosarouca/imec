@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<ui:param name="pageTitle" value="Cadastro de TipoDocumento" />
+	<ui:param name="pageHeader" value="Cadastro de TipoDocumento" />
+	<ui:param name="managedBean" value="#{tipoDocumento}" />
+
+	<h:form id="form">
+
+		<p:growl id="growl" life="4000" />
+		<p:panel id="panel" closable="false" footer="*Campos Obrigatorios"
+			header="Cadastro de Usuario" style="width: 99%">
+			<h:panelGrid id="pg" columns="4" style="margin-bottom:10px"
+				cellpadding="5">
+
+
+				<p:outputLabel value="Primeiro Nome: *" />
+				<p:inputText id="primeiroNome" required="true" style="width: 99%"
+					value="#{usuarioControladorBean.usuario.firstName}"
+					requiredMessage="Informe o Primeiro Nome" />
+
+				<p:outputLabel value="Último Nome:* " />
+				<p:inputText id="ultimoNome" required="true"
+					value="#{usuarioControladorBean.usuario.lastName}"
+					requiredMessage="Informe o Último Nome" />
+
+				<p:outputLabel value="E-Mail *" />
+				<p:inputText id="email" required="true"
+					value="#{usuarioControladorBean.usuario.email}"
+					requiredMessage="Informe o Email" />
+
+				<p:outputLabel value="Login *" />
+				<p:inputText id="nomeUsuario" required="true"
+					value="#{usuarioControladorBean.usuario.userName}"
+					disabled="#{usuarioControladorBean.isEditarUsuario}"
+					requiredMessage="Informe o login" />
+			</h:panelGrid>
+			<h:panelGrid id="pg2" columns="4" style="margin-bottom:10px"
+				cellpadding="5">
+
+				<p:outputLabel value="Administrador" />
+
+				<p:selectBooleanCheckbox id="isAdmin"
+					value="#{usuarioControladorBean.isAdmin}"
+					disabled="#{usuarioControladorBean.isBloqueado or sessaoControladorBean.usuario.userName eq usuarioControladorBean.usuario.userName}">
+
+					<p:ajax update=":form:pg2"
+						checked="#{usuarioControladorBean.isAdmin}" />
+				</p:selectBooleanCheckbox>
+
+				<p:outputLabel value="Bloqueado" />
+
+				<p:selectBooleanCheckbox id="isBloqueado"
+					value="#{usuarioControladorBean.isBloqueado}"
+					disabled="#{sessaoControladorBean.usuario.userName eq usuarioControladorBean.usuario.userName}">
+
+					<p:ajax update=":form:pg2"
+						listener="#{usuarioControladorBean.atualizarUsuarioAdmin}"
+						checked="#{usuarioControladorBean.isBloqueado}" />
+
+				</p:selectBooleanCheckbox>
+
+			</h:panelGrid>
+
+			<p style="height: 1%" />
+
+			<p style="height: 1%" />
+
+			<p:commandButton id="save" icon="ui-icon-plusthick" value="Salvar"
+				action="#{usuarioControladorBean.incluir}" update=":form" />
+
+			<p:commandButton id="btnVoltar" value="Cancelar" immediate="true"
+				actionListener="#{usuarioControladorBean.telaPesquisa}"
+				icon="ui-icon-circle-arrow-w" style="margin-right:20px;" 
+				styleClass="ui-priority-primary" update=":form" />
+		</p:panel>
+
+	</h:form>
+
+</ui:component>

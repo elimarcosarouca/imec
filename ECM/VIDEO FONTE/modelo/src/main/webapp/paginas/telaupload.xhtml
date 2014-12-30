@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<script type="text/javascript">
+	
+	    function posFinalizarUploadArquivo(){
+	  		
+		 	var url = "http://170.10.200.224:9090/modelo/index.xhtml"; //Informar URL reaload
+		 	
+			window.opener.location.href= url;
+		} 
+		 
+	</script>
+	
+	<center>
+		<APPLET CODE="br.fucapi.teste.scanner.ScannerImageTest.class"
+			WIDTH="200" HEIGHT="50" style="border: 10px;" >
+
+			<param name="PARAM_COOKIES" value="#{tarefaControle.cookiesResult}" />
+
+			<param name="jnlp_href"
+				value="http://170.10.200.224:9090/modelo/upload-1.0.jnlp" />
+
+			<param name="PARAM_URL_UPDATE_SERVLET"
+				value="http://170.10.200.224:9090/modelo/UploadServlet" />
+
+			<param name="PARAM_UPDATE"
+				value="javascript:posFinalizarUploadArquivo();" />
+		
+		</APPLET>
+
+	</center>
+</ui:component>

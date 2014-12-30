@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<h:form id="form">
+
+		<p:panel id="panel" header="Detalhe da tarefa">
+		
+			<p:fieldset legend="Solicitação">
+				<h:panelGrid columns="2" cellspacing="2" style="width:35%">
+					<h:outputText value="Protocolo:" styleClass="ui-priority-primary" />
+					<h:outputLabel value="Tipo de Solicitação:" styleClass="ui-priority-primary" />
+
+					<p:inputText value="#{consultaTarefaControlador.entityDetalhe.variaveisProcesso.protocolo}" disabled="true"/>
+					<p:inputText value="#{consultaTarefaControlador.entityDetalhe.variaveisProcesso.tipoSolicitacao}" disabled="true"/>
+				</h:panelGrid>
+			</p:fieldset>
+			
+			<p/>
+			
+			<p:fieldset legend="Tarefa">
+				<h:panelGrid columns="3" cellpadding="2" title="Tarefa">
+
+					<p:outputLabel value="Tarefa:" style="width:95%" />
+					<p:outputLabel value="Situação:" />
+					<p:outputLabel value="Ação:" />
+	
+					<p:inputText style="width:350px;" styleClass="ui-priority-primary" value="#{consultaTarefaControlador.entityDetalhe.name}" disabled="true"/>
+					<p:inputText value="Pendente" rendered="#{empty consultaTarefaControlador.entityDetalhe.endTime}" disabled="true"/>
+					<p:inputText value="Concluído" rendered="#{not empty consultaTarefaControlador.entityDetalhe.endTime}" disabled="true"/>
+					<p:inputText styleClass="ui-priority-primary" value="#{consultaTarefaControlador.entityDetalhe.variaveisProcesso.acao}" disabled="true"/>
+				</h:panelGrid>
+	
+				<h:panelGrid columns="2" cellpadding="2" title="Tarefa">
+					<p:outputLabel value="Executor:" />
+					<p:outputLabel value="Data da tarefa:" />
+	
+					<p:inputText style="width:95%" styleClass="ui-priority-primary" value="#{consultaTarefaControlador.entityDetalhe.assignee}" disabled="true"/>
+					<p:inputMask style="width:75%" value="#{consultaTarefaControlador.entityDetalhe.startTime}" mask="99/99/2499" disabled="true" />
+				</h:panelGrid>
+
+				<h:panelGrid style="width:99%">
+					<p:outputLabel value="Parecer: " />
+					<p:inputTextarea style="width:99%" value="#{consultaTarefaControlador.entityDetalhe.variaveisProcesso.parecer}" disabled="true"/>
+				</h:panelGrid>
+			</p:fieldset>
+			
+			<p/>
+			
+			<p:commandButton id="btnVoltar" value="Voltar"
+				update=":form" action="#{consultaTarefaControlador.telaConsultaTarefas}"
+				icon="ui-icon-circle-arrow-w" style="margin-right:20px;"
+				styleClass="ui-priority-primary" />
+			
+		</p:panel>
+		
+	</h:form>
+</ui:component>

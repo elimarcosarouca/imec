@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<h:form id="form">
+
+		<p:panel header="Status das minhas solicitações" style="width:99%" id="painel">
+			<p:growl id="growl"/>
+			<h:message for="dataInicio" errorClass="errorMessage"/>
+			<h:message for="dataFinal" errorClass="errorMessage"/>
+			
+			<h:panelGrid columns="3">
+
+				<h:outputText value="Protocolo: " />
+				<h:outputText value="Tipo de Solicitação: " />
+				<h:outputText value="Situação: " />
+
+				<p:inputText id="idProtocolo"
+					value="#{pesquisaSolicitacaoControlador.variaveisSolicitacao.protocolo}" />
+
+				<p:selectOneMenu
+					value="#{pesquisaSolicitacaoControlador.variaveisSolicitacao.tipoSolicitacao}"
+					style="width:150px;">
+					<f:selectItem itemLabel="" />
+					<f:selectItems
+						value="#{pesquisaSolicitacaoControlador.listaProcessosDefinicao}"
+						var="modelo" itemLabel="#{modelo.name}" itemValue="#{modelo.name}" />
+				</p:selectOneMenu>
+
+				<p:selectOneMenu value="#{pesquisaSolicitacaoControlador.status}">
+					<f:selectItem itemLabel="PENDENTE" itemValue="PENDENTE" />
+					<f:selectItem itemLabel="CONCLUÍDO" itemValue="CONCLUÍDO" />
+					<f:selectItem itemLabel="CANCELADO" itemValue="CANCELADO" />
+					<f:selectItem itemLabel="TODOS" itemValue="TODOS" />
+				</p:selectOneMenu>
+
+			</h:panelGrid>
+
+			<h:panelGrid columns="3">
+
+				<p:outputLabel value="Solicitante: " />
+				<p:outputLabel value="Data Inicio: " />
+				<p:outputLabel value="Data Final: " />
+
+				<p:inputText value="#{sessaoControladorBean.usuario.userName}"
+					rendered="#{!pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+					disabled="true" />
+
+				<p:selectOneMenu
+					value="#{pesquisaSolicitacaoControlador.usuarioSelecionado.userName}"
+					style="width:250px;"
+					rendered="#{pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}">
+
+					<f:selectItem itemLabel="Selecione um usuário" />
+					<f:selectItems value="#{pesquisaSolicitacaoControlador.usuarios}"
+						var="usuario" itemLabel="#{usuario.userName}"
+						itemValue="#{usuario.userName}" />
+				</p:selectOneMenu>
+				
+				<p:inputMask id="dataInicial" value="#{pesquisaSolicitacaoControlador.dataInicial}" 
+						mask="99/99/9999" size="10" converterMessage="Digite uma data inicial válida">
+                    	<f:convertDateTime pattern="dd/MM/yyyy" type="date"/>
+				</p:inputMask>
+					
+				<p:inputMask id="dataFinal" value="#{pesquisaSolicitacaoControlador.dataFinal}" 
+						mask="99/99/9999" size="10" converterMessage="Digite uma data final válida">
+                    	<f:convertDateTime pattern="dd/MM/yyyy" type="date"/>
+				</p:inputMask>
+
+			</h:panelGrid>
+
+			<p:commandButton id="pesquisa" icon="ui-icon-search"
+				actionListener="#{pesquisaSolicitacaoControlador.pesquisarPorParametro}"
+				value="Pesquisar" update=":form" />
+
+			<p:commandButton id="pesquisaAvancada" icon="ui-icon-search"
+				actionListener="#{pesquisaSolicitacaoControlador.telaPesquisaAvancada}"
+				value="Pesquisa Avançada" update=":form" />
+				
+		</p:panel>
+		
+		<p:blockUI block="pesquisa" trigger="pesquisa">  
+	        Processando...<br />  
+	        <p:graphicImage value="/resources/imagens/ajax-loader.gif"/>  
+	    </p:blockUI>  
+
+		<p:panel header="Lista de Solicitações">
+			<p:dataTable id="grid" var="item"
+				value="#{pesquisaSolicitacaoControlador.listaResultado}" rows="10"
+				paginator="true" paginatorPosition="bottom"
+				paginatorAlwaysVisible="true"
+				emptyMessage="Nenhum registro encontrado."
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15,20">
+
+				<p:column style="text-align:left" headerText="Protocolo" >
+					<h:outputText 
+						value="#{item.variaveisProcesso.sequencial}/#{item.variaveisProcesso.ano}" />
+				</p:column>
+
+				<p:column style="text-align:left" headerText="Tipo Solicitação" width="50px">
+					<h:outputText value="#{item.variaveisProcesso.tipoSolicitacao}" />
+				</p:column>
+
+				<p:column style="text-align:left" headerText="Situação">
+						<h:outputText value="Concluído" rendered="#{item.endTime ne null}"/>
+						<h:outputText value="#{item.variaveisProcesso.situacao}" rendered="#{item.endTime eq null}"/>
+				</p:column>
+
+				<p:column style="text-align:left" headerText="Treinamento">
+					<h:outputText value="#{item.variaveisProcesso.treinamento}" />
+				</p:column>
+
+				<p:column style="text-align:left" headerText="Solicitante"  exportable="false">
+					<h:outputText value="#{item.variaveisProcesso.solicitante}" />
+				</p:column>
+
+				<p:column style="text-align:left" headerText="Data Criação" exportable="false">
+					<h:outputText value="#{item.startTime}" >
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column style="text-align:center; width:100px" headerText="Opções" exportable="false">
+					<p:commandButton onclick="PF('cancelar').show()" title="Cancelar"
+						styleClass="ui-priority-primary" icon="ui-icon-close"
+						rendered="#{item.variaveisProcesso.cancelar and !item.variaveisProcesso.cancelado}">
+						<f:setPropertyActionListener
+							target="#{pesquisaSolicitacaoControlador.processoInstancia}"
+							value="#{item}" />
+					</p:commandButton>
+
+					<p:commandButton action="#{treinamentoControlador.detalhe(item)}"
+						icon="ui-icon-newwin" title="Detalhe"
+						styleClass="ui-priority-primary" update=":form" />
+						
+<!-- 					<p:commandButton onclick="PF('widgetVarImagem').show()" title="Imagem Solicitação" -->
+<!-- 						styleClass="ui-priority-primary" icon="ui-icon-image" -->
+<!-- 						action="#{pesquisaSolicitacaoControlador.abrirImagemProcesso(item)}" -->
+<!-- 						oncomplete="widgetVarImagem.show()" > -->
+<!-- 					</p:commandButton> -->
+
+				</p:column>
+
+				<f:facet name="footer">
+					<h:outputText
+						value="#{fn:length(pesquisaSolicitacaoControlador.listaResultado)} Registro(s) encontrado(s)." />
+				</f:facet>
+
+			</p:dataTable>
+			
+			<p:commandButton icon="ui-icon-print" value="Imprimir" ajax="false"
+				rendered="#{fn:length(pesquisaSolicitacaoControlador.listaResultado) > 0}">
+				<p:dataExporter type="pdf" target="grid" fileName="ListagemSolicitacoes" />
+			</p:commandButton>
+			
+		</p:panel>
+
+		<p:dialog header="Justificativa para cancelar solicitação" id="dlg"
+			widgetVar="cancelar" resizable="true" width="420px" closable="false">
+			<h:form id="formCancelamento">
+
+				<h:panelGrid style="margin-bottom:10px" width="400px">
+					<h:outputLabel for="firstname" value="Justificativa do cancelado"
+						width="400px" />
+					<p:inputTextarea id="firstname" width="400px"
+						value="#{pesquisaSolicitacaoControlador.motivoCancelamento}">
+						<p:ajax event="keyup" update="grid" />
+					</p:inputTextarea>
+
+				</h:panelGrid>
+
+				<h:panelGrid width="400px" id="grid" columns="2">
+
+					<p:commandButton id="confirmDelBtn" value="Salvar" ajax="false"
+						rendered="#{fn:length(pesquisaSolicitacaoControlador.motivoCancelamento) ne 0}"
+						actionListener="#{pesquisaSolicitacaoControlador.cancelar()}"
+						global="false" style="height:32px;width:116px"
+						oncomplete="PF('cancelar').hide();" />
+
+					<p:commandButton value="Cancelar" ajax="false" global="false"
+						style="height:32px;width:116px"
+						oncomplete="PF('cancelar').hide();" />
+
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog id="widgetVarImagem" widgetVar="widgetVarImagem" dynamic="true"
+			header="Imagem do Processo - Protocolo: #{pesquisaSolicitacaoControlador.variaveisSolicitacao.protocolo}"
+			appendToBody="true" modal="true">
+			<h:form id="formImagem">
+
+				<h:panelGrid>
+					<p:graphicImage url="#{treinamentoControlador.imagem}" />
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+	</h:form>
+</ui:component>

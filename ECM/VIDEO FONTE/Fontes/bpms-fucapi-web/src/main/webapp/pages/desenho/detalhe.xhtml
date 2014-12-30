@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	template="/pages/util/layout/layoutComplex.xhtml">
+
+	<!-- ==== Grid ======= -->
+	<ui:define name="content">
+		<div align="center"
+			style="width: 100%; height: 90%; position: absolute;">
+			<h:form id="form">
+
+				<p:panel id="panelDetalhe" header="Detalhe do Desenho"
+					style="margin-bottom:10px;">
+					<p:messages id="messages" />
+					
+					<h:panelGrid id="panelGridDetalhe" width="100%" columns="4">
+						<h:outputLabel value="Origem: #{desenhoControle.metadadoDesenho.origem.sigla}" styleClass="ui-priority-primary"/>
+						<h:outputLabel value="Nome: #{desenhoControle.metadadoDesenho.nomeArquivo}" styleClass="ui-priority-primary"/>
+						<h:outputLabel value="Data de cadastro: #{desenhoControle.metadadoDesenho.dataCadastro}" styleClass="ui-priority-primary" >
+							<f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss" />
+						</h:outputLabel>	
+							
+						<p:commandButton id="download" value="Baixar Desenho"
+							ajax="false" actionListener="#{desenhoControle.baixarDesenho}"
+							icon="ui-icon-document" styleClass="ui-priority-primary" >
+							<p:fileDownload value="#{desenhoControle.file}" />
+						</p:commandButton>
+					</h:panelGrid>	
+				</p:panel>
+					
+				<p:panel id="panelAlteracaoSituacao" header="Alterar situação do desenho"
+					style="margin-bottom:10px;">
+					
+					<h:panelGrid id="panelGridAlteracaoSituacao" width="25%" columns="2" >
+						
+						<h:outputLabel value="Situação do Desenho:" for="situacao" />
+						<p:selectOneMenu id="situacao"
+							value="#{desenhoControle.metadadoDesenho.situacaoVersaoAtual}"
+							style="width: 110px">
+							<f:selectItems value="#{desenhoControle.situacaos}" var="ms"
+								itemLabel="#{ms.description}" itemValue="#{ms}" />
+						</p:selectOneMenu>
+						
+					</h:panelGrid>	
+				</p:panel>
+				
+				<p:commandButton id="btnVoltar" value="Voltar"
+						action="#{desenhoControle.telaSearch}" icon="ui-icon-circle-arrow-w"
+						styleClass="ui-priority-primary" />
+
+				<p:commandButton id="btnAlterarSituacao" value="Alterar"
+						action="#{desenhoControle.alterarSituacao}" icon="ui-icon-circle-check"
+						styleClass="ui-priority-primary" />
+
+			</h:form>
+
+		</div>
+	</ui:define>
+</ui:composition>

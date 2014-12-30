@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/resources/layout/template.xhtml">
+
+	<ui:define name="content">
+		<h:form id="formSearch" prependId="false">
+
+			<h:panelGrid id="msg" cellpadding="1">
+				<p:growl id="msgGrowl" />
+			</h:panelGrid>
+
+
+			<!-- ==== Filtro ===== -->
+			<p:accordionPanel>
+				<p:tab title="Filtro de Pesquisa -  #{pageHeader}">
+					<h:panelGrid cellpadding="5">
+					
+						<ui:insert name="search_filter" />
+
+						<p:commandButton id="btnSearh" value="Pesquisar"
+							action="#{managedBean.search}"
+							update=":formSearch:panelGrid :formSearch:msg :formSearch:pnlButtons" />
+
+						<p:defaultCommand target="btnSearh" />
+
+					</h:panelGrid>
+				</p:tab>
+			</p:accordionPanel>
+
+
+			<!-- ==== Grid ======= -->
+			<h:panelGrid id="panelGrid" width="100%">
+
+				<ui:insert name="grid_region" />
+
+			</h:panelGrid>
+
+			<!-- ==== Button ======= -->
+			<h:panelGrid id="pnlButtons" columns="2" cellpadding="2">
+				<p:commandButton id="btnNew" value="Novo"
+					action="#{managedBean.cadastrar}" ajax="false" />
+
+				<p:commandButton id="btnPrint" value="Imprimir"
+					action="#{managedBean.print}" ajax="false"
+					rendered="#{not empty managedBean.resultList}" />
+
+			</h:panelGrid>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
