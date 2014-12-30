@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	template="/pages/util/layout/layoutComplex.xhtml">
+
+	<ui:param name="pageTitle" value="Listagem de Solicitação" />
+	<ui:param name="pageHeader" value="Listagem de Solicitação" />
+
+	<!-- ==== Grid ======= -->
+	<ui:define name="content">
+		<h:form id="formSearch">
+			<p:panel header="Filtro de Pesquisa -  #{pageHeader}"
+				style="width:99%;" id="painel">
+				<h:panelGrid columns="4" cellpadding="5">
+					<h:outputText value="Origem do Documento " styleClass="ui-priority-primary" />
+					<p:selectOneMenu value="#{processoControle.origem.id}"
+						style="width:300px;">
+						<f:selectItem itemLabel="Selecione a Origem" itemValue=""
+							id="origem" />
+						<f:selectItems value="#{processoControle.origems}" var="ori"
+							itemLabel="#{ori.sigla} - #{ori.nome}" itemValue="#{ori.id}" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Tipo do Documento " styleClass="ui-priority-primary" />
+					<p:selectOneMenu value="#{processoControle.tipoDocumento.id}"
+						style="width:300px;">
+						<f:selectItem itemLabel="Selecione o Tipo de Documento"
+							itemValue="" id="tipoDocumento" />
+						<f:selectItems value="#{processoControle.tipoDocumentos}"
+							var="tipDoc" itemLabel="#{tipDoc.sigla} - #{tipDoc.nome}"
+							itemValue="#{tipDoc.id}" />
+					</p:selectOneMenu>
+
+					<h:outputText styleClass="ui-priority-primary" value="Situação " />
+					<p:selectOneMenu value="#{processoControle.status}"
+						style="width:300px;">
+						<f:selectItem itemLabel="PENDENTE" itemValue="PENDENTE" />
+						<f:selectItem itemLabel="CONCLUÍDO" itemValue="CONCLUÍDO" />
+						<f:selectItem itemLabel="CANCELADO" itemValue="CANCELADO" />
+						<f:selectItem itemLabel="TODOS" itemValue="TODOS" />
+					</p:selectOneMenu>
+
+					<f:facet name="footer">
+
+						<p:commandButton id="buttonPesquisar" value="Pesquisar"
+							update="grid" icon="ui-icon-search"
+							styleClass="ui-priority-primary"
+							action="#{processoControle.pesquisar}" />
+
+						<c:if test="#{loginControle.administrador == true}">
+							<p:commandButton id="buttonStartar" value="Nova Solicitação"
+								icon="ui-icon-circle-plus" styleClass="ui-priority-primary"
+								action="#{processoControle.selecionar}" />
+						</c:if>
+
+						<p:blockUI block="formSearch" trigger="buttonPesquisar">
+							processando...<br />
+							<p:graphicImage value="/resources/imagem/ajax-loader.gif" />
+						</p:blockUI>
+
+					</f:facet>
+
+				</h:panelGrid>
+
+				<p:dataTable id="grid" var="item"
+					value="#{processoControle.processos}" rows="10" paginator="true"
+					paginatorPosition="bottom" paginatorAlwaysVisible="true"
+					emptyMessage="Nenhum registro encontrado."
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15,20">
+
+					<p:column style="text-align:left" headerText="Protocolo">
+						<h:outputText value="#{item.businessKey}" />
+					</p:column>
+
+					<p:column style="text-align:left"
+						headerText="Descri&ccedil;&atilde;o">
+						<h:outputText value="#{item.variaveisProcesso.descricao}" />
+					</p:column>
+
+					<p:column style="text-align:left" headerText="Tipo">
+						<h:outputText
+							value="#{item.variaveisProcesso.tipoDocumento.sigla} - #{item.variaveisProcesso.tipoDocumento.nome}" />
+					</p:column>
+
+					<p:column style="text-align:left" headerText="Origem">
+						<h:outputText
+							value="#{item.variaveisProcesso.origem.sigla} - #{item.variaveisProcesso.origem.nome}" />
+					</p:column>
+
+					<p:column style="text-align:center; width:100px" headerText="Detalhe">
+						<p:commandButton action="#{processoControle.detalhe(item)}"
+							icon="ui-icon-search" title="Detalhe"
+							styleClass="ui-priority-primary" />
+
+					</p:column>
+
+					<f:facet name="footer">
+						<h:outputText
+							value="#{fn:length(processoControle.processos)} Registro(s) encontrado(s)." />
+					</f:facet>
+
+				</p:dataTable>
+
+			</p:panel>
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>

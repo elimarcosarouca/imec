@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fpf2="http://java.sun.com/jsf/composite/jsf2_component"
+	template="/pages/util/layout/layoutLogin.xhtml">
+
+	<ui:param name="pageTitle" value="Tela Start Workflow" />
+	<ui:param name="pageHeader" value="Tela Start Workflow" />
+	<ui:param name="managedBean" value="#{loginController}" />
+
+	<ui:define name="content">
+		<div align="center" style="margin: 100px;">
+			<h:form id="form">
+				<p:panel id="panel" header="Controle de Acesso"
+					style="margin-bottom:10px; width:300px;">
+					<p:messages id="messages" />
+					<p:focus context="panel" />
+					<h:panelGrid columns="2">
+
+						<h:outputText value="Login: *" />
+						<p:inputText value="#{loginControle.usuario.userName}" id="login"
+							required="true" label="login"
+							requiredMessage="o login deve ser informado" />
+
+						<h:outputText value="Senha: *" />
+						<p:password value="#{loginControle.usuario.senha}" id="senha"
+							required="true" label="login"
+							requiredMessage="a senha deve ser informada" />
+
+					</h:panelGrid>
+				</p:panel>
+
+				<p:commandButton id="buttonLogar" value="Logar"
+					update="panel, messages" icon="ui-icon-person"
+					styleClass="ui-priority-primary" action="#{loginControle.logar}" />
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

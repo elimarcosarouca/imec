@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	template="/pages/util/layout/layoutComplex.xhtml">
+
+	<!-- ==== Grid ======= -->
+	<ui:define name="content">
+		<div align="center"
+			style="width: 100%; height: 90%; position: absolute;">
+			<h:form id="formSearch" prependId="false">
+				<p:panel header="Detalhe da Solicitação " style="width:99%">
+
+					<h:panelGrid id="panelGrid" width="80%" columns="3">
+
+						<h:outputLabel
+							value="Origem: #{processoControle.variaveisProcesso.origem.sigla}" styleClass="ui-priority-primary"/>
+
+						<h:outputLabel
+							value="Tipo de Documento: #{processoControle.variaveisProcesso.tipoDocumento.sigla}" styleClass="ui-priority-primary"/>
+
+						<h:outputLabel
+							value="1º Revisor: #{processoControle.variaveisProcesso.revisor1}" styleClass="ui-priority-primary"/>
+
+						<h:outputLabel
+							value="2º Revisor: #{processoControle.variaveisProcesso.revisor2}" styleClass="ui-priority-primary"/>
+
+						<h:outputLabel
+							value="Aprovador: #{processoControle.variaveisProcesso.aprovador}" styleClass="ui-priority-primary"/>
+
+						<p:commandButton id="download" value="Baixar Documento"
+							ajax="false" actionListener="#{processoControle.downloadArquivo}"
+							icon="ui-icon-document">
+							<p:fileDownload value="#{processoControle.file}" />
+						</p:commandButton>
+
+					</h:panelGrid>
+				</p:panel>
+
+				<h:panelGrid id="panelGridDesenho" width="100%" title="Listagem de Desenhos">
+
+					<p:dataTable id="gridDesenho" var="item"
+						value="#{processoControle.desenhos}" rows="20" paginator="true"
+						paginatorPosition="bottom" paginatorAlwaysVisible="true"
+						emptyMessage="Nenhum registro encontrado."
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="20,30,40">
+
+						<p:column style="text-align:left" headerText="Família do Produto">
+							<h:outputText value="#{item.familia.nome}" />
+						</p:column>
+
+						<p:column style="text-align:left"
+							headerText="Desenho [ Tipo Grupo Complemento ]">
+							<h:outputText
+								value="#{item.tipoDesenho.nome} #{item.grupo} #{item.complemento}" />
+						</p:column>
+
+						<p:column style="text-align:left" headerText="Revisão/Edição">
+							<h:outputText value="#{item.revisaoEdicao}" />
+						</p:column>
+
+						<p:column style="text-align:left" headerText="Situação">
+							<h:outputText value="#{item.situacaoVersaoAtual}" />
+						</p:column>
+
+						<p:column style="text-align:center; width:100px" headerText="Detalhe">
+							<p:commandButton
+								action="#{processoControle.consultarDesenho(item)}"
+								icon="ui-icon-search" styleClass="ui-priority-primary"
+								title="Desenho" />
+						</p:column>
+
+						<f:facet name="footer">
+							<h:outputText
+								value="#{fn:length(processoControle.desenhos)} Registro(s) encontrado(s)." />
+						</f:facet>
+
+					</p:dataTable>
+
+				</h:panelGrid>
+				
+				<h:panelGrid id="panelGrupo" width="100%" title="Listagem de Grupos">
+
+					<p:dataTable id="gridGrupo" var="item" 
+						value="#{processoControle.variaveisProcesso.gruposNotificar}" rows="5" paginator="true"
+						paginatorPosition="bottom" paginatorAlwaysVisible="true"
+						emptyMessage="Nenhum registro encontrado."
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<p:column style="text-align:left" headerText="Grupo">
+							<h:outputText value="#{item}" />
+						</p:column>
+
+						<f:facet name="footer">
+							<h:outputText
+								value="#{fn:length(processoControle.variaveisProcesso.gruposNotificar)} Registro(s) encontrado(s)." />
+						</f:facet>
+
+					</p:dataTable>
+
+				</h:panelGrid>
+
+				<p:commandButton id="btnVoltar" value="Voltar"
+					action="#{processoControle.telaSearch}"
+					icon="ui-icon-circle-arrow-w" style="margin-right:20px;"
+					styleClass="ui-priority-primary" />
+
+				<p:commandButton id="btnPendencia" value="Confirmação de Leitura"
+					action="#{processoControle.listaConfirmacao}" icon="ui-icon-note"
+					style="margin-right:20px;" styleClass="ui-priority-primary" />
+
+			</h:form>
+
+		</div>
+	</ui:define>
+</ui:composition>

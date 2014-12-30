@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		
+		<title>:: SIEMENS :: #{empty pageTitle ? '*' : pageTitle}</title>
+		<link rel="icon" href="#{resource['favicon.ico']}" />
+		
+		<h:outputStylesheet name="forge-style.css" />
+		
+         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/styles/default.css" />
+         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/styles/standard.css" />
+         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/styles/syntaxhighlighter.css" />
+		
+		<style type="text/css">
+            .ui-datatable .ui-datatable-footer {
+                text-align:left;
+            }
+            
+        </style>
+		
+		<ui:insert name="head" />
+		
+	</h:head>
+	
+	<body width="800px" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" bgcolor="#68A3A2">
+	<center>
+			<table width="800px" border="0px" cellspacing="0px" cellpadding="0px" bgcolor="#D7EFEF" >
+			<tr ><td colspan="3" align="center"> <h3>Controle de Acesso - SIEMENS</h3> </td> </tr>
+			<tr><td colspan="2"> <div id="bodyDiv" > <ui:insert name="content"/> </div> </td> </tr>
+			<tr><td colspan="2"> <ui:include src="rodape.xhtml"/> </td> </tr>
+		</table>
+	</center>
+	</body>
+</html>

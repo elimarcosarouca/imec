@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title><ui:insert name="titulo_pagina">Login Sistema</ui:insert>
+	</title>
+	<!-- 	<link type="text/css" rel="stylesheet" href="resources/css/style.css" /> -->
+	<link type="text/css" rel="stylesheet"
+		href="resources/estilos/style-custom.css" />
+	<link type="text/css" rel="stylesheet"
+		href="resources/css/config_component.css" />
+</h:head>
+<h:body styleClass="body">
+	<form action="/modelo/j_spring_security_check" method="post">
+		<div id="principal">
+			<div class="login">
+				<p:growl id="growl" binding="#{loginControlador.msg}" />
+				<h1>Infome seu Login e Senha</h1>
+				<p>
+					<h:inputText id="j_username" label="Nome" required="true"
+						styleClass="input-text" />
+					<p:watermark for="j_username" value="Login"></p:watermark>
+				</p>
+				<p>
+					<h:inputSecret id="j_password" label="Senha" required="true"
+						styleClass="input-text" />
+					<p:watermark for="j_password" value="Senha"></p:watermark>
+				</p>
+
+				<br />
+
+				<div align="right">
+					<h:commandButton styleClass="botao-login" value="Entrar" />
+				</div>
+			</div>
+
+			<div>
+				<h:form>
+					<h:commandLink styleClass="login-help" action="inicio"
+						onclick="lembrete.show()" value="Esqueceu sua senha?" />
+				</h:form>
+			</div>
+
+		</div>
+	</form>
+</h:body>
+
+
+<p:confirmDialog message="SOLICITAR NOVA SENHA DE USUÁRIO GEDEasy"
+	header="Esqueceu sua Senha" severity="alert" appendToBody="false"
+	widgetVar="lembrete" closable="true" style="height:500px;width:300px">
+	<h:form>
+		<h:inputText id="j_username" label="Nome" required="true"
+			styleClass="input-text" value="#{emailControlador.usuario.userName}" />
+		<p:watermark for="j_username" value="Login"></p:watermark>
+
+		<p:commandButton value="Solicitar"
+			action="#{emailControlador.enviarEmail}"
+			style="height:32px;width:116px" update=":growl" />
+		<br/>
+		<p:outputLabel style="font-size: 10px;" value="(*) - Os passos para geração da nova senha serão reenviados para" /> 
+		<br/>
+		<p:outputLabel style="font-size: 10px;" value="o email cadastrado." />
+
+	</h:form>
+
+</p:confirmDialog>
+
+<p:confirmDialog
+	message="Prezado usuário o prazo máximo para definição de senha é de 24 horas a partir da data de envio de e-mail.Caso contrário será necessário uma nova solicitação."
+	header="Os passos para definição de senha foram enviados com sucesso!"
+	severity="alert" appendToBody="true" widgetVar="enviado"
+	closable="false" width="50%">
+	<h:form style="align: right">
+
+		<p:commandButton value="Ok" onclick="enviado.hide()"
+			actionListener="#{grupoControladorBean.init}" global="false"
+			style="height:32px;width:116px" oncomplete="lembrete.hide()" />
+
+	</h:form>
+
+</p:confirmDialog>
+
+
+</html>

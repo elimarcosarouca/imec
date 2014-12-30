@@ -1,0 +1,144 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<h:form id="form">
+	
+		<p:panel header="Tarefas Pendentes" style="width:99%" id="painelPesquisa">
+			<p:growl id="growl"/>
+			<h:message for="dataInicial" errorClass="errorMessage"/>
+			<h:message for="dataFinal" errorClass="errorMessage"/>
+		
+			<p:fieldset legend="Dados de Tarefa">
+				<h:panelGrid columns="4" cellspacing="5" style="width:100%">
+					<h:outputText value="Protocolo:" styleClass="ui-priority-primary" />
+					<h:outputText value="Data Inicio:" styleClass="ui-priority-primary" />
+					<h:outputText value="Data Final:" styleClass="ui-priority-primary" />
+					<h:outputLabel value="Tipo de Solicitação:"
+						styleClass="ui-priority-primary" />
+
+					<p:inputText id="idProtocolo"  value="#{tarefaControle.variaveisTreinamento.protocolo}" />
+										
+					<p:inputMask id="dataInicial" value="#{tarefaControle.dataInicial}" 
+						mask="99/99/9999" size="10" converterMessage="Digite uma data inicial válida">
+                    	<f:convertDateTime pattern="dd/MM/yyyy" type="date"/>
+					</p:inputMask>
+					
+					<p:inputMask id="dataFinal" value="#{tarefaControle.dataFinal}" 
+						mask="99/99/9999" size="10" converterMessage="Digite uma data final válida">
+                    	<f:convertDateTime pattern="dd/MM/yyyy" type="date"/>
+					</p:inputMask>
+
+					<p:selectOneMenu id="tipoSolicitacao"
+						value="#{tarefaControle.variaveisTreinamento.tipoSolicitacao}">
+						<f:selectItem itemLabel="" />
+						<f:selectItems value="#{tarefaControle.listaProcessosDefinicao}"
+							var="modelo" itemLabel="#{modelo.name}"
+							itemValue="#{modelo.name}" />
+					</p:selectOneMenu>
+
+				</h:panelGrid>
+				
+				<p:commandButton id="pesquisa" icon="ui-icon-search"
+					action="#{tarefaControle.pesquisar}" styleClass="ui-priority-primary"
+					value="Pesquisa" update=":form" />
+
+			</p:fieldset>
+
+		</p:panel>
+		
+		<p:blockUI block="pesquisa" trigger="pesquisa">  
+	        Processando...<br />  
+	        <p:graphicImage value="/resources/imagens/ajax-loader.gif"/>  
+	    </p:blockUI>  
+		
+		<p:panel header="Lista de Tarefas" id="painelGrid">
+			<p:dataTable id="gridSearch" var="item" rows="10" paginator="true"
+				value="#{tarefaControle.listaTarefasPendentes}"
+				paginatorPosition="bottom" paginatorAlwaysVisible="true"
+				emptyMessage="Nenhum registro encontrado."
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15,20">
+
+				<p:column style="text-align:left" headerText="Protocolo"
+					sortBy="#{item.businessKey}">
+					<h:outputText
+						value="#{item.variaveisProcesso.sequencial}/#{item.variaveisProcesso.ano}" />
+				</p:column>
+
+				<p:column style="text-align:left" headerText="Tarefa"
+					sortBy="#{item.name}}">
+					<h:outputText value="#{item.name}" />
+				</p:column>
+
+				<p:column style="text-align:left" headerText="Tipo de Solicitação"
+					sortBy="#{item.processDefinitionId}">
+					<h:outputText value="#{item.processDefinitionId}" />
+				</p:column>
+
+				<p:column style="text-align:left" headerText="Data de Criação"
+					sortBy="#{item.startTime}">
+					<h:outputText value="#{item.startTime}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column style="text-align:left" headerText="Detalhes"
+					sortBy="#{item.variaveisProcesso.descricao}">
+					<h:outputText value="#{item.variaveisProcesso.descricao}" />
+				</p:column>
+				
+				<p:column style="text-align:left" headerText="Ações">
+
+					<p:commandButton onclick="aprovar.show()"
+						styleClass="ui-priority-primary" icon="ui-icon-check"
+						title="Aprovar" immediate="true">
+						<f:setPropertyActionListener
+							target="#{tarefaControle.entity}" value="#{item}"/>
+					</p:commandButton>
+
+					<p:commandButton ajax="false" immediate="true"
+						rendered="#{item.variaveisProcesso.reprovar}"
+						action="#{tarefaControle.reprovar(item)}"
+						styleClass="ui-priority-primary" icon="ui-icon-close"
+						title="Reprovar" update=":form:gridSearch" />
+
+					<p:commandButton ajax="false" immediate="true"
+						action="#{tarefaControle.detalhe(item)}" icon="ui-icon-newwin"
+						title="Detalhe" update=":form" />
+				</p:column>
+
+				<f:facet name="footer">
+					<h:outputText
+						value="#{fn:length(tarefaControle.listaTarefasPendentes)} Registro(s) encontrado(s)." />
+				</f:facet>
+			</p:dataTable>
+		</p:panel>
+
+	</h:form>
+
+	<p:confirmDialog message="Deseja realmente aprovar ?" 
+		header="CONFIRMAR" severity="alert" appendToBody="true" 
+		widgetVar="aprovar" closable="false" showEffect="slide"
+		hideEffect="blind" >
+		<h:form>
+			<p:commandButton value="Cancelar" onclick="aprovar.hide()"
+				actionListener="#{tarefaControle.init}" global="false"
+				style="height:32px;width:116px" />
+
+			<p:commandButton id="confirmDelBtn" value="Confirmar"
+				onsuccess="aprovar.hide()" ajax="false"
+				actionListener="#{tarefaControle.aprovar(tarefaControle.entity)}" 
+				global="false" style="height:32px;width:116px" />
+		</h:form>
+
+	</p:confirmDialog>
+
+</ui:component>

@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	template="/pages/util/layout/layoutComplex.xhtml">
+
+	<ui:param name="pageTitle" value="Listagem de Tarefa" />
+	<ui:param name="pageHeader" value="Listagem de Tarefa" />
+	<ui:param name="managedBean" value="#{tarefaControle}" />
+
+	<ui:define name="content">
+
+		<h:form id="formSearch" prependId="false">
+
+			<h:panelGrid id="msg" cellpadding="1">
+				<p:growl id="msgGrowl" />
+			</h:panelGrid>
+
+			<!-- ==== Filtro ===== -->
+			<c:if test="#{loginControle.administrador == true}">
+				<p:panel id="panel" header="Filtro de Pesquisa -  #{pageHeader}"
+					style="margin-bottom:10px;">
+
+					<h:panelGrid cellpadding="2">
+
+						<h:outputLabel value="Usuário" styleClass="ui-priority-primary" />
+						<p:selectOneMenu value="#{tarefaControle.usuario.userName}"
+							style="width:250px;">
+							<f:selectItem itemLabel="TODOS" itemValue="TODOS" id="usuario" />
+							<f:selectItems value="#{tarefaControle.usuarios}" var="usua"
+								itemLabel="#{usua.firstName} #{usua.lastName}"
+								itemValue="#{usua.userName}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+					
+					<h:panelGrid columns="3">
+						<p:commandButton id="btnSearh" value="Pesquisar"
+							actionListener="#{tarefaControle.pesquisar}"
+							update=":formSearch:panelGrid :formSearch:msg"
+							icon="ui-icon-search" style="margin-right:20px;"
+							styleClass="ui-priority-primary" />
+
+						<p:defaultCommand target="btnSearh" />
+
+						<p:commandButton id="btnPrint" value="Imprimir"
+							icon="ui-icon-print" action="#{tarefaControle.imprimir}"
+							ajax="false" rendered="#{not empty tarefaControle.resultList}" />
+
+						<p:blockUI block="formSearch" trigger="btnSearh">
+							processando...<br />
+							<p:graphicImage value="/resources/imagem/ajax-loader.gif" />
+						</p:blockUI>
+
+					</h:panelGrid>
+				</p:panel>
+			</c:if>
+
+			<!-- ==== Grid ======= -->
+			<p:panel width="100%" header="Listagem de Tarefas Pendentes">
+				<p:dataTable id="panelGrid" var="item"
+					value="#{tarefaControle.resultList}" rows="20" paginator="true"
+					paginatorPosition="bottom" paginatorAlwaysVisible="true"
+					emptyMessage="Nenhum registro encontrado."
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="20,30,40">
+
+					<p:column style="text-align:left" headerText="Protocolo">
+						<h:outputText
+							value="#{item.variaveisProcesso.sequencial}/#{item.variaveisProcesso.ano}" />
+					</p:column>
+
+					<p:column style="text-align:left"
+						headerText="Descri&ccedil;&atilde;o">
+						<h:outputText value="#{item.variaveisProcesso.descricao}" />
+					</p:column>
+
+					<p:column style="text-align:left" headerText="Tipo">
+						<h:outputText
+							value="#{item.variaveisProcesso.tipoDocumento.sigla} - #{item.variaveisProcesso.tipoDocumento.nome}" />
+					</p:column>
+
+					<p:column style="text-align:left" headerText="Origem">
+						<h:outputText
+							value="#{item.variaveisProcesso.origem.sigla} - #{item.variaveisProcesso.origem.nome}" />
+					</p:column>
+
+					<p:column style="text-align:left" headerText="Nome">
+						<h:outputText value="#{item.name}" />
+					</p:column>
+
+					<p:column style="text-align:left" headerText="Usuário">
+						<h:outputText value="#{item.assignee}" />
+					</p:column>
+
+					<c:if test="#{tarefaControle.proprietario == true}">
+						<p:column style="text-align:center; width:100px"
+							headerText="Detalhe">
+							<p:commandButton action="#{tarefaControle.editar(item)}"
+								icon="ui-icon-circle-check" styleClass="ui-priority-primary"
+								title="Detalhe" update="panelGrid" />
+						</p:column>
+					</c:if>
+
+					<f:facet name="footer">
+						<h:outputText
+							value="#{fn:length(tarefaControle.resultList)} Registro(s) encontrado(s)." />
+					</f:facet>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	template="/pages/util/layout/layoutComplex.xhtml">
+
+	<ui:param name="pageTitle" value="Listagem de Pendência" />
+	<ui:param name="pageHeader" value="Listagem de Pendência" />
+
+	<!-- ==== Grid ======= -->
+	<ui:define name="content">
+
+		<h:form id="formSearch" prependId="false">
+			<c:if test="#{loginControle.administrador == true}">
+				<p:panel id="panel" header="Filtro de Pesquisa -  #{pageHeader}"
+					style="margin-bottom:10px;">
+
+					<h:panelGrid cellpadding="2">
+
+						<h:outputLabel value="Usuário" styleClass="ui-priority-primary" />
+						<p:selectOneMenu value="#{pendenciaControle.usuario.userName}"
+							style="width:250px;">
+							<f:selectItem itemLabel="TODOS" itemValue=""
+								id="usuario" />
+							<f:selectItems value="#{pendenciaControle.usuarios}" var="usua"
+								itemLabel="#{usua.firstName} #{usua.lastName}"
+								itemValue="#{usua.userName}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+
+					<h:panelGrid cellpadding="2" columns="4">
+						<p:commandButton id="btnSearh" value="Pesquisar"
+							action="#{pendenciaControle.pesquisar}"
+							update=":formSearch:panelGrid, :formSearch:btnPrint" icon="ui-icon-search"
+							style="margin-right:20px;" styleClass="ui-priority-primary" />
+
+						<p:defaultCommand target="btnSearh" />
+
+						<p:commandButton id="btnPrint" value="Imprimir"
+							icon="ui-icon-print" action="#{pendenciaControle.imprimir}"
+							ajax="false" rendered="#{not empty pendenciaControle.resultList}" />
+
+						<p:blockUI block="formSearch" trigger="btnSearh">
+							processando...<br />
+							<p:graphicImage value="/resources/imagem/ajax-loader.gif" />
+						</p:blockUI>
+
+					</h:panelGrid>
+				</p:panel>
+			</c:if>
+
+			<p:panel header="Listagem de Pendências Leitura">
+				<p:dataTable id="panelGrid" var="item"
+					value="#{pendenciaControle.resultList}" rows="10" paginator="true"
+					paginatorPosition="bottom" paginatorAlwaysVisible="true"
+					emptyMessage="Nenhum registro encontrado."
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15,20">
+
+					<p:column style="text-align:left; width:100px">
+						<f:facet name="header" style="text-align:left;">
+							<h:outputText value="Protocolo" />
+						</f:facet>
+						<h:outputText value="#{item.businessKey}" />
+					</p:column>
+
+					<p:column style="text-align:left" headerText="Usuário">
+						<h:outputText value="#{item.login}" />
+					</p:column>
+
+					<p:column style="text-align:left" headerText="Data do Recebimento">
+						<h:outputText value="#{item.data}">
+							<f:convertDateTime pattern="MM/dd/yyyy" />
+						</h:outputText>
+
+					</p:column>
+
+					<c:if test="#{pendenciaControle.proprietario == true}">
+						<p:column style="text-align:center; width:100px"
+							headerText="Confirmar">
+							<p:commandButton
+								actionListener="#{pendenciaControle.confirmar(item)}"
+								icon="ui-icon-circle-check" styleClass="ui-priority-primary"
+								title="Confirmar" update="panelGrid" />
+						</p:column>
+					</c:if>
+					<f:facet name="footer">
+						<h:outputText
+							value="#{fn:length(pendenciaControle.resultList)} Registro(s) encontrado(s)." />
+					</f:facet>
+
+				</p:dataTable>
+
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

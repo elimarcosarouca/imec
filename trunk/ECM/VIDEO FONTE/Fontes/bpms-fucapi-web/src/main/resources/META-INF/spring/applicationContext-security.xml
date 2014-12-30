@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns="http://www.springframework.org/schema/security" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd         
+						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+	<!-- auto-config="true" -->
+	<http use-expressions="true">
+		<session-management invalid-session-url="/login.xhtml"/>
+		
+		<intercept-url pattern="/resources/**" access="permitAll"/>
+		<intercept-url pattern="/index.xhtml" access="permitAll"/>
+		<intercept-url pattern="/login.xhtml" access="permitAll"/>
+		<intercept-url pattern="/page/util/layout/layoutLogin.xhtml" access="permitAll"/>
+		
+		<intercept-url pattern="/home*" 			access="hasAnyRole('ROLE_REVISOR_APROVADOR')"/>
+		<intercept-url pattern="/pages/**" 			access="hasAnyRole('ROLE_REVISOR_APROVADOR')"/>
+		<form-login login-page="/login.xhtml" 		default-target-url="/home.xhtml" />
+	</http>
+	
+	<authentication-manager>
+		<authentication-provider >
+			<user-service>
+				<user name="user" password="user1" authorities="ROLE_USER"/>
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>

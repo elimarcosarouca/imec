@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	template="/pages/util/layout/layoutComplex.xhtml">
+
+	<!-- ==== Grid ======= -->
+	<ui:define name="content">
+		<div align="center"
+			style="width: 100%; height: 90%; position: absolute;">
+			<h:form id="form">
+
+				<p:panel id="panel" header="Cadastro de Solicitação"
+					style="margin-bottom:10px;" footer="* Campos obrigatórios">
+					<p:messages id="messages" />
+					<h:panelGrid columns="4" cellpadding="5">
+						<h:outputLabel value="Tipo" styleClass="ui-priority-primary" />
+						<p:selectOneMenu value="#{processoControle.tipoDocumento}"
+							converter="tipoDocumentoConverter" style="width:250px;">
+							<f:selectItems value="#{processoControle.tipoDocumentos}"
+								var="doc" itemLabel="#{doc.sigla} - #{doc.nome}"
+								itemValue="#{doc}" />
+						</p:selectOneMenu>
+
+						<h:outputLabel value="Origem" styleClass="ui-priority-primary" />
+						<p:selectOneMenu value="#{processoControle.origem}"
+							converter="origemConverter" style="width:250px;">
+							<f:selectItems value="#{processoControle.origems}" var="ori"
+								itemLabel="#{ori.sigla} - #{ori.nome}" itemValue="#{ori}" />
+						</p:selectOneMenu>
+
+						<h:outputLabel value="1º Revisor" styleClass="ui-priority-primary" />
+						<p:selectOneMenu value="#{processoControle.revisor1.userName}"
+							style="width:250px;">
+							<f:selectItems value="#{processoControle.usuariosGrupoRevisores}"
+								var="rev1" itemLabel="#{rev1.firstName} #{rev1.lastName}"
+								itemValue="#{rev1.userName}" />
+						</p:selectOneMenu>
+
+						<h:outputLabel value="2º Revisor" styleClass="ui-priority-primary" />
+						<p:selectOneMenu value="#{processoControle.revisor2.userName}"
+							style="width:250px;">
+							<f:selectItems value="#{processoControle.usuariosGrupoRevisores}"
+								var="rev2" itemLabel="#{rev2.firstName} #{rev2.lastName}"
+								itemValue="#{rev2.userName}" />
+						</p:selectOneMenu>
+
+						<h:outputLabel value="Aprovador" styleClass="ui-priority-primary" />
+						<p:selectOneMenu value="#{processoControle.aprovador.userName}"
+							style="width:250px;">
+							<f:selectItems value="#{processoControle.usuariosGrupoRevisores}"
+								var="apro" itemLabel="#{apro.firstName} #{apro.lastName}"
+								itemValue="#{apro.userName}" />
+						</p:selectOneMenu>
+
+					</h:panelGrid>
+
+					<h:panelGrid columns="1">
+						<h:outputText value="Descrição *" styleClass="ui-priority-primary" />
+						<p:inputTextarea rows="3" cols="30"
+							value="#{processoControle.descricao}" maxlength="255"
+							style="width:450px" id="descricao" autoResize="false"
+							required="true" requiredMessage="a descrição deve ser informada" />
+
+						<h:outputLabel value="Selecione os grupos a serem notificados * "
+							styleClass="ui-priority-primary" />
+						<p:pickList id="grupos" required="true" style="width:450px"
+							requiredMessage="informe os grupos"
+							value="#{processoControle.gruposDualListModel}" var="grupo"
+							itemLabel="#{grupo.shortName}" itemValue="#{grupo}"
+							converter="usuarioGrupoConverter" />
+						<p:message for="grupos" />
+					</h:panelGrid>
+
+				</p:panel>
+
+				<p:commandButton id="btnVoltar" value="Voltar"
+					action="#{processoControle.telaSelecionar}" ajax="true"
+					immediate="true" icon="ui-icon-circle-arrow-w"
+					style="margin-right:20px;" styleClass="ui-priority-primary" />
+
+				<p:commandButton id="buttonAvancar" value="Avancar" ajax="true"
+					icon="ui-icon-circle-arrow-e" update="panel, messages"
+					styleClass="ui-priority-primary"
+					action="#{processoControle.iniciar()}" />
+
+			</h:form>
+
+		</div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/pages/util/layout/layoutComplex.xhtml">
+
+	<ui:param name="pageTitle" value="Cadastro de Tarefa" />
+	<ui:param name="pageHeader" value="Cadastro de Tarefa" />
+	<ui:param name="managedBean" value="#{tarefaControle}" />
+
+	<ui:define name="content">
+
+		<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+			draggable="false" closable="false" resizable="false">
+			<p:graphicImage value="/design/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<h:form id="formSearch" prependId="false">
+
+			<p:panel
+				header="Dados da Solicitação - Protocolo: #{tarefaControle.entity.description} "
+				style="width:99%">
+				<h:panelGrid id="panelGrid" width="100%" columns="4">
+					<h:outputLabel
+						value="Origem: #{tarefaControle.entity.variaveisProcesso.origem.sigla}"
+						styleClass="ui-priority-primary" />
+					<h:outputLabel
+						value="Tipo de Documento: #{tarefaControle.entity.variaveisProcesso.tipoDocumento.sigla}"
+						styleClass="ui-priority-primary" />
+					<h:outputLabel
+						value="1º Revisor: #{tarefaControle.entity.variaveisProcesso.revisor1}"
+						styleClass="ui-priority-primary" />
+					<h:outputLabel
+						value="2º Revisor: #{tarefaControle.entity.variaveisProcesso.revisor2}"
+						styleClass="ui-priority-primary" />
+					<h:outputLabel
+						value="Aprovador: #{tarefaControle.entity.variaveisProcesso.aprovador}"
+						styleClass="ui-priority-primary" />
+
+					<p:commandButton id="download" value="Baixar Documento"  immediate="true"
+						ajax="false" actionListener="#{tarefaControle.downloadArquivo}"
+						icon="ui-icon-document" styleClass="ui-priority-primary">
+						<p:fileDownload value="#{tarefaControle.file}" />
+					</p:commandButton>
+
+				</h:panelGrid>
+			</p:panel>
+
+			<h:panelGrid id="panelGridDesenho" width="100%">
+
+				<p:dataTable id="gridDesenho" var="item"
+					value="#{tarefaControle.desenhos}" rows="20" paginator="true"
+					paginatorPosition="bottom" paginatorAlwaysVisible="true"
+					emptyMessage="Nenhum registro encontrado."
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="20,30,40">
+
+					<p:column style="text-align:left" headerText="Família do Produto">
+						<h:outputText value="#{item.familia.nome}" />
+					</p:column>
+
+					<p:column style="text-align:left"
+						headerText="Desenho [ Tipo Grupo Complemento ]">
+						<h:outputText
+							value="#{item.tipoDesenho.nome} #{item.grupo} #{item.complemento}" />
+					</p:column>
+
+					<p:column style="text-align:left" headerText="Revisão/Edição">
+						<h:outputText value="#{item.revisaoEdicao}" />
+					</p:column>
+
+					<p:column style="text-align:left" headerText="Situação">
+						<h:outputText value="#{item.situacaoVersaoAtual}" />
+					</p:column>
+
+					<p:column style="text-align:center; width:100px"
+						headerText="Desenho">
+						<p:commandButton action="#{tarefaControle.consultarDesenho(item)}"
+							icon="ui-icon-search" title="Desenho" immediate="true"
+							styleClass="ui-priority-primary" />
+					</p:column>
+
+					<f:facet name="footer">
+						<h:outputText
+							value="#{fn:length(tarefaControle.desenhos)} Registro(s) encontrado(s)." />
+					</f:facet>
+
+				</p:dataTable>
+
+			</h:panelGrid>
+
+			<p:panel header="Parecer Técnico " style="width:99%"
+				footer="* Campos obrigatórios">
+				<p:messages id="msg" />
+				<h:panelGrid columnClasses="grid" columns="1">
+					<h:outputLabel value="Observação *" styleClass="ui-priority-primary"/>
+
+					<p:inputTextarea rows="5" cols="30" counter="counter"
+						value="#{tarefaControle.parecer}" maxlength="255"
+						counterTemplate="{0} caracteres digitados." style="width:400px"
+						autoResize="false" required="true"
+						requiredMessage="A observação deve ser informada!" />
+
+					<h:outputText id="counter" />
+
+				</h:panelGrid>
+
+				<p:commandButton id="btnVoltar" value="Voltar" immediate="true"
+					action="#{tarefaControle.telaSearch}" icon="ui-icon-circle-arrow-w"
+					style="margin-right:20px;" styleClass="ui-priority-primary" />
+
+				<p:commandButton id="btnAprovar" value="Aprovar" update="msg"
+					action="#{tarefaControle.aprovar}" icon="ui-icon-circle-check"
+					style="margin-right:20px;" styleClass="ui-priority-primary" />
+
+				<p:commandButton id="btnReprovar" value="Reprovar" update="msg"
+					action="#{tarefaControle.reprovar}" icon="ui-icon-closethick"
+					style="margin-right:20px;" styleClass="ui-priority-primary" />
+
+				<p:defaultCommand target="btnAprovar" />
+
+				<p:blockUI block="formSearch" trigger="btnAprovar, btnReprovar">
+							processando...<br />
+					<p:graphicImage value="/resources/imagem/ajax-loader.gif" />
+				</p:blockUI>
+
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

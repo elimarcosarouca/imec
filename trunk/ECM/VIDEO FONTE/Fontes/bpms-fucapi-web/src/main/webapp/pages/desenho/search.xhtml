@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/pages/util/layout/layoutComplex.xhtml">
+
+	<ui:param name="pageTitle" value="Pesquisa Customizada de Desenhos" />
+	<ui:param name="pageHeader" value="Pesquisa de Desenhos" />
+	<ui:param name="managedBean" value="#{desenhoControle}" />
+
+	<ui:define name="content">
+
+		<h:form id="formSearch" prependId="false">
+
+			<h:panelGrid id="msg" cellpadding="1">
+				<p:growl id="msgGrowl" />
+			</h:panelGrid>
+
+			<!-- ==== Filtro ===== -->
+			<p:panel header="Filtro de pesquisa de Desenhos" style="width:99%;">
+				<h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="5">
+					<h:outputText value="Origem do Documento " styleClass="ui-priority-primary"/>
+					<p:selectOneMenu
+						value="#{desenhoControle.origem.id}"
+						style="width:250px;">
+						<f:selectItems value="#{desenhoControle.origens}" var="ori"
+							itemLabel="#{ori.sigla} - #{ori.nome}" itemValue="#{ori.id}" />
+					</p:selectOneMenu>
+					
+					<h:outputText value="Tipo Documento" styleClass="ui-priority-primary"/>
+					<p:selectOneMenu
+						value="#{desenhoControle.tipoDocumento.id}"
+						style="width:250px;">
+						<f:selectItems value="#{desenhoControle.tipoDocumentos}" var="tipoDocu"
+							itemLabel="#{tipoDocu.sigla} - #{tipoDocu.nome}" itemValue="#{tipoDocu.id}" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Grupo" styleClass="ui-priority-primary"/>
+					<p:inputText value="#{desenhoControle.metadadoDesenho.grupo}"
+						style="width:190px;" />
+
+					<h:outputText value="Complemento" styleClass="ui-priority-primary" />
+					<p:inputText value="#{desenhoControle.metadadoDesenho.complemento}"
+						style="width:190px;" />
+				</h:panelGrid>
+				<center>
+					<h:panelGrid columns="6" style="margin-bottom:10px;"
+						cellpadding="5">
+						<p:selectBooleanCheckbox value="#{desenhoControle.valido}" />
+						<p:outputLabel value="Válido " styleClass="ui-priority-primary"/>
+
+						<p:selectBooleanCheckbox value="#{desenhoControle.invalido}" />
+						<p:outputLabel value="inválido " styleClass="ui-priority-primary"/>
+
+						<p:selectBooleanCheckbox value="#{desenhoControle.transitorio}" />
+						<p:outputLabel value="Transitório " styleClass="ui-priority-primary"/>
+					</h:panelGrid>
+				</center>
+
+				<p:commandButton id="btnSearh" value="Pesquisar"
+					action="#{desenhoControle.pesquisarDesenhos}"
+					update=":formSearch:panelGrid :formSearch:msg"
+					icon="ui-icon-search" style="margin-right:20px;"
+					styleClass="ui-priority-primary" />
+				<p:defaultCommand target="btnSearh" />
+			</p:panel>
+
+			<!-- ==== Grid ======= -->
+			<h:panelGrid id="panelGrid" width="100%">
+
+				<p:dataTable id="grid" var="item"
+					value="#{desenhoControle.metadadoDesenhos}" rows="20"
+					paginator="true" paginatorPosition="bottom"
+					paginatorAlwaysVisible="true"
+					emptyMessage="Nenhum registro encontrado."
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="20,30,40">
+
+					<p:column style="text-align:left" headerText="Protocolo">
+						<h:outputText value="#{item.businessKey}" />
+					</p:column>
+
+					<p:column style="text-align:left"
+						headerText="Desenho [ Tipo Grupo Complemento ]">
+						<h:outputText
+							value="#{item.tipoDesenho.nome} #{item.grupo} #{item.complemento}" />
+					</p:column>
+
+					<p:column style="text-align:left" headerText="Desenho">
+						<h:outputText value="#{item.nomeArquivo}" />
+					</p:column>
+
+					<p:column style="text-align:left" headerText="Origem">
+						<h:outputText value="#{item.origem.sigla}" />
+					</p:column>
+					
+					<p:column style="text-align:left" headerText="Tipo">
+						<h:outputText value="#{item.tipoDocumento.sigla}" />
+					</p:column>
+
+					<p:column style="text-align:center; width:100px"
+						headerText="Data do cadastrado">
+						<h:outputText value="#{item.dataCadastro}">
+							<f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss" />
+						</h:outputText>
+					</p:column>
+
+					<p:column style="text-align:center; width:100px" headerText="Detalhe">
+						<p:commandButton action="#{desenhoControle.detalhe(item)}"
+							icon="ui-icon-search" title="Editar"
+							styleClass="ui-priority-primary" />
+					</p:column>
+
+					<f:facet name="footer">
+						<h:outputText
+							value="#{fn:length(desenhoControle.metadadoDesenhos)} Registro(s) encontrado(s)." />
+					</f:facet>
+
+				</p:dataTable>
+
+			</h:panelGrid>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
