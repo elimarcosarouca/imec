@@ -84,7 +84,7 @@ public class TreinamentoRN {
 		variaveisTarefaTemp.setParecer(variaveisTreinamento.getParecer());
 		variaveisTarefaTemp.setId(Long.valueOf(tarefaInstancia.getId()));
 		
-		variaveisTarefaServico.salvar(variaveisTarefaTemp);
+		variaveisTarefaServico.save(variaveisTarefaTemp);
 	}
 	
 	public VariaveisTreinamento completarTarefa(

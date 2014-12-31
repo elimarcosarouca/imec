@@ -4,10 +4,8 @@ import java.util.List;
 
 import br.fucapi.ads.modelo.dominio.UsuarioGrupoLog;
 
-public interface UsuarioGrupoLogServico {
+public interface UsuarioGrupoLogServico extends Servico<UsuarioGrupoLog, Long> {
 
-	public List<UsuarioGrupoLog> listarTodos();
-
-	public UsuarioGrupoLog salvar(UsuarioGrupoLog usuarioGrupoLog);
+	List<UsuarioGrupoLog> pesquisar(UsuarioGrupoLog abstractEntity);
 
 }

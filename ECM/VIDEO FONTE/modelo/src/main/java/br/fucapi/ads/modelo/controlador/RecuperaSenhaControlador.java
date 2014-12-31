@@ -51,7 +51,8 @@ public class RecuperaSenhaControlador implements Serializable {
         HttpServletRequest request = (HttpServletRequest)extContext.getRequest();
 		token = request.getParameter("token");
 	
-		UsuarioToken usuarioToken = usuarioTokenServico.findByToken(token);
+		// TODO AJUSTAR
+		UsuarioToken usuarioToken = null ;//usuarioTokenServico.getByPrimaryKey(new Long (token));
 		
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(usuarioToken.getDataGeracao());
@@ -85,7 +86,9 @@ public class RecuperaSenhaControlador implements Serializable {
 			SecurityContextHolder.clearContext();
 		}
 		
-		UsuarioToken usuarioToken2 = usuarioTokenServico.findByToken(token);
+//		UsuarioToken usuarioToken2 = usuarioTokenServico.findByToken(token);
+//		TODO
+		UsuarioToken usuarioToken2 = null;
 		if (usuarioToken2 != null && usuarioToken2.getUserName().equals(usuario.getUserName()) && !usuarioToken2.getUtilizado()) {
 	
 			Date dataToken = usuarioToken2.getDataGeracao();
@@ -115,7 +118,7 @@ public class RecuperaSenhaControlador implements Serializable {
 				UsuarioToken usuarioToken = usuarioToken2;
 				usuarioToken.setUtilizado(true);
 				usuarioToken.setDataUtilizacao(dataAtual);
-				usuarioTokenServico.salvar(usuarioToken);
+				usuarioTokenServico.save(usuarioToken);
 				
 				}
 	

@@ -192,7 +192,7 @@ public class GrupoControladorBean implements Serializable {
 							.getProperty("alert.group.create.delete"), ""));
 
 		//	grupoLog.setOperacao("E");
-			grupoLogServico.salvar(grupoLog);
+			grupoLogServico.save(grupoLog);
 
 			listarGrupoAlfresco();
 
@@ -287,7 +287,7 @@ public class GrupoControladorBean implements Serializable {
 				this.alfrescoServico.incluirUsuarioGrupo(usuario.getUserName(),
 						this.usuarioGrupo.getShortName());
 
-				usuarioGrupoLogServico.salvar(usuarioGrupoLog);
+				usuarioGrupoLogServico.save(usuarioGrupoLog);
 
 				FacesContext.getCurrentInstance().addMessage(
 						null,
@@ -301,7 +301,7 @@ public class GrupoControladorBean implements Serializable {
 						this.usuarioGrupo.getShortName());
 
 				usuarioGrupoLog.setOperacao("E");
-				usuarioGrupoLogServico.salvar(usuarioGrupoLog);
+				usuarioGrupoLogServico.save(usuarioGrupoLog);
 
 				FacesContext.getCurrentInstance().addMessage(
 						null,
