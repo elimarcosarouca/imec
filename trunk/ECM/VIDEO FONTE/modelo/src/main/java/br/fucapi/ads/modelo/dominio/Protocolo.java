@@ -1,39 +1,48 @@
 package br.fucapi.ads.modelo.dominio;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "fuca_protocolo")
-public class Protocolo implements Serializable {
+import flexjson.JSONDeserializer;
+import flexjson.JSONSerializer;
+import flexjson.transformer.DateTransformer;
 
-	private static final long serialVersionUID = 1072596548624389200L;
+/**
+ * The persistent class for the saa_sistema database table.
+ * 
+ */
+@Entity
+@Table(name = "ECM_PROTOCOLO")
+public class Protocolo extends AbstractEntity implements Serializable {
+
+	private static final long serialVersionUID = -8769403963489756354L;
 
 	@Id
-	@Column(name = "prot_id", nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	@GeneratedValue(generator = "SEQ_ECM_PROTOCOLO", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_PROTOCOLO", name = "SEQ_ECM_PROTOCOLO")
+	@Column(name = "ID_ECM_PROTOCOLO")
+	private Long id;
 
-	@Column(name = "prot_sequencial", nullable = false, length = 10)
+	@Column(nullable = false, length = 10)
 	private int sequencial;
 
-	@Column(name = "prot_ano", nullable = false, length = 4)
+	@Column(nullable = false, length = 4)
 	private int ano;
-	
-	@Column(name = "prot_tipo_protocolo", nullable = false, length = 30)
-	private String tipoProtocolo;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -53,27 +62,20 @@ public class Protocolo implements Serializable {
 		this.ano = ano;
 	}
 
-	public Protocolo(int id, int sequencial, int ano) {
-		this.id = id;
-		this.sequencial = sequencial;
-		this.ano = ano;
+	public static Protocolo fromJsonToObject(String json) {
+		return new JSONDeserializer<Protocolo>().use(null, Protocolo.class)
+				.deserialize(json);
 	}
 
-	public Protocolo() {
-		super();
+	public String toJson() {
+		return new JSONSerializer()
+				.exclude("*.class")
+				.transform(new DateTransformer("dd/MM/yyyy HH:mm:ss"),
+						Date.class).serialize(this);
 	}
 
-	public String getTipoProtocolo() {
-		return tipoProtocolo;
-	}
-
-	public void setTipoProtocolo(String tipoProtocolo) {
-		this.tipoProtocolo = tipoProtocolo;
-	}
-
-	@Override
-	public String toString() {
-		return this.sequencial + "/" +this.ano;
+	public static String toJsonArray(Collection<Protocolo> collection) {
+		return new JSONSerializer().exclude("*.class").serialize(collection);
 	}
 
 }

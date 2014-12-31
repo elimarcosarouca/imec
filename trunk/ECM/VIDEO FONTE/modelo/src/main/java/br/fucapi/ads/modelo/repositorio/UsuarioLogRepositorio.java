@@ -1,10 +1,12 @@
 package br.fucapi.ads.modelo.repositorio;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 import br.fucapi.ads.modelo.dominio.UsuarioLog;
 
 public interface UsuarioLogRepositorio extends
-		JpaRepository<UsuarioLog, Integer> {
+		GenericRepositorio<UsuarioLog, Long> {
+	
+	public List<UsuarioLog> pesquisar(UsuarioLog entity);
 
 }

@@ -105,7 +105,7 @@ public class EmailControlador {
 		usuarioToken.setDataGeracao(new Date());
 		usuarioToken.setUtilizado(false);
 		usuarioToken.setUserName(this.usuario.getUserName());
-		usuarioTokenServico.salvar(usuarioToken);
+		usuarioTokenServico.save(usuarioToken);
 				
 		MimeMessagePreparator preparator = new MimeMessagePreparator() {
 			public void prepare(MimeMessage mimeMessage) throws Exception {
@@ -153,7 +153,7 @@ public class EmailControlador {
 		usuarioToken.setDataGeracao(new Date());
 		usuarioToken.setUtilizado(false);
 		usuarioToken.setUserName(usuario.getUserName());
-		usuarioTokenServico.salvar(usuarioToken);
+		usuarioTokenServico.save(usuarioToken);
 				
 		MimeMessagePreparator preparator = new MimeMessagePreparator() {
 			public void prepare(MimeMessage mimeMessage) throws Exception {

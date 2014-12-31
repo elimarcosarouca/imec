@@ -192,8 +192,8 @@ public class TreinamentoControlador implements Serializable {
 			return "";
 		}
 
-		this.protocolo = protocoloServico
-				.gerarProtocolo(this.variaveisTreinamento.getTipoSolicitacao());
+//		this.protocolo = protocoloServico
+//				.gerarProtocolo(this.variaveisTreinamento.getTipoSolicitacao());
 
 		this.variaveisTreinamento.setSequencial(protocolo.getSequencial());
 		this.variaveisTreinamento.setAno(protocolo.getAno());
@@ -259,8 +259,9 @@ public class TreinamentoControlador implements Serializable {
 			this.variaveisTreinamento
 					.converterListaVariaveisParaVariaveisProcesso(tarefaInstancia
 							.getVariables());
-			
-			this.variaveisTarefa = variaveisTarefaServico.findById(new Long(tarefaInstancia.getId()));
+			//TODO
+//			this.variaveisTarefa = variaveisTarefaServico.findById(new Long(tarefaInstancia.getId()));
+			this.variaveisTarefa = null;
 			
 			// Atualiza as variaveis da tarefa com os dados inseridos no banco
 			if (this.variaveisTarefa != null)
@@ -351,7 +352,9 @@ public class TreinamentoControlador implements Serializable {
 	
 	public void detalheTarefa(TarefaInstancia tarefa) {
 		this.tarefa = tarefa;
-		this.variaveisTarefa = variaveisTarefaServico.findById(Long.valueOf(tarefa.getId()));
+//		TODO
+//		this.variaveisTarefa = variaveisTarefaServico.findById(Long.valueOf(tarefa.getId()));
+		this.variaveisTarefa = null;
 		
 		if (this.variaveisTarefa != null) {
 			((VariaveisTreinamento)this.tarefa.getVariaveisProcesso()).setAcao(this.variaveisTarefa.getAcao());

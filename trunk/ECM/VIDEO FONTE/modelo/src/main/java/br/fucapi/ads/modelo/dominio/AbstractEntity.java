@@ -11,73 +11,79 @@ import javax.persistence.Transient;
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
 
-        private static final long serialVersionUID = -1094782059469169706L;
+	private static final long serialVersionUID = -1094782059469169706L;
 
-        @Transient
-        private boolean checked;
+	@Transient
+	private boolean checked;
 
-        @Transient
-        private Long id = null;
+	@Transient
+	private Long id = null;
 
-        public AbstractEntity() {
-        }
+	public AbstractEntity() {
+	}
 
-        @PostLoad
-        void loadId() {
-                try {
-                        Field field = ReflectionsUtil.findAnnotatedFields(this.getClass(),
-                                        Id.class)[0];
-                        field.setAccessible(true);
-                        id = new Long(field.get(this).toString());
-                } catch (Exception e) {
-                        e.printStackTrace();
-                }
-        }
+	@PostLoad
+	void loadId() {
+		try {
+			Field field = ReflectionsUtil.findAnnotatedFields(this.getClass(),
+					Id.class)[0];
+			field.setAccessible(true);
+			id = new Long(field.get(this).toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-        public boolean isPersistent() {
-                return getId() != null;
-        }
+	public boolean isPersistent() {
+		return getId() != null;
+	}
 
-        /** HashCode. */
-        @Override
-        public int hashCode() {
-                final int prime = 31;
-                int result = 1;
-                result = (int) (prime * result + ((id == null) ? 0 : id));
-                return result;
-        }
+	/** HashCode. */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = (int) (prime * result + ((id == null) ? 0 : id));
+		return result;
+	}
 
-        /** Equals. */
-        @Override
-        public boolean equals(Object obj) {
-                if (this == obj) {
-                        return true;
-                }
-                if (obj == null) {
-                        return false;
-                }
-                final AbstractEntity other = (AbstractEntity) obj;
+	/** Equals. */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
 
-                if ((this.id == null) || (other.id == null)) {
-                        return false;
-                }
+		if (!getClass().equals(obj.getClass())) {
+			return false;
+		}
 
-                if (this.id.intValue() != other.id.intValue()) {
-                        return false;
-                }
+		final AbstractEntity other = (AbstractEntity) obj;
 
-                return true;
-        }
+		if ((this.id == null) || (other.id == null)) {
+			return false;
+		}
 
-        public boolean isChecked() {
-                return checked;
-        }
+		if (this.id.intValue() != other.id.intValue()) {
+			return false;
+		}
 
-        public void setChecked(boolean checked) {
-                this.checked = checked;
-        }
+		return true;
+	}
 
-        public Long getId() {
-                return id;
-        }
+	public boolean isChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
 }

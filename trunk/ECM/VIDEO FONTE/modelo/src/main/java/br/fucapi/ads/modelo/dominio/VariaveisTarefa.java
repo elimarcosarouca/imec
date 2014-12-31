@@ -1,41 +1,36 @@
 package br.fucapi.ads.modelo.dominio;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
- * @author claudemirferreira
- * Armazenar os dados tarefa
+ * @author claudemirferreira Armazenar os dados tarefa
  */
 
 @Entity
-@Table(name = "variaveis_tarefa")
-public class VariaveisTarefa {
+@Table(name = "ECM_VARIAVEIS_TAREFA")
+public class VariaveisTarefa extends AbstractEntity implements Serializable {
+
+	private static final long serialVersionUID = 2934198621805545061L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long idVariaveisTarefa;
-
-	@Column(nullable = false)
+	@GeneratedValue(generator = "SEQ_ECM_VARIAVEIS_TAREFA", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_VARIAVEIS_TAREFA", name = "SEQ_ECM_VARIAVEIS_TAREFA")
+	@Column(name = "ID_ECM_VARIAVEIS_TAREFA")
 	private Long id;
 
 	@Column(nullable = false, length = 300)
 	private String parecer;
-	
+
 	@Column(nullable = false, length = 300)
 	private String acao;
-
-	public Long getIdVariaveisTarefa() {
-		return idVariaveisTarefa;
-	}
-
-	public void setIdVariaveisTarefa(Long idVariaveisTarefa) {
-		this.idVariaveisTarefa = idVariaveisTarefa;
-	}
 
 	public Long getId() {
 		return id;

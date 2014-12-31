@@ -186,7 +186,7 @@ public class UsuarioControladorBean implements Serializable {
 						.getAuthentication().getPrincipal()).getUserName(),
 				new Date(), operacao);
 
-		usuarioGrupoLogServico.salvar(usuarioGrupoLog);
+		usuarioGrupoLogServico.save(usuarioGrupoLog);
 	}
 
 	public void incluirUsuarioGrupo() {
@@ -200,7 +200,7 @@ public class UsuarioControladorBean implements Serializable {
 						.getAuthentication().getPrincipal()).getUserName(),
 				new Date(), "I");
 
-		usuarioGrupoLogServico.salvar(usuarioGrupoLog);
+		usuarioGrupoLogServico.save(usuarioGrupoLog);
 	}
 
 	public void excluirUsuarioGrupo() {
@@ -215,7 +215,7 @@ public class UsuarioControladorBean implements Serializable {
 						.getAuthentication().getPrincipal()).getUserName(),
 				new Date(), "D");
 
-		usuarioGrupoLogServico.salvar(usuarioGrupoLog);
+		usuarioGrupoLogServico.save(usuarioGrupoLog);
 	}
 
 	public void incluirUsuario() throws RemoteException {
@@ -243,7 +243,7 @@ public class UsuarioControladorBean implements Serializable {
 				.getAuthentication().getPrincipal()).getUserName());
 
 		// INSERI O LOG DO REGISTRO
-		usuarioLogServico.salvar(usuarioLog);
+		usuarioLogServico.save(usuarioLog);
 
 		this.usuario = new Usuario();
 	}
@@ -268,7 +268,7 @@ public class UsuarioControladorBean implements Serializable {
 				.getAuthentication().getPrincipal()).getUserName());
 
 		// INSERI O LOG DO REGISTRO
-		usuarioLogServico.salvar(usuarioLog);
+		usuarioLogServico.save(usuarioLog);
 	}
 
 	public void telaPesquisa() {

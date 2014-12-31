@@ -1,9 +1,10 @@
 package br.fucapi.ads.modelo.repositorio;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 import br.fucapi.ads.modelo.dominio.GrupoLog;
 
-public interface GrupoLogRepositorio extends JpaRepository<GrupoLog, Integer> {
+public interface GrupoLogRepositorio extends GenericRepositorio<GrupoLog, Long> {
+	List<GrupoLog> pesquisar(GrupoLog abstractEntity);
 
 }

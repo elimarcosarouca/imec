@@ -5,12 +5,6 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/relatorios"/>
-        <dependent-module archiveName="bpms-activiti-servico-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/bpms-activiti-servico/bpms-activiti-servico">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="bpms-alfresco-servico-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/bpms-alfresco-servico/bpms-alfresco-servico">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <property name="java-output-path" value="/ads-fucapi-web01/target/classes"/>
         <property name="context-root" value="modelo"/>
     </wb-module>

@@ -8,17 +8,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table( name="usuario_tarefa")
-public class UsuarioTarefa implements Serializable {
+@Table( name="ECM_USUARIO_TAREFA")
+public class UsuarioTarefa extends AbstractEntity implements Serializable {
 
-	private static final long serialVersionUID = -4799348218025777240L;
+	private static final long serialVersionUID = 9145682138419512253L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	@GeneratedValue(generator = "SEQ_ECM_USUARIO_TAREFA", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_USUARIO_TAREFA", name = "SEQ_ECM_USUARIO_TAREFA")
+	@Column(name = "ID_ECM_USUARIO_TAREFA")
+	private Long id;
 
 	@Column(nullable = false)
 	private String idTarefa;
@@ -35,11 +38,11 @@ public class UsuarioTarefa implements Serializable {
 	@Column(nullable = false)
 	private Date dataAlteracao;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

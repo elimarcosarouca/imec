@@ -8,39 +8,41 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "fuca_notificacao")
-public class Notificacao implements Serializable {
+@Table(name = "ECM_NOTIFICACAO")
+public class Notificacao extends AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = 8937597170343910319L;
 
 	@Id
-	@Column(name = "noti_id", nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	@GeneratedValue(generator = "SEQ_ECM_NOTIFICACAO", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_NOTIFICACAO", name = "SEQ_ECM_NOTIFICACAO")
+	@Column(name = "ID_ECM_NOTIFICACAO")
+	private Long id;
 	
-	@Column(name = "noti_protocolo", nullable = false, length =30)
+	@Column(nullable = false, length =30)
 	private String protocolo;
 	
-	@Column(name = "noti_descricao", nullable = false, length =100)
+	@Column( nullable = false, length =100)
 	private String descricao;
 	
-	@Column(name = "noti_login", nullable = false, length =30)
+	@Column( nullable = false, length =30)
 	private String login;
 	
-	@Column(name = "noti_data", nullable = false)
+	@Column( nullable = false)
 	private Date data;
 	
-	@Column(name = "noti_data_leitura", nullable = true)
+	@Column( nullable = true)
 	private Date dataLeitura;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

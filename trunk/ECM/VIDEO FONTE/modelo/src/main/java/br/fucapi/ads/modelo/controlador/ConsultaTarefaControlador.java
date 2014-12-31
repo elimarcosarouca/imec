@@ -199,8 +199,11 @@ public class ConsultaTarefaControlador implements Serializable {
 	}
 
 	public void detalhe(TarefaInstancia tarefa) {
-		VariaveisTarefa variaveis = this.variaveisTarefaServico
-				.findById(new Long(tarefa.getId()));
+//		TODO
+//		VariaveisTarefa variaveis = this.variaveisTarefaServico
+//				.findById(new Long(tarefa.getId()));
+		
+		VariaveisTarefa variaveis = null;
 
 		if (variaveis != null) {
 			((VariaveisTreinamento) tarefa.getVariaveisProcesso())
@@ -227,7 +230,7 @@ public class ConsultaTarefaControlador implements Serializable {
 		usuarioTarefa.setLoginAnterior(this.tarefaAlteracao.getAssignee());
 		usuarioTarefa.setLoginNovo(this.usuarioExecutor.getUserName());
 
-		this.usuarioTarefaServico.salvar(usuarioTarefa);
+		this.usuarioTarefaServico.save(usuarioTarefa);
 
 		this.pesquisar();
 

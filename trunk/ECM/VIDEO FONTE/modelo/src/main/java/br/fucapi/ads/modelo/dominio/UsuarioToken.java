@@ -1,5 +1,6 @@
 package br.fucapi.ads.modelo.dominio;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -7,16 +8,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "usuario_token")
-public class UsuarioToken {
+@Table(name = "ECM_USUARIO_TOKEN")
+public class UsuarioToken extends AbstractEntity implements Serializable {
+
+	private static final long serialVersionUID = -3197181642608086108L;
 
 	@Id
-	@Column(name = "id", nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@GeneratedValue(generator = "SEQ_ECM_USUARIO_TOKEN", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_USUARIO_TOKEN", name = "SEQ_ECM_USUARIO_TOKEN")
+	@Column(name = "ID_ECM_USUARIO_TOKEN")
+	private Long id;
 
 	@Column(name = "token", nullable = false)
     private String token;

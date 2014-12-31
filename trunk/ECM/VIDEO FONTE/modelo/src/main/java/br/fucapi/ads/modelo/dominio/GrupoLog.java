@@ -8,19 +8,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "fuc_grupo_log")
-public class GrupoLog implements Serializable {
+@Table(name = "ECM_GRUPO_LOG")
+public class GrupoLog extends AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@Column(nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	@GeneratedValue(generator = "SEQ_ECM_GRUPO_LOG", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_GRUPO_LOG", name = "SEQ_ECM_GRUPO_LOG")
+	@Column(name = "ID_ECM_GRUPO_LOG")
+	private Long id;
 
 	@Column(nullable = false, length = 60)
 	private String grupo;
@@ -36,11 +38,11 @@ public class GrupoLog implements Serializable {
 
 
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
