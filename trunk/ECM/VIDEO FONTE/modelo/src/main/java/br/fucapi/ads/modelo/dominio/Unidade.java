@@ -1,8 +1,6 @@
 package br.fucapi.ads.modelo.dominio;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +12,6 @@ import javax.persistence.Table;
 
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
-import flexjson.transformer.DateTransformer;
 
 /**
  * The persistent class for the saa_sistema database table.
@@ -59,20 +56,20 @@ public class Unidade extends AbstractEntity implements Serializable {
 	public Unidade() {
 	}
 
-	public static Unidade fromJsonToObject(String json) {
+	public boolean equals(Object o) {
+		if (((Unidade) o).getId() == this.id)
+			return true;
+		else
+			return false;
+	}
+
+	public static Unidade fromJsonToUnidade(String json) {
 		return new JSONDeserializer<Unidade>().use(null, Unidade.class)
 				.deserialize(json);
 	}
 
 	public String toJson() {
-		return new JSONSerializer()
-				.exclude("*.class")
-				.transform(new DateTransformer("dd/MM/yyyy HH:mm:ss"),
-						Date.class).serialize(this);
-	}
-
-	public static String toJsonArray(Collection<Unidade> collection) {
-		return new JSONSerializer().exclude("*.class").serialize(collection);
+		return new JSONSerializer().exclude("*.class").serialize(this);
 	}
 
 }

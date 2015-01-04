@@ -18,6 +18,13 @@
 						value="paginas/solicitacao/treinamento/cadastro.xhtml" />
             </p:menuitem> 
             
+            <p:menuitem value="Publicar Documento" update=":paginaCentral" id="publicarDocumento"
+            action="#{publicarDocumentoControlador.inicioNovaSolicitacao}" >
+            	<f:setPropertyActionListener
+						target="#{paginaCentralControladorBean.paginaCentral}"
+						value="paginas/solicitacao/publicardocumento/cadastro.xhtml" />
+            </p:menuitem> 
+            
             <p:menuitem value="Tarefas Pendentes - #{tarefaControle.totalTarefas}" id="tarefasPendentes"
             	update=":paginaCentral" actionListener="#{tarefaControle.init}">
             	<f:setPropertyActionListener

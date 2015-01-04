@@ -39,8 +39,7 @@ public class ProtocoloServicoImpl extends GenericServico<Protocolo, Long>
 
 	@Override
 	public Protocolo gerarProtocolo() {
-		Calendar cal = Calendar.getInstance();
-		int ano = cal.get(Calendar.YEAR);
+		int ano = Calendar.getInstance().get(Calendar.YEAR);
 		Protocolo protocolo = new Protocolo();
 		protocolo.setAno(ano);
 		protocolo = repositorio.pesquisarPorAno(protocolo);
@@ -51,12 +50,13 @@ public class ProtocoloServicoImpl extends GenericServico<Protocolo, Long>
 			protocolo.setAno(ano);
 			protocolo.setId(1l);
 			protocolo.setSequencial(1);
+			
 		} else {
 			// atualiza o sequencial
 			protocolo.setSequencial(protocolo.getSequencial() + 1);
 		}
-		repositorio.save(protocolo);
-		return protocolo;
+		
+		return repositorio.merge(protocolo);
 	}
 
 }

@@ -13,8 +13,6 @@
 
 	<context:component-scan base-package="br.fucapi" />
 
-	<!-- <context:component-scan base-package="br.fucapi.ads.modelo" /> -->
-
 	<context:property-placeholder
 		location="classpath:ads.properties,classpath:messenger.properties,classpath:log4j.properties,classpath:web.properties,classpath:META-INF/spring/database-modelo.properties" />
 
@@ -27,12 +25,13 @@
 		<property name="url" value="${database.url}" />
 		<property name="username" value="${database.username}" />
 		<property name="password" value="${database.password}" />
+
 	</bean>
 
-	<bean
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
-		id="entityManagerFactoryModelo">
+	<bean id="entityManagerFactoryModelo"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSourceModelo" />
+		<property name="persistenceUnitName" value="persistenceUnitModelo" />
 	</bean>
 
 	<bean id="transactionManagerModelo" class="org.springframework.orm.jpa.JpaTransactionManager">
@@ -41,9 +40,7 @@
 
 	<bean class="org.springframework.orm.hibernate4.HibernateExceptionTranslator" />
 
-	<tx:annotation-driven transaction-manager="transactionManagerModelo" />
-
-	<jpa:repositories base-package="br.fucapi.ads.modelo.repositorio" />
+	<tx:annotation-driven transaction-manager="transactionManagerModelo"/>
 
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="${mail.server.host}" />
@@ -54,12 +51,12 @@
 			<props>
 				<prop key="mail.smtp.auth">${mail.server.port}</prop>
 				<prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
-<!-- 				<prop key="mail.smtp.ssl.enable">${mail.smtp.ssl.enable}</prop> -->
-<!-- 				<prop key="mail.smtps.debug">true</prop> -->
+				<!-- <prop key="mail.smtp.ssl.enable">${mail.smtp.ssl.enable}</prop> -->
+				<!-- <prop key="mail.smtps.debug">true</prop> -->
 			</props>
 		</property>
 	</bean>
-	
+
 	<bean id="velocityEngine"
 		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
 		<property name="velocityProperties">
@@ -70,10 +67,10 @@
 		</property>
 	</bean>
 
-<!-- 	<bean id="emailControlador" -->
-<!-- 		class="br.fucapi.ads.modelo.controlador.EmailControlador"> -->
-<!-- 		<property name="mailSender" ref="mailSender" /> -->
-<!-- 		<property name="velocityEngine" ref="velocityEngine" /> -->
-<!-- 	</bean> -->
+	<!-- <bean id="emailControlador" -->
+	<!-- class="br.fucapi.ads.modelo.controlador.EmailControlador"> -->
+	<!-- <property name="mailSender" ref="mailSender" /> -->
+	<!-- <property name="velocityEngine" ref="velocityEngine" /> -->
+	<!-- </bean> -->
 
 </beans>

@@ -29,6 +29,8 @@ public class Protocolo extends AbstractEntity implements Serializable {
 	@Id
 	@GeneratedValue(generator = "SEQ_ECM_PROTOCOLO", strategy = GenerationType.SEQUENCE)
 	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_PROTOCOLO", name = "SEQ_ECM_PROTOCOLO")
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID_ECM_PROTOCOLO")
 	private Long id;
 
@@ -76,6 +78,10 @@ public class Protocolo extends AbstractEntity implements Serializable {
 
 	public static String toJsonArray(Collection<Protocolo> collection) {
 		return new JSONSerializer().exclude("*.class").serialize(collection);
+	}
+	
+	public String toString(){
+		return this.getAno() + "" + this.getSequencial();
 	}
 
 }

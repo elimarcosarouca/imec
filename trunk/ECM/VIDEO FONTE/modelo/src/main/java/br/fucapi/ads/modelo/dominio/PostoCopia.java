@@ -60,7 +60,8 @@ public class PostoCopia extends AbstractEntity implements Serializable {
 		super();
 	}
 
-	public static PostoCopia fromJsonToObject(String json) {
+	
+	public static PostoCopia fromJsonToPostoCopia(String json) {
 		return new JSONDeserializer<PostoCopia>().use(null, PostoCopia.class)
 				.deserialize(json);
 	}

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -27,14 +26,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import br.fucapi.ads.modelo.dominio.Protocolo;
 import br.fucapi.ads.modelo.dominio.VariaveisTarefa;
 import br.fucapi.ads.modelo.dominio.VariaveisTreinamento;
+import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
 import br.fucapi.ads.modelo.regranegocio.TreinamentoRN;
+import br.fucapi.ads.modelo.servico.PostoCopiaServico;
 import br.fucapi.ads.modelo.servico.ProtocoloServico;
+import br.fucapi.ads.modelo.servico.SetorServico;
+import br.fucapi.ads.modelo.servico.TipoDocumentoServico;
+import br.fucapi.ads.modelo.servico.UnidadeServico;
 import br.fucapi.ads.modelo.servico.VariaveisTarefaServico;
 import br.fucapi.bpms.activiti.dominio.ProcessoDefinicao;
 import br.fucapi.bpms.activiti.dominio.ProcessoInstancia;
 import br.fucapi.bpms.activiti.dominio.TarefaInstancia;
 import br.fucapi.bpms.activiti.servico.ActivitiServico;
-import br.fucapi.bpms.activiti.util.DataUtil;
 import br.fucapi.bpms.activiti.util.JsonUtil;
 import br.fucapi.bpms.alfresco.dominio.Usuario;
 import br.fucapi.bpms.alfresco.dominio.UsuarioGrupo;
@@ -44,9 +47,11 @@ import com.sun.xml.ws.api.PropertySet.Property;
 
 @ManagedBean
 @SessionScoped
-public class TreinamentoControlador implements Serializable {
+public class PublicarDocumentoControlador implements Serializable {
 
 	private static final long serialVersionUID = 13244234324234332L;
+
+	private VariavelPublicarDocumento variaveis;
 
 	private ProcessoInstancia processoInstancia;
 	private ProcessoDefinicao processoDefinicao;
@@ -56,25 +61,18 @@ public class TreinamentoControlador implements Serializable {
 	private List<TarefaInstancia> tarefaInstancias;
 
 	private List<TarefaInstancia> tarefas;
-	
+
 	private TarefaInstancia tarefa;
-	
+
 	private VariaveisTarefa variaveisTarefa;
 
 	private String descricao;
 	private Protocolo protocolo;
 
-	private Usuario coordenador;
-	private Usuario diretor;
-	private Usuario RH;
-
 	private Usuario usuarioLogado;
-	private Usuario funcionario;
 
 	private List<UsuarioGrupo> gruposAlfresco;
 	private List<Usuario> usuariosGrupoRevisores;
-
-	private String status;
 
 	private DualListModel<UsuarioGrupo> gruposDualListModel;
 
@@ -82,9 +80,9 @@ public class TreinamentoControlador implements Serializable {
 
 	private String sequencial;
 	private String ano;
-	
+
 	private String imagem;
-	
+
 	private String motivoCancelamento;
 
 	private VariaveisTreinamento variaveisTreinamento;
@@ -108,33 +106,47 @@ public class TreinamentoControlador implements Serializable {
 
 	@ManagedProperty(value = "#{protocoloServicoImpl}")
 	private ProtocoloServico protocoloServico;
-	
+
 	@ManagedProperty(value = "#{variaveisTarefaServicoImpl}")
 	private VariaveisTarefaServico variaveisTarefaServico;
-	
-	private String TELA_PESQUISA = "paginas/solicitacao/pesquisa.xhtml";
-	
-	private String TELA_DETALHE = "paginas/solicitacao/treinamento/detalhe.xhtml";
-	
-	private String TELA_DETALHE_TAREFA = "paginas/solicitacao/treinamento/detalhetarefa.xhtml";
 
-	private Date dataInicial;
-	
-	private Date dataFinal;
-	
+	@ManagedProperty(value = "#{unidadeServicoImpl}")
+	private UnidadeServico unidadeServico;
+
+	@ManagedProperty(value = "#{postoCopiaServicoImpl}")
+	private PostoCopiaServico postoCopiaServico;
+
+	@ManagedProperty(value = "#{setorServicoImpl}")
+	private SetorServico setorServico;
+
+	@ManagedProperty(value = "#{tipoDocumentoServicoImpl}")
+	private TipoDocumentoServico tipoDocumentoServico;
+
+	private String TELA_PESQUISA = "paginas/solicitacao/pesquisa.xhtml";
+
+	private String TELA_DETALHE = "paginas/solicitacao/publicardocumento/detalhe.xhtml";
+
+	private String TELA_DETALHE_TAREFA = "paginas/solicitacao/publicardocumento/detalhetarefa.xhtml";
+
 	public String inicioNovaSolicitacao() {
 
-		this.variaveisTreinamento = new VariaveisTreinamento();
-		this.variaveisTreinamento.setSistema("FUCAPI");
-		this.variaveisTreinamento.setTipoSolicitacao("TREINAMENTO");
+		this.variaveis = new VariavelPublicarDocumento();
 
 		this.processoDefinicao = new ProcessoDefinicao();
-		this.processoDefinicao.setKey("TREINAMENTO");
+		this.processoDefinicao.setKey(variaveis.getTipoSolicitacao());
 
 		this.gruposDualListModel = new DualListModel<UsuarioGrupo>();
 		this.usuarios = alfrescoServico.getUsuarios();
+
+		this.variaveis.setProprietarios(usuarios);
+
 		this.usuarioLogado = (Usuario) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
+
+		this.variaveis.setUnidades(unidadeServico.listAll());
+		this.variaveis.setPostoCopias(postoCopiaServico.listAll());
+		this.variaveis.setSetores(setorServico.listAll());
+		this.variaveis.setTipoDocumentos(tipoDocumentoServico.listAll());
 
 		// TODO foi incluido o redirect porque as paginas não estavam
 		// carregando os componentes da paginas, devido a um bug do primefaces
@@ -155,40 +167,14 @@ public class TreinamentoControlador implements Serializable {
 	 */
 	public String salvarNovaSolicitacao() {
 		
+		this.protocolo = protocoloServico.gerarProtocolo();
 		
-		if (this.getDataInicial() != null && !"".equals(this.getDataInicial()) 
-				&& (this.getDataFinal() == null	|| "".equals(this.getDataFinal()))) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Data final deve ser informada!", ""));
-			
-		} else if (this.getDataFinal() != null && !"".equals(this.getDataFinal()) &&
-				(this.getDataInicial() == null || "".equals(this.getDataInicial()))) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Data inicial deve ser informada!", ""));  
-			
-		} else if (this.getDataFinal() != null && !"".equals(this.getDataFinal()) &&
-				(this.getDataInicial() != null || !"".equals(this.getDataInicial()))) {
-			
-			if(this.dataFinal.compareTo(this.dataInicial) < 0) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Data inicial deve ser menor que a data final!", ""));
-				return "";
-			}
-			else {
-				this.variaveisTreinamento.setDataInicial(DataUtil.formatarData(this.dataInicial.toString()));
-				this.variaveisTreinamento.setDataFinal(DataUtil.formatarData(this.dataFinal.toString()));
-			}
-			
-		}
-
-//		this.protocolo = protocoloServico
-//				.gerarProtocolo(this.variaveisTreinamento.getTipoSolicitacao());
-
-		this.variaveisTreinamento.setSequencial(protocolo.getSequencial());
-		this.variaveisTreinamento.setAno(protocolo.getAno());
+//		this.variaveisTreinamento.setSequencial(protocolo.getSequencial());
+//		this.variaveisTreinamento.setAno(protocolo.getAno());
 
 		// Seta no processo os dados do Solicitante do Treinamento
-		this.variaveisTreinamento.setSolicitante(this.usuarioLogado
-				.getUserName());
-		this.variaveisTreinamento.setEmailSolicitante(this.usuarioLogado
-				.getEmail());
+		this.variaveis.setSolicitante(this.usuarioLogado.getUserName());
+		this.variaveis.setProprietario(this.usuarioLogado);
 
 		// Converte as variaveis de processo em um Objeto Json
 		String json = variaveisTreinamento.ObjectToJson(
@@ -196,17 +182,18 @@ public class TreinamentoControlador implements Serializable {
 
 		// Envia o Objeto Json referente ao novo processo para ser executado
 		// atraves de um servico Rest
-//		this.activitiServico.iniciarInstanciaProcesso(json);
-		
+		// this.activitiServico.iniciarInstanciaProcesso(json);
+
 		// TODO - Realizacao de testes
-		this.activitiServico.iniciarInstanciaProcessoPorParametrosByKey("TREINAMENTO", this.protocolo.toString(), 
-				variaveisTreinamento.converterVariaveisProcessoParaMapaVariaveis());
+		this.activitiServico.iniciarInstanciaProcessoPorParametrosByKey(
+				"TREINAMENTO", this.protocolo.toString(), variaveisTreinamento
+						.converterVariaveisProcessoParaMapaVariaveis());
 
 		RequestContext request = RequestContext.getCurrentInstance();
 		request.execute("sucessoDialog.show()");
-		
+
 		this.variaveisTreinamento = new VariaveisTreinamento();
-		
+
 		return "";
 	}
 
@@ -217,8 +204,8 @@ public class TreinamentoControlador implements Serializable {
 		variaveis.put("acaoParecer", "PROCESSO CONCELADO");
 
 		String json = JsonUtil.converterVariaveisToJson(variaveis);
-		this.activitiServico
-				.atualizarVariaveis(this.processoInstancia.getId(), json);
+		this.activitiServico.atualizarVariaveis(this.processoInstancia.getId(),
+				json);
 
 		this.activitiServico.cancelarProcessoInstaciado(processoInstancia
 				.getId());
@@ -235,23 +222,24 @@ public class TreinamentoControlador implements Serializable {
 		this.processoInstancia = entity;
 
 		this.tarefaInstancias = activitiServico
-				.getHistoricoTarefasPorVariaveis( null, null, null, null,
+				.getHistoricoTarefasPorVariaveis(null, null, null, null,
 						this.processoInstancia.getId());
-
 
 		for (TarefaInstancia tarefaInstancia : this.tarefaInstancias) {
 			this.variaveisTreinamento = new VariaveisTreinamento();
-			
+
 			this.variaveisTreinamento
 					.converterListaVariaveisParaVariaveisProcesso(tarefaInstancia
 							.getVariables());
-			//TODO
-//			this.variaveisTarefa = variaveisTarefaServico.findById(new Long(tarefaInstancia.getId()));
+			// TODO
+			// this.variaveisTarefa = variaveisTarefaServico.findById(new
+			// Long(tarefaInstancia.getId()));
 			this.variaveisTarefa = null;
-			
+
 			// Atualiza as variaveis da tarefa com os dados inseridos no banco
 			if (this.variaveisTarefa != null)
-				this.variaveisTreinamento.converterVariaveisTarefa(this.variaveisTarefa);
+				this.variaveisTreinamento
+						.converterVariaveisTarefa(this.variaveisTarefa);
 
 			if (tarefaInstancia.getEndTime() != null) {
 				this.variaveisTreinamento.setSituacao("FINALIZADO");
@@ -261,14 +249,12 @@ public class TreinamentoControlador implements Serializable {
 			tarefaInstancia.setVariaveisProcesso(this.variaveisTreinamento);
 		}
 
-		paginaCentralControladorBean
-				.setPaginaCentral(this.TELA_DETALHE);
+		paginaCentralControladorBean.setPaginaCentral(this.TELA_DETALHE);
 
 	}
 
 	public void telaPesquisa() {
-		paginaCentralControladorBean
-				.setPaginaCentral(this.TELA_PESQUISA);
+		paginaCentralControladorBean.setPaginaCentral(this.TELA_PESQUISA);
 
 	}
 
@@ -297,7 +283,7 @@ public class TreinamentoControlador implements Serializable {
 					.hasNext();) {
 				UsuarioGrupo grupo = (UsuarioGrupo) iterator.next();
 				// filtrar apenas os grupos e exlui os site
-				if (!grupo.getDisplayName().contains("site_swsdp"))	
+				if (!grupo.getDisplayName().contains("site_swsdp"))
 					this.gruposAlfresco.add(grupo);
 			}
 
@@ -335,30 +321,34 @@ public class TreinamentoControlador implements Serializable {
 		}
 
 	}
-	
+
 	public void detalheTarefa(TarefaInstancia tarefa) {
 		this.tarefa = tarefa;
-//		TODO
-//		this.variaveisTarefa = variaveisTarefaServico.findById(Long.valueOf(tarefa.getId()));
+		// TODO
+		// this.variaveisTarefa =
+		// variaveisTarefaServico.findById(Long.valueOf(tarefa.getId()));
 		this.variaveisTarefa = null;
-		
+
 		if (this.variaveisTarefa != null) {
-			((VariaveisTreinamento)this.tarefa.getVariaveisProcesso()).setAcao(this.variaveisTarefa.getAcao());
-			((VariaveisTreinamento)this.tarefa.getVariaveisProcesso()).setParecer(this.variaveisTarefa.getParecer());
+			((VariaveisTreinamento) this.tarefa.getVariaveisProcesso())
+					.setAcao(this.variaveisTarefa.getAcao());
+			((VariaveisTreinamento) this.tarefa.getVariaveisProcesso())
+					.setParecer(this.variaveisTarefa.getParecer());
 		}
-		this.paginaCentralControladorBean.setPaginaCentral(this.TELA_DETALHE_TAREFA);
+		this.paginaCentralControladorBean
+				.setPaginaCentral(this.TELA_DETALHE_TAREFA);
 	}
-	
-	
+
 	public void abrirImagemProcesso(ProcessoInstancia entity) {
 
-		System.out.println("processoInstancia.getId()" + processoInstancia.getId());
+		System.out.println("processoInstancia.getId()"
+				+ processoInstancia.getId());
 		this.processoInstancia = entity;
-		setImagem(activitiServico.getProcessoDiagrama(processoInstancia
-				.getId()));
+		setImagem(activitiServico
+				.getProcessoDiagrama(processoInstancia.getId()));
 
 	}
-	
+
 	public void telaDetalhe() {
 		this.paginaCentralControladorBean.setPaginaCentral(this.TELA_DETALHE);
 	}
@@ -402,14 +392,6 @@ public class TreinamentoControlador implements Serializable {
 
 	public void setProcessoDefinicao(ProcessoDefinicao processoDefinicao) {
 		this.processoDefinicao = processoDefinicao;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
 	}
 
 	public Protocolo getProtocolo() {
@@ -485,30 +467,6 @@ public class TreinamentoControlador implements Serializable {
 		this.alfrescoServico = alfrescoServico;
 	}
 
-	public Usuario getCoordenador() {
-		return coordenador;
-	}
-
-	public void setCoordenador(Usuario coordenador) {
-		this.coordenador = coordenador;
-	}
-
-	public Usuario getDiretor() {
-		return diretor;
-	}
-
-	public void setDiretor(Usuario diretor) {
-		this.diretor = diretor;
-	}
-
-	public Usuario getRH() {
-		return RH;
-	}
-
-	public void setRH(Usuario rH) {
-		RH = rH;
-	}
-
 	public String getSequencial() {
 		return sequencial;
 	}
@@ -549,14 +507,6 @@ public class TreinamentoControlador implements Serializable {
 
 	public void setImagem(String imagem) {
 		this.imagem = imagem;
-	}
-
-	public Usuario getFuncionario() {
-		return funcionario;
-	}
-
-	public void setFuncionario(Usuario funcionario) {
-		this.funcionario = funcionario;
 	}
 
 	public List<Usuario> getUsuarios() {
@@ -605,22 +555,6 @@ public class TreinamentoControlador implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-//	public String getDataInicial() {
-//		return dataInicial;
-//	}
-//
-//	public void setDataInicial(String dataInicial) {
-//		this.dataInicial = dataInicial;
-//	}
-//
-//	public String getDataFinal() {
-//		return dataFinal;
-//	}
-//
-//	public void setDataFinal(String dataFinal) {
-//		this.dataFinal = dataFinal;
-//	}
-
 	public String getMotivoCancelamento() {
 		return motivoCancelamento;
 	}
@@ -654,20 +588,45 @@ public class TreinamentoControlador implements Serializable {
 		this.variaveisTarefaServico = variaveisTarefaServico;
 	}
 
-	public Date getDataInicial() {
-		return dataInicial;
+	public VariavelPublicarDocumento getVariaveis() {
+		return variaveis;
 	}
 
-	public void setDataInicial(Date dataInicial) {
-		this.dataInicial = dataInicial;
+	public void setVariaveis(VariavelPublicarDocumento variaveis) {
+		this.variaveis = variaveis;
 	}
 
-	public Date getDataFinal() {
-		return dataFinal;
+	public UnidadeServico getUnidadeServico() {
+		return unidadeServico;
 	}
 
-	public void setDataFinal(Date dataFinal) {
-		this.dataFinal = dataFinal;
+	public void setUnidadeServico(UnidadeServico unidadeServico) {
+		this.unidadeServico = unidadeServico;
 	}
-	
+
+	public PostoCopiaServico getPostoCopiaServico() {
+		return postoCopiaServico;
+	}
+
+	public void setPostoCopiaServico(PostoCopiaServico postoCopiaServico) {
+		this.postoCopiaServico = postoCopiaServico;
+	}
+
+	public SetorServico getSetorServico() {
+		return setorServico;
+	}
+
+	public void setSetorServico(SetorServico setorServico) {
+		this.setorServico = setorServico;
+	}
+
+	public TipoDocumentoServico getTipoDocumentoServico() {
+		return tipoDocumentoServico;
+	}
+
+	public void setTipoDocumentoServico(
+			TipoDocumentoServico tipoDocumentoServico) {
+		this.tipoDocumentoServico = tipoDocumentoServico;
+	}
+
 }
