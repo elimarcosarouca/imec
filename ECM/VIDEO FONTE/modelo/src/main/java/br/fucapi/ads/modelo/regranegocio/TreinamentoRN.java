@@ -38,35 +38,6 @@ public class TreinamentoRN {
 	@Value("${alfresco.grupo.rh}")
 	private String grupoRh;
 	
-	public void iniciarProcesso(VariaveisTreinamento variaveisTreinamento, Usuario funcionario)
-			throws RemoteException {
-		
-		variaveisTreinamento.setFuncionario(funcionario.getUserName());
-		variaveisTreinamento.setEmailFuncionario(funcionario.getEmail());
-		
-		List<Usuario> usuarios = new ArrayList<Usuario>(); 
-		usuarios = this.alfrescoServico.getUsuariosPorGrupo(grupoCoordenacao);
-		
-		// TODO - RODIZIO DE TAREFAS (Eh necessario criar mecanismo para atribuir as tarefas) 
-		Usuario usuarioCoordenacao = usuarios.iterator().next();
-		variaveisTreinamento.setCoordenador(usuarioCoordenacao.getUserName());
-		variaveisTreinamento.setEmailCoordenador(usuarioCoordenacao.getEmail());
-
-		usuarios = new ArrayList<Usuario>();
-		usuarios = this.alfrescoServico.getUsuariosPorGrupo(grupoDiretoria);
-		
-		Usuario usuarioDiretoria = usuarios.iterator().next();
-		variaveisTreinamento.setDiretor(usuarioDiretoria.getUserName());
-		variaveisTreinamento.setEmailDiretor(usuarioDiretoria.getEmail());
-
-		usuarios = new ArrayList<Usuario>();
-		usuarios = this.alfrescoServico.getUsuariosPorGrupo(grupoRh);
-		
-		Usuario usuarioRh = usuarios.iterator().next();
-		variaveisTreinamento.setRh(usuarioRh.getUserName());
-		variaveisTreinamento.setEmailRh(usuarioRh.getEmail());
-	}
-	
 	/**
 	 * Metodo reposavel por inserir o parecer da atividade
 	 * @param parecer parecer informado

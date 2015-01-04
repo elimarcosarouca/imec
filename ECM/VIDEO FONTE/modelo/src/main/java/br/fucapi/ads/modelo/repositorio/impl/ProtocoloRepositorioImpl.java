@@ -3,15 +3,18 @@ package br.fucapi.ads.modelo.repositorio.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.fucapi.ads.modelo.dominio.Protocolo;
 import br.fucapi.ads.modelo.repositorio.ProtocoloRepositorio;
 
 @Repository
 @SuppressWarnings("unchecked")
+@Transactional
 public class ProtocoloRepositorioImpl extends
 		GenericRepositorioImpl<Protocolo, Long> implements ProtocoloRepositorio {
 
@@ -47,6 +50,7 @@ public class ProtocoloRepositorioImpl extends
 
 	@Override
 	public Protocolo pesquisarPorAno(Protocolo abstractEntity) {
+		Protocolo protocolo = new Protocolo();
 		StringBuilder sb = new StringBuilder();
 		List<String> condictions = new ArrayList<String>();
 
@@ -56,14 +60,21 @@ public class ProtocoloRepositorioImpl extends
 			condictions.add("  est.ano = :ano ");
 		}
 
-		String orderBy = " order by est.ano";
+		String orderBy = " ";
 
 		Query query = entityManager.createQuery(generateHql(sb.toString(),
 				condictions) + orderBy);
 		if (notEmpty(abstractEntity.getAno())) {
-			query.setParameter("ano", +abstractEntity.getAno());
+			query.setParameter("ano", abstractEntity.getAno());
+		}
+		
+		try {
+			protocolo = (Protocolo) query.getSingleResult();
+			
+		} catch (NoResultException e) {
+			return null;
 		}
 
-		return (Protocolo) query.getSingleResult();
+		return protocolo;
 	}
 }
