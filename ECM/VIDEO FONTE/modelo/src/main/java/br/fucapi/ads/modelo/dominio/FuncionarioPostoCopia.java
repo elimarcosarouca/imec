@@ -23,23 +23,26 @@ import flexjson.transformer.DateTransformer;
  * 
  */
 @Entity
-@Table(name = "ECM_SETOR")
-public class Setor extends AbstractEntity implements Serializable {
+@Table(name = "ECM_FUNCIONARIO_POSTO_COPIA")
+public class FuncionarioPostoCopia extends AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = 7516652276680517473L;
 
 	@Id
-	@GeneratedValue(generator = "SEQ_ECM_SETOR", strategy = GenerationType.SEQUENCE)
-	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_SETOR", name = "SEQ_ECM_SETOR")
-	@Column(name = "ID_ECM_SETOR")
+	@GeneratedValue(generator = "SEQ_ECM_FUNCIONARIO_POSTO_COPIA", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_FUNCIONARIO_POSTO_COPIA", name = "SEQ_ECM_FUNCIONARIO_POSTO_COPIA")
+	@Column(name = "ID_ECM_FUNCIONARIO_POSTO_COPIA")
 	private Long id;
 
-	@Column(length = 30, nullable = false, unique = true)
+	@Column(length = 60, nullable = false)
 	private String nome;
 	
+	@Column(length = 30, nullable = false, unique = true)
+	private String matricula;
+	
 	@ManyToOne
-	@JoinColumn(name = "ID_ECM_	UNIDADE", nullable=false)
-	private Unidade unidade;
+	@JoinColumn(name = "ID_ECM_POSTO_COPIA", nullable=false)
+	private PostoCopia postoCopia;
 
 	public Long getId() {
 		return id;
@@ -57,14 +60,6 @@ public class Setor extends AbstractEntity implements Serializable {
 		this.nome = nome;
 	}
 
-	public Unidade getUnidade() {
-		return unidade;
-	}
-
-	public void setUnidade(Unidade unidade) {
-		this.unidade = unidade;
-	}
-
 	public String getLabel() {
 		return nome;
 	}
@@ -73,22 +68,38 @@ public class Setor extends AbstractEntity implements Serializable {
 		this.nome = nome;
 	}
 
-	public Setor(String nome) {
+	public FuncionarioPostoCopia(String nome) {
 		this.nome = nome;
 	}
 
-	public Setor() {
+	public FuncionarioPostoCopia() {
 	}
 	
+	public String getMatricula() {
+		return matricula;
+	}
+
+	public void setMatricula(String matricula) {
+		this.matricula = matricula;
+	}
+
+	public PostoCopia getPostoCopia() {
+		return postoCopia;
+	}
+
+	public void setPostoCopia(PostoCopia postoCopia) {
+		this.postoCopia = postoCopia;
+	}
+
 	public boolean equals(Object o) {
-		if (((Setor) o).getId() == this.id)
+		if (((FuncionarioPostoCopia) o).getId() == this.id)
 			return true;
 		else
 			return false;
 	}
 
-	public static Setor fromJsonToObject(String json) {
-		return new JSONDeserializer<Setor>().use(null, Setor.class)
+	public static FuncionarioPostoCopia fromJsonToObject(String json) {
+		return new JSONDeserializer<FuncionarioPostoCopia>().use(null, FuncionarioPostoCopia.class)
 				.deserialize(json);
 	}
 
@@ -99,7 +110,7 @@ public class Setor extends AbstractEntity implements Serializable {
 						Date.class).serialize(this);
 	}
 
-	public static String toJsonArray(Collection<Setor> collection) {
+	public static String toJsonArray(Collection<FuncionarioPostoCopia> collection) {
 		return new JSONSerializer().exclude("*.class").serialize(collection);
 	}
 

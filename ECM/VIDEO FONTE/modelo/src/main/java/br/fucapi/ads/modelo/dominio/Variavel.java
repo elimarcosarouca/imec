@@ -98,7 +98,7 @@ public class Variavel implements Serializable {
 					&& var.getValue() != null) {
 				this.setDescricao(var.getValue().toString());
 
-			} else if (var.getName().equals("solicitante")
+			} else if (var.getName().equals("loginSolicitante")
 					&& var.getValue() != null) {
 				this.setSolicitante(var.getValue().toString());
 
@@ -113,7 +113,7 @@ public class Variavel implements Serializable {
 		}
 	}
 
-	public Map<String, Object> converterVariaveisProcessoParaMapaVariaveis() {
+	public Map<String, Object> converterVariaveis() {
 
 		Map<String, Object> params = new java.util.HashMap<String, Object>();
 		params.put("sequencial", getSequencial());
@@ -121,7 +121,7 @@ public class Variavel implements Serializable {
 		params.put("solicitante", getSolicitante());
 		params.put("emailSolicitante", getEmailSolicitante());
 		params.put("descricao", getDescricao());
-		params.put("protocolo", getSequencial() + "/" + getAno());
+		params.put("protocolo", getProtocolo());
 		params.put("descricao", getDescricao());
 
 		return params;

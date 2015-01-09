@@ -11,19 +11,34 @@ import br.fucapi.bpms.alfresco.dominio.Usuario;
 public class VariavelPublicarDocumento extends Variavel {
 
 	private static final long serialVersionUID = 6327176552063724332L;
-
+	
+	//dados enviado para o activiti
 	private String tipoSolicitacao;
+
+	private String protocoloOrigem;
 
 	private Usuario proprietario;
 
 	private String emailProprietario;
 
-	private List<String> revisores;
+	private List<String> aprovadores;
 
-	private List<String> emailRevisores;
+	private List<String> emailAprovadores;
+	
+	private List<String> concensos;
+
+	private List<String> emailConcensos;
 
 	private List<String> gruposNotificar;
+	
+	private Arquivo arquivo;
+	
+	private boolean possuiTarja;
+	
+	private boolean publicacaoAutomatica;
 
+
+	// dados da telas
 	private PostoCopia postoCopia;
 
 	private Setor setor;
@@ -43,11 +58,13 @@ public class VariavelPublicarDocumento extends Variavel {
 	private List<Usuario> usuariosGrupoRevisores;
 
 	private List<Usuario> proprietarios;
-	
+
 	private String dataVencimento;
-	
+
 	private int notificarVencimento;
-	
+
+	private int versaoDocumento;
+
 	private String PUBLICAR_DOCUMENTO = "PUBLICAR_DOCUMENTO";
 
 	public VariavelPublicarDocumento() {
@@ -56,22 +73,45 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.tipoDocumento = new TipoDocumento();
 		this.setor = new Setor();
 		this.postoCopia = new PostoCopia();
+		this.versaoDocumento = 1;
+		this.possuiTarja = true;
+		this.publicacaoAutomatica = true;
 	}
 
-	public List<String> getRevisores() {
-		return revisores;
+	public String getPUBLICAR_DOCUMENTO() {
+		return PUBLICAR_DOCUMENTO;
 	}
 
-	public void setRevisores(List<String> revisores) {
-		this.revisores = revisores;
+	public List<String> getAprovadores() {
+		return aprovadores;
 	}
 
-	public List<String> getEmailRevisores() {
-		return emailRevisores;
+	public void setAprovadores(List<String> aprovadores) {
+		this.aprovadores = aprovadores;
 	}
 
-	public void setEmailRevisore(List<String> emailRevisores) {
-		this.emailRevisores = emailRevisores;
+	public List<String> getEmailAprovadores() {
+		return emailAprovadores;
+	}
+
+	public void setEmailAprovadores(List<String> emailAprovadores) {
+		this.emailAprovadores = emailAprovadores;
+	}
+
+	public List<String> getConcensos() {
+		return concensos;
+	}
+
+	public void setConcensos(List<String> concensos) {
+		this.concensos = concensos;
+	}
+
+	public List<String> getEmailConcensos() {
+		return emailConcensos;
+	}
+
+	public void setEmailConcensos(List<String> emailConcensos) {
+		this.emailConcensos = emailConcensos;
 	}
 
 	public String getTipoSolicitacao() {
@@ -104,10 +144,6 @@ public class VariavelPublicarDocumento extends Variavel {
 
 	public void setEmailProprietario(String emailProprietario) {
 		this.emailProprietario = emailProprietario;
-	}
-
-	public void setEmailRevisores(List<String> emailRevisores) {
-		this.emailRevisores = emailRevisores;
 	}
 
 	public PostoCopia getPostoCopia() {
@@ -206,6 +242,46 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.notificarVencimento = notificarVencimento;
 	}
 
+	public String getProtocoloOrigem() {
+		return protocoloOrigem;
+	}
+
+	public void setProtocoloOrigem(String protocoloOrigem) {
+		this.protocoloOrigem = protocoloOrigem;
+	}
+
+	public int getVersaoDocumento() {
+		return versaoDocumento;
+	}
+
+	public void setVersaoDocumento(int versaoDocumento) {
+		this.versaoDocumento = versaoDocumento;
+	}
+
+	public Arquivo getArquivo() {
+		return arquivo;
+	}
+
+	public void setArquivo(Arquivo arquivo) {
+		this.arquivo = arquivo;
+	}
+
+	public boolean isPossuiTarja() {
+		return possuiTarja;
+	}
+
+	public void setPossuiTarja(boolean possuiTarja) {
+		this.possuiTarja = possuiTarja;
+	}
+
+	public boolean isPublicacaoAutomatica() {
+		return publicacaoAutomatica;
+	}
+
+	public void setPublicacaoAutomatica(boolean publicacaoAutomatica) {
+		this.publicacaoAutomatica = publicacaoAutomatica;
+	}
+
 	/**
 	 * Metodo responsavel por converter lista de variaveis (Map) em um objeto
 	 * VariaveisProcesso
@@ -214,8 +290,7 @@ public class VariavelPublicarDocumento extends Variavel {
 	 */
 	@SuppressWarnings("unchecked")
 	@Autowired(required = false)
-	public void converterListaVariaveisParaVariaveisProcesso(
-			List<Variaveis> variaveisLista) {
+	public void converterListaVariaveis(List<Variaveis> variaveisLista) {
 
 		for (Variaveis var : variaveisLista) {
 
@@ -235,8 +310,12 @@ public class VariavelPublicarDocumento extends Variavel {
 				setGruposNotificar(var.getValue() != null ? (List<String>) var
 						.getValue() : null);
 
-			} else if (var.getName().equals("revisores")) {
-				setRevisores(var.getValue() != null ? (List<String>) var
+			} else if (var.getName().equals("concensos")) {
+				setConcensos(var.getValue() != null ? (List<String>) var
+						.getValue() : null);
+				
+			} else if (var.getName().equals("emailConcensos")) {
+				setEmailConcensos(var.getValue() != null ? (List<String>) var
 						.getValue() : null);
 
 			} else if (var.getName().equals("tipoSolicitacao")
@@ -247,22 +326,46 @@ public class VariavelPublicarDocumento extends Variavel {
 					&& var.getValue() != null) {
 				this.setProtocolo(var.getValue().toString());
 
+			} else if (var.getName().equals("protocoloOrigem")
+					&& var.getValue() != null) {
+				this.setProtocoloOrigem(var.getValue().toString());
+
+			} else if (var.getName().equals("emailAprovadores")
+					&& var.getValue() != null) {
+				//TODO DEVERA SER ALIMENTADA A LISTA				
+//				this.setEmailAprovadores( var.getValue().toString());
+
+			} else if (var.getName().equals("versaoDocumento")) {
+				try {
+					this.setVersaoDocumento(Integer.valueOf(var.getValue()
+							.toString()));
+				} catch (NumberFormatException e) {
+
+				}
+
 			}
+
 		}
 	}
 
-	public Map<String, Object> converterVariaveisProcessoParaMapaVariaveis() {
+	public Map<String, Object> converterVariaveis() {
 
-		Map<String, Object> params = super
-				.converterVariaveisProcessoParaMapaVariaveis();
+		Map<String, Object> params = super.converterVariaveis();
 
 		params.put("tipoSolicitacao", this.getTipoSolicitacao());
-		params.put("revisores", this.getRevisores());
-		params.put("emailRevisores", this.getEmailRevisores());
 		params.put("gruposNotificar", this.getGruposNotificar());
 
 		params.put("proprietario", this.getProprietario());
 		params.put("emailProprietario", this.getEmailProprietario());
+
+		params.put("concesos", this.getConcensos());
+		params.put("emailConcensos", this.getEmailConcensos());
+		params.put("provadores", this.getAprovadores());
+		params.put("emailArovadores", this.getEmailAprovadores());
+
+		params.put("versaoDocumento", this.getVersaoDocumento());
+		params.put("possuiTarja", this.isPossuiTarja());
+		params.put("publicacaoAutomatica", this.isPublicacaoAutomatica());
 
 		return params;
 	}

@@ -11,18 +11,12 @@
 	<h:form>
 	
 		<p:menu styleClass="menu" id="menu">  
-            <p:menuitem value="Nova Solicitação" update=":paginaCentral" id="novaSolicitacao"
-            action="#{treinamentoControlador.inicioNovaSolicitacao}" >
+           
+            <p:menuitem value="Publicar Documento" update=":paginaCentral" id="publicarDocumento" 
+            	actionListener="#{publicarDocumentoControlador.init}" >
             	<f:setPropertyActionListener
 						target="#{paginaCentralControladorBean.paginaCentral}"
-						value="paginas/solicitacao/treinamento/cadastro.xhtml" />
-            </p:menuitem> 
-            
-            <p:menuitem value="Publicar Documento" update=":paginaCentral" id="publicarDocumento"
-            action="#{publicarDocumentoControlador.inicioNovaSolicitacao}" >
-            	<f:setPropertyActionListener
-						target="#{paginaCentralControladorBean.paginaCentral}"
-						value="paginas/solicitacao/publicardocumento/cadastro.xhtml" />
+						value="paginas/solicitacao/publicardocumento/pesquisa.xhtml" />
             </p:menuitem> 
             
             <p:menuitem value="Tarefas Pendentes - #{tarefaControle.totalTarefas}" id="tarefasPendentes"
@@ -49,7 +43,7 @@
 	    </p:menu>  
 	    
 	    <p:blockUI block="menu" 
-	    	trigger="consultarTarefas minhasSolicitacoes tarefasPendentes novaSolicitacao">  
+	    	trigger="consultarTarefas minhasSolicitacoes tarefasPendentes">  
 	        Processando...<br />  
 	        <p:graphicImage value="/resources/imagens/ajax-loader.gif"/>  
 	    </p:blockUI>  

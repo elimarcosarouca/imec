@@ -37,6 +37,8 @@ public class TipoDocumento extends AbstractEntity implements Serializable {
 
 	@Column(length = 4, nullable = false, unique = true)
 	private String sigla;
+	
+	private boolean possuiTarja;
 
 	public Long getId() {
 		return id;
@@ -62,6 +64,14 @@ public class TipoDocumento extends AbstractEntity implements Serializable {
 		this.sigla = sigla;
 	}
 
+	public boolean isPossuiTarja() {
+		return possuiTarja;
+	}
+
+	public void setPossuiTarja(boolean possuiTarja) {
+		this.possuiTarja = possuiTarja;
+	}
+
 	public TipoDocumento(String nome) {
 		super();
 		this.nome = nome;
@@ -69,6 +79,13 @@ public class TipoDocumento extends AbstractEntity implements Serializable {
 
 	public TipoDocumento() {
 		super();
+	}
+	
+	public boolean equals(Object o) {
+		if (((TipoDocumento) o).getId() == this.id)
+			return true;
+		else
+			return false;
 	}
 
 	public static TipoDocumento fromJsonToObject(String json) {

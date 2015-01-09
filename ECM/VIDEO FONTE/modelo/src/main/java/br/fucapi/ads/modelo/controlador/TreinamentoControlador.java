@@ -330,7 +330,7 @@ public class TreinamentoControlador implements Serializable {
 					.converterListaVariaveisParaVariaveisProcesso(pInstancia
 							.getVariables());
 
-			pInstancia.setVariaveisProcesso(variaveisProcesso);
+			pInstancia.setVariaveis(variaveisProcesso);
 			this.lista.add(pInstancia);
 		}
 

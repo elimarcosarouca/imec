@@ -168,7 +168,7 @@ public class PesquisaSolicitacaoControlador implements Serializable {
 					.converterListaVariaveisParaVariaveisProcesso(pInstancia
 							.getVariables());
 
-			pInstancia.setVariaveisProcesso(variaveisProcesso);
+			pInstancia.setVariaveis(variaveisProcesso);
 			
 			pInstancia.getId();
 		}
