@@ -29,7 +29,7 @@ public class ProcessoInstancia {
 	private String activityId;
 	private Date startTime;
 	private Date endTime;
-	private Object variaveisProcesso;
+	private Object variaveis;
 	private List<Variaveis> variables;
 	private ProcessoDefinicao processoDefinicao;
 	private List<TarefaInstancia> tarefasInstancia;
@@ -110,12 +110,12 @@ public class ProcessoInstancia {
 		this.endTime = endTime;
 	}
 
-	public Object getVariaveisProcesso() {
-		return variaveisProcesso;
+	public Object getVariaveis() {
+		return variaveis;
 	}
 
-	public void setVariaveisProcesso(Object variaveisProcesso) {
-		this.variaveisProcesso = variaveisProcesso;
+	public void setVariaveis(Object variaveis) {
+		this.variaveis = variaveis;
 	}
 
 	public List<Variaveis> getVariables() {
