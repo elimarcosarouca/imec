@@ -88,8 +88,10 @@
     width: auto;
 }
 
+/*  background-image: url('../imagens/logo.png'); background-repeat: no-repeat;*/
+
 #logo {
-	background-image: url('../imagens/logo.png'); background-repeat: no-repeat;
+	background-image: url(''); background-repeat: no-repeat;
 	float:right;
     border: 0 none;
     margin: 0;

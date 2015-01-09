@@ -121,12 +121,12 @@ package br.fucapi.ads.modelo.controlador;
 				
 				if(this.status.equals("CANCELADO")){
 					if ( variaveisProcesso.isCancelado()){
-						pInstancia.setVariaveisProcesso(variaveisProcesso);
+						pInstancia.setVariaveis(variaveisProcesso);
 						listaCancelados.add(pInstancia);
 					}
 				}
 				else 
-					pInstancia.setVariaveisProcesso(variaveisProcesso);
+					pInstancia.setVariaveis(variaveisProcesso);
 			}
 			variaveisProcesso = new VariaveisTreinamento();
 			if(this.status.equals("CANCELADO"))

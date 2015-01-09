@@ -3,12 +3,18 @@ package br.fucapi.ads.modelo.dominio;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -34,6 +40,17 @@ public class PostoCopia extends AbstractEntity implements Serializable {
 
 	@Column(length = 30, nullable = false, unique = true)
 	private String nome;
+	
+	@ManyToOne
+	@JoinColumn(name = "ID_ECM_SETOR", nullable=false)
+	private Setor setor;
+	
+	@Column(length = 30, nullable = false)
+	private String loginResponsavel;
+	
+	@OneToMany(mappedBy = "postoCopia", cascade = CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval = true )
+	private List<FuncionarioPostoCopia> funcionariosPostoCopia;
+	
 
 	public Long getId() {
 		return id;
@@ -60,7 +77,21 @@ public class PostoCopia extends AbstractEntity implements Serializable {
 		super();
 	}
 
-	
+	public Setor getSetor() {
+		return setor;
+	}
+
+	public void setSetor(Setor setor) {
+		this.setor = setor;
+	}
+
+	public boolean equals(Object o) {
+		if (((PostoCopia) o).getId() == this.id)
+			return true;
+		else
+			return false;
+	}
+
 	public static PostoCopia fromJsonToPostoCopia(String json) {
 		return new JSONDeserializer<PostoCopia>().use(null, PostoCopia.class)
 				.deserialize(json);

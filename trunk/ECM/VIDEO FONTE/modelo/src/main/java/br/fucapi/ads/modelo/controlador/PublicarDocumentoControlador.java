@@ -57,6 +57,7 @@ public class PublicarDocumentoControlador implements Serializable {
 	private ProcessoDefinicao processoDefinicao;
 
 	private List<ProcessoInstancia> lista;
+
 	private List<ProcessoDefinicao> listaProcessosDefinicao;
 	private List<TarefaInstancia> tarefaInstancias;
 
@@ -77,9 +78,6 @@ public class PublicarDocumentoControlador implements Serializable {
 	private DualListModel<UsuarioGrupo> gruposDualListModel;
 
 	private List<Usuario> usuarios;
-
-	private String sequencial;
-	private String ano;
 
 	private String imagem;
 
@@ -123,6 +121,8 @@ public class PublicarDocumentoControlador implements Serializable {
 	private TipoDocumentoServico tipoDocumentoServico;
 
 	private String TELA_PESQUISA = "paginas/solicitacao/pesquisa.xhtml";
+	
+	private String TELA_CADASTRO = "paginas/solicitacao/publicardocumento/cadastro.xhtml";
 
 	private String TELA_DETALHE = "paginas/solicitacao/publicardocumento/detalhe.xhtml";
 
@@ -150,13 +150,14 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		// TODO foi incluido o redirect porque as paginas não estavam
 		// carregando os componentes da paginas, devido a um bug do primefaces
+		
+		paginaCentralControladorBean.setPaginaCentral(this.TELA_CADASTRO);
+		
 		return "index.xhtml?faces-redirect=true";
 	}
 
 	@PostConstruct
 	public void init() {
-
-		this.inicioNovaSolicitacao();
 
 		this.pesquisar();
 	}
@@ -166,19 +167,19 @@ public class PublicarDocumentoControlador implements Serializable {
 	 * activiti
 	 */
 	public String salvarNovaSolicitacao() {
-		
+
 		this.protocolo = protocoloServico.gerarProtocolo();
-		
-//		this.variaveisTreinamento.setSequencial(protocolo.getSequencial());
-//		this.variaveisTreinamento.setAno(protocolo.getAno());
 
 		// Seta no processo os dados do Solicitante do Treinamento
 		this.variaveis.setSolicitante(this.usuarioLogado.getUserName());
 		this.variaveis.setProprietario(this.usuarioLogado);
-
+		
+		this.variaveis.setSequencial(this.protocolo.getSequencial());
+		this.variaveis.setAno(this.protocolo.getAno());
+		
 		// Converte as variaveis de processo em um Objeto Json
-		String json = variaveisTreinamento.ObjectToJson(
-				this.processoDefinicao.getKey(), this.protocolo);
+		// String json = variaveisTreinamento.ObjectToJson(
+		// this.processoDefinicao.getKey(), this.protocolo);
 
 		// Envia o Objeto Json referente ao novo processo para ser executado
 		// atraves de um servico Rest
@@ -186,15 +187,17 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		// TODO - Realizacao de testes
 		this.activitiServico.iniciarInstanciaProcessoPorParametrosByKey(
-				"TREINAMENTO", this.protocolo.toString(), variaveisTreinamento
-						.converterVariaveisProcessoParaMapaVariaveis());
+				variaveis.getPUBLICAR_DOCUMENTO(), this.protocolo.toString(), variaveis
+						.converterVariaveis());
 
 		RequestContext request = RequestContext.getCurrentInstance();
 		request.execute("sucessoDialog.show()");
 
 		this.variaveisTreinamento = new VariaveisTreinamento();
+		
+		telaPesquisa();
 
-		return "";
+		return "index.xhtml?faces-redirect=true";
 	}
 
 	public void cancelar() {
@@ -299,27 +302,27 @@ public class PublicarDocumentoControlador implements Serializable {
 	public void pesquisar() {
 
 		List<ProcessoInstancia> listaResultado = null;
-		VariaveisTreinamento variaveisProcesso = null;
+		// Variaveis variaveisProcesso = null;
 		this.lista = new ArrayList<ProcessoInstancia>();
 
+		Map<String, Object> var = this.filtroVariaveis();
 		listaResultado = activitiServico.getHistoricoProcessosFiltroVariaveis(
-				new HashMap<String, Object>(), "TODOS");
-
-		// Map<String, Object> var = this.filtroVariaveis();
-		// listaResultado = activitiServico
-		// .getHistoricoProcessosFiltroVariaveis(var, this.status);
-		// }
+				var, "PENDENTE");
 
 		for (ProcessoInstancia pInstancia : listaResultado) {
-			variaveisProcesso = new VariaveisTreinamento();
-			variaveisProcesso
-					.converterListaVariaveisParaVariaveisProcesso(pInstancia
-							.getVariables());
+			this.variaveis = new VariavelPublicarDocumento();
+			this.variaveis.converterListaVariaveis(pInstancia.getVariables());
 
-			pInstancia.setVariaveisProcesso(variaveisProcesso);
+			pInstancia.setVariaveis(variaveis);
 			this.lista.add(pInstancia);
 		}
+	}
 
+	private Map<String, Object> filtroVariaveis() {
+
+		Map<String, Object> var = new HashMap<String, Object>();
+
+		return var;
 	}
 
 	public void detalheTarefa(TarefaInstancia tarefa) {
@@ -465,22 +468,6 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	public void setAlfrescoServico(AlfrescoServico alfrescoServico) {
 		this.alfrescoServico = alfrescoServico;
-	}
-
-	public String getSequencial() {
-		return sequencial;
-	}
-
-	public void setSequencial(String sequencial) {
-		this.sequencial = sequencial;
-	}
-
-	public String getAno() {
-		return ano;
-	}
-
-	public void setAno(String ano) {
-		this.ano = ano;
 	}
 
 	public VariaveisTreinamento getVariaveisTreinamento() {

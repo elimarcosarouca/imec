@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<h:form id="form">
+
+		<p:panel header="Status das minhas solicitações" style="width:99%"
+			id="painel">
+			<p:growl id="growl" />
+
+			<p:commandButton id="pesquisa" icon="ui-icon-search"
+				actionListener="#{publicarDocumentoControlador.inicioNovaSolicitacao}"
+				value="Novo" update=":form" />
+
+		</p:panel>
+
+		<p:blockUI block="pesquisa" trigger="pesquisa">  
+	        Processando...<br />
+			<p:graphicImage value="/resources/imagens/ajax-loader.gif" />
+		</p:blockUI>
+
+		<p:panel header="Lista de Solicitações">
+			<p:dataTable id="grid" var="item"
+				value="#{publicarDocumentoControlador.lista}" rows="10"
+				paginator="true" paginatorPosition="bottom"
+				paginatorAlwaysVisible="true"
+				emptyMessage="Nenhum registro encontrado."
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15,20">
+
+				<p:column style="text-align:left" headerText="Protocolo">
+					<h:outputText value="#{item.businessKey}" />
+				</p:column>
+
+				<p:column style="text-align:left" headerText="Tipo Solicitação"
+					width="50px">
+					<h:outputText value="#{item.variaveis.tipoSolicitacao}" />
+				</p:column>
+
+				<p:column style="text-align:left" headerText="Descrição"
+					exportable="false">
+					<h:outputText value="#{item.variaveis.descricao}" />
+				</p:column>
+				
+				<p:column style="text-align:left" headerText="Versão"
+					exportable="false">
+					<h:outputText value="#{item.variaveis.versaoDocumento}" />
+				</p:column>
+
+				<p:column style="text-align:left" headerText="Data Criação"
+					exportable="false">
+					<h:outputText value="#{item.startTime}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column style="text-align:center; width:100px" headerText="Opções"
+					exportable="false">
+
+					<p:commandButton
+						action="#{publicarDocumentoControlador.detalhe(item)}"
+						icon="ui-icon-newwin" title="Detalhe"
+						styleClass="ui-priority-primary" update=":form" />
+
+					<!-- 					<p:commandButton onclick="PF('widgetVarImagem').show()" title="Imagem Solicitação" -->
+					<!-- 						styleClass="ui-priority-primary" icon="ui-icon-image" -->
+					<!-- 						action="#{pesquisaSolicitacaoControlador.abrirImagemProcesso(item)}" -->
+					<!-- 						oncomplete="widgetVarImagem.show()" > -->
+					<!-- 					</p:commandButton> -->
+
+				</p:column>
+
+				<f:facet name="footer">
+					<h:outputText
+						value="#{fn:length(publicarDocumentoControlador.lista)} Registro(s) encontrado(s)." />
+				</f:facet>
+
+			</p:dataTable>
+
+			<p:commandButton icon="ui-icon-print" value="Imprimir" ajax="false"
+				rendered="#{fn:length(publicarDocumentoControlador.lista) > 0}">
+				<p:dataExporter type="pdf" target="grid"
+					fileName="ListagemSolicitacoes" />
+			</p:commandButton>
+
+		</p:panel>
+
+		<p:dialog header="Justificativa para cancelar solicitação" id="dlg"
+			widgetVar="cancelar" resizable="true" width="420px" closable="false">
+			<h:form id="formCancelamento">
+
+				<h:panelGrid style="margin-bottom:10px" width="400px">
+					<h:outputLabel for="firstname" value="Justificativa do cancelado"
+						width="400px" />
+					<p:inputTextarea id="firstname" width="400px"
+						value="#{pesquisaSolicitacaoControlador.motivoCancelamento}">
+						<p:ajax event="keyup" update="grid" />
+					</p:inputTextarea>
+
+				</h:panelGrid>
+
+				<h:panelGrid width="400px" id="grid" columns="2">
+
+					<p:commandButton id="confirmDelBtn" value="Salvar" ajax="false"
+						rendered="#{fn:length(pesquisaSolicitacaoControlador.motivoCancelamento) ne 0}"
+						actionListener="#{pesquisaSolicitacaoControlador.cancelar()}"
+						global="false" style="height:32px;width:116px"
+						oncomplete="PF('cancelar').hide();" />
+
+					<p:commandButton value="Cancelar" ajax="false" global="false"
+						style="height:32px;width:116px"
+						oncomplete="PF('cancelar').hide();" />
+
+
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+		<p:dialog id="widgetVarImagem" widgetVar="widgetVarImagem"
+			dynamic="true"
+			header="Imagem do Processo - Protocolo: #{pesquisaSolicitacaoControlador.variaveisSolicitacao.protocolo}"
+			appendToBody="true" modal="true">
+			<h:form id="formImagem">
+
+				<h:panelGrid>
+					<p:graphicImage url="#{treinamentoControlador.imagem}" />
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+	</h:form>
+</ui:component>
