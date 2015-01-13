@@ -36,6 +36,8 @@ public class VariavelPublicarDocumento extends Variavel {
 	private boolean possuiTarja;
 	
 	private boolean publicacaoAutomatica;
+	
+	private boolean enviarConcensao;
 
 
 	// dados da telas
@@ -282,6 +284,14 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.publicacaoAutomatica = publicacaoAutomatica;
 	}
 
+	public boolean isEnviarConcensao() {
+		return enviarConcensao;
+	}
+
+	public void setEnviarConcensao(boolean enviarConcensao) {
+		this.enviarConcensao = enviarConcensao;
+	}
+
 	/**
 	 * Metodo responsavel por converter lista de variaveis (Map) em um objeto
 	 * VariaveisProcesso
@@ -329,6 +339,14 @@ public class VariavelPublicarDocumento extends Variavel {
 			} else if (var.getName().equals("protocoloOrigem")
 					&& var.getValue() != null) {
 				this.setProtocoloOrigem(var.getValue().toString());
+				
+			} else if (var.getName().equals("enviarConcensao")
+					&& var.getValue() != null) {
+				this.setEnviarConcensao(new Boolean (var.getValue().toString()));
+				
+			} else if (var.getName().equals("publicacaoAutomatica")
+					&& var.getValue() != null) {
+				this.setPublicacaoAutomatica(new Boolean (var.getValue().toString()));
 
 			} else if (var.getName().equals("emailAprovadores")
 					&& var.getValue() != null) {
@@ -366,6 +384,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("versaoDocumento", this.getVersaoDocumento());
 		params.put("possuiTarja", this.isPossuiTarja());
 		params.put("publicacaoAutomatica", this.isPublicacaoAutomatica());
+		params.put("enviarConcensao", this.isEnviarConcensao());
 
 		return params;
 	}
