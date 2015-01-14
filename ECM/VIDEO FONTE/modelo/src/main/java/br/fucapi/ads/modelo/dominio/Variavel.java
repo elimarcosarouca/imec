@@ -17,6 +17,7 @@ public class Variavel implements Serializable {
 	private String descricao;
 	private String solicitante;
 	private String emailSolicitante;
+	private String statusProcesso;
 
 	private String protocolo;
 
@@ -72,6 +73,14 @@ public class Variavel implements Serializable {
 		this.protocolo = protocolo;
 	}
 
+	public String getStatusProcesso() {
+		return statusProcesso;
+	}
+
+	public void setStatusProcesso(String statusProcesso) {
+		this.statusProcesso = statusProcesso;
+	}
+
 	/**
 	 * Metodo responsavel por converter lista de variaveis (Map) em um objeto
 	 * VariaveisProcesso
@@ -109,6 +118,11 @@ public class Variavel implements Serializable {
 			} else if (var.getName().equals("protocolo")
 					&& var.getValue() != null) {
 				this.setProtocolo(var.getValue().toString());
+				
+			} else if (var.getName().equals("statusProcesso")
+					&& var.getValue() != null) {
+				this.setStatusProcesso(var.getValue().toString());
+				
 			}
 		}
 	}
@@ -123,6 +137,8 @@ public class Variavel implements Serializable {
 		params.put("descricao", getDescricao());
 		params.put("protocolo", getProtocolo());
 		params.put("descricao", getDescricao());
+		params.put("statusProcesso", getStatusProcesso());
+		
 
 		return params;
 	}

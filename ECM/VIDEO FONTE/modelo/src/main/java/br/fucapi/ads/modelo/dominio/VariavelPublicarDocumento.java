@@ -12,7 +12,7 @@ public class VariavelPublicarDocumento extends Variavel {
 
 	private static final long serialVersionUID = 6327176552063724332L;
 	
-	//dados enviado para o activiti
+	//dados DEVEM enviado para o activiti
 	private String tipoSolicitacao;
 
 	private String protocoloOrigem;
@@ -28,6 +28,8 @@ public class VariavelPublicarDocumento extends Variavel {
 	private List<String> concensos;
 
 	private List<String> emailConcensos;
+	
+	private List<String> postosCopia;
 
 	private List<String> gruposNotificar;
 	
