@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="processEngineConfiguration"
+		class="org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration">
+		<property name="dataSource" ref="dataSource" />
+
+		<property name="mailServerHost" value="smtp.gmail.com" />
+		<property name="mailServerUsername" value="claudemirramosferreira@gmail.com" />
+		<property name="mailServerPassword" value="vedita1234" />
+		<property name="mailServerPort" value="587" />
+		<property name="mailServerUseSSL" value="true" />
+
+	</bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="jdbc:postgresql://localhost:5432/activiti" />
+		<!-- <property name="url" value="jdbc:postgresql://170.10.84.245:5432/activiti" 
+			/> -->
+		<property name="username" value="postgres" />
+		<property name="password" value="admin" />
+
+
+		<property name="defaultAutoCommit" value="true" />
+	</bean>
+</beans>
