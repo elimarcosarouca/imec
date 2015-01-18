@@ -75,17 +75,10 @@
 
 				<p:column style="text-align:left" headerText="Ações">
 
-					<p:commandButton id="confirmDelBtn" value="Confirmar"
-						ajax="false" update=":form:gridSearch"
+					<p:commandButton id="confirmDelBtn"  icon="ui-icon-check"
+						ajax="false" update=":form:gridSearch" title="Aprovar"
 						actionListener="#{tarefaControle.aprovar(item)}"
-						global="false" style="height:32px;width:116px" />
-
-					<p:commandButton onclick="aprovar.show()"
-						styleClass="ui-priority-primary" icon="ui-icon-check"
-						title="Aprovar" immediate="true">
-						<f:setPropertyActionListener target="#{tarefaControle.entity}"
-							value="#{item}" />
-					</p:commandButton>
+						global="false"  />
 
 					<p:commandButton ajax="false" immediate="true"
 						action="#{tarefaControle.reprovar(item)}"
