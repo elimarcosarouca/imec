@@ -17,7 +17,7 @@
 }
 </style>
 
-	<h:form id="form" enctype="multipart/form-data">
+	<h:form id="form">
 
 		<p:panel id="panel" closable="false" footer="*Campos Obrigatórios"
 			header="Cadastro de Publicação de Documento" style="width:99%">
@@ -140,7 +140,7 @@
 							value="#{publicarDocumentoControlador.variaveis.publicacaoAutomatica}" />
 						<p/>
 						
-						<p:fileUpload value="#{publicarDocumentoControlador.file}" mode="simple"/>
+<!-- 						<p:fileUpload  mode="simple"/> -->
 						<p:commandButton value="Enviar Arquivo" actionListener="#{publicarDocumentoControlador.upload}"/>
 						
 						<p/>	

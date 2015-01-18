@@ -11,65 +11,18 @@
 
 	<h:form id="form">
 
-		<p:panel id="panel" header="Dados do Treinamento">
+		<p:panel id="panel" header="Dados da Solicitação">
 			<h:panelGrid columns="2" style="width:37%">
 
 				<p:outputLabel value="Protocolo:" />
-				<p:outputLabel value="Treinamento:" />
 
 				<p:inputText id="protocolo" disabled="true"
 					styleClass="ui-priority-primary"
-					value="#{tarefaControle.entity.variaveisProcesso.sequencial}/#{tarefaControle.entity.variaveisProcesso.ano}" />
-
-				<p:inputText id="treinamento" disabled="true" style="width:250%;"
-					styleClass="ui-priority-primary"
-					value="#{tarefaControle.entity.variaveisProcesso.treinamento}" />
+					value="#{tarefaControle.entity.variaveis}/#{tarefaControle.entity.variaveis.ano}" />
 
 			</h:panelGrid>
 
-			<h:panelGrid columns="3" style="width:55%">
-
-				<p:outputLabel value="Custo Estimado:" />
-				<p:outputLabel value="Data Inicial:" />
-				<p:outputLabel value="Data Final:" />
-
-				<p:inputText id="custoEstimado" disabled="true"
-					styleClass="ui-priority-primary"
-					value="#{tarefaControle.entity.variaveisProcesso.custoEstimado}" />
-
-				<p:inputMask id="dataInicial" disabled="true"
-					value="#{tarefaControle.entity.variaveisProcesso.dataInicial}"
-					mask="99/99/2499" />
-
-				<p:inputMask id="dataFinal" disabled="true"
-					value="#{tarefaControle.entity.variaveisProcesso.dataFinal}"
-					mask="99/99/9999" />
-
-				<p:outputLabel value="Local:" />
-				<p:outputLabel value="Solicitante:" />
-				<p:outputLabel value="Funcionário beneficiado:" />
-
-				<p:inputText id="local" disabled="true" style="width:65%"
-					styleClass="ui-priority-primary"
-					value="#{tarefaControle.entity.variaveisProcesso.local}" />
-				
-				<p:inputText id="solicitante" disabled="true" style="width:65%"
-					styleClass="ui-priority-primary"
-					value="#{tarefaControle.entity.variaveisProcesso.solicitante}" />
-
-				<p:inputText id="funcionario" disabled="true" style="width:65%"
-					styleClass="ui-priority-primary"
-					value="#{tarefaControle.entity.variaveisProcesso.funcionario}" />
-			</h:panelGrid>
-
-			<h:panelGrid style="width:99%">
-				<p:outputLabel value="Descricao treinamento:" />
-				<p:inputTextarea id="descricao" disabled="true"
-					styleClass="ui-priority-primary"
-					value="#{tarefaControle.entity.variaveisProcesso.descricao}"
-					style="width:99%" />
-
-			</h:panelGrid>
+			
 		</p:panel>
 
 		<p:panel header="Documento(s) digitalizado(s)">
@@ -116,52 +69,15 @@
 				styleClass="ui-priority-primary" />
 	
 			<p:commandButton id="btnAprovar" value="Aprovar"
-				rendered="#{tarefaControle.entity.variaveisProcesso.aprovar}"
 				icon="ui-icon-check" style="margin-right:20px;"
 				styleClass="ui-priority-primary" onclick="aprovar.show()" />
 	
 			<p:commandButton id="btnReprovar" value="Reprovar"
-				rendered="#{tarefaControle.entity.variaveisProcesso.aprovar and fn:length(tarefaControle.parecer) ge 3}"
 				icon="ui-icon-closethick" style="margin-right:20px;"
 				styleClass="ui-priority-primary" onclick="reprovar.show()" />
 	
-			<p:commandButton value="Agendar" ajax="false" immediate="true"
-				rendered="#{tarefaControle.entity.variaveisProcesso.agendar}"
-				action="#{tarefaControle.aprovar(tarefaControle.entity)}"
-				icon="ui-icon-check" style="margin-right:20px;"
-				styleClass="ui-priority-primary" />
-	
-			<p:commandButton value="Inviabilizar" ajax="false"
-				rendered="#{tarefaControle.entity.variaveisProcesso.agendar}"
-				action="#{tarefaControle.reprovar(tarefaControle.entity)}"
-				icon="ui-icon-closethick" style="margin-right:20px;"
-				styleClass="ui-priority-primary" />
-				
 		</h:panelGrid>
-
-		<p:lightBox>
-			<p:commandButton id="upButton" value="Digitalizar"
-				rendered="#{tarefaControle.entity.variaveisProcesso.digitalizar}"
-				icon="ui-icon-circle-triangle-e" type="button" />
-			<f:facet name="inline">
-				<p:panel style="border:10px;">
-					<ui:include src="/paginas/telaupload.xhtml" />
-				</p:panel>
-			</f:facet>
-		</p:lightBox>
-
-		<p:lightBox>
-			<p:commandButton id="iButton" value="Finalizar"
-				rendered="#{tarefaControle.entity.variaveisProcesso.finalizar}"
-				icon="ui-icon-circle-triangle-e" type="button" update="pdf" />
-			<f:facet name="inline">
-				<p:panel style="border:10px;">
-					<ui:include src="/paginas/telaassinardigital.xhtml" />
-				</p:panel>
-			</f:facet>
-		</p:lightBox>
-
-		<!-- 		<p:defaultCommand target="btnAprovar" /> -->
+		
 	</h:form>
 
 	<p:confirmDialog message="Deseja realmente reprovar a tarefa ?" 
