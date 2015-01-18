@@ -32,7 +32,7 @@ public class TarefaInstancia {
 	private String processDefinitionId;
 	private String processDefinitionUrl;
 	private List<Variaveis> variables;
-	private Object variaveisProcesso;
+	private Object variaveis;
 	private String deleteReason;
 	private Date startTime;
 	private Date endTime;
@@ -168,12 +168,11 @@ public class TarefaInstancia {
 		this.variables = variables;
 	}
 	
-	public Object getVariaveisProcesso() {
-		return variaveisProcesso;
+	public Object getVariaveis() {
+		return variaveis;
 	}
-
-	public void setVariaveisProcesso(Object variaveisProcesso) {
-		this.variaveisProcesso = variaveisProcesso;
+	public void setVariaveis(Object variaveis) {
+		this.variaveis = variaveis;
 	}
 	
 	public String getDeleteReason() {
