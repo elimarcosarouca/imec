@@ -15,7 +15,6 @@ public class GrupoConverter implements Converter {
 	public Object getAsObject(FacesContext context, UIComponent component,
 			String value) {
 		
-		
 		return Grupo.fromJsonToUsuarioGrupo(value);
 	}
 
