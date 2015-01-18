@@ -199,13 +199,11 @@ public class TarefaControle implements Serializable {
 
 		String jsonDocumentos = Documento.listToJson(this.documentos);
 
-		String json = "{\"name\":\"status\", \"value\":true},"
+		String json = "{\"name\":\"aprovacaoOK\", \"value\":true},"
 				+ "{\"name\":\"parecer\", \"value\":\"" + "teste" + "\"},"
 				+ "{\"name\":\"documentos\", \"value\":" + jsonDocumentos + "}";
 
 		this.activitiServico.completarTarefa(tarefa.getId(), json);
-
-//		this.treinamentoRN.salvarVariaveisTarefa(tarefa);
 
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
 				"Tarefa aprovada com sucesso", "Tarefa aprovada com sucesso!");

@@ -435,14 +435,12 @@ public class VariavelPublicarDocumento extends Variavel {
 		aprovadores.add("admin");
 		
 		List<String> concensos = new ArrayList<String>();
-		aprovadores.add("admin");
-		aprovadores.add("admin");
+		concensos.add("admin");
+		concensos.add("admin");
 		
 		params.put("aprovadores", aprovadores);
 		params.put("concensos", concensos);
 		
-		// Verificar onde serah gravado as informacoes de DataNotificacao, DataVencimento...
-
 		return params;
 	}
 
