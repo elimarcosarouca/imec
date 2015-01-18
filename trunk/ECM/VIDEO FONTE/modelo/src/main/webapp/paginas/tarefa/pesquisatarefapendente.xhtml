@@ -10,55 +10,33 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
 	<h:form id="form">
-	
-		<p:panel header="Tarefas Pendentes" style="width:99%" id="painelPesquisa">
-			<p:growl id="growl"/>
-			<h:message for="dataInicial" errorClass="errorMessage"/>
-			<h:message for="dataFinal" errorClass="errorMessage"/>
-		
+
+		<p:panel header="Tarefas Pendentes" style="width:99%"
+			id="painelPesquisa">
+			<p:growl id="growl" />
+
 			<p:fieldset legend="Dados de Tarefa">
 				<h:panelGrid columns="4" cellspacing="5" style="width:100%">
+
 					<h:outputText value="Protocolo:" styleClass="ui-priority-primary" />
-					<h:outputText value="Data Inicio:" styleClass="ui-priority-primary" />
-					<h:outputText value="Data Final:" styleClass="ui-priority-primary" />
-					<h:outputLabel value="Tipo de Solicitação:"
-						styleClass="ui-priority-primary" />
-
-					<p:inputText id="idProtocolo"  value="#{tarefaControle.variaveisTreinamento.protocolo}" />
-										
-					<p:inputMask id="dataInicial" value="#{tarefaControle.dataInicial}" 
-						mask="99/99/9999" size="10" converterMessage="Digite uma data inicial válida">
-                    	<f:convertDateTime pattern="dd/MM/yyyy" type="date"/>
-					</p:inputMask>
-					
-					<p:inputMask id="dataFinal" value="#{tarefaControle.dataFinal}" 
-						mask="99/99/9999" size="10" converterMessage="Digite uma data final válida">
-                    	<f:convertDateTime pattern="dd/MM/yyyy" type="date"/>
-					</p:inputMask>
-
-					<p:selectOneMenu id="tipoSolicitacao"
-						value="#{tarefaControle.variaveisTreinamento.tipoSolicitacao}">
-						<f:selectItem itemLabel="" />
-						<f:selectItems value="#{tarefaControle.listaProcessosDefinicao}"
-							var="modelo" itemLabel="#{modelo.name}"
-							itemValue="#{modelo.name}" />
-					</p:selectOneMenu>
+					<p:inputText id="idProtocolo"
+						value="#{tarefaControle.variaveis.protocolo}" />
 
 				</h:panelGrid>
-				
+
 				<p:commandButton id="pesquisa" icon="ui-icon-search"
-					action="#{tarefaControle.pesquisar}" styleClass="ui-priority-primary"
-					value="Pesquisa" update=":form" />
+					action="#{tarefaControle.pesquisar}"
+					styleClass="ui-priority-primary" value="Pesquisa" update=":form" />
 
 			</p:fieldset>
 
 		</p:panel>
-		
+
 		<p:blockUI block="pesquisa" trigger="pesquisa">  
-	        Processando...<br />  
-	        <p:graphicImage value="/resources/imagens/ajax-loader.gif"/>  
-	    </p:blockUI>  
-		
+	        Processando...<br />
+			<p:graphicImage value="/resources/imagens/ajax-loader.gif" />
+		</p:blockUI>
+
 		<p:panel header="Lista de Tarefas" id="painelGrid">
 			<p:dataTable id="gridSearch" var="item" rows="10" paginator="true"
 				value="#{tarefaControle.listaTarefasPendentes}"
@@ -70,7 +48,7 @@
 				<p:column style="text-align:left" headerText="Protocolo"
 					sortBy="#{item.businessKey}">
 					<h:outputText
-						value="#{item.variaveisProcesso.sequencial}/#{item.variaveisProcesso.ano}" />
+						value="#{item.variaveis.ano}#{item.variaveis.sequencial}" />
 				</p:column>
 
 				<p:column style="text-align:left" headerText="Tarefa"
@@ -91,21 +69,25 @@
 				</p:column>
 
 				<p:column style="text-align:left" headerText="Detalhes"
-					sortBy="#{item.variaveisProcesso.descricao}">
-					<h:outputText value="#{item.variaveisProcesso.descricao}" />
+					sortBy="#{item.variaveis.descricao}">
+					<h:outputText value="#{item.variaveis.descricao}" />
 				</p:column>
-				
+
 				<p:column style="text-align:left" headerText="Ações">
+
+					<p:commandButton id="confirmDelBtn" value="Confirmar"
+						ajax="false" update=":form:gridSearch"
+						actionListener="#{tarefaControle.aprovar(item)}"
+						global="false" style="height:32px;width:116px" />
 
 					<p:commandButton onclick="aprovar.show()"
 						styleClass="ui-priority-primary" icon="ui-icon-check"
 						title="Aprovar" immediate="true">
-						<f:setPropertyActionListener
-							target="#{tarefaControle.entity}" value="#{item}"/>
+						<f:setPropertyActionListener target="#{tarefaControle.entity}"
+							value="#{item}" />
 					</p:commandButton>
 
 					<p:commandButton ajax="false" immediate="true"
-						rendered="#{item.variaveisProcesso.reprovar}"
 						action="#{tarefaControle.reprovar(item)}"
 						styleClass="ui-priority-primary" icon="ui-icon-close"
 						title="Reprovar" update=":form:gridSearch" />
@@ -124,10 +106,10 @@
 
 	</h:form>
 
-	<p:confirmDialog message="Deseja realmente aprovar ?" 
-		header="CONFIRMAR" severity="alert" appendToBody="true" 
+	<p:confirmDialog message="Deseja realmente aprovar ?"
+		header="CONFIRMAR" severity="alert" appendToBody="true"
 		widgetVar="aprovar" closable="false" showEffect="slide"
-		hideEffect="blind" >
+		hideEffect="blind">
 		<h:form>
 			<p:commandButton value="Cancelar" onclick="aprovar.hide()"
 				actionListener="#{tarefaControle.init}" global="false"
@@ -135,7 +117,7 @@
 
 			<p:commandButton id="confirmDelBtn" value="Confirmar"
 				onsuccess="aprovar.hide()" ajax="false"
-				actionListener="#{tarefaControle.aprovar(tarefaControle.entity)}" 
+				actionListener="#{tarefaControle.aprovar(tarefaControle.entity)}"
 				global="false" style="height:32px;width:116px" />
 		</h:form>
 

@@ -47,7 +47,7 @@
 					exportable="false">
 					<h:outputText value="#{item.variaveis.descricao}" />
 				</p:column>
-				
+
 				<p:column style="text-align:left" headerText="Versão"
 					exportable="false">
 					<h:outputText value="#{item.variaveis.versaoDocumento}" />
@@ -68,11 +68,10 @@
 						icon="ui-icon-newwin" title="Detalhe"
 						styleClass="ui-priority-primary" update=":form" />
 
-					<!-- 					<p:commandButton onclick="PF('widgetVarImagem').show()" title="Imagem Solicitação" -->
-					<!-- 						styleClass="ui-priority-primary" icon="ui-icon-image" -->
-					<!-- 						action="#{pesquisaSolicitacaoControlador.abrirImagemProcesso(item)}" -->
-					<!-- 						oncomplete="widgetVarImagem.show()" > -->
-					<!-- 					</p:commandButton> -->
+					<p:commandButton oncomplete="PF('widgetVarImagem').show()"
+						title="Imagem Solicitação" styleClass="ui-priority-primary"
+						icon="ui-icon-image" update=":formImagem:panelImagem"
+						action="#{publicarDocumentoControlador.abrirImagemProcesso(item)}" />
 
 				</p:column>
 
@@ -91,50 +90,53 @@
 
 		</p:panel>
 
-		<p:dialog header="Justificativa para cancelar solicitação" id="dlg"
-			widgetVar="cancelar" resizable="true" width="420px" closable="false">
-			<h:form id="formCancelamento">
-
-				<h:panelGrid style="margin-bottom:10px" width="400px">
-					<h:outputLabel for="firstname" value="Justificativa do cancelado"
-						width="400px" />
-					<p:inputTextarea id="firstname" width="400px"
-						value="#{pesquisaSolicitacaoControlador.motivoCancelamento}">
-						<p:ajax event="keyup" update="grid" />
-					</p:inputTextarea>
-
-				</h:panelGrid>
-
-				<h:panelGrid width="400px" id="grid" columns="2">
-
-					<p:commandButton id="confirmDelBtn" value="Salvar" ajax="false"
-						rendered="#{fn:length(pesquisaSolicitacaoControlador.motivoCancelamento) ne 0}"
-						actionListener="#{pesquisaSolicitacaoControlador.cancelar()}"
-						global="false" style="height:32px;width:116px"
-						oncomplete="PF('cancelar').hide();" />
-
-					<p:commandButton value="Cancelar" ajax="false" global="false"
-						style="height:32px;width:116px"
-						oncomplete="PF('cancelar').hide();" />
-
-
-				</h:panelGrid>
-
-			</h:form>
-		</p:dialog>
-
-		<p:dialog id="widgetVarImagem" widgetVar="widgetVarImagem"
-			dynamic="true"
-			header="Imagem do Processo - Protocolo: #{pesquisaSolicitacaoControlador.variaveisSolicitacao.protocolo}"
-			appendToBody="true" modal="true">
-			<h:form id="formImagem">
-
-				<h:panelGrid>
-					<p:graphicImage url="#{treinamentoControlador.imagem}" />
-				</h:panelGrid>
-
-			</h:form>
-		</p:dialog>
 
 	</h:form>
+
+	<p:dialog header="Justificativa para cancelar solicitação" id="dlg"
+		widgetVar="cancelar" resizable="true" width="420px" closable="false">
+		<h:form id="formCancelamento">
+
+			<h:panelGrid style="margin-bottom:10px" width="400px">
+				<h:outputLabel for="firstname" value="Justificativa do cancelado"
+					width="400px" />
+				<p:inputTextarea id="firstname" width="400px"
+					value="#{pesquisaSolicitacaoControlador.motivoCancelamento}">
+					<p:ajax event="keyup" update="grid" />
+				</p:inputTextarea>
+
+			</h:panelGrid>
+
+			<h:panelGrid width="400px" id="grid" columns="2">
+
+				<p:commandButton id="confirmDelBtn" value="Salvar" ajax="false"
+					rendered="#{fn:length(pesquisaSolicitacaoControlador.motivoCancelamento) ne 0}"
+					actionListener="#{pesquisaSolicitacaoControlador.cancelar()}"
+					global="false" style="height:32px;width:116px"
+					oncomplete="PF('cancelar').hide();" />
+
+				<p:commandButton value="Cancelar" ajax="false" global="false"
+					style="height:32px;width:116px" oncomplete="PF('cancelar').hide();" />
+
+			</h:panelGrid>
+
+		</h:form>
+	</p:dialog>
+
+	<p:dialog id="widgetVarImagem" widgetVar="widgetVarImagem"
+		closable="false" modal="false" style="margin-bottom:10px" width="90%"
+		height="90%">
+		<h:form id="formImagem">
+			<p:panel id="panelImagem" width="100%" height="100%"
+				header="Imagem da Solicitação #{publicarDocumentoControlador.processoInstancia.businessKey}">
+
+				<p:graphicImage url="#{publicarDocumentoControlador.imagem}" />
+
+			</p:panel>
+			<p:commandButton onclick="PF('widgetVarImagem').hide()"
+				value="Fechar" styleClass="ui-priority-primary" icon="ui-icon-image" />
+
+		</h:form>
+	</p:dialog>
+
 </ui:component>

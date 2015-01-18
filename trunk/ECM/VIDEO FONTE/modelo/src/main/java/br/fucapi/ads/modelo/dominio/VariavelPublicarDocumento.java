@@ -1,12 +1,15 @@
 package br.fucapi.ads.modelo.dominio;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import br.fucapi.ads.modelo.utils.GeralUtils;
+
+
+//import br.fucapi.ads.modelo.utils.GeralUtils;
 import br.fucapi.bpms.activiti.dominio.Variaveis;
 import br.fucapi.bpms.alfresco.dominio.Usuario;
 
@@ -82,12 +85,15 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.versaoDocumento = 1;
 		this.possuiTarja = true;
 		this.publicacaoAutomatica = true;
+		this.aprovadores = new ArrayList<String>();
+		this.concensos = new ArrayList<String>();
+		
 	}
 
 	public void tratarAtributos(List<Usuario> aprovadoresTarget, 
 			List<Usuario> concensosTarget) {
 		
-		this.dataNotificacao = GeralUtils.gerarDataNotificacao(this.dataVencimento, this.notificarVencimento);
+//		this.dataNotificacao = GeralUtils.gerarDataNotificacao(this.dataVencimento, this.notificarVencimento);
 		
 		if(aprovadoresTarget != null && aprovadoresTarget.size() > 0){
 			for (Usuario u : aprovadoresTarget) {
@@ -101,6 +107,12 @@ public class VariavelPublicarDocumento extends Variavel {
 				this.concensos.add(u.getUserName());
 				this.emailConcensos.add(u.getEmail());
 			}
+		}
+		
+		if (concensosTarget.size() == 0){
+			this.aprovadores.add("admin");
+			this.concensos.add("admin");
+			
 		}
 	}
 	
@@ -408,9 +420,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("proprietario", this.getProprietario());
 		params.put("emailProprietario", this.getEmailProprietario());
 
-		params.put("concesos", this.getConcensos());
 		params.put("emailConcensos", this.getEmailConcensos());
-		params.put("provadores", this.getAprovadores());
 		params.put("emailArovadores", this.getEmailAprovadores());
 
 		params.put("versaoDocumento", this.getVersaoDocumento());
@@ -419,6 +429,17 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("enviarConcensao", this.isEnviarConcensao());
 		
 		params.put("arquivo", this.arquivo);
+		
+		List<String> aprovadores = new ArrayList<String>();
+		aprovadores.add("admin");
+		aprovadores.add("admin");
+		
+		List<String> concensos = new ArrayList<String>();
+		aprovadores.add("admin");
+		aprovadores.add("admin");
+		
+		params.put("aprovadores", aprovadores);
+		params.put("concensos", concensos);
 		
 		// Verificar onde serah gravado as informacoes de DataNotificacao, DataVencimento...
 

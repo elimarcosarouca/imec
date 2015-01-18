@@ -40,16 +40,6 @@
 							itemValue="#{usuario.userName}" />
 					</p:selectOneMenu>
 					
-					<p:inputMask id="dataInicial" value="#{consultaTarefaControlador.dataInicial}" 
-						mask="99/99/9999" size="10" converterMessage="Digite uma data final válida">
-                    	<f:convertDateTime pattern="dd/MM/yyyy" type="date"/>
-					</p:inputMask>
-					
-					<p:inputMask id="dataFinal" value="#{consultaTarefaControlador.dataFinal}" 
-						mask="99/99/9999" size="10" converterMessage="Digite uma data final válida">
-                    	<f:convertDateTime pattern="dd/MM/yyyy" type="date"/>
-					</p:inputMask>
-					
 				</h:panelGrid>
 				
 			</p:fieldset>
@@ -76,7 +66,7 @@
 			<p:commandButton id="pesquisa" icon="ui-icon-search"
 					actionListener="#{consultaTarefaControlador.pesquisar}"
 					styleClass="ui-priority-primary"
-					value="Pesquisa" update=":form" />
+					value="Pesquisannn" update=":form" />
 		</p:panel>
 		
 		<p:blockUI block="pesquisa" trigger="pesquisa">  
@@ -93,8 +83,8 @@
 				rowsPerPageTemplate="5,10,15,20">
 
 				<p:column style="text-align:left" headerText="Protocolo"
-					sortBy="#{item.variaveisProcesso.protocolo}">
-					<h:outputText value="#{item.variaveisProcesso.protocolo}" />
+					sortBy="#{item.businessKey}">
+					<h:outputText value="#{item.businessKey}" />
 				</p:column>
 
 				<p:column style="text-align:left" headerText="Tipo de Solicitação"
