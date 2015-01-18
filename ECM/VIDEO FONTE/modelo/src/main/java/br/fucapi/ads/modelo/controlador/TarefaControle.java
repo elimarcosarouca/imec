@@ -43,11 +43,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import br.fucapi.ads.modelo.dominio.Documento;
 import br.fucapi.ads.modelo.dominio.UUIDNodeRef;
 import br.fucapi.ads.modelo.dominio.VariaveisTreinamento;
+import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
 import br.fucapi.ads.modelo.regranegocio.TreinamentoRN;
 import br.fucapi.bpms.activiti.dominio.ProcessoDefinicao;
 import br.fucapi.bpms.activiti.dominio.TarefaInstancia;
 import br.fucapi.bpms.activiti.servico.ActivitiServico;
-import br.fucapi.bpms.activiti.util.DataUtil;
 import br.fucapi.bpms.alfresco.dominio.Usuario;
 import br.fucapi.bpms.alfresco.servico.AlfrescoServico;
 
@@ -62,7 +62,7 @@ public class TarefaControle implements Serializable {
 
 	@ManagedProperty(value = "#{alfrescoServicoImpl}")
 	private AlfrescoServico alfrescoServico;
-	
+
 	@ManagedProperty(value = "#{treinamentoRN}")
 	private TreinamentoRN treinamentoRN;
 
@@ -85,11 +85,9 @@ public class TarefaControle implements Serializable {
 
 	private List<TarefaInstancia> listaTarefasPendentes;
 
-
 	private Date dataInicial;
-	
-	private Date dataFinal;
 
+	private Date dataFinal;
 
 	private DateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy HH_mm_ss");
 
@@ -98,7 +96,10 @@ public class TarefaControle implements Serializable {
 	@ManagedProperty(value = "#{paginaCentralControladorBean}")
 	private PaginaCentralControladorBean paginaCentralControladorBean;
 
-	private VariaveisTreinamento variaveisTreinamento = new VariaveisTreinamento();
+	// private VariaveisTreinamento variaveisTreinamento = new
+	// VariaveisTreinamento();
+
+	private VariavelPublicarDocumento variaveis;
 
 	private List<ProcessoDefinicao> listaProcessosDefinicao;
 
@@ -121,17 +122,18 @@ public class TarefaControle implements Serializable {
 		this.listaTarefasPendentes = this.activitiServico
 				.getTarefasUsuario(this.usuario.getUserName());
 
-		this.totalTarefas = (this.listaTarefasPendentes != null) ? this.listaTarefasPendentes.size() : 0;
-		
+		this.totalTarefas = (this.listaTarefasPendentes != null) ? this.listaTarefasPendentes
+				.size() : 0;
+
 	}
 
 	@PostConstruct
 	public void init() throws ParseException {
-		
+
 		this.initTotalTarefasUsuario();
-		
+
 		this.processoDefinicao = new ProcessoDefinicao();
-		this.variaveisTreinamento = new VariaveisTreinamento();
+		this.variaveis = new VariavelPublicarDocumento();
 		this.usuario = (Usuario) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
 		this.listaProcessosDefinicao = activitiServico
@@ -153,41 +155,16 @@ public class TarefaControle implements Serializable {
 	}
 
 	public String pesquisar() throws ParseException {
-		
-		if (this.getDataInicial() != null && !"".equals(this.getDataInicial()) 
-				&& (this.getDataFinal() == null	|| "".equals(this.getDataFinal()))) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Data final deve ser informada!", ""));
-			
-		} else if (this.getDataFinal() != null && !"".equals(this.getDataFinal()) &&
-				(this.getDataInicial() == null || "".equals(this.getDataInicial()))) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Data inicial deve ser informada!", ""));  
-			
-		} else if (this.getDataFinal() != null && !"".equals(this.getDataFinal()) &&
-				(this.getDataInicial() != null || !"".equals(this.getDataInicial()))) {
-			
-			if(this.dataFinal.compareTo(this.dataInicial) < 0) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Data inicial deve ser menor que a data final!", ""));
-				return "";
-			}
-			else {
-				this.variaveisTreinamento.setDataInicial(DataUtil.formatarData(this.dataInicial.toString()));
-				this.variaveisTreinamento.setDataFinal(DataUtil.formatarData(this.dataFinal.toString()));
-			}
-			
-		}
 
-		if (this.usuario.getUserName().equals("TODOS")) {
-			this.listaTarefasPendentes = activitiServico.getTodasTarefas();
-		} else {
-			Map<String, Object> filtro = this.filtroVariaveis();
-						
-			// Soh deverah trazer as tarefas que estao com o status pendente
-			this.listaTarefasPendentes = activitiServico
-					.getHistoricoTarefasPorVariaveis(filtro, this.usuario.getUserName(), this.variaveisTreinamento.getTipoSolicitacao(), true, null);
+		Map<String, Object> filtro = this.filtroVariaveis();
 
-		}
+		// Soh deverah trazer as tarefas que estao com o status pendente
+		this.listaTarefasPendentes = activitiServico
+				.getHistoricoTarefasPorVariaveis(filtro,
+						this.usuario.getUserName(),
+						this.variaveis.getTipoSolicitacao(), true, null);
 
-		VariaveisTreinamento varTemp = null;
+		VariavelPublicarDocumento varTemp = null;
 		for (TarefaInstancia tarefaInstancia : this.listaTarefasPendentes) {
 
 			// Solucao adotada para exibir no formulario o nome do processo sem
@@ -198,20 +175,20 @@ public class TarefaControle implements Serializable {
 				tarefaInstancia.setProcessDefinitionId(args[0]);
 			}
 
-			varTemp = new VariaveisTreinamento();
+			varTemp = new VariavelPublicarDocumento();
 			varTemp.converterListaVariaveisParaVariaveisProcesso(tarefaInstancia
 					.getVariables());
-			tarefaInstancia.setVariaveisProcesso(varTemp);
+			tarefaInstancia.setVariaveis(varTemp);
 		}
 
-		this.variaveisTreinamento = new VariaveisTreinamento();
+		this.variaveis = new VariavelPublicarDocumento();
 
 		// verificar se as tarefas é do usuário para atualizar o contador
 		if (this.usuario.getUserName().equals(
 				((Usuario) SecurityContextHolder.getContext()
 						.getAuthentication().getPrincipal()).getUserName()))
 			this.totalTarefas = this.listaTarefasPendentes.size();
-		
+
 		return "";
 
 	}
@@ -223,16 +200,16 @@ public class TarefaControle implements Serializable {
 		String jsonDocumentos = Documento.listToJson(this.documentos);
 
 		String json = "{\"name\":\"status\", \"value\":true},"
-				+ "{\"name\":\"parecer\", \"value\":\"" + this.parecer + "\"},"
+				+ "{\"name\":\"parecer\", \"value\":\"" + "teste" + "\"},"
 				+ "{\"name\":\"documentos\", \"value\":" + jsonDocumentos + "}";
 
 		this.activitiServico.completarTarefa(tarefa.getId(), json);
-		
-		this.treinamentoRN.salvarVariaveisTarefa(tarefa);
+
+//		this.treinamentoRN.salvarVariaveisTarefa(tarefa);
 
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
 				"Tarefa aprovada com sucesso", "Tarefa aprovada com sucesso!");
-		
+
 		FacesContext.getCurrentInstance().addMessage(null, message);
 
 		this.pesquisar();
@@ -248,7 +225,7 @@ public class TarefaControle implements Serializable {
 		String MSG = "Tarefa reprovada com sucesso!";
 		if (tarefa.getName().equals("AGENDAR TREINAMENTO"))
 			MSG = "Tarefa inviabilizada com sucesso!";
-			
+
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
 				MSG, MSG);
 		FacesContext.getCurrentInstance().addMessage(null, message);
@@ -349,21 +326,16 @@ public class TarefaControle implements Serializable {
 
 		Map<String, Object> var = new HashMap<String, Object>();
 
-		if (this.variaveisTreinamento.getProtocolo() != null
-				&& !this.variaveisTreinamento.getProtocolo().equals("")) {
-			var.put("protocolo", this.variaveisTreinamento.getProtocolo());
+		if (this.variaveis.getProtocolo() != null
+				&& !this.variaveis.getProtocolo().equals("")) {
+			var.put("protocolo", this.variaveis.getProtocolo());
 
-		} else if (this.variaveisTreinamento.getTipoSolicitacao() != null
-				&& !this.variaveisTreinamento.getTipoSolicitacao().equals("")) {
+		} else if (this.variaveis.getTipoSolicitacao() != null
+				&& !this.variaveis.getTipoSolicitacao().equals("")) {
 
 			var.put("tipoSolicitacao",
-					this.variaveisTreinamento.getTipoSolicitacao());
+					this.variaveis.getTipoSolicitacao());
 
-		} else if (this.variaveisTreinamento.getDataInicial() != null
-				&& this.variaveisTreinamento.getDataFinal() != null) {
-
-			var.put("dataInicial", this.variaveisTreinamento.getDataInicial());
-			var.put("dataFinal", this.variaveisTreinamento.getDataFinal());
 		}
 		return var;
 	}
@@ -374,11 +346,10 @@ public class TarefaControle implements Serializable {
 		Documento doc = null;
 
 		try {
-			String nomePasta = ((VariaveisTreinamento) this.entity
-					.getVariaveisProcesso()).getSequencial()
-					+ "_"
-					+ ((VariaveisTreinamento) this.entity
-							.getVariaveisProcesso()).getAno();
+			String nomePasta = + ((VariaveisTreinamento) this.entity
+					.getVariaveis()).getAno() +""+ ((VariaveisTreinamento) this.entity
+					.getVariaveis()).getSequencial();
+					
 
 			File file = null;
 
@@ -505,14 +476,13 @@ public class TarefaControle implements Serializable {
 			PaginaCentralControladorBean paginaCentralControladorBean) {
 		this.paginaCentralControladorBean = paginaCentralControladorBean;
 	}
-
-	public VariaveisTreinamento getVariaveisTreinamento() {
-		return variaveisTreinamento;
+	
+	public VariavelPublicarDocumento getVariaveis() {
+		return variaveis;
 	}
 
-	public void setVariaveisTreinamento(
-			VariaveisTreinamento variaveisProcessoTreinamento) {
-		this.variaveisTreinamento = variaveisProcessoTreinamento;
+	public void setVariaveis(VariavelPublicarDocumento variaveis) {
+		this.variaveis = variaveis;
 	}
 
 	public List<ProcessoDefinicao> getListaProcessosDefinicao() {
@@ -573,22 +543,22 @@ public class TarefaControle implements Serializable {
 	public void setTreinamentoRN(TreinamentoRN treinamentoRN) {
 		this.treinamentoRN = treinamentoRN;
 	}
-	
-	public boolean getButtonReporvar(){
+
+	public boolean getButtonReporvar() {
 		if (this.parecer.length() > 0)
 			return true;
 		else
 			return false;
 	}
-	
-	public void update(String parecer){
+
+	public void update(String parecer) {
 		setParecer(parecer);
 	}
-	
-	private String getDateTime() {  
-        DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy HHmmss");  
-        Date date = new Date();  
-        return dateFormat.format(date);  
-    } 
+
+	private String getDateTime() {
+		DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy HHmmss");
+		Date date = new Date();
+		return dateFormat.format(date);
+	}
 
 }

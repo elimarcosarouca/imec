@@ -235,6 +235,7 @@ public class PublicarDocumentoControlador implements Serializable {
 				.getAuthentication().getPrincipal();
 
 		this.variaveis.setUnidades(unidadeServico.listAll());
+//		this.variaveis.setPostoCopias(postoCopiaServico.listAll());
 		this.variaveis.setSetores(setorServico.listAll());
 		this.variaveis.setTipoDocumentos(tipoDocumentoServico.listAll());
 
@@ -269,7 +270,8 @@ public class PublicarDocumentoControlador implements Serializable {
 	@PostConstruct
 	public void init() {
 
-		this.pesquisar();
+//		this.pesquisar();
+		this.inicioNovaSolicitacao();
 	}
 
 	/**
@@ -287,7 +289,7 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.variaveis.tratarAtributos(this.aprovadoresTarget, this.concensosTarget);
 		
 		// Salva a referencia do arquivo (Alfresco) nas variaveis de processo
-		this.variaveis.setArquivo(this.saveArquivo());
+//		this.variaveis.setArquivo(this.saveArquivo());
 		
 		// Seta no processo os dados do Solicitante da publicacao
 		this.variaveis.setSolicitante(this.usuarioLogado.getUserName());
@@ -368,7 +370,7 @@ public class PublicarDocumentoControlador implements Serializable {
 			} else {
 				this.variaveisTreinamento.setSituacao("EM ANDAMENTO");
 			}
-			tarefaInstancia.setVariaveisProcesso(this.variaveisTreinamento);
+			tarefaInstancia.setVariaveis(this.variaveisTreinamento);
 		}
 
 		paginaCentralControladorBean.setPaginaCentral(this.TELA_DETALHE);
@@ -452,9 +454,9 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.variaveisTarefa = null;
 
 		if (this.variaveisTarefa != null) {
-			((VariaveisTreinamento) this.tarefa.getVariaveisProcesso())
+			((VariaveisTreinamento) this.tarefa.getVariaveis())
 					.setAcao(this.variaveisTarefa.getAcao());
-			((VariaveisTreinamento) this.tarefa.getVariaveisProcesso())
+			((VariaveisTreinamento) this.tarefa.getVariaveis())
 					.setParecer(this.variaveisTarefa.getParecer());
 		}
 		this.paginaCentralControladorBean

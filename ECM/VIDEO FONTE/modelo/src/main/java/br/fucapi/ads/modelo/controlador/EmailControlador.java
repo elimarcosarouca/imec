@@ -196,7 +196,7 @@ public class EmailControlador {
 				Map<String, String> model = new HashMap<String, String>();
 					
 				model.put("tipoSolicitacao", tarefa.getProcessDefinitionId());
-				model.put("numeroProtocolo", ((VariaveisProcesso)tarefa.getVariaveisProcesso()).getProtocolo());
+				model.put("numeroProtocolo", ((VariaveisProcesso)tarefa.getVariaveis()).getProtocolo());
 				model.put("nomeAtividade", tarefa.getName());
 				
 				message.setSubject(adsProperties.getProperty("send.subject.novatarefa"));

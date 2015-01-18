@@ -18,9 +18,8 @@ import javax.faces.model.SelectItem;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import br.fucapi.ads.modelo.dominio.UsuarioTarefa;	
-import br.fucapi.ads.modelo.dominio.VariaveisTarefa;
-import br.fucapi.ads.modelo.dominio.VariaveisTreinamento;
+import br.fucapi.ads.modelo.dominio.UsuarioTarefa;
+import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
 import br.fucapi.ads.modelo.servico.UsuarioTarefaServico;
 import br.fucapi.ads.modelo.servico.VariaveisTarefaServico;
 import br.fucapi.bpms.activiti.dominio.ProcessoDefinicao;
@@ -42,9 +41,9 @@ public class ConsultaTarefaControlador implements Serializable {
 	private String status;
 
 	private Usuario usuario = new Usuario();
-	
+
 	private Usuario usuarioExecutor = new Usuario();
-	
+
 	private Usuario usuarioLogado;
 
 	private List<SelectItem> listaStatus;
@@ -54,12 +53,12 @@ public class ConsultaTarefaControlador implements Serializable {
 	private TarefaInstancia entityDetalhe;
 
 	private List<TarefaInstancia> listaTarefa;
-	
+
 	private TarefaInstancia tarefaAlteracao;
 
 	@ManagedProperty(value = "#{activitiServicoImpl}")
 	private ActivitiServico activitiServico;
-	
+
 	@ManagedProperty(value = "#{messengerProperties}")
 	private Properties messengerProperties;
 
@@ -69,19 +68,19 @@ public class ConsultaTarefaControlador implements Serializable {
 	@ManagedProperty(value = "#{paginaCentralControladorBean}")
 	private PaginaCentralControladorBean paginaCentralControladorBean;
 
-	private VariaveisTreinamento variaveisSolicitacao = new VariaveisTreinamento();
+	private VariavelPublicarDocumento variaveisSolicitacao = new VariavelPublicarDocumento();
 
 	private List<ProcessoDefinicao> listaProcessosDefinicao;
-	
+
 	@ManagedProperty(value = "#{usuarioTarefaServicoImpl}")
 	private UsuarioTarefaServico usuarioTarefaServico;
-	
+
 	@ManagedProperty(value = "#{emailControlador}")
 	private EmailControlador emailControlador;
-	
+
 	@ManagedProperty(value = "#{variaveisTarefaServicoImpl}")
 	private VariaveisTarefaServico variaveisTarefaServico;
-	
+
 	private final String DETALHE_CONSULTA_TAREFA = "paginas/tarefa/detalheconsultatarefa.xhtml";
 
 	private final String TELA_CONSULTA_TAREFA = "paginas/tarefa/consultatarefas.xhtml";
@@ -89,93 +88,62 @@ public class ConsultaTarefaControlador implements Serializable {
 	public void init() {
 
 		this.listaTarefa = new ArrayList<TarefaInstancia>();
-		
+
 		this.usuarioLogado = (Usuario) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
-		
+
 		if (this.usuarioLogado.getCapabilities().isAdmin()) {
 			this.listaUsuarios = alfrescoServico.getUsuarios();
 		} else {
 			this.listaUsuarios = new ArrayList<Usuario>();
 		}
-		
-		this.listaProcessosDefinicao = activitiServico.getProcessosDefinicaoPorQueryLastVersion();
+
+		this.listaProcessosDefinicao = activitiServico
+				.getProcessosDefinicaoPorQueryLastVersion();
 	}
 
 	public String pesquisar() throws ParseException {
 
-		if (this.getDataInicial() != null
-				&& !"".equals(this.getDataInicial())
-				&& (this.getDataFinal() == null || "".equals(this
-						.getDataFinal()))) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Data final deve ser informada!", ""));
+		Map<String, Object> filtro = this.filtroVariaveis();
 
-		} else if (this.getDataFinal() != null
-				&& !"".equals(this.getDataFinal())
-				&& (this.getDataInicial() == null || "".equals(this
-						.getDataInicial()))) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Data inicial deve ser informada!", ""));
+		String userNameTemp = null;
+		Boolean statusTarefaTemp = null;
 
-		} else if (this.getDataFinal() != null
-				&& !"".equals(this.getDataFinal())
-				&& (this.getDataInicial() != null || !"".equals(this
-						.getDataInicial()))) {
+		/*if (!this.usuarioLogado.getCapabilities().isAdmin()) {
+			userNameTemp = this.usuarioLogado.getUserName();
+		} else if (this.usuario.getUserName() != null
+				&& !"".equals(this.usuario.getUserName())) {
+			userNameTemp = this.usuario.getUserName();
+		}*/
 
-			if (this.dataFinal.compareTo(this.dataInicial) < 0) {
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(
-										FacesMessage.SEVERITY_ERROR,
-										"Data inicial deve ser menor que a data final!",
-										""));
-				return "";
-			} 
+		/*if ("PENDENTE".equals(this.status)) {
+			statusTarefaTemp = true;
+		} else if ("CONCLUÍDO".equals(this.status)) {
+			statusTarefaTemp = false;
+		}*/
+
+		this.listaTarefa = activitiServico.getHistoricoTarefasPorVariaveis(
+				filtro, userNameTemp,
+				this.variaveisSolicitacao.getTipoSolicitacao(),
+				statusTarefaTemp, null);
+
+		VariavelPublicarDocumento varTemp = null;
+		for (TarefaInstancia tarefaInstancia : this.listaTarefa) {
+			varTemp = new VariavelPublicarDocumento();
+			varTemp.converterListaVariaveisParaVariaveisProcesso(tarefaInstancia
+					.getVariables());
+
+			// Solucao adotada para exibir no formulario o nome do processo sem
+			// o ID.
+			if (tarefaInstancia.getProcessDefinitionId() != null) {
+				String args[] = tarefaInstancia.getProcessDefinitionId().split(
+						":");
+				tarefaInstancia.setProcessDefinitionId(args[0]);
+			}
+			tarefaInstancia.setVariaveis(varTemp);
 		}
-			
-				Map<String, Object> filtro = this.filtroVariaveis();
+		this.variaveisSolicitacao = new VariavelPublicarDocumento();
 
-				String userNameTemp = null;
-				Boolean statusTarefaTemp = null;
-
-				if (!this.usuarioLogado.getCapabilities().isAdmin()) {
-					userNameTemp = this.usuarioLogado.getUserName();
-				} else if (this.usuario.getUserName() != null
-						&& !"".equals(this.usuario.getUserName())) {
-					userNameTemp = this.usuario.getUserName();
-				}
-		
-				if ("PENDENTE".equals(this.status)) {
-					statusTarefaTemp = true;
-				} else if ("CONCLUÍDO".equals(this.status)) {
-					statusTarefaTemp = false;
-				}
-
-				this.listaTarefa = activitiServico.getHistoricoTarefasPorVariaveis(filtro, userNameTemp, 
-						this.variaveisSolicitacao.getTipoSolicitacao(), statusTarefaTemp, null);
-				
-				VariaveisTreinamento varTemp = null;
-				for (TarefaInstancia tarefaInstancia : this.listaTarefa) {
-					varTemp = new VariaveisTreinamento();
-					varTemp.converterListaVariaveisParaVariaveisProcesso(tarefaInstancia
-							.getVariables());
-					
-					// Solucao adotada para exibir no formulario o nome do processo sem o ID.
-					if (tarefaInstancia.getProcessDefinitionId() != null) {
-						String args[] = tarefaInstancia.getProcessDefinitionId().split(":");
-						tarefaInstancia.setProcessDefinitionId(args[0]);
-					}
-					tarefaInstancia.setVariaveisProcesso(varTemp);
-				}
-				this.variaveisSolicitacao = new VariaveisTreinamento();
-			
 		return "";
 	}
 
@@ -186,32 +154,33 @@ public class ConsultaTarefaControlador implements Serializable {
 		if (this.variaveisSolicitacao.getProtocolo() != null
 				&& !this.variaveisSolicitacao.getProtocolo().equals("")) {
 			var.put("protocolo", this.variaveisSolicitacao.getProtocolo());
-		
+
 		} else if (this.getDataInicial() != null
 				&& !"".equals(this.getDataInicial())
 				&& this.getDataFinal() != null
 				&& !"".equals(this.getDataFinal())) {
-			var.put("dataInicial", DataUtil.formatarData(this.getDataInicial().toString()));
-			var.put("dataFinal",  DataUtil.formatarData(this.getDataFinal().toString()));
+			var.put("dataInicial",
+					DataUtil.formatarData(this.getDataInicial().toString()));
+			var.put("dataFinal",
+					DataUtil.formatarData(this.getDataFinal().toString()));
 		}
 
 		return var;
 	}
 
 	public void detalhe(TarefaInstancia tarefa) {
-//		TODO
-//		VariaveisTarefa variaveis = this.variaveisTarefaServico
-//				.findById(new Long(tarefa.getId()));
-		
-		VariaveisTarefa variaveis = null;
-
-		if (variaveis != null) {
-			((VariaveisTreinamento) tarefa.getVariaveisProcesso())
-					.setAcao(variaveis.getAcao());
-			((VariaveisTreinamento) tarefa.getVariaveisProcesso())
-					.setParecer((variaveis.getParecer() != null) ? variaveis
-							.getParecer() : "");
-		}
+		/*
+		 * VariaveisTarefa variaveis = this.variaveisTarefaServico .findById(new
+		 * Long(tarefa.getId()));
+		 * 
+		 * VariaveisTarefa variaveis = null;
+		 * 
+		 * if (variaveis != null) { ((VariaveisTreinamento)
+		 * tarefa.getVariaveisProcesso()) .setAcao(variaveis.getAcao());
+		 * ((VariaveisTreinamento) tarefa.getVariaveisProcesso())
+		 * .setParecer((variaveis.getParecer() != null) ? variaveis
+		 * .getParecer() : ""); }
+		 */
 
 		this.entityDetalhe = tarefa;
 		this.paginaCentralControladorBean
@@ -321,12 +290,12 @@ public class ConsultaTarefaControlador implements Serializable {
 		this.paginaCentralControladorBean = paginaCentralControladorBean;
 	}
 
-	public VariaveisTreinamento getVariaveisSolicitacao() {
+	public VariavelPublicarDocumento getVariaveisSolicitacao() {
 		return variaveisSolicitacao;
 	}
 
 	public void setVariaveisSolicitacao(
-			VariaveisTreinamento variaveisSolicitacao) {
+			VariavelPublicarDocumento variaveisSolicitacao) {
 		this.variaveisSolicitacao = variaveisSolicitacao;
 	}
 

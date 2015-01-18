@@ -258,7 +258,7 @@ public class TreinamentoControlador implements Serializable {
 			} else {
 				this.variaveisTreinamento.setSituacao("EM ANDAMENTO");
 			}
-			tarefaInstancia.setVariaveisProcesso(this.variaveisTreinamento);
+			tarefaInstancia.setVariaveis(this.variaveisTreinamento);
 		}
 
 		paginaCentralControladorBean
@@ -343,8 +343,8 @@ public class TreinamentoControlador implements Serializable {
 		this.variaveisTarefa = null;
 		
 		if (this.variaveisTarefa != null) {
-			((VariaveisTreinamento)this.tarefa.getVariaveisProcesso()).setAcao(this.variaveisTarefa.getAcao());
-			((VariaveisTreinamento)this.tarefa.getVariaveisProcesso()).setParecer(this.variaveisTarefa.getParecer());
+			((VariaveisTreinamento)this.tarefa.getVariaveis()).setAcao(this.variaveisTarefa.getAcao());
+			((VariaveisTreinamento)this.tarefa.getVariaveis()).setParecer(this.variaveisTarefa.getParecer());
 		}
 		this.paginaCentralControladorBean.setPaginaCentral(this.TELA_DETALHE_TAREFA);
 	}
