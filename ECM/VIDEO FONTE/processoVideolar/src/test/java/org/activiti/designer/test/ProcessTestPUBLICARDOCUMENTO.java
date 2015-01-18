@@ -30,23 +30,23 @@ public class ProcessTestPUBLICARDOCUMENTO {
 				.createDeployment()
 				.addInputStream("PUBLICAR_DOCUMENTO.bpmn20.xml",
 						new FileInputStream(filename)).deploy();
-		RuntimeService runtimeService = activitiRule.getRuntimeService();
+		/*RuntimeService runtimeService = activitiRule.getRuntimeService();
 		
-		List<String> listaAprovadores = new ArrayList<String>();
-		listaAprovadores.add("kermit");
-		listaAprovadores.add("kermit");
+		List<String> aprovadores = new ArrayList<String>();
+		aprovadores.add("admin");
+		aprovadores.add("admin");
 
 		Boolean publicacaoAutomatica = false;
 		
 		Boolean enviarConcensao = true;
 
 		Map<String, Object> variableMap = new HashMap<String, Object>();
-		variableMap.put("loginNotificador", "kermit");
+		variableMap.put("solicitante", "admin");
 		variableMap.put("emailAprovador", "claudemirramosferreira@gmail.com");
 		variableMap.put("tipoSolicitacao", "PUBLICAR_DOCUMENTO");
 
-		variableMap.put("listaAprovadores", listaAprovadores);
-		variableMap.put("listaConcesores", listaAprovadores);
+		variableMap.put("aprovadores", aprovadores);
+		variableMap.put("concesos", aprovadores);
 		variableMap.put("publicacaoAutomatica", publicacaoAutomatica);
 		variableMap.put("enviarConcensao", enviarConcensao);
 		variableMap.put("statusProcesso", "PENDENTE");
@@ -55,7 +55,7 @@ public class ProcessTestPUBLICARDOCUMENTO {
 				.startProcessInstanceByKey("PUBLICAR_DOCUMENTO", variableMap);
 		assertNotNull(processInstance.getId());
 		System.out.println("id " + processInstance.getId() + " "
-				+ processInstance.getProcessDefinitionId());
+				+ processInstance.getProcessDefinitionId());*/
 
 	}
 }
