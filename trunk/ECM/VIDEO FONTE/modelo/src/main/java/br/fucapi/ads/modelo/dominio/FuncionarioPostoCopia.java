@@ -92,7 +92,7 @@ public class FuncionarioPostoCopia extends AbstractEntity implements Serializabl
 	}
 
 	public boolean equals(Object o) {
-		if (((FuncionarioPostoCopia) o).getId() == this.id)
+		if (o instanceof FuncionarioPostoCopia && ((FuncionarioPostoCopia) o).getId() == this.id)
 			return true;
 		else
 			return false;

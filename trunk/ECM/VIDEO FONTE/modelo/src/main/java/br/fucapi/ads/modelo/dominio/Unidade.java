@@ -57,7 +57,7 @@ public class Unidade extends AbstractEntity implements Serializable {
 	}
 
 	public boolean equals(Object o) {
-		if (((Unidade) o).getId() == this.id)
+		if (o instanceof Unidade && ((Unidade) o).getId() == this.id)
 			return true;
 		else
 			return false;

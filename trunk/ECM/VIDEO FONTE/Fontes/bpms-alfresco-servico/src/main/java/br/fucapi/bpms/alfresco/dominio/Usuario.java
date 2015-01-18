@@ -264,7 +264,7 @@ public class Usuario implements Serializable {
 	}
 
 	public boolean equals(Object o) {
-		if (((Usuario) o).getUserName().equals(this.getUserName()) )
+		if (o instanceof Usuario && ((Usuario) o).getUserName().equals(this.getUserName()) )
 			return true;
 		else
 			return false;

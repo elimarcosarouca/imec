@@ -38,7 +38,7 @@ public class Setor extends AbstractEntity implements Serializable {
 	private String nome;
 	
 	@ManyToOne
-	@JoinColumn(name = "ID_ECM_	UNIDADE", nullable=false)
+	@JoinColumn(name = "ID_ECM_UNIDADE", nullable=false)
 	private Unidade unidade;
 
 	public Long getId() {
@@ -81,7 +81,7 @@ public class Setor extends AbstractEntity implements Serializable {
 	}
 	
 	public boolean equals(Object o) {
-		if (((Setor) o).getId() == this.id)
+		if (o instanceof Setor && ((Setor) o).getId() == this.id)
 			return true;
 		else
 			return false;
