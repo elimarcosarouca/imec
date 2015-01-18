@@ -797,8 +797,6 @@ public class ActivitiServicoImpl implements ActivitiServico {
 			Map<String, Object> variables, String assignee,
 			String processDefinitionKey, Boolean isPendente, String idProcesso) throws ParseException {
 		
-		System.out.println(" idProcesso == " + idProcesso);
-
 		StringBuffer sqlQuery = new StringBuffer("SELECT distinct(T.*) FROM "
 				+ managementService.getTableName(HistoricTaskInstance.class) + " T,"
 				+ "ACT_HI_VARINST V WHERE T.execution_id_ = V.execution_id_");
@@ -833,8 +831,7 @@ public class ActivitiServicoImpl implements ActivitiServico {
 					sqlQuery.append(" and date('" + dataFinal + "')");
 				} else if (s.equals("dataInicial")) {
 					// Nao deve fazer nada
-				} else {
-					sqlQuery.append(" and V.text_ = '" + variables.get(s) + "'");
+				
 				}
 			}
 		}
