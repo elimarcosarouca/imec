@@ -111,7 +111,7 @@
 						<p/>
 							
 						<p:pickList rendered="#{publicarDocumentoControlador.variaveis.enviarConcensao}" 
-							id="pickListConcensoes" value="#{publicarDocumentoControlador.listaUsuarioConcensao}" var="usuarioConcensao" 
+							id="pickListConcensoes" value="#{publicarDocumentoControlador.concensos}" var="usuarioConcensao" 
 							itemLabel="#{usuarioConcensao.firstName} #{usuarioConcensao.lastName}" itemValue="#{usuarioConcensao}" 
 							converter="usuarioConverter"/>
 						
@@ -123,7 +123,7 @@
 						
 						<p/>
 					
-						<p:pickList id="pickListPostoCopia" value="#{publicarDocumentoControlador.listaPostosCopia}" var="postoCopia" 
+						<p:pickList id="pickListPostoCopia" value="#{publicarDocumentoControlador.postosCopia}" var="postoCopia" 
 							itemLabel="#{postoCopia.nome}" itemValue="#{postoCopia}" 
 							converter="postoCopiaConverter"/>
 					
@@ -140,8 +140,8 @@
 							value="#{publicarDocumentoControlador.variaveis.publicacaoAutomatica}" />
 						<p/>
 						
-						
-						<p:fileUpload value="#{publicarDocumentoControlador.uploadedfile}" mode="simple"/>
+						<p:fileUpload value="#{publicarDocumentoControlador.file}" mode="simple"/>
+						<p:commandButton value="Enviar Arquivo" actionListener="#{publicarDocumentoControlador.upload}"/>
 						
 						<p/>	
 					</h:panelGroup>
@@ -164,7 +164,7 @@
 		width="50%">
 		
 		<h:form enctype="multipart/form-data">
-			<p:fileUpload value="#{publicarDocumentoControlador.uploadedfile}" mode="simple"/>
+			<p:fileUpload value="#{publicarDocumentoControlador.file}" mode="simple"/>
 			
 			<p:commandButton value="Enviar Arquivo" actionListener="#{publicarDocumentoControlador.upload}"/>
 		</h:form>

@@ -1,10 +1,12 @@
 package br.fucapi.ads.modelo.dominio;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import br.fucapi.ads.modelo.utils.GeralUtils;
 import br.fucapi.bpms.activiti.dominio.Variaveis;
 import br.fucapi.bpms.alfresco.dominio.Usuario;
 
@@ -51,8 +53,6 @@ public class VariavelPublicarDocumento extends Variavel {
 
 	private Unidade unidade;
 
-	private List<PostoCopia> postoCopias;
-
 	private List<Setor> setores;
 
 	private List<TipoDocumento> tipoDocumentos;
@@ -63,8 +63,10 @@ public class VariavelPublicarDocumento extends Variavel {
 
 	private List<Usuario> proprietarios;
 
-	private String dataVencimento;
-
+	private Date dataVencimento;
+	
+	private Date dataNotificacao;
+	
 	private int notificarVencimento;
 
 	private int versaoDocumento;
@@ -82,6 +84,26 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.publicacaoAutomatica = true;
 	}
 
+	public void tratarAtributos(List<Usuario> aprovadoresTarget, 
+			List<Usuario> concensosTarget) {
+		
+		this.dataNotificacao = GeralUtils.gerarDataNotificacao(this.dataVencimento, this.notificarVencimento);
+		
+		if(aprovadoresTarget != null && aprovadoresTarget.size() > 0){
+			for (Usuario u : aprovadoresTarget) {
+				this.aprovadores.add(u.getUserName());
+				this.emailAprovadores.add(u.getEmail());
+			}
+		}
+		
+		if(concensosTarget != null && concensosTarget.size() > 0){
+			for (Usuario u : concensosTarget) {
+				this.concensos.add(u.getUserName());
+				this.emailConcensos.add(u.getEmail());
+			}
+		}
+	}
+	
 	public String getPUBLICAR_DOCUMENTO() {
 		return PUBLICAR_DOCUMENTO;
 	}
@@ -116,6 +138,30 @@ public class VariavelPublicarDocumento extends Variavel {
 
 	public void setEmailConcensos(List<String> emailConcensos) {
 		this.emailConcensos = emailConcensos;
+	}
+
+	public List<String> getPostosCopia() {
+		return postosCopia;
+	}
+
+	public void setPostosCopia(List<String> postosCopia) {
+		this.postosCopia = postosCopia;
+	}
+
+	public Date getDataVencimento() {
+		return this.dataVencimento;
+	}
+	
+	public void setDataVencimento(Date dataVencimento) {
+		this.dataVencimento = dataVencimento;
+	}
+
+	public Date getDataNotificacao() {
+		return dataNotificacao;
+	}
+
+	public void setDataNotificacao(Date dataNotificacao) {
+		this.dataNotificacao = dataNotificacao;
 	}
 
 	public String getTipoSolicitacao() {
@@ -182,14 +228,6 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.unidade = unidade;
 	}
 
-	public List<PostoCopia> getPostoCopias() {
-		return postoCopias;
-	}
-
-	public void setPostoCopias(List<PostoCopia> postoCopias) {
-		this.postoCopias = postoCopias;
-	}
-
 	public List<Setor> getSetores() {
 		return setores;
 	}
@@ -229,15 +267,7 @@ public class VariavelPublicarDocumento extends Variavel {
 	public void setProprietarios(List<Usuario> proprietarios) {
 		this.proprietarios = proprietarios;
 	}
-
-	public String getDataVencimento() {
-		return dataVencimento;
-	}
-
-	public void setDataVencimento(String dataVencimento) {
-		this.dataVencimento = dataVencimento;
-	}
-
+	
 	public int getNotificarVencimento() {
 		return notificarVencimento;
 	}
@@ -387,6 +417,10 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("possuiTarja", this.isPossuiTarja());
 		params.put("publicacaoAutomatica", this.isPublicacaoAutomatica());
 		params.put("enviarConcensao", this.isEnviarConcensao());
+		
+		params.put("arquivo", this.arquivo);
+		
+		// Verificar onde serah gravado as informacoes de DataNotificacao, DataVencimento...
 
 		return params;
 	}

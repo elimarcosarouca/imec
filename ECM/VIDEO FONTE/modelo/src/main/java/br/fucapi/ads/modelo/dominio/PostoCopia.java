@@ -86,7 +86,7 @@ public class PostoCopia extends AbstractEntity implements Serializable {
 	}
 
 	public boolean equals(Object o) {
-		if (((PostoCopia) o).getId() == this.id)
+		if (o instanceof PostoCopia && ((PostoCopia) o).getId() == this.id)
 			return true;
 		else
 			return false;

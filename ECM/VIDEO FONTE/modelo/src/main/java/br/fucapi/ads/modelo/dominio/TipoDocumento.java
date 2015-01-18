@@ -82,7 +82,7 @@ public class TipoDocumento extends AbstractEntity implements Serializable {
 	}
 	
 	public boolean equals(Object o) {
-		if (((TipoDocumento) o).getId() == this.id)
+		if (o instanceof TipoDocumento && ((TipoDocumento) o).getId() == this.id)
 			return true;
 		else
 			return false;

@@ -1,5 +1,7 @@
 package br.fucapi.ads.modelo.controlador;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.text.ParseException;
@@ -18,11 +20,17 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.alfresco.repo.webservice.administration.AdministrationFault;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.io.FileUtils;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.FlowEvent;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
+import org.primefaces.model.UploadedFile;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import br.fucapi.ads.modelo.dominio.Arquivo;
+import br.fucapi.ads.modelo.dominio.PostoCopia;
 import br.fucapi.ads.modelo.dominio.Protocolo;
 import br.fucapi.ads.modelo.dominio.VariaveisTarefa;
 import br.fucapi.ads.modelo.dominio.VariaveisTreinamento;
@@ -127,7 +135,90 @@ public class PublicarDocumentoControlador implements Serializable {
 	private String TELA_DETALHE = "paginas/solicitacao/publicardocumento/detalhe.xhtml";
 
 	private String TELA_DETALHE_TAREFA = "paginas/solicitacao/publicardocumento/detalhetarefa.xhtml";
+	
+	// PickList
+	
+	private DualListModel<Usuario> aprovadores;
+	private List<Usuario> aprovadoresTarget;
+	private List<Usuario> aprovadoresSource;
+	
+	private DualListModel<Usuario> concensos;
+	private List<Usuario> concensosTarget;
+	private List<Usuario> concensosSource;
+	
+	private DualListModel<PostoCopia> postosCopia;
+	private List<PostoCopia> postosCopiaTarget;
+	private List<PostoCopia> postosCopiaSource;
+	
+	// Upload File
+	
+	private UploadedFile file;
+	 
+    public UploadedFile getFile() {
+        return file;
+    }
+ 
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
+    
+	// Att Wizard
+	
+	private boolean skip;
+	
+    public boolean isSkip() {
+        return skip;
+    }
+ 
+    public void setSkip(boolean skip) {
+        this.skip = skip;
+    }
+    
+    public String onFlowProcess(FlowEvent event) {
+        if(skip) {
+            skip = false;   //reset in case user goes back
+            return "confirm";
+        }
+        else {
+            return event.getNewStep();
+        }
+    }
 
+    public void upload() {
+        if(file != null) {
+            FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+    }
+    
+    // Metodo responsavel por salvar no repositorio Alfresco o Documento
+    public Arquivo saveArquivo() {
+		
+    	Arquivo arquivo = new Arquivo();
+    	
+    	String nomePasta = ""+protocolo.getAno()+protocolo.getSequencial();
+		
+		try {
+			String uuid;
+			File fileTemp = new File(this.file.getFileName());
+			FileUtils.copyInputStreamToFile(file.getInputstream(), fileTemp);
+			uuid = alfrescoServico.anexarArquivo(
+			bpmswebproperties.getProperty("uuid.parent.publicacao"),
+			nomePasta, "",
+			this.descricao, this.usuarioLogado.getTicket(), fileTemp);
+			arquivo.setUuid(uuid);
+			arquivo.setNomeArquivo(fileTemp.getName());
+
+		} catch (HttpException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
+		return arquivo;
+    }
+    
 	public String inicioNovaSolicitacao() {
 
 		this.variaveis = new VariavelPublicarDocumento();
@@ -144,10 +235,29 @@ public class PublicarDocumentoControlador implements Serializable {
 				.getAuthentication().getPrincipal();
 
 		this.variaveis.setUnidades(unidadeServico.listAll());
-		this.variaveis.setPostoCopias(postoCopiaServico.listAll());
 		this.variaveis.setSetores(setorServico.listAll());
 		this.variaveis.setTipoDocumentos(tipoDocumentoServico.listAll());
 
+		// PickList Aprovadores
+		this.aprovadoresSource = new ArrayList<Usuario>();
+		this.aprovadoresSource.addAll(this.usuarios);
+		this.aprovadoresTarget = new ArrayList<Usuario>();
+		this.aprovadores = new DualListModel<Usuario>(this.aprovadoresSource, this.aprovadoresTarget);
+		
+		// PickList Concensos
+		this.concensosSource = new ArrayList<Usuario>();
+		this.concensosSource.addAll(this.usuarios);
+		this.concensosTarget = new ArrayList<Usuario>();
+		this.concensos = new DualListModel<Usuario>(this.concensosSource, this.concensosTarget);
+		
+		// PickList PostosCopia
+		this.postosCopiaSource = new ArrayList<PostoCopia>();
+		this.postosCopiaSource.addAll(postoCopiaServico.listAll());
+		this.postosCopiaTarget = new ArrayList<PostoCopia>();
+		this.postosCopia = new DualListModel<PostoCopia>(this.postosCopiaSource, this.postosCopiaTarget);
+		
+		
+		
 		// TODO foi incluido o redirect porque as paginas não estavam
 		// carregando os componentes da paginas, devido a um bug do primefaces
 		
@@ -170,7 +280,16 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		this.protocolo = protocoloServico.gerarProtocolo();
 
-		// Seta no processo os dados do Solicitante do Treinamento
+		/*
+		 *  Trata a lista de aprovadores (login e email) e concensos (login e email)
+		 *  que devem ser enviadas ao Activiti
+		 */
+		this.variaveis.tratarAtributos(this.aprovadoresTarget, this.concensosTarget);
+		
+		// Salva a referencia do arquivo (Alfresco) nas variaveis de processo
+		this.variaveis.setArquivo(this.saveArquivo());
+		
+		// Seta no processo os dados do Solicitante da publicacao
 		this.variaveis.setSolicitante(this.usuarioLogado.getUserName());
 		this.variaveis.setProprietario(this.usuarioLogado);
 		
@@ -193,7 +312,7 @@ public class PublicarDocumentoControlador implements Serializable {
 		RequestContext request = RequestContext.getCurrentInstance();
 		request.execute("sucessoDialog.show()");
 
-		this.variaveisTreinamento = new VariaveisTreinamento();
+		this.variaveis = new VariavelPublicarDocumento();
 		
 		telaPesquisa();
 
@@ -614,6 +733,78 @@ public class PublicarDocumentoControlador implements Serializable {
 	public void setTipoDocumentoServico(
 			TipoDocumentoServico tipoDocumentoServico) {
 		this.tipoDocumentoServico = tipoDocumentoServico;
+	}
+
+	public DualListModel<Usuario> getAprovadores() {
+		return aprovadores;
+	}
+
+	public void setAprovadores(DualListModel<Usuario> aprovadores) {
+		this.aprovadores = aprovadores;
+	}
+
+	public List<Usuario> getAprovadoresTarget() {
+		return aprovadoresTarget;
+	}
+
+	public void setAprovadoresTarget(List<Usuario> aprovadoresTarget) {
+		this.aprovadoresTarget = aprovadoresTarget;
+	}
+
+	public List<Usuario> getAprovadoresSource() {
+		return aprovadoresSource;
+	}
+
+	public void setAprovadoresSource(List<Usuario> aprovadoresSource) {
+		this.aprovadoresSource = aprovadoresSource;
+	}
+
+	public DualListModel<Usuario> getConcensos() {
+		return concensos;
+	}
+
+	public void setConcensos(DualListModel<Usuario> concensos) {
+		this.concensos = concensos;
+	}
+
+	public List<Usuario> getConcensosTarget() {
+		return concensosTarget;
+	}
+
+	public void setConcensosTarget(List<Usuario> concensosTarget) {
+		this.concensosTarget = concensosTarget;
+	}
+
+	public List<Usuario> getConcensosSource() {
+		return concensosSource;
+	}
+
+	public void setConcensosSource(List<Usuario> concensosSource) {
+		this.concensosSource = concensosSource;
+	}
+
+	public DualListModel<PostoCopia> getPostosCopia() {
+		return postosCopia;
+	}
+
+	public void setPostosCopia(DualListModel<PostoCopia> postosCopia) {
+		this.postosCopia = postosCopia;
+	}
+
+	public List<PostoCopia> getPostosCopiaTarget() {
+		return postosCopiaTarget;
+	}
+
+	public void setPostosCopiaTarget(List<PostoCopia> postosCopiaTarget) {
+		this.postosCopiaTarget = postosCopiaTarget;
+	}
+
+	public List<PostoCopia> getPostosCopiaSource() {
+		return postosCopiaSource;
+	}
+
+	public void setPostosCopiaSource(List<PostoCopia> postosCopiaSource) {
+		this.postosCopiaSource = postosCopiaSource;
 	}
 
 }
