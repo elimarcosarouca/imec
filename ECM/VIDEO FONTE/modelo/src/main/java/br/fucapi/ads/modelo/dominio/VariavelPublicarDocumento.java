@@ -2,10 +2,12 @@ package br.fucapi.ads.modelo.dominio;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 
 
 
@@ -87,6 +89,8 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.publicacaoAutomatica = true;
 		this.aprovadores = new ArrayList<String>();
 		this.concensos = new ArrayList<String>();
+		this.emailAprovadores = new ArrayList<String>();
+		this.emailConcensos = new ArrayList<String>();
 		
 	}
 
@@ -96,9 +100,13 @@ public class VariavelPublicarDocumento extends Variavel {
 //		this.dataNotificacao = GeralUtils.gerarDataNotificacao(this.dataVencimento, this.notificarVencimento);
 		
 		if(aprovadoresTarget != null && aprovadoresTarget.size() > 0){
-			for (Usuario u : aprovadoresTarget) {
-				this.aprovadores.add(u.getUserName());
-				this.emailAprovadores.add(u.getEmail());
+			Usuario usuario;
+			for (Iterator iterator = concensosTarget.iterator(); iterator
+					.hasNext();) {
+				usuario = (Usuario) iterator.next();
+				this.aprovadores.add(usuario.getUserName());
+				this.emailAprovadores.add(usuario.getEmail());
+				
 			}
 		}
 		
@@ -109,11 +117,6 @@ public class VariavelPublicarDocumento extends Variavel {
 			}
 		}
 		
-		if (concensosTarget.size() == 0){
-			this.aprovadores.add("admin");
-			this.concensos.add("admin");
-			
-		}
 	}
 	
 	public String getPUBLICAR_DOCUMENTO() {
@@ -430,16 +433,8 @@ public class VariavelPublicarDocumento extends Variavel {
 		
 		params.put("arquivo", this.arquivo);
 		
-		List<String> aprovadores = new ArrayList<String>();
-		aprovadores.add("admin");
-		aprovadores.add("admin");
-		
-		List<String> concensos = new ArrayList<String>();
-		concensos.add("admin");
-		concensos.add("admin");
-		
-		params.put("aprovadores", aprovadores);
-		params.put("concensos", concensos);
+		params.put("aprovadores", this.getAprovadores());
+		params.put("concensos", this.getConcensos());
 		
 		return params;
 	}
