@@ -137,75 +137,75 @@ public class PublicarDocumentoControlador implements Serializable {
 	private String TELA_DETALHE_TAREFA = "paginas/solicitacao/publicardocumento/detalhetarefa.xhtml";
 	
 	// PickList
-	
+
 	private DualListModel<Usuario> aprovadores;
 	private List<Usuario> aprovadoresTarget;
 	private List<Usuario> aprovadoresSource;
-	
+
 	private DualListModel<Usuario> concensos;
 	private List<Usuario> concensosTarget;
 	private List<Usuario> concensosSource;
-	
+
 	private DualListModel<PostoCopia> postosCopia;
 	private List<PostoCopia> postosCopiaTarget;
 	private List<PostoCopia> postosCopiaSource;
-	
-	// Upload File
-	
-	private UploadedFile file;
-	 
-    public UploadedFile getFile() {
-        return file;
-    }
- 
-    public void setFile(UploadedFile file) {
-        this.file = file;
-    }
-    
-	// Att Wizard
-	
-	private boolean skip;
-	
-    public boolean isSkip() {
-        return skip;
-    }
- 
-    public void setSkip(boolean skip) {
-        this.skip = skip;
-    }
-    
-    public String onFlowProcess(FlowEvent event) {
-        if(skip) {
-            skip = false;   //reset in case user goes back
-            return "confirm";
-        }
-        else {
-            return event.getNewStep();
-        }
-    }
 
-    public void upload() {
-        if(file != null) {
-            FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
-            FacesContext.getCurrentInstance().addMessage(null, message);
-        }
-    }
-    
-    // Metodo responsavel por salvar no repositorio Alfresco o Documento
-    public Arquivo saveArquivo() {
-		
-    	Arquivo arquivo = new Arquivo();
-    	
-    	String nomePasta = ""+protocolo.getAno()+protocolo.getSequencial();
-		
+	// Upload File
+
+	private UploadedFile file;
+
+	public UploadedFile getFile() {
+		return file;
+	}
+
+	public void setFile(UploadedFile file) {
+		this.file = file;
+	}
+
+	// Att Wizard
+
+	private boolean skip;
+
+	public boolean isSkip() {
+		return skip;
+	}
+
+	public void setSkip(boolean skip) {
+		this.skip = skip;
+	}
+
+	public String onFlowProcess(FlowEvent event) {
+		if (skip) {
+			skip = false; // reset in case user goes back
+			return "confirm";
+		} else {
+			return event.getNewStep();
+		}
+	}
+
+	public void upload() {
+		if (file != null) {
+			FacesMessage message = new FacesMessage("Succesful",
+					file.getFileName() + " is uploaded.");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+	}
+
+	// Metodo responsavel por salvar no repositorio Alfresco o Documento
+	public Arquivo saveArquivo() {
+
+		Arquivo arquivo = new Arquivo();
+
+		String nomePasta = "" + protocolo.getAno() + protocolo.getSequencial();
+
 		try {
 			String uuid;
 			File fileTemp = new File(this.file.getFileName());
 			FileUtils.copyInputStreamToFile(file.getInputstream(), fileTemp);
 			uuid = alfrescoServico.anexarArquivo(
-			bpmswebproperties.getProperty("uuid.parent.publicacao"),
-			nomePasta, "",
-			this.descricao, this.usuarioLogado.getTicket(), fileTemp);
+					bpmswebproperties.getProperty("uuid.parent.publicacao"),
+					nomePasta, "", this.descricao,
+					this.usuarioLogado.getTicket(), fileTemp);
 			arquivo.setUuid(uuid);
 			arquivo.setNomeArquivo(fileTemp.getName());
 
@@ -215,10 +215,9 @@ public class PublicarDocumentoControlador implements Serializable {
 			e.printStackTrace();
 		}
 
-
 		return arquivo;
-    }
-    
+	}
+
 	public String inicioNovaSolicitacao() {
 
 		this.variaveis = new VariavelPublicarDocumento();
@@ -235,7 +234,7 @@ public class PublicarDocumentoControlador implements Serializable {
 				.getAuthentication().getPrincipal();
 
 		this.variaveis.setUnidades(unidadeServico.listAll());
-//		this.variaveis.setPostoCopias(postoCopiaServico.listAll());
+		// this.variaveis.setPostoCopias(postoCopiaServico.listAll());
 		this.variaveis.setSetores(setorServico.listAll());
 		this.variaveis.setTipoDocumentos(tipoDocumentoServico.listAll());
 
@@ -243,34 +242,35 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.aprovadoresSource = new ArrayList<Usuario>();
 		this.aprovadoresSource.addAll(this.usuarios);
 		this.aprovadoresTarget = new ArrayList<Usuario>();
-		this.aprovadores = new DualListModel<Usuario>(this.aprovadoresSource, this.aprovadoresTarget);
-		
+		this.aprovadores = new DualListModel<Usuario>(this.aprovadoresSource,
+				this.aprovadoresTarget);
+
 		// PickList Concensos
 		this.concensosSource = new ArrayList<Usuario>();
 		this.concensosSource.addAll(this.usuarios);
 		this.concensosTarget = new ArrayList<Usuario>();
-		this.concensos = new DualListModel<Usuario>(this.concensosSource, this.concensosTarget);
-		
+		this.concensos = new DualListModel<Usuario>(this.concensosSource,
+				this.concensosTarget);
+
 		// PickList PostosCopia
 		this.postosCopiaSource = new ArrayList<PostoCopia>();
 		this.postosCopiaSource.addAll(postoCopiaServico.listAll());
 		this.postosCopiaTarget = new ArrayList<PostoCopia>();
-		this.postosCopia = new DualListModel<PostoCopia>(this.postosCopiaSource, this.postosCopiaTarget);
-		
-		
-		
+		this.postosCopia = new DualListModel<PostoCopia>(
+				this.postosCopiaSource, this.postosCopiaTarget);
+
 		// TODO foi incluido o redirect porque as paginas não estavam
 		// carregando os componentes da paginas, devido a um bug do primefaces
-		
+
 		paginaCentralControladorBean.setPaginaCentral(this.TELA_CADASTRO);
-		
+
 		return "index.xhtml?faces-redirect=true";
 	}
 
 	@PostConstruct
 	public void init() {
 
-//		this.pesquisar();
+		// this.pesquisar();
 		this.inicioNovaSolicitacao();
 	}
 
@@ -283,21 +283,22 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.protocolo = protocoloServico.gerarProtocolo();
 
 		/*
-		 *  Trata a lista de aprovadores (login e email) e concensos (login e email)
-		 *  que devem ser enviadas ao Activiti
+		 * Trata a lista de aprovadores (login e email) e concensos (login e
+		 * email) que devem ser enviadas ao Activiti
 		 */
-		this.variaveis.tratarAtributos(this.aprovadoresTarget, this.concensosTarget);
-		
+		this.variaveis.tratarAtributos(this.aprovadores.getTarget(),
+				this.concensos.getTarget());
+
 		// Salva a referencia do arquivo (Alfresco) nas variaveis de processo
-//		this.variaveis.setArquivo(this.saveArquivo());
-		
+		// this.variaveis.setArquivo(this.saveArquivo());
+
 		// Seta no processo os dados do Solicitante da publicacao
 		this.variaveis.setSolicitante(this.usuarioLogado.getUserName());
 		this.variaveis.setProprietario(this.usuarioLogado);
-		
+
 		this.variaveis.setSequencial(this.protocolo.getSequencial());
 		this.variaveis.setAno(this.protocolo.getAno());
-		
+
 		// Converte as variaveis de processo em um Objeto Json
 		// String json = variaveisTreinamento.ObjectToJson(
 		// this.processoDefinicao.getKey(), this.protocolo);
@@ -308,14 +309,14 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		// TODO - Realizacao de testes
 		this.activitiServico.iniciarInstanciaProcessoPorParametrosByKey(
-				variaveis.getPUBLICAR_DOCUMENTO(), this.protocolo.toString(), variaveis
-						.converterVariaveis());
+				variaveis.getPUBLICAR_DOCUMENTO(), this.protocolo.toString(),
+				variaveis.converterVariaveis());
 
 		RequestContext request = RequestContext.getCurrentInstance();
 		request.execute("sucessoDialog.show()");
 
 		this.variaveis = new VariavelPublicarDocumento();
-		
+
 		telaPesquisa();
 
 		return "index.xhtml?faces-redirect=true";
@@ -379,6 +380,24 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	public void telaPesquisa() {
 		paginaCentralControladorBean.setPaginaCentral(this.TELA_PESQUISA);
+
+	}
+
+	public void handleTransfer(TransferEvent event) {
+		StringBuilder builder = new StringBuilder();
+		for (Object item : event.getItems()) {
+			builder.append(((Usuario) item).getFirstName()).append("<br />");
+			this.aprovadores.getTarget().add((Usuario) item);
+			
+		}
+
+		System.out.println(builder.toString());
+		FacesMessage msg = new FacesMessage();
+		msg.setSeverity(FacesMessage.SEVERITY_INFO);
+		msg.setSummary("Tache Transferred");
+		msg.setDetail(builder.toString());
+
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 
 	}
 
@@ -652,7 +671,7 @@ public class PublicarDocumentoControlador implements Serializable {
 	public void onTransfer(TransferEvent event) {
 		StringBuilder builder = new StringBuilder();
 		for (Object item : event.getItems()) {
-			builder.append(((Usuario) item).getFirstName()).append("<br />");
+			this.aprovadores.getTarget().add((Usuario) item);
 		}
 
 		FacesMessage msg = new FacesMessage();
