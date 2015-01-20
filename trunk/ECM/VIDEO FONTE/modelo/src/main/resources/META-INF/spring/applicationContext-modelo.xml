@@ -18,6 +18,7 @@
 
 	<util:properties id="adsProperties" location="classpath:ads.properties" />
 	<util:properties id="messengerProperties" location="classpath:messenger.properties" />
+	<util:properties id="bpmswebproperties" location="classpath:web.properties"/>
 
 	<bean class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" id="dataSourceModelo">

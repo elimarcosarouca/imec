@@ -184,9 +184,9 @@ public class PublicarDocumentoControlador implements Serializable {
 	}
 
 	public void upload() {
-		if (file != null) {
+		if (this.variaveis.getArquivo().getFile() != null) {
 			FacesMessage message = new FacesMessage("Succesful",
-					file.getFileName() + " is uploaded.");
+					this.variaveis.getArquivo().getFile().getFileName() + " is uploaded.");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
@@ -194,25 +194,36 @@ public class PublicarDocumentoControlador implements Serializable {
 	// Metodo responsavel por salvar no repositorio Alfresco o Documento
 	public Arquivo saveArquivo() {
 
-		Arquivo arquivo = new Arquivo();
+		Arquivo arquivo = this.variaveis.getArquivo();
 
 		String nomePasta = "" + protocolo.getAno() + protocolo.getSequencial();
-
-		try {
-			String uuid;
-			File fileTemp = new File(this.file.getFileName());
-			FileUtils.copyInputStreamToFile(file.getInputstream(), fileTemp);
-			uuid = alfrescoServico.anexarArquivo(
-					bpmswebproperties.getProperty("uuid.parent.publicacao"),
-					nomePasta, "", this.descricao,
-					this.usuarioLogado.getTicket(), fileTemp);
-			arquivo.setUuid(uuid);
-			arquivo.setNomeArquivo(fileTemp.getName());
-
-		} catch (HttpException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		
+		if (arquivo.getFile() != null && arquivo.getFile().getFileName() != "") {
+			try {
+				String uuid;
+				File fileTemp = new File(arquivo.getFile().getFileName());
+				FileUtils.copyInputStreamToFile(arquivo.getFile().getInputstream(), fileTemp);
+				
+				// TODO bpmswebproperties estah NULL
+				
+				uuid = alfrescoServico.anexarArquivo(
+						bpmswebproperties.getProperty("uuid.parent.publicacao"),
+						nomePasta, "", this.descricao,
+						this.usuarioLogado.getTicket(), fileTemp);
+				
+				arquivo.setUuid(uuid);
+				arquivo.setFile(null);
+				arquivo.setNomeArquivo(fileTemp.getName());
+	
+			} catch (HttpException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			FacesMessage message = new FacesMessage("warn",
+					this.variaveis.getArquivo().getFile().getFileName() + " is uploaded.");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 
 		return arquivo;
@@ -290,7 +301,7 @@ public class PublicarDocumentoControlador implements Serializable {
 				this.concensos.getTarget());
 
 		// Salva a referencia do arquivo (Alfresco) nas variaveis de processo
-		// this.variaveis.setArquivo(this.saveArquivo());
+		this.variaveis.setArquivo(this.saveArquivo());
 
 		// Seta no processo os dados do Solicitante da publicacao
 		this.variaveis.setSolicitante(this.usuarioLogado.getUserName());
