@@ -8,8 +8,6 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions">
 
-
-
 	<style type="text/css">
 .ui-picklist-source, .ui-picklist-target {
 	height: 400px;
@@ -17,9 +15,10 @@
 }
 </style>
 
-	<h:form id="form">
-
-		<p:panel id="panel" closable="false" footer="*Campos Obrigatórios"
+	<h:form enctype="multipart/form-data" id="formSearch">
+	    <p:growl id="messages" showDetail="true" />
+	    
+	   <p:panel id="panel" closable="false" footer="*Campos Obrigatórios"
 			header="Cadastro de Publicação de Documento" style="width:99%">
 			<p:growl id="msg" showDetail="true" />
 
@@ -90,8 +89,17 @@
 						<p:inputText id="diasAntecedencia" style="width:20%"
 							value="#{publicarDocumentoControlador.variaveis.notificarVencimento}" />
 					</h:panelGrid>
-				</p:tab>
 
+					<p />
+
+					<h:panelGrid columns="1">
+						<h:outputText value="Descrição *" styleClass="ui-priority-primary" />
+							<p:inputTextarea rows="3" cols="30"
+								value="#{publicarDocumentoControlador.variaveis.descricao}" maxlength="255"
+								style="width:450px" id="descricao" autoResize="false" />
+					</h:panelGrid>
+				</p:tab>
+				
 				<p:tab title="Aprovadores">
 					<h:panelGroup style="width:99%">
 						<p />
@@ -137,7 +145,7 @@
 
 					</h:panelGroup>
 				</p:tab>
-
+				
 				<p:tab title="Posto de Cópia">
 					<h:panelGroup style="width:99%">
 
@@ -162,42 +170,32 @@
 							value="#{publicarDocumentoControlador.variaveis.publicacaoAutomatica}" />
 						<p />
 
-						<!-- 						<p:fileUpload  mode="simple"/> -->
-						<p:commandButton value="Enviar Arquivo"
-							actionListener="#{publicarDocumentoControlador.upload}" />
+						<p:fileUpload value="#{publicarDocumentoControlador.variaveis.arquivo.file}"
+							label="selecione um arquivo" mode="simple" id="arquivo"
+							required="true" />
+							
+						
 
 						<p />
 					</h:panelGroup>
+
 					<div align="right">
 						<p:commandButton id="buttonAvancar" value="Gerar Solicitação"
-							ajax="true" update=":form, :sucessoDialog1"
+							ajax="false" update=":sucessoDialog1"
 							styleClass="ui-priority-primary" icon="ui-icon-circle-check"
 							actionListener="#{publicarDocumentoControlador.salvarNovaSolicitacao}" />
 					</div>
-
 				</p:tab>
 			</p:wizard>
-		</p:panel>
-
+	   
+		</p:panel>					
 
 	</h:form>
-
-	<p:dialog id="upload-dialog" header="Upload de Arquivo"
-		widgetVar="upload" appendToBody="true" width="50%">
-
-		<h:form enctype="multipart/form-data">
-			<p:fileUpload value="#{publicarDocumentoControlador.file}"
-				mode="simple" />
-
-			<p:commandButton value="Enviar Arquivo"
-				actionListener="#{publicarDocumentoControlador.upload}" />
-		</h:form>
-
-	</p:dialog>
-
+	
 	<p:dialog id="sucessoDialog1" header="Sucesso!"
-		widgetVar="sucessoDialog" modal="true" appendToBody="true"
+		widgetVar="sucessoDialog" appendToBody="true"
 		closable="false" width="30%">
+	
 		<div align="center">
 			<h:form style="align: center;">
 				<h:outputText value="Solicitação de treinamento criada com sucesso!" />

@@ -2,15 +2,12 @@ package br.fucapi.ads.modelo.dominio;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-
-
-
+import br.fucapi.ads.modelo.utils.GeralUtils;
 //import br.fucapi.ads.modelo.utils.GeralUtils;
 import br.fucapi.bpms.activiti.dominio.Variaveis;
 import br.fucapi.bpms.alfresco.dominio.Usuario;
@@ -91,21 +88,18 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.concensos = new ArrayList<String>();
 		this.emailAprovadores = new ArrayList<String>();
 		this.emailConcensos = new ArrayList<String>();
-		
+		this.arquivo = new Arquivo();
 	}
 
 	public void tratarAtributos(List<Usuario> aprovadoresTarget, 
 			List<Usuario> concensosTarget) {
 		
-//		this.dataNotificacao = GeralUtils.gerarDataNotificacao(this.dataVencimento, this.notificarVencimento);
+		this.dataNotificacao = GeralUtils.gerarDataNotificacao(this.dataVencimento, this.notificarVencimento);
 		
 		if(aprovadoresTarget != null && aprovadoresTarget.size() > 0){
-			Usuario usuario;
-			for (Iterator iterator = concensosTarget.iterator(); iterator
-					.hasNext();) {
-				usuario = (Usuario) iterator.next();
-				this.aprovadores.add(usuario.getUserName());
-				this.emailAprovadores.add(usuario.getEmail());
+			for (Usuario u :  concensosTarget) {
+				this.aprovadores.add(u.getUserName());
+				this.emailAprovadores.add(u.getEmail());
 				
 			}
 		}
