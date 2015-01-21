@@ -13,8 +13,29 @@
 		<p:panel header="Status das minhas solicitações" style="width:99%"
 			id="painel">
 			<p:growl id="growl" />
+			
+				
+			<h:panelGrid columns="2">
+
+				<h:outputText value="Protocolo: " />
+				<h:outputText value="Situação: " />
+
+				<p:inputText id="idProtocolo" value="#{publicarDocumentoControlador.variaveisPesquisa.protocolo}" />
+
+				<p:selectOneMenu value="#{publicarDocumentoControlador.variaveisPesquisa.statusProcesso}">
+					<f:selectItem itemLabel="PENDENTE" itemValue="PENDENTE" />
+					<f:selectItem itemLabel="CONCLUÍDO" itemValue="CONCLUÍDO" />
+					<f:selectItem itemLabel="CANCELADO" itemValue="CANCELADO" />
+					<f:selectItem itemLabel="TODOS" itemValue="TODOS" />
+				</p:selectOneMenu>
+
+			</h:panelGrid>
 
 			<p:commandButton id="pesquisa" icon="ui-icon-search"
+				actionListener="#{publicarDocumentoControlador.pesquisaPorVariaveis}"
+				value="Pesquisar" update=":form" />
+
+			<p:commandButton id="novo" icon="ui-icon-search"
 				actionListener="#{publicarDocumentoControlador.inicioNovaSolicitacao}"
 				value="Novo" update=":form" />
 

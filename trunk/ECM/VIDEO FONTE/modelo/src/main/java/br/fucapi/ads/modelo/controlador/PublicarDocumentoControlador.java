@@ -61,6 +61,8 @@ public class PublicarDocumentoControlador implements Serializable {
 	private static final long serialVersionUID = 13244234324234332L;
 
 	private VariavelPublicarDocumento variaveis;
+	
+	private VariavelPublicarDocumento variaveisPesquisa;
 
 	private ProcessoInstancia processoInstancia;
 	private ProcessoDefinicao processoDefinicao;
@@ -313,9 +315,9 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	@PostConstruct
 	public void init() {
-
-		// this.pesquisar();
 		this.inicioNovaSolicitacao();
+		this.variaveisPesquisa = new VariavelPublicarDocumento();
+		
 	}
 
 	/**
@@ -500,10 +502,47 @@ public class PublicarDocumentoControlador implements Serializable {
 			this.lista.add(pInstancia);
 		}
 	}
+	
+	public void pesquisaPorVariaveis(){
+		
+		List<ProcessoInstancia> listaResultado = null;
+		this.lista = new ArrayList<ProcessoInstancia>();
+
+		Map<String, Object> var = this.filtroVariaveis();
+		listaResultado = activitiServico.getHistoricoProcessosFiltroVariaveis(
+				var, "PENDENTE");
+
+		for (ProcessoInstancia pInstancia : listaResultado) {
+			this.variaveis = new VariavelPublicarDocumento();
+			this.variaveis.converterListaVariaveis(pInstancia.getVariables());
+
+			pInstancia.setVariaveis(variaveis);
+			this.lista.add(pInstancia);
+		}
+		
+	}
 
 	private Map<String, Object> filtroVariaveis() {
 
 		Map<String, Object> var = new HashMap<String, Object>();
+		
+		if ( null != this.variaveisPesquisa.getStatusProcesso() 
+				&& this.variaveisPesquisa.getStatusProcesso() != "TODOS"  ) 
+			var.put("statusProcesso", this.variaveisPesquisa.getStatusProcesso());
+		
+		if ( null != this.variaveisPesquisa.getProtocoloOrigem() 
+				&& this.variaveisPesquisa.getProtocoloOrigem() != ""  ) 
+			var.put("protocoloOrigem", this.variaveisPesquisa.getProtocoloOrigem());
+		
+		if ( null != this.variaveisPesquisa.getProtocolo() 
+				&& this.variaveisPesquisa.getProtocoloOrigem() != ""  ) 
+			var.put("protocolo", this.variaveisPesquisa.getProtocolo());
+		
+		if ( null != this.variaveisPesquisa.getSolicitante()
+				&& this.variaveisPesquisa.getSolicitante() != ""  ) 
+			var.put("solicitante", this.variaveisPesquisa.getSolicitante());
+		
+		var.put("tipoSolicitacao", this.variaveisPesquisa.getTipoSolicitacao());
 
 		return var;
 	}
@@ -901,6 +940,14 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	public void setPostosCopiaSource(List<PostoCopia> postosCopiaSource) {
 		this.postosCopiaSource = postosCopiaSource;
+	}
+
+	public VariavelPublicarDocumento getVariaveisPesquisa() {
+		return variaveisPesquisa;
+	}
+
+	public void setVariaveisPesquisa(VariavelPublicarDocumento variaveisPesquisa) {
+		this.variaveisPesquisa = variaveisPesquisa;
 	}
 
 }

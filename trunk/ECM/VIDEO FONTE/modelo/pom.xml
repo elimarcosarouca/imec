@@ -74,19 +74,19 @@
 		</dependency>
 
 		<!-- Ads-Pom -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>br.fucapi.ads</groupId> -->
-<!-- 			<artifactId>ads-pom</artifactId> -->
-<!-- 			<version>${ads-pom.version}</version> -->
-<!-- 			<type>pom</type> -->
-<!-- 		</dependency> -->
+ 		<dependency> 
+ 			<groupId>br.fucapi.ads</groupId>
+ 			<artifactId>ads-pom</artifactId>
+ 			<version>${ads-pom.version}</version> 
+ 			<type>pom</type> 
+ 		</dependency>
 
 		<!-- Ads-Mail -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>br.fucapi.ads</groupId> -->
-<!-- 			<artifactId>ads-mail</artifactId> -->
-<!-- 			<version>${ads-mail.version}</version> -->
-<!-- 		</dependency> -->
+ 		<dependency> 
+			<groupId>br.fucapi.ads</groupId> 
+			<artifactId>ads-mail</artifactId> 
+ 			<version>${ads-mail.version}</version>
+		</dependency>
 
 <!-- ADS - INICIO -->
 

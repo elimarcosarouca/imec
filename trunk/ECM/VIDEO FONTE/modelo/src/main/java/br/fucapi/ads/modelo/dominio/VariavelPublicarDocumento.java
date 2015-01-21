@@ -75,7 +75,7 @@ public class VariavelPublicarDocumento extends Variavel {
 
 	private int versaoDocumento;
 
-	private String PUBLICAR_DOCUMENTO = "PUBLICAR_DOCUMENTO";
+	private final String PUBLICAR_DOCUMENTO = "PUBLICAR_DOCUMENTO";
 
 	public VariavelPublicarDocumento() {
 		this.tipoSolicitacao = PUBLICAR_DOCUMENTO;
