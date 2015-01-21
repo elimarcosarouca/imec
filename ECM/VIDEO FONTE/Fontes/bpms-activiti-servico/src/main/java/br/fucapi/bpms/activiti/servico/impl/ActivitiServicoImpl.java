@@ -543,8 +543,6 @@ public class ActivitiServicoImpl implements ActivitiServico {
 		public List<ProcessoInstancia> getHistoricoProcessos(
 					Map<String, Object> variables, String status, String custoInicial, String custoFinal) throws ParseException {
 		
-			boolean pesquisarCusto = false;
-
 		StringBuffer sqlQuery = new StringBuffer("SELECT a.id_, a.proc_inst_id_, a.business_key_, a.proc_def_id_, a.start_time_, a.end_time_, "
 				+ " a.start_user_id_ , b.suspension_state_ duration_ FROM "
 				+ managementService.getTableName(HistoricProcessInstance.class) + " a "
@@ -560,13 +558,6 @@ public class ActivitiServicoImpl implements ActivitiServico {
 
 		if (variables != null) {
 			for (String s : variables.keySet()) {
-				if (s.equals("dataFinal")) {
-					// incrementa a data final com mais 2 dia para que o between
-					// funcione corretamente
-					String dataFinal = DataUtil.incremetarData( variables.get("dataFinal").toString(), 2);
-					sqlQuery.append(" and a.start_time_ BETWEEN date('"+  variables.get("dataInicial").toString() + "')");
-					sqlQuery.append(" and date('" + dataFinal + "')");
-				} 
 				
 				if (s.equals("solicitante")) {
 					sqlQuery.append(" and start_user_id_ ='" + variables.get("solicitante") + "'"); 
@@ -584,8 +575,6 @@ public class ActivitiServicoImpl implements ActivitiServico {
 		}
 		
 		sqlQuery.append(" and c.name_ ='custoEstimado'"); 
-		sqlQuery.append(" and cast ('" + custoInicial + "' as real ) <= cast (c.text_ as real ) "); 
-		sqlQuery.append(" and cast ('" + custoFinal + "' as real ) >= cast (c.text_ as real ) "); 
 		
 		List<HistoricProcessInstance> resultHistoricProcess = historyService.
 				createNativeHistoricProcessInstanceQuery().sql(sqlQuery.toString()).list();
@@ -771,9 +760,6 @@ public class ActivitiServicoImpl implements ActivitiServico {
 				processInstanceId);
 
 		String json = "{\"action\" : \"suspend\"}";
-
-		System.out.println("uri " + uri);
-		System.out.println("json " + json);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Content-type", this.CONTENT_TYPE);
