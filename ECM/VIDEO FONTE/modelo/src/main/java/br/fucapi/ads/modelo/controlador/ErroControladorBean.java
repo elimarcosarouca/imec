@@ -68,8 +68,8 @@ public class ErroControladorBean {
 				+ "\t- Exception Date Time: " + data + "\n"
 				+ "\t- StackTrace: " + pilhaExcecao;
 
-		mailService.send(properties.getProperty("mail.receiver"),
-				properties.getProperty("mail.subject"), texto);
+		/*mailService.send(properties.getProperty("mail.receiver"),
+				properties.getProperty("mail.subject"), texto);*/
 
 		paginaCentralControladorBean.setPaginaCentral("paginas/teste.xhtml");
 
