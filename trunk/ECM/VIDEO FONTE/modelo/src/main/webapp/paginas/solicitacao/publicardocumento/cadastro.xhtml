@@ -15,7 +15,7 @@
 }
 </style>
 
-	<h:form enctype="multipart/form-data" id="formSearch">
+	<h:form enctype="multipart/form-data" id="form">
 	    <p:growl id="messages" showDetail="true" />
 	    
 	   <p:panel id="panel" closable="false" footer="*Campos Obrigatórios"
@@ -26,17 +26,16 @@
 				flowListener="#{publicarDocumentoControlador.onFlowProcess}">
 
 				<p:tab title="Geral">
-					<h:panelGrid style="width:30%" columns="4" cellspacing="4">
+					<h:panelGrid style="width:30%" columns="3" cellspacing="4">
 						<p:outputLabel value="Tipo de Documento: *"
 							styleClass="ui-priority-primary" />
 						<p:outputLabel value="Unidade: *" styleClass="ui-priority-primary" />
 						<p:outputLabel value="Setor: *" styleClass="ui-priority-primary" />
-						<p:outputLabel value="Proprietário: *"
-							styleClass="ui-priority-primary" />
-
+						
 						<p:selectOneMenu
 							value="#{publicarDocumentoControlador.variaveis.tipoDocumento}"
 							converter="tipoDocumentoConverter">
+							<f:selectItem itemLabel="-- Selecione Um Item --" itemValue="" />
 							<f:selectItems
 								value="#{publicarDocumentoControlador.variaveis.tipoDocumentos}"
 								var="tipoDocumento"
@@ -47,27 +46,22 @@
 						<p:selectOneMenu required="true" id="unidade"
 							value="#{publicarDocumentoControlador.variaveis.unidade}"
 							converter="unidadeConverter">
+							<f:selectItem itemLabel="-- Selecione Um Item --" itemValue="" />
 							<f:selectItems
 								value="#{publicarDocumentoControlador.variaveis.unidades}"
 								var="unidade" itemLabel="#{unidade.nome}" itemValue="#{unidade}" />
+								
+							<p:ajax listener="#{publicarDocumentoControlador.atualizarComboSetores}"
+								update=":form:oneMenuSetores" event="change" />	
 						</p:selectOneMenu>
 
-						<p:selectOneMenu
+						<p:selectOneMenu id="oneMenuSetores"
 							value="#{publicarDocumentoControlador.variaveis.setor}"
 							converter="setorConverter">
+							<f:selectItem itemLabel="-- Selecione Um Item --" itemValue="" />
 							<f:selectItems
 								value="#{publicarDocumentoControlador.variaveis.setores}"
 								var="setor" itemLabel="#{setor.nome}" itemValue="#{setor}" />
-						</p:selectOneMenu>
-
-						<p:selectOneMenu
-							value="#{publicarDocumentoControlador.variaveis.proprietario}"
-							converter="usuarioConverter">
-							<f:selectItems
-								value="#{publicarDocumentoControlador.variaveis.proprietarios}"
-								var="proprietario"
-								itemLabel="#{proprietario.firstName} #{proprietario.lastName}"
-								itemValue="#{proprietario}" />
 						</p:selectOneMenu>
 
 					</h:panelGrid>
@@ -98,6 +92,25 @@
 								value="#{publicarDocumentoControlador.variaveis.descricao}" maxlength="255"
 								style="width:450px" id="descricao" autoResize="false" />
 					</h:panelGrid>
+				</p:tab>
+				
+				<p:tab title="Elaboradores">
+					<h:panelGroup style="width:99%">
+						<p />
+
+						<p:pickList id="pickListElaboradores"
+							value="#{publicarDocumentoControlador.elaboradores}"
+							effect="bounce" converter="usuarioConverter" var="elaborador"
+							itemLabel="#{elaborador.firstName} #{elaborador.lastName}"
+							itemValue="#{elaborador}" showSourceControls="false"
+							showTargetControls="false" showCheckbox="false"
+							showSourceFilter="true" showTargetFilter="true">
+
+							<f:facet name="sourceCaption">Disponíveis</f:facet>
+							<f:facet name="targetCaption">Selecionados</f:facet>
+
+						</p:pickList>
+					</h:panelGroup>
 				</p:tab>
 				
 				<p:tab title="Aprovadores">
@@ -135,13 +148,18 @@
 
 						<p />
 
-						<p:pickList
+						<p:pickList id="pickListConcensoes"
 							rendered="#{publicarDocumentoControlador.variaveis.enviarConcensao}"
-							id="pickListConcensoes"
 							value="#{publicarDocumentoControlador.concensos}"
-							var="usuarioConcensao"
+							effect="bounce" converter="usuarioConverter" var="usuarioConcensao"
 							itemLabel="#{usuarioConcensao.firstName} #{usuarioConcensao.lastName}"
-							itemValue="#{usuarioConcensao}" converter="usuarioConverter" />
+							itemValue="#{usuarioConcensao}" showSourceControls="false"
+							showTargetControls="false" showCheckbox="false"
+							showSourceFilter="true" showTargetFilter="true">
+							
+							<f:facet name="sourceCaption">Disponíveis</f:facet>
+							<f:facet name="targetCaption">Selecionados</f:facet>
+						</p:pickList>	
 
 					</h:panelGroup>
 				</p:tab>
@@ -153,8 +171,14 @@
 
 						<p:pickList id="pickListPostoCopia"
 							value="#{publicarDocumentoControlador.postosCopia}"
-							var="postoCopia" itemLabel="#{postoCopia.nome}"
-							itemValue="#{postoCopia}" converter="postoCopiaConverter" />
+							effect="bounce" converter="postoCopiaConverter" var="postoCopia"
+							itemLabel="#{postoCopia.nome}" itemValue="#{postoCopia}" 
+							showSourceControls="false" showTargetControls="false" 
+							showCheckbox="false" showSourceFilter="true" showTargetFilter="true">
+							
+							<f:facet name="sourceCaption">Disponíveis</f:facet>
+							<f:facet name="targetCaption">Selecionados</f:facet>
+						</p:pickList>	
 
 					</h:panelGroup>
 				</p:tab>
@@ -170,7 +194,7 @@
 							value="#{publicarDocumentoControlador.variaveis.publicacaoAutomatica}" />
 						<p />
 
-						<p:fileUpload value="#{publicarDocumentoControlador.variaveis.arquivo.file}"
+						<p:fileUpload value="#{publicarDocumentoControlador.variaveis.arquivoDoc.file}"
 							label="selecione um arquivo" mode="simple" id="arquivo"
 							required="true" />
 							

@@ -14,6 +14,10 @@ public class TipoDocumentoConverter implements Converter {
 	public Object getAsObject(FacesContext context, UIComponent component,
 			String value) {
 
+		if ("".equals(value) ) {
+			return "";
+		}
+		
 		return TipoDocumento.fromJsonToObject(value);
 	}
 
@@ -21,8 +25,11 @@ public class TipoDocumentoConverter implements Converter {
 	public String getAsString(FacesContext context, UIComponent component,
 			Object value) {
 
+		if ("".equals(value) ) {
+			return "";
+		}
+		
 		return ((TipoDocumento) value).toJson().replace("\"", "\'");
-
 	}
 
 }

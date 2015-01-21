@@ -32,6 +32,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import br.fucapi.ads.modelo.dominio.Arquivo;
 import br.fucapi.ads.modelo.dominio.PostoCopia;
 import br.fucapi.ads.modelo.dominio.Protocolo;
+import br.fucapi.ads.modelo.dominio.Setor;
 import br.fucapi.ads.modelo.dominio.VariaveisTarefa;
 import br.fucapi.ads.modelo.dominio.VariaveisTreinamento;
 import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
@@ -101,7 +102,7 @@ public class PublicarDocumentoControlador implements Serializable {
 	@ManagedProperty(value = "#{alfrescoServicoImpl}")
 	private AlfrescoServico alfrescoServico;
 
-	@Property(value = "#{web.properties}")
+	@Property(value = "#{bpmswebproperties}")
 	private Properties bpmswebproperties;
 
 	@ManagedProperty(value = "#{paginaCentralControladorBean}")
@@ -146,9 +147,14 @@ public class PublicarDocumentoControlador implements Serializable {
 	private List<Usuario> concensosTarget;
 	private List<Usuario> concensosSource;
 
+	private DualListModel<Usuario> elaboradores;
+	private List<Usuario> elaboradoresTarget;
+	private List<Usuario> elaboradoresSource;
+
 	private DualListModel<PostoCopia> postosCopia;
 	private List<PostoCopia> postosCopiaTarget;
 	private List<PostoCopia> postosCopiaSource;
+	
 
 	// Upload File
 
@@ -183,18 +189,30 @@ public class PublicarDocumentoControlador implements Serializable {
 		}
 	}
 
-	public void upload() {
-		if (this.variaveis.getArquivo().getFile() != null) {
-			FacesMessage message = new FacesMessage("Succesful",
-					this.variaveis.getArquivo().getFile().getFileName() + " is uploaded.");
-			FacesContext.getCurrentInstance().addMessage(null, message);
-		}
+	public void converterDocToPDF() {
+		
+		// Necessario inseridor this.variaveis.getArquivoDoc na classpath do projeto e gerar o pdf
+		
+		// uma vez que os dois arquivos (doc e PDF) estejam gerados... chamar o metodo saveArquivo(...) passando os arquivos 
+		
+		// this.saveArquivo(...);
 	}
-
+	
 	// Metodo responsavel por salvar no repositorio Alfresco o Documento
-	public Arquivo saveArquivo() {
+	public Arquivo saveArquivo(Arquivo arquivo) {
 
-		Arquivo arquivo = this.variaveis.getArquivo();
+		// Solucao temporaria
+		if (this.bpmswebproperties == null) {
+			this.bpmswebproperties = new Properties();
+			try {
+				this.bpmswebproperties.load(getClass().getClassLoader().getResourceAsStream(
+					"web.properties"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+//		Arquivo arquivo = this.variaveis.getArquivoDoc();
 
 		String nomePasta = "" + protocolo.getAno() + protocolo.getSequencial();
 		
@@ -222,13 +240,23 @@ public class PublicarDocumentoControlador implements Serializable {
 			}
 		} else {
 			FacesMessage message = new FacesMessage("warn",
-					this.variaveis.getArquivo().getFile().getFileName() + " is uploaded.");
+					arquivo.getFile().getFileName() + " is not uploaded.");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 
 		return arquivo;
 	}
 
+	public void atualizarComboSetores() {
+		if (this.variaveis.getUnidade() != null) {
+			Setor setorTemp = new Setor();
+			setorTemp.setUnidade(this.variaveis.getUnidade());
+			this.variaveis.setSetores(this.setorServico.pesquisar(setorTemp));
+		} else {
+			this.variaveis.setSetores(new ArrayList<Setor>());
+		}
+	}
+	
 	public String inicioNovaSolicitacao() {
 
 		this.variaveis = new VariavelPublicarDocumento();
@@ -245,10 +273,8 @@ public class PublicarDocumentoControlador implements Serializable {
 				.getAuthentication().getPrincipal();
 
 		this.variaveis.setUnidades(unidadeServico.listAll());
-		// this.variaveis.setPostoCopias(postoCopiaServico.listAll());
-		this.variaveis.setSetores(setorServico.listAll());
 		this.variaveis.setTipoDocumentos(tipoDocumentoServico.listAll());
-
+	
 		// PickList Aprovadores
 		this.aprovadoresSource = new ArrayList<Usuario>();
 		this.aprovadoresSource.addAll(this.usuarios);
@@ -263,6 +289,13 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.concensos = new DualListModel<Usuario>(this.concensosSource,
 				this.concensosTarget);
 
+		// PickList Elaboradores
+		this.elaboradoresSource = new ArrayList<Usuario>();
+		this.elaboradoresSource.addAll(this.usuarios);
+		this.elaboradoresTarget = new ArrayList<Usuario>();
+		this.elaboradores = new DualListModel<Usuario>(this.elaboradoresSource,
+				this.elaboradoresTarget);
+		
 		// PickList PostosCopia
 		this.postosCopiaSource = new ArrayList<PostoCopia>();
 		this.postosCopiaSource.addAll(postoCopiaServico.listAll());
@@ -298,14 +331,13 @@ public class PublicarDocumentoControlador implements Serializable {
 		 * email) que devem ser enviadas ao Activiti
 		 */
 		this.variaveis.tratarAtributos(this.aprovadores.getTarget(),
-				this.concensos.getTarget());
+				this.concensos.getTarget(), this.elaboradores.getTarget());
 
 		// Salva a referencia do arquivo (Alfresco) nas variaveis de processo
-		this.variaveis.setArquivo(this.saveArquivo());
-
-		// Seta no processo os dados do Solicitante da publicacao
-		this.variaveis.setSolicitante(this.usuarioLogado.getUserName());
-		this.variaveis.setProprietario(this.usuarioLogado);
+//		this.variaveis.setArquivoDoc(this.saveArquivo());
+		
+		// Chamada para converter o arquivo .doc e salvar os arquivos no Alfresco
+		this.converterDocToPDF();
 
 		this.variaveis.setSequencial(this.protocolo.getSequencial());
 		this.variaveis.setAno(this.protocolo.getAno());
@@ -621,6 +653,14 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.alfrescoServico = alfrescoServico;
 	}
 
+	public Properties getBpmswebproperties() {
+		return bpmswebproperties;
+	}
+
+	public void setBpmswebproperties(Properties bpmswebproperties) {
+		this.bpmswebproperties = bpmswebproperties;
+	}
+
 	public VariaveisTreinamento getVariaveisTreinamento() {
 		return variaveisTreinamento;
 	}
@@ -813,6 +853,30 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	public void setConcensosSource(List<Usuario> concensosSource) {
 		this.concensosSource = concensosSource;
+	}
+
+	public DualListModel<Usuario> getElaboradores() {
+		return elaboradores;
+	}
+
+	public void setElaboradores(DualListModel<Usuario> elaboradores) {
+		this.elaboradores = elaboradores;
+	}
+
+	public List<Usuario> getElaboradoresTarget() {
+		return elaboradoresTarget;
+	}
+
+	public void setElaboradoresTarget(List<Usuario> elaboradoresTarget) {
+		this.elaboradoresTarget = elaboradoresTarget;
+	}
+
+	public List<Usuario> getElaboradoresSource() {
+		return elaboradoresSource;
+	}
+
+	public void setElaboradoresSource(List<Usuario> elaboradoresSource) {
+		this.elaboradoresSource = elaboradoresSource;
 	}
 
 	public DualListModel<PostoCopia> getPostosCopia() {

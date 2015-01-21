@@ -14,6 +14,10 @@ public class SetorConverter implements Converter {
 	public Object getAsObject(FacesContext context, UIComponent component,
 			String value) {
 
+		if ("".equals(value) ) {
+			return "";
+		}
+		
 		return Setor.fromJsonToObject(value);
 	}
 
@@ -21,6 +25,10 @@ public class SetorConverter implements Converter {
 	public String getAsString(FacesContext context, UIComponent component,
 			Object value) {
 
+		if ("".equals(value) ) {
+			return "";
+		}
+		
 		return ((Setor) value).toJson().replace("\"", "\'");
 
 	}

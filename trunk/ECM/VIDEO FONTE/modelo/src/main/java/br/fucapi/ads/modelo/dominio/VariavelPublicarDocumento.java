@@ -21,7 +21,7 @@ public class VariavelPublicarDocumento extends Variavel {
 
 	private String protocoloOrigem;
 
-	private Usuario proprietario;
+	private  List<String> elaboradores;
 
 	private String emailProprietario;
 
@@ -37,7 +37,9 @@ public class VariavelPublicarDocumento extends Variavel {
 
 	private List<String> gruposNotificar;
 	
-	private Arquivo arquivo;
+	private Arquivo arquivoDoc;
+	
+	private Arquivo arquivoPDF;
 	
 	private boolean possuiTarja;
 	
@@ -85,14 +87,16 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.possuiTarja = true;
 		this.publicacaoAutomatica = true;
 		this.aprovadores = new ArrayList<String>();
+		this.elaboradores = new ArrayList<String>();
 		this.concensos = new ArrayList<String>();
 		this.emailAprovadores = new ArrayList<String>();
 		this.emailConcensos = new ArrayList<String>();
-		this.arquivo = new Arquivo();
+		this.arquivoDoc = new Arquivo();
+		this.arquivoPDF = new Arquivo();
 	}
 
 	public void tratarAtributos(List<Usuario> aprovadoresTarget, 
-			List<Usuario> concensosTarget) {
+			List<Usuario> concensosTarget, List<Usuario> elaboradoesTarget) {
 		
 		this.dataNotificacao = GeralUtils.gerarDataNotificacao(this.dataVencimento, this.notificarVencimento);
 		
@@ -108,6 +112,12 @@ public class VariavelPublicarDocumento extends Variavel {
 			for (Usuario u : concensosTarget) {
 				this.concensos.add(u.getUserName());
 				this.emailConcensos.add(u.getEmail());
+			}
+		}
+		
+		if(elaboradoesTarget != null && elaboradoesTarget.size() > 0){
+			for (Usuario u : elaboradoesTarget) {
+				this.elaboradores.add(u.getUserName());
 			}
 		}
 		
@@ -189,12 +199,12 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.gruposNotificar = gruposNotificar;
 	}
 
-	public Usuario getProprietario() {
-		return proprietario;
+	public List<String> getElaboradores() {
+		return elaboradores;
 	}
 
-	public void setProprietario(Usuario proprietario) {
-		this.proprietario = proprietario;
+	public void setElaboradores(List<String> elaboradores) {
+		this.elaboradores = elaboradores;
 	}
 
 	public String getEmailProprietario() {
@@ -301,12 +311,20 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.versaoDocumento = versaoDocumento;
 	}
 
-	public Arquivo getArquivo() {
-		return arquivo;
+	public Arquivo getArquivoDoc() {
+		return arquivoDoc;
 	}
 
-	public void setArquivo(Arquivo arquivo) {
-		this.arquivo = arquivo;
+	public void setArquivoDoc(Arquivo arquivoDoc) {
+		this.arquivoDoc = arquivoDoc;
+	}
+	
+	public Arquivo getArquivoPDF() {
+		return arquivoPDF;
+	}
+
+	public void setArquivoPDF(Arquivo arquivoPDF) {
+		this.arquivoPDF = arquivoPDF;
 	}
 
 	public boolean isPossuiTarja() {
@@ -414,7 +432,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("tipoSolicitacao", this.getTipoSolicitacao());
 		params.put("gruposNotificar", this.getGruposNotificar());
 
-		params.put("proprietario", this.getProprietario());
+		params.put("elaboradores", this.getElaboradores());
 		params.put("emailProprietario", this.getEmailProprietario());
 
 		params.put("emailConcensos", this.getEmailConcensos());
@@ -425,7 +443,8 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("publicacaoAutomatica", this.isPublicacaoAutomatica());
 		params.put("enviarConcensao", this.isEnviarConcensao());
 		
-		params.put("arquivo", this.arquivo);
+		params.put("arquivoDoc", this.arquivoDoc);
+		params.put("arquivoPDF", this.arquivoPDF);
 		
 		params.put("aprovadores", this.getAprovadores());
 		params.put("concensos", this.getConcensos());
