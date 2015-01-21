@@ -25,6 +25,10 @@ public class SetorRepositorioImpl extends GenericRepositorioImpl<Setor, Long>
 		if (notEmpty(abstractEntity.getNome())) {
 			condictions.add(" lower( est.nome ) like :nome ");
 		}
+		
+		if (notEmpty(abstractEntity.getUnidade())) {
+			condictions.add(" est.unidade = :unidade ");
+		}
 
 		String orderBy = " order by est.nome";
 
@@ -33,6 +37,10 @@ public class SetorRepositorioImpl extends GenericRepositorioImpl<Setor, Long>
 		if (notEmpty(abstractEntity.getNome())) {
 			query.setParameter("nome", "%"
 					+ abstractEntity.getNome().trim().toLowerCase() + "%");
+		}
+		
+		if (notEmpty(abstractEntity.getUnidade())) {
+			query.setParameter("unidade", abstractEntity.getUnidade());
 		}
 
 		return query.getResultList();

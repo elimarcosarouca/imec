@@ -14,6 +14,10 @@ public class UnidadeConverter implements Converter {
 	public Object getAsObject(FacesContext context, UIComponent component,
 			String value) {
 
+		if ("".equals(value) ) {
+			return "";
+		}
+		
 		return Unidade.fromJsonToUnidade(value);
 	}
 
@@ -21,6 +25,10 @@ public class UnidadeConverter implements Converter {
 	public String getAsString(FacesContext context, UIComponent component,
 			Object value) {
 
+		if ("".equals(value) ) {
+			return "";
+		}
+		
 		return ((Unidade) value).toJson().replace("\"", "\'");
 
 	}

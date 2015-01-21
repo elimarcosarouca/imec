@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.fucapi.ads.modelo.dominio.Setor;
+import br.fucapi.ads.modelo.dominio.Unidade;
 import br.fucapi.ads.modelo.repositorio.GenericRepositorio;
 import br.fucapi.ads.modelo.repositorio.SetorRepositorio;
 import br.fucapi.ads.modelo.servico.SetorServico;
@@ -30,4 +31,8 @@ public class SetorServicoImpl extends GenericServico<Setor, Long> implements
 	public List<Setor> pesquisar(Setor entity) {
 		return repositorio.pesquisar(entity);
 	}
+	
+//	public List<Setor> pesquisarByUnidade(Unidade entity) {
+//		return reposotorio.pesquisarByUnidade(entity);
+//	}
 }
