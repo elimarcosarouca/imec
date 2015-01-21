@@ -484,13 +484,6 @@ public class ActivitiServicoImpl implements ActivitiServico {
 
 	if (variables != null) {
 		for (String s : variables.keySet()) {
-			if (s.equals("dataFinal")) {
-				// incrementa a data final com mais 2 dia para que o between
-				// funcione corretamente
-				String dataFinal = DataUtil.incremetarData( variables.get("dataFinal").toString(), 2);
-				sqlQuery.append(" and a.start_time_ BETWEEN date('"+  variables.get("dataInicial").toString() + "')");
-				sqlQuery.append(" and date('" + dataFinal + "')");
-			} 
 			
 			if (s.equals("solicitante")) {
 				sqlQuery.append(" and start_user_id_ ='" + variables.get("solicitante") + "'"); 
