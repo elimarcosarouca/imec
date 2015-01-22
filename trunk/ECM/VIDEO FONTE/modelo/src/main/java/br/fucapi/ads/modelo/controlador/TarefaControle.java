@@ -215,14 +215,16 @@ public class TarefaControle implements Serializable {
 	}
 
 	public void reprovar(TarefaInstancia tarefa) throws ParseException {
-		String json = "{\"name\":\"status\", \"value\":false},"
+		String json = "{\"name\":\"aprovacaoOK\", \"value\":false},"
 				+ "{\"name\":\"parecer\", \"value\":\"" + this.parecer + "\"}";
+		
+		String processInstanceId = tarefa.getProcessInstanceId();
 
 		activitiServico.completarTarefa(tarefa.getId(), json);
+		
+		reprovarOutrasTarefas(processInstanceId);
 
 		String MSG = "Tarefa reprovada com sucesso!";
-		if (tarefa.getName().equals("AGENDAR TREINAMENTO"))
-			MSG = "Tarefa inviabilizada com sucesso!";
 
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
 				MSG, MSG);
@@ -230,6 +232,18 @@ public class TarefaControle implements Serializable {
 
 		this.pesquisar();
 		this.telaPesquisaTarefaPendente();
+	}
+	
+	public void reprovarOutrasTarefas(String processInstanceId) throws ParseException {
+		String json = "{\"name\":\"aprovacaoOK\", \"value\":false},"
+				+ "{\"name\":\"parecer\", \"value\":\"" + this.parecer + "\"}";
+
+		List<TarefaInstancia> tasks = activitiServico.getTarefasProcessoInstancia(processInstanceId);
+		
+		for (TarefaInstancia tarefaInstancia : tasks) {
+			activitiServico.completarTarefa(tarefaInstancia.getId(), json);
+		}
+
 	}
 
 	public void detalhe(TarefaInstancia tarefa) {

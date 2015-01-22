@@ -449,6 +449,9 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("aprovadores", this.getAprovadores());
 		params.put("concensos", this.getConcensos());
 		
+		if (null == this.getProtocoloOrigem())
+			params.put("protocoloOrigem", this.getProtocolo());
+		
 		return params;
 	}
 
