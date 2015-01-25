@@ -124,4 +124,8 @@ public class UsuarioLog extends AbstractEntity implements Serializable {
 
 	}
 
+	public UsuarioLog() {
+		super();
+	}
+
 }
