@@ -86,5 +86,9 @@ public class GrupoLog extends AbstractEntity implements Serializable {
 		this.operacao = operacao;
 		
 	}
+
+	public GrupoLog() {
+		super();
+	}
 	
 }

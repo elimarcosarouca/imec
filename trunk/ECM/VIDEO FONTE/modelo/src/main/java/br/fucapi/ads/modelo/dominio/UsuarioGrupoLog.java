@@ -101,4 +101,9 @@ public class UsuarioGrupoLog extends AbstractEntity implements Serializable {
 		this.loginAdm = loginAdm;
 	}
 
+	public UsuarioGrupoLog() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 }
