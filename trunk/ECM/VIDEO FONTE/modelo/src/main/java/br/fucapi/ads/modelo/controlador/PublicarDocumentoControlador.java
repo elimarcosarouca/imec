@@ -197,11 +197,11 @@ public class PublicarDocumentoControlador implements Serializable {
 		
 		// uma vez que os dois arquivos (doc e PDF) estejam gerados... chamar o metodo saveArquivo(...) passando os arquivos 
 		
-		// this.saveArquivo(...);
+		this.saveArquivo(variaveis.getArquivoDoc());
 	}
 	
 	// Metodo responsavel por salvar no repositorio Alfresco o Documento
-	public Arquivo saveArquivo(Arquivo arquivo) {
+	public void saveArquivo(Arquivo arquivo) {
 
 		// Solucao temporaria
 		if (this.bpmswebproperties == null) {
@@ -213,9 +213,7 @@ public class PublicarDocumentoControlador implements Serializable {
 				e.printStackTrace();
 			}
 		}
-		
-//		Arquivo arquivo = this.variaveis.getArquivoDoc();
-
+	
 		String nomePasta = "" + protocolo.getAno() + protocolo.getSequencial();
 		
 		if (arquivo.getFile() != null && arquivo.getFile().getFileName() != "") {
@@ -223,8 +221,6 @@ public class PublicarDocumentoControlador implements Serializable {
 				String uuid;
 				File fileTemp = new File(arquivo.getFile().getFileName());
 				FileUtils.copyInputStreamToFile(arquivo.getFile().getInputstream(), fileTemp);
-				
-				// TODO bpmswebproperties estah NULL
 				
 				uuid = alfrescoServico.anexarArquivo(
 						bpmswebproperties.getProperty("uuid.parent.publicacao"),
@@ -245,8 +241,6 @@ public class PublicarDocumentoControlador implements Serializable {
 					arquivo.getFile().getFileName() + " is not uploaded.");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-
-		return arquivo;
 	}
 
 	public void atualizarComboSetores() {
@@ -335,22 +329,11 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.variaveis.tratarAtributos(this.aprovadores.getTarget(),
 				this.concensos.getTarget(), this.elaboradores.getTarget());
 
-		// Salva a referencia do arquivo (Alfresco) nas variaveis de processo
-//		this.variaveis.setArquivoDoc(this.saveArquivo());
-		
 		// Chamada para converter o arquivo .doc e salvar os arquivos no Alfresco
 		this.converterDocToPDF();
 
 		this.variaveis.setSequencial(this.protocolo.getSequencial());
 		this.variaveis.setAno(this.protocolo.getAno());
-
-		// Converte as variaveis de processo em um Objeto Json
-		// String json = variaveisTreinamento.ObjectToJson(
-		// this.processoDefinicao.getKey(), this.protocolo);
-
-		// Envia o Objeto Json referente ao novo processo para ser executado
-		// atraves de um servico Rest
-		// this.activitiServico.iniciarInstanciaProcesso(json);
 
 		// TODO - Realizacao de testes
 		this.activitiServico.iniciarInstanciaProcessoPorParametrosByKey(
