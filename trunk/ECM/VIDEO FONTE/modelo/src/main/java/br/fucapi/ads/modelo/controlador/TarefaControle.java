@@ -46,6 +46,7 @@ import br.fucapi.ads.modelo.dominio.VariaveisTreinamento;
 import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
 import br.fucapi.ads.modelo.regranegocio.TreinamentoRN;
 import br.fucapi.bpms.activiti.dominio.ProcessoDefinicao;
+import br.fucapi.bpms.activiti.dominio.ProcessoInstancia;
 import br.fucapi.bpms.activiti.dominio.TarefaInstancia;
 import br.fucapi.bpms.activiti.servico.ActivitiServico;
 import br.fucapi.bpms.alfresco.dominio.Usuario;
@@ -217,11 +218,11 @@ public class TarefaControle implements Serializable {
 	public void reprovar(TarefaInstancia tarefa) throws ParseException {
 		String json = "{\"name\":\"aprovacaoOK\", \"value\":false},"
 				+ "{\"name\":\"parecer\", \"value\":\"" + this.parecer + "\"}";
-		
+
 		String processInstanceId = tarefa.getProcessInstanceId();
 
 		activitiServico.completarTarefa(tarefa.getId(), json);
-		
+
 		reprovarOutrasTarefas(processInstanceId);
 
 		String MSG = "Tarefa reprovada com sucesso!";
@@ -233,13 +234,15 @@ public class TarefaControle implements Serializable {
 		this.pesquisar();
 		this.telaPesquisaTarefaPendente();
 	}
-	
-	public void reprovarOutrasTarefas(String processInstanceId) throws ParseException {
+
+	public void reprovarOutrasTarefas(String processInstanceId)
+			throws ParseException {
 		String json = "{\"name\":\"aprovacaoOK\", \"value\":false},"
 				+ "{\"name\":\"parecer\", \"value\":\"" + this.parecer + "\"}";
 
-		List<TarefaInstancia> tasks = activitiServico.getTarefasProcessoInstancia(processInstanceId);
-		
+		List<TarefaInstancia> tasks = activitiServico
+				.getTarefasProcessoInstancia(processInstanceId);
+
 		for (TarefaInstancia tarefaInstancia : tasks) {
 			activitiServico.completarTarefa(tarefaInstancia.getId(), json);
 		}
@@ -250,6 +253,11 @@ public class TarefaControle implements Serializable {
 		this.parecer = "";
 		this.entity = tarefa;
 		this.telaDetalheTarefaPendente();
+	}
+
+	public void listarTarefas(ProcessoInstancia entity) {
+		this.listaTarefasPendentes = activitiServico
+				.getHistoricoTarefasProcessoInstancia(entity.getId());
 	}
 
 	@SuppressWarnings("unused")
@@ -345,8 +353,7 @@ public class TarefaControle implements Serializable {
 		} else if (this.variaveis.getTipoSolicitacao() != null
 				&& !this.variaveis.getTipoSolicitacao().equals("")) {
 
-			var.put("tipoSolicitacao",
-					this.variaveis.getTipoSolicitacao());
+			var.put("tipoSolicitacao", this.variaveis.getTipoSolicitacao());
 
 		}
 		return var;
@@ -358,10 +365,11 @@ public class TarefaControle implements Serializable {
 		Documento doc = null;
 
 		try {
-			String nomePasta = + ((VariaveisTreinamento) this.entity
-					.getVariaveis()).getAno() +""+ ((VariaveisTreinamento) this.entity
-					.getVariaveis()).getSequencial();
-					
+			String nomePasta = +((VariaveisTreinamento) this.entity
+					.getVariaveis()).getAno()
+					+ ""
+					+ ((VariaveisTreinamento) this.entity.getVariaveis())
+							.getSequencial();
 
 			File file = null;
 
@@ -488,7 +496,7 @@ public class TarefaControle implements Serializable {
 			PaginaCentralControladorBean paginaCentralControladorBean) {
 		this.paginaCentralControladorBean = paginaCentralControladorBean;
 	}
-	
+
 	public VariavelPublicarDocumento getVariaveis() {
 		return variaveis;
 	}
