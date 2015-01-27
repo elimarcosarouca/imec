@@ -567,7 +567,8 @@ public class ActivitiServicoImpl implements ActivitiServico {
 			}
 		}
 		
-		sqlQuery.append(" and c.name_ ='custoEstimado'"); 
+		sqlQuery.append(" and c.name_ ='protocoloOrigem'"); 
+		System.out.println(sqlQuery.toString());
 		
 		List<HistoricProcessInstance> resultHistoricProcess = historyService.
 				createNativeHistoricProcessInstanceQuery().sql(sqlQuery.toString()).list();
@@ -631,6 +632,55 @@ public class ActivitiServicoImpl implements ActivitiServico {
 		}
 
 		return listaProcessoInstancia;
+	}
+	
+	public List<ProcessoInstancia> getHistoricoProcessosFiltroVariaveisOld(
+			Map<String, Object> variables, String status) {
+		HistoricProcessInstanceQuery query = historyService
+				.createHistoricProcessInstanceQuery();
+		List<Variaveis> listaVariaveis = null;
+
+//		for (String s : variables.keySet()) {
+//			query.variableValueEquals(s, variables.get(s));
+//		}
+		
+		query.variableValueEquals("tipoSolicitacao", "PUBLICAR_DOCUMENTO");
+
+		List<HistoricProcessInstance> resultHistoricProcessInstance = query
+				.includeProcessVariables().list();
+
+		List<ProcessoInstancia> listaProcessos = new ArrayList<ProcessoInstancia>();
+		List<ProcessoInstancia> listaProcessosPendentes = new ArrayList<ProcessoInstancia>();
+		List<ProcessoInstancia> listaProcessosConcluidos = new ArrayList<ProcessoInstancia>();
+
+		if (!resultHistoricProcessInstance.isEmpty()) {
+
+			ProcessoInstancia processoInstancia = null;
+
+			for (HistoricProcessInstance historicProcess : resultHistoricProcessInstance) {
+				processoInstancia = new ProcessoInstancia();
+				processoInstancia
+						.parseHistoricProcessToProcessoInstancia(historicProcess);
+
+				listaVariaveis = this.getVariaveisAPIExplorer(processoInstancia
+						.getId());
+				processoInstancia.setVariables(listaVariaveis);
+				listaProcessos.add(processoInstancia);
+
+				if (historicProcess.getEndTime() != null) {
+					listaProcessosConcluidos.add(processoInstancia);
+				} else {
+					listaProcessosPendentes.add(processoInstancia);
+				}
+			}
+		}
+		
+		return listaProcessos;
+
+		/*return (status.equals("PENDENTE")) ? listaProcessosPendentes : (status
+				.equals("CONCLUÍDO")) ? listaProcessosConcluidos
+				: listaProcessos;*/
+
 	}
 
 	public List<ProcessoInstancia> getHistoricoProcessosFiltroVariaveis(

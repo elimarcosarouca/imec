@@ -190,6 +190,14 @@ public interface ActivitiServico {
 	List<ProcessoInstancia> getHistoricoProcessosFiltroVariaveis(Map<String, Object> variables, String status);
 	
 	/**
+	 * Metodo responsavel por filtrar historico de processos por variaveis de processo e status (TODOS; PENDENTE; CONCLUIDO)
+	 * @param variables
+	 * @param status
+	 * @return
+	 */	
+	List<ProcessoInstancia> getHistoricoProcessosFiltroVariaveisOld(Map<String, Object> variables, String status);
+	
+	/**
 	 * Metodo responsavel por deserializar objetos salvos nas variaveis de instancia do processo 
 	 * @param idProcesso
 	 * @param variavelNome
