@@ -31,6 +31,9 @@ public class Unidade extends AbstractEntity implements Serializable {
 
 	@Column(length = 30, nullable = false, unique = true)
 	private String nome;
+	
+	@Column( nullable = false )
+	private Boolean global;
 
 	public Long getId() {
 		return id;
