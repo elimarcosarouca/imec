@@ -486,43 +486,13 @@ public class PublicarDocumentoControlador implements Serializable {
 		}
 	}
 	
-	public void pesquisarOld() {
-		VariavelPublicarDocumento variaveisProcesso = null;
-		this.lista = new ArrayList<ProcessoInstancia>();
-		Map<String, Object> var = this.filtroVariaveis();
-		
-		List<ProcessoInstancia> listaCancelados = new ArrayList<ProcessoInstancia>();
-		
-		this.lista = activitiServico.getHistoricoProcessosFiltroVariaveisOld(var, "PENDENTE");
-
-		for (ProcessoInstancia pInstancia : lista) {
-			variaveisProcesso = new VariavelPublicarDocumento();
-			variaveisProcesso
-					.converterListaVariaveisParaVariaveisProcesso(pInstancia
-							.getVariables());
-			
-			/*if(this.status.equals("CANCELADO")){
-				if ( variaveisProcesso.isCancelado()){
-					pInstancia.setVariaveis(variaveisProcesso);
-					listaCancelados.add(pInstancia);
-				}
-			}
-			else */
-				pInstancia.setVariaveis(variaveisProcesso);
-		}
-		variaveisProcesso = new VariavelPublicarDocumento();
-//		if(this.status.equals("CANCELADO"))
-//			this.listaResultado = listaCancelados;
-			
-	}
-	
-	public void pesquisaPorVariaveis() throws ParseException{
+	public void pesquisaPorVariaveis(){
 		
 		List<ProcessoInstancia> listaResultado = null;
 		this.lista = new ArrayList<ProcessoInstancia>();
 
 		Map<String, Object> var = this.filtroVariaveis();
-		listaResultado = activitiServico.getHistoricoProcessos(
+		listaResultado = activitiServico.getHistoricoProcessosFiltroVariaveis(
 				var, "PENDENTE");
 
 		for (ProcessoInstancia pInstancia : listaResultado) {
@@ -578,10 +548,8 @@ public class PublicarDocumentoControlador implements Serializable {
 	}
 
 	public void abrirImagemProcesso(ProcessoInstancia entity) {
-
 		setImagem(activitiServico
 				.getProcessoDiagrama(entity.getId()));
-
 	}
 
 	public void telaDetalhe() {
