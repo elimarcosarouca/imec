@@ -691,8 +691,9 @@ public class ActivitiServicoImpl implements ActivitiServico {
 
 		for (String s : variables.keySet()) {
 			query.variableValueEquals(s, variables.get(s));
+			System.out.println(s + "=" + variables.get(s));
 		}
-
+		
 		List<HistoricProcessInstance> resultHistoricProcessInstance = query
 				.includeProcessVariables().list();
 
