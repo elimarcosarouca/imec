@@ -112,7 +112,7 @@ import br.fucapi.bpms.alfresco.servico.AlfrescoServico;
 			
 			List<ProcessoInstancia> listaCancelados = new ArrayList<ProcessoInstancia>();
 			
-			this.listaResultado = activitiServico.getHistoricoProcessosFiltroVariaveisOld(var, this.status);
+//			this.listaResultado = activitiServico.getHistoricoProcessosFiltroVariaveisOld(var, this.status);
 
 			for (ProcessoInstancia pInstancia : listaResultado) {
 				variaveisProcesso = new VariavelPublicarDocumento();

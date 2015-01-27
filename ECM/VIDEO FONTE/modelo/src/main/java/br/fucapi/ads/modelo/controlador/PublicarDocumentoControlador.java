@@ -509,17 +509,19 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		Map<String, Object> var = new HashMap<String, Object>();
 		
-		if ( null != this.variaveisPesquisa.getStatusProcesso() 
+		/*if ( null != this.variaveisPesquisa.getStatusProcesso() 
 				&& this.variaveisPesquisa.getStatusProcesso() != "TODOS"  ) 
-			var.put("statusProcesso", this.variaveisPesquisa.getStatusProcesso());
+			var.put("statusProcesso", this.variaveisPesquisa.getStatusProcesso());*/
 		
 		if ( null != this.variaveisPesquisa.getProtocoloOrigem() 
 				&& this.variaveisPesquisa.getProtocoloOrigem() != ""  ) 
 			var.put("protocoloOrigem", this.variaveisPesquisa.getProtocoloOrigem());
 		
 		if ( null != this.variaveisPesquisa.getProtocolo() 
-				&& this.variaveisPesquisa.getProtocoloOrigem() != ""  ) 
+				&& this.variaveisPesquisa.getProtocolo().length() > 4  ) 
 			var.put("protocolo", this.variaveisPesquisa.getProtocolo());
+		
+		System.out.println(" protocolo = " + this.variaveisPesquisa.getProtocolo());
 		
 		if ( null != this.variaveisPesquisa.getSolicitante()
 				&& this.variaveisPesquisa.getSolicitante() != ""  ) 
