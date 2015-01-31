@@ -1,15 +1,14 @@
 package br.fucapi.ads.modelo.dominio;
 
+import java.io.File;
 import java.io.Serializable;
-
-import org.primefaces.model.UploadedFile;
 
 public class Arquivo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	private String uuid;
-	private UploadedFile file;
+	private File file;
 	private String processoId;
 	private String nomeArquivo;
 
@@ -21,11 +20,11 @@ public class Arquivo implements Serializable {
 		this.uuid = uuid;
 	}
 
-	public UploadedFile getFile() {
+	public File getFile() {
 		return file;
 	}
 
-	public void setFile(UploadedFile file) {
+	public void setFile(File file) {
 		this.file = file;
 	}
 

@@ -39,6 +39,8 @@ public class VariavelPublicarDocumento extends Variavel {
 	
 	private Arquivo arquivoDoc;
 	
+	private Arquivo arquivoDocTarja;
+	
 	private Arquivo arquivoPDF;
 	
 	private boolean possuiTarja;
@@ -92,6 +94,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.emailAprovadores = new ArrayList<String>();
 		this.emailConcensos = new ArrayList<String>();
 		this.arquivoDoc = new Arquivo();
+		this.arquivoDocTarja = new Arquivo();
 		this.arquivoPDF = new Arquivo();
 	}
 
@@ -319,6 +322,14 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.arquivoDoc = arquivoDoc;
 	}
 	
+	public Arquivo getArquivoDocTarja() {
+		return arquivoDocTarja;
+	}
+
+	public void setArquivoDocTarja(Arquivo arquivoDocTarja) {
+		this.arquivoDocTarja = arquivoDocTarja;
+	}
+
 	public Arquivo getArquivoPDF() {
 		return arquivoPDF;
 	}
@@ -444,6 +455,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("enviarConcensao", this.isEnviarConcensao());
 		
 		params.put("arquivoDoc", this.arquivoDoc);
+		params.put("arquivoDocTarja", this.arquivoDocTarja);
 		params.put("arquivoPDF", this.arquivoPDF);
 		
 		params.put("aprovadores", this.getAprovadores());
