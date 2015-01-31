@@ -1,8 +1,12 @@
 package br.fucapi.ads.modelo.controlador;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -21,7 +25,7 @@ import javax.faces.context.FacesContext;
 
 import org.alfresco.repo.webservice.administration.AdministrationFault;
 import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.TransferEvent;
@@ -29,6 +33,8 @@ import org.primefaces.model.DualListModel;
 import org.primefaces.model.UploadedFile;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import br.com.jm.conversor.pdf.ConversaoParaPDF;
+import br.com.jm.conversor.pdf.office.ConversaoAPartirDeTextoOffice;
 import br.fucapi.ads.modelo.dominio.Arquivo;
 import br.fucapi.ads.modelo.dominio.PostoCopia;
 import br.fucapi.ads.modelo.dominio.Protocolo;
@@ -43,6 +49,7 @@ import br.fucapi.ads.modelo.servico.SetorServico;
 import br.fucapi.ads.modelo.servico.TipoDocumentoServico;
 import br.fucapi.ads.modelo.servico.UnidadeServico;
 import br.fucapi.ads.modelo.servico.VariaveisTarefaServico;
+import br.fucapi.ads.modelo.utils.GeralUtils;
 import br.fucapi.bpms.activiti.dominio.ProcessoDefinicao;
 import br.fucapi.bpms.activiti.dominio.ProcessoInstancia;
 import br.fucapi.bpms.activiti.dominio.TarefaInstancia;
@@ -160,18 +167,17 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	// Upload File
 
-	private UploadedFile file;
+	private UploadedFile uploadFile;
 
-	public UploadedFile getFile() {
-		return file;
+	public UploadedFile getUploadFile() {
+		return uploadFile;
 	}
 
-	public void setFile(UploadedFile file) {
-		this.file = file;
+	public void setUploadFile(UploadedFile uploadFile) {
+		this.uploadFile = uploadFile;
 	}
 
 	// Att Wizard
-
 	private boolean skip;
 
 	public boolean isSkip() {
@@ -190,18 +196,80 @@ public class PublicarDocumentoControlador implements Serializable {
 			return event.getNewStep();
 		}
 	}
-
+	
 	public void converterDocToPDF() {
 		
-		// Necessario inseridor this.variaveis.getArquivoDoc na classpath do projeto e gerar o pdf
+		// Salvando arquivo no diretorio da temporario do SO
 		
-		// uma vez que os dois arquivos (doc e PDF) estejam gerados... chamar o metodo saveArquivo(...) passando os arquivos 
+		List<Arquivo> listaArquivos = new ArrayList<Arquivo>();
 		
-		this.saveArquivo(variaveis.getArquivoDoc());
+		try {
+			
+			File fileTempOriginal = GeralUtils.converterFileUploadToFile(this.uploadFile);
+			
+			this.variaveis.getArquivoDoc().setNomeArquivo(fileTempOriginal.getName());
+			
+			Arquivo arquivoDoc = new Arquivo();
+			arquivoDoc.setNomeArquivo(fileTempOriginal.getName());
+			arquivoDoc.setFile(fileTempOriginal);
+			
+			listaArquivos.add(arquivoDoc);
+			
+			String extensao = FilenameUtils.getExtension(fileTempOriginal.getName());
+			
+			if ("doc".equals(extensao) || "docx".equals(extensao)) {
+
+				try {
+				
+					// TODO - implementar tratativas para inserir tarja no arquivo DOC [Arquivo Controlado]
+					File fileTempDocTarja = GeralUtils.criarDocumentoTemporario("arquivoTemporarioDocTarja", extensao);
+					
+					Arquivo arquivoDocTarja = new Arquivo();
+					arquivoDocTarja.setNomeArquivo(fileTempDocTarja.getName());
+					arquivoDocTarja.setFile(fileTempDocTarja);
+					
+					listaArquivos.add(arquivoDocTarja);
+					
+					// Bloco para conversao de arquivo DOC em PDF
+					ConversaoParaPDF algoritmo = new ConversaoAPartirDeTextoOffice();
+					
+					Path path = Paths.get(fileTempOriginal.getAbsolutePath());
+					
+					byte[] data = Files.readAllBytes(path);
+
+					byte[] pdf = algoritmo.converterDocumento(data);
+					
+					File fileTempPDFTarja = GeralUtils.criarDocumentoTemporario("arquivoTemporarioPdfTarja", "pdf");
+					fileTempPDFTarja.deleteOnExit();
+					
+					FileOutputStream in = new FileOutputStream(fileTempPDFTarja);
+					in.write(pdf);
+					in.close();
+					
+					Arquivo arquivoPDF = new Arquivo();
+					arquivoPDF.setNomeArquivo(fileTempPDFTarja.getName());
+					arquivoPDF.setFile(fileTempPDFTarja);
+
+					listaArquivos.add(arquivoPDF);
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		// Invoca o metodo para salvar os documentos no Alfresco
+		if (!listaArquivos.isEmpty()) {
+			this.saveArquivo(listaArquivos);
+		}
 	}
 	
+	// TODO - Metodo pronto, pendente apenas de Testes
 	// Metodo responsavel por salvar no repositorio Alfresco o Documento
-	public void saveArquivo(Arquivo arquivo) {
+	public void saveArquivo(List<Arquivo> listaArquivos) {
 
 		// Solucao temporaria
 		if (this.bpmswebproperties == null) {
@@ -216,30 +284,30 @@ public class PublicarDocumentoControlador implements Serializable {
 	
 		String nomePasta = "" + protocolo.getAno() + protocolo.getSequencial();
 		
-		if (arquivo.getFile() != null && arquivo.getFile().getFileName() != "") {
-			try {
-				String uuid;
-				File fileTemp = new File(arquivo.getFile().getFileName());
-				FileUtils.copyInputStreamToFile(arquivo.getFile().getInputstream(), fileTemp);
+		for (Arquivo arquivo : listaArquivos) {
+			
+			if (arquivo.getFile() != null) {
+				try {
+					String uuid;
+					
+					uuid = alfrescoServico.anexarArquivo(
+							bpmswebproperties.getProperty("uuid.parent.publicacao"),
+							nomePasta, "", this.descricao,
+							this.usuarioLogado.getTicket(), arquivo.getFile());
+					
+					arquivo.setUuid(uuid);
+					arquivo.setFile(null);
 				
-				uuid = alfrescoServico.anexarArquivo(
-						bpmswebproperties.getProperty("uuid.parent.publicacao"),
-						nomePasta, "", this.descricao,
-						this.usuarioLogado.getTicket(), fileTemp);
-				
-				arquivo.setUuid(uuid);
-				arquivo.setFile(null);
-				arquivo.setNomeArquivo(fileTemp.getName());
-	
-			} catch (HttpException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+				} catch (HttpException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				FacesMessage message = new FacesMessage("warn",
+						arquivo.getFile().getName() + " is not uploaded.");
+				FacesContext.getCurrentInstance().addMessage(null, message);
 			}
-		} else {
-			FacesMessage message = new FacesMessage("warn",
-					arquivo.getFile().getFileName() + " is not uploaded.");
-			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
 

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.context.RequestContext;
 
-import br.fucapi.ads.mail.MailService;
+//import br.fucapi.ads.mail.MailService;
 
 @ManagedBean
 @ViewScoped
@@ -31,8 +31,8 @@ public class ErroControladorBean {
 	private final String msgErro = "Ocorreu um erro durante a operação no qual o sistema não pôde recuperar-se";
 	private Properties properties;
 
-	@ManagedProperty(value = "#{mailService}")
-	private MailService mailService;
+//	@ManagedProperty(value = "#{mailService}")
+//	private MailService mailService;
 
 	@ManagedProperty(value = "#{paginaCentralControladorBean}")
 	private PaginaCentralControladorBean paginaCentralControladorBean;
@@ -119,13 +119,13 @@ public class ErroControladorBean {
 		this.email = email;
 	}
 
-	public MailService getMailService() {
-		return mailService;
-	}
-
-	public void setMailService(MailService mailService) {
-		this.mailService = mailService;
-	}
+//	public MailService getMailService() {
+//		return mailService;
+//	}
+//
+//	public void setMailService(MailService mailService) {
+//		this.mailService = mailService;
+//	}
 
 	public PaginaCentralControladorBean getPaginaCentralControladorBean() {
 		return paginaCentralControladorBean;
