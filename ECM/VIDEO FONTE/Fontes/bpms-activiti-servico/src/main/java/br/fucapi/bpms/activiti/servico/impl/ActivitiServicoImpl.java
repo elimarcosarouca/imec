@@ -894,5 +894,22 @@ public class ActivitiServicoImpl implements ActivitiServico {
 
 		return listaTarefaInstancia;
 	}
+	
+	public int incrementarVersaoDocumento(
+			Map<String, Object> variables) {
+		HistoricProcessInstanceQuery query = historyService
+				.createHistoricProcessInstanceQuery();
+
+		for (String s : variables.keySet()) {
+			query.variableValueEquals(s, variables.get(s));
+			System.out.println(s + "=" + variables.get(s));
+		}
+		
+		List<HistoricProcessInstance> resultHistoricProcessInstance = query
+				.includeProcessVariables().list();
+
+		return resultHistoricProcessInstance.size() + 1;
+
+	}
 
 }
