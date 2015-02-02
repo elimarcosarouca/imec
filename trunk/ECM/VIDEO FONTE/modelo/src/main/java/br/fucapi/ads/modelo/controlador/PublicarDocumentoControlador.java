@@ -75,6 +75,8 @@ public class PublicarDocumentoControlador implements Serializable {
 	private ProcessoDefinicao processoDefinicao;
 
 	private List<ProcessoInstancia> lista;
+	
+	private List<ProcessoInstancia> listaHistorico;
 
 	private List<ProcessoDefinicao> listaProcessosDefinicao;
 	private List<TarefaInstancia> tarefaInstancias;
@@ -403,11 +405,9 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.variaveis.setSequencial(this.protocolo.getSequencial());
 		this.variaveis.setAno(this.protocolo.getAno());
 		
-		if (null == this.variaveis.getProtocoloOrigem()) {
+		if (null == this.variaveis.getProtocoloOrigem() 
+				|| this.variaveis.getProtocoloOrigem().length() < 5) {
 			this.variaveis.setProtocoloOrigem(this.variaveis.getAno()+""+this.variaveis.getSequencial());
-			System.out.println(this.variaveis.getProtocoloOrigem());
-			this.variaveis.setProtocoloOrigem("201511");
-			
 		}
 
 		// TODO - Realizacao de testes
@@ -559,24 +559,25 @@ public class PublicarDocumentoControlador implements Serializable {
 			this.lista.add(pInstancia);
 		}
 		
-		incrementarVersao("20156");
 	}
 	
-	public void pesquisaPorVariaveis(){
-		
+	public void pesquisarHistoricoDocumento(String protocoloOrigem) {
 		List<ProcessoInstancia> listaResultado = null;
-		this.lista = new ArrayList<ProcessoInstancia>();
+		this.listaHistorico = new ArrayList<ProcessoInstancia>();
 
-		Map<String, Object> var = this.filtroVariaveis();
+		Map<String, Object> var = new HashMap<String, Object>();
+		var.put("tipoSolicitacao", this.variaveisPesquisa.getTipoSolicitacao());
+		var.put("protocoloOrigem", protocoloOrigem);
+		
 		listaResultado = activitiServico.getHistoricoProcessosFiltroVariaveis(
-				var, "PENDENTE");
+				var, "TODOS");
 
 		for (ProcessoInstancia pInstancia : listaResultado) {
 			this.variaveis = new VariavelPublicarDocumento();
 			this.variaveis.converterListaVariaveis(pInstancia.getVariables());
 
 			pInstancia.setVariaveis(variaveis);
-			this.lista.add(pInstancia);
+			this.listaHistorico.add(pInstancia);
 		}
 		
 	}
@@ -605,8 +606,6 @@ public class PublicarDocumentoControlador implements Serializable {
 		if ( null != this.variaveisPesquisa.getProtocolo() 
 				&& this.variaveisPesquisa.getProtocolo().length() > 4  ) 
 			var.put("protocolo", this.variaveisPesquisa.getProtocolo());
-		
-		System.out.println(" protocolo = " + this.variaveisPesquisa.getProtocolo());
 		
 		if ( null != this.variaveisPesquisa.getSolicitante()
 				&& this.variaveisPesquisa.getSolicitante() != ""  ) 
@@ -1013,6 +1012,14 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	public void setVariaveisPesquisa(VariavelPublicarDocumento variaveisPesquisa) {
 		this.variaveisPesquisa = variaveisPesquisa;
+	}
+
+	public List<ProcessoInstancia> getListaHistorico() {
+		return listaHistorico;
+	}
+
+	public void setListaHistorico(List<ProcessoInstancia> listaHistorico) {
+		this.listaHistorico = listaHistorico;
 	}
 
 }
