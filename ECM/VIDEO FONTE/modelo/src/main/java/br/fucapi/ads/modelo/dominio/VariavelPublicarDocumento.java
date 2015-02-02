@@ -48,6 +48,8 @@ public class VariavelPublicarDocumento extends Variavel {
 	private boolean publicacaoAutomatica;
 	
 	private boolean enviarConcensao;
+	
+	private boolean documentoInstitucional;
 
 
 	// dados da telas
@@ -88,6 +90,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.versaoDocumento = 1;
 		this.possuiTarja = true;
 		this.publicacaoAutomatica = true;
+		this.documentoInstitucional = false;
 		this.aprovadores = new ArrayList<String>();
 		this.elaboradores = new ArrayList<String>();
 		this.concensos = new ArrayList<String>();
@@ -362,6 +365,14 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.enviarConcensao = enviarConcensao;
 	}
 
+	public boolean isDocumentoInstitucional() {
+		return documentoInstitucional;
+	}
+
+	public void setDocumentoInstitucional(boolean documentoInstitucional) {
+		this.documentoInstitucional = documentoInstitucional;
+	}
+
 	/**
 	 * Metodo responsavel por converter lista de variaveis (Map) em um objeto
 	 * VariaveisProcesso
@@ -417,6 +428,10 @@ public class VariavelPublicarDocumento extends Variavel {
 			} else if (var.getName().equals("publicacaoAutomatica")
 					&& var.getValue() != null) {
 				this.setPublicacaoAutomatica(new Boolean (var.getValue().toString()));
+				
+			} else if (var.getName().equals("documentoInstitucional")
+					&& var.getValue() != null) {
+				this.setDocumentoInstitucional(new Boolean (var.getValue().toString()));
 
 			} else if (var.getName().equals("emailAprovadores")
 					&& var.getValue() != null) {
@@ -453,6 +468,8 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("possuiTarja", this.isPossuiTarja());
 		params.put("publicacaoAutomatica", this.isPublicacaoAutomatica());
 		params.put("enviarConcensao", this.isEnviarConcensao());
+		params.put("documentoInstitucional", this.isDocumentoInstitucional());
+		
 		
 		params.put("arquivoDoc", this.arquivoDoc);
 		params.put("arquivoDocTarja", this.arquivoDocTarja);
@@ -461,9 +478,10 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("aprovadores", this.getAprovadores());
 		params.put("concensos", this.getConcensos());
 		params.put("elaboradores", this.getElaboradores());
+		params.put("protocoloOrigem", this.getProtocoloOrigem());
 		
-		if (null == this.getProtocoloOrigem())
-			params.put("protocoloOrigem", this.getProtocolo());
+		System.out.println("protocoloOrigem = " + this.getProtocoloOrigem());
+			
 		
 		return params;
 	}
