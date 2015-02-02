@@ -234,4 +234,12 @@ public interface ActivitiServico {
 	 * @throws ParseException
 	 */
 	List<ProcessoInstancia> getHistoricoProcessos(Map<String, Object> variables, String status) throws ParseException;
+	
+	/**
+	 * Metodo responsavel incrementar a versao do documento
+	 * @param variables
+	 * @return int
+	 * @throws ParseException
+	 */
+	int incrementarVersaoDocumento(Map<String, Object> variables);
 }
