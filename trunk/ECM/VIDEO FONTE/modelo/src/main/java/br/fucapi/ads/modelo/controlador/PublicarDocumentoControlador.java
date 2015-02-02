@@ -263,7 +263,7 @@ public class PublicarDocumentoControlador implements Serializable {
 		
 		// Invoca o metodo para salvar os documentos no Alfresco
 		if (!listaArquivos.isEmpty()) {
-			this.saveArquivo(listaArquivos);
+			//this.saveArquivo(listaArquivos);
 		}
 	}
 	
@@ -402,6 +402,13 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		this.variaveis.setSequencial(this.protocolo.getSequencial());
 		this.variaveis.setAno(this.protocolo.getAno());
+		
+		if (null == this.variaveis.getProtocoloOrigem()) {
+			this.variaveis.setProtocoloOrigem(this.variaveis.getAno()+""+this.variaveis.getSequencial());
+			System.out.println(this.variaveis.getProtocoloOrigem());
+			this.variaveis.setProtocoloOrigem("201511");
+			
+		}
 
 		// TODO - Realizacao de testes
 		this.activitiServico.iniciarInstanciaProcessoPorParametrosByKey(
@@ -538,7 +545,6 @@ public class PublicarDocumentoControlador implements Serializable {
 	public void pesquisar() {
 
 		List<ProcessoInstancia> listaResultado = null;
-		// Variaveis variaveisProcesso = null;
 		this.lista = new ArrayList<ProcessoInstancia>();
 
 		Map<String, Object> var = this.filtroVariaveis();
@@ -552,6 +558,8 @@ public class PublicarDocumentoControlador implements Serializable {
 			pInstancia.setVariaveis(variaveis);
 			this.lista.add(pInstancia);
 		}
+		
+		incrementarVersao("20156");
 	}
 	
 	public void pesquisaPorVariaveis(){
@@ -572,7 +580,16 @@ public class PublicarDocumentoControlador implements Serializable {
 		}
 		
 	}
+	
+	public int incrementarVersao(String protocoloOrigem){
+		Map<String, Object> var = new HashMap<String, Object>();
+		var.put("tipoSolicitacao", this.variaveisPesquisa.getTipoSolicitacao());
+		var.put("protocoloOrigem", protocoloOrigem);
+		
+		return activitiServico.incrementarVersaoDocumento(var);
 
+	}
+	
 	private Map<String, Object> filtroVariaveis() {
 
 		Map<String, Object> var = new HashMap<String, Object>();
