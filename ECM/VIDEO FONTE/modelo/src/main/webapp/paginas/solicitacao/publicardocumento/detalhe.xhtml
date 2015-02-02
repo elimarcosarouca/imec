@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<style type="text/css">
+.ui-picklist-source,.ui-picklist-target {
+	height: 400px;
+	width: 400px;
+}
+</style>
+
+	<h:form id="form">
+
+		<p:panel id="panel" closable="false" style="width:99%"
+			header="Detalhe da solicitação">
+			<p:growl id="msg" />
+			<h:panelGrid columns="4" style="width:99%">
+
+				<p:outputLabel value="Protocolo" style="width:95%" />
+				<p:outputLabel value="Descrição" />
+				<p:outputLabel value="Solicitante" />
+				<p:outputLabel value="Status" />
+
+				<p:inputText id="treinamento" disabled="true" style="width:75%"
+					styleClass="ui-priority-primary"
+					value="#{publicarDocumentoControlador.processoInstancia.businessKey}" />
+
+				<p:inputText id="custoEstimado" disabled="true" style="width:75%"
+					styleClass="ui-priority-primary"
+					value="#{publicarDocumentoControlador.processoInstancia.variaveis.descricao}" />
+					
+				<p:inputText disabled="true" style="width:75%"
+					styleClass="ui-priority-primary"
+					value="#{publicarDocumentoControlador.processoInstancia.variaveis.solicitante}" />
+					
+				<p:inputText disabled="true" style="width:75%"
+					styleClass="ui-priority-primary"
+					value="#{publicarDocumentoControlador.processoInstancia.variaveis.statusProcesso}" />
+
+			</h:panelGrid>
+		</p:panel>
+
+		<h:panelGrid style="width:99%" columns="2">
+			<p:commandButton id="buttonRetornar" value="Voltar" ajax="false"
+				styleClass="ui-priority-primary" icon="ui-icon-circle-arrow-w"
+				action="#{publicarDocumentoControlador.telaPesquisa}" update=":form" />
+
+		</h:panelGrid>
+
+
+	</h:form>
+</ui:component>
