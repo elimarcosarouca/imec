@@ -448,15 +448,17 @@ public class PublicarDocumentoControlador implements Serializable {
 	public void detalhe(ProcessoInstancia entity) throws ParseException {
 
 		this.processoInstancia = entity;
+		
+		System.out.println(entity.getId());
 
 		this.tarefaInstancias = activitiServico
 				.getHistoricoTarefasPorVariaveis(null, null, null, null,
 						this.processoInstancia.getId());
 
-		for (TarefaInstancia tarefaInstancia : this.tarefaInstancias) {
-			this.variaveisTreinamento = new VariaveisTreinamento();
+		/*for (TarefaInstancia tarefaInstancia : this.tarefaInstancias) {
+			this.variaveis = new VariavelPublicarDocumento();
 
-			this.variaveisTreinamento
+			this.variaveis
 					.converterListaVariaveisParaVariaveisProcesso(tarefaInstancia
 							.getVariables());
 			// TODO
@@ -475,7 +477,7 @@ public class PublicarDocumentoControlador implements Serializable {
 				this.variaveisTreinamento.setSituacao("EM ANDAMENTO");
 			}
 			tarefaInstancia.setVariaveis(this.variaveisTreinamento);
-		}
+		}*/
 
 		paginaCentralControladorBean.setPaginaCentral(this.TELA_DETALHE);
 

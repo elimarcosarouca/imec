@@ -2,6 +2,7 @@ package br.fucapi.ads.modelo.controlador;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -23,6 +24,9 @@ import br.fucapi.ads.modelo.dominio.UsuarioLog;
 import br.fucapi.ads.modelo.servico.UsuarioGrupoLogServico;
 import br.fucapi.ads.modelo.servico.UsuarioLogServico;
 import br.fucapi.ads.modelo.servico.UsuarioTokenServico;
+import br.fucapi.ads.modelo.utils.FacesUtils;
+import br.fucapi.ads.modelo.utils.ItemMenu;
+import br.fucapi.ads.modelo.utils.Menu;
 import br.fucapi.bpms.alfresco.dominio.Capabilities;
 import br.fucapi.bpms.alfresco.dominio.GrupoAlfresco;
 import br.fucapi.bpms.alfresco.dominio.Usuario;
@@ -562,5 +566,28 @@ public class UsuarioControladorBean implements Serializable {
 	// public void setConfirmaSenha(String confirmaSenha) {
 	// this.confirmaSenha = confirmaSenha;
 	// }
+	
+	/**
+	 * Carrega os perfis do usuario logado.
+	 * @param usuario
+	 */
+	private void carregarPerfisUsuario(Usuario usuario) {
+		String redirec = "?faces-redirect=true";
+//		String idSistema = MessageUtils.getMessageResourceString( MessageUtils.ID_SISTEMA );
+		
+//		List<Perfil> perfis = perfilServico.listaPerfilPorSistemaPorUsuario( new Integer(idSistema), usuario.getId() );
+		
+		List<Menu> menuList = new ArrayList<Menu>();
+		
+		Menu menu = new Menu("Cadastro", null );
+			
+		ItemMenu item = new ItemMenu(null, "TIPO DE DOCUMENTO", "/paginas/tipodocumento/pesquisa.xhtml" + redirec);
+		menu.getItemMenus().add(item);
+			
+		menuList.add(menu);
+			
+		// armazena menu na sessao do usuario
+		FacesUtils.getRequest().getSession().setAttribute("menuList", menuList);
+	}
 
 }

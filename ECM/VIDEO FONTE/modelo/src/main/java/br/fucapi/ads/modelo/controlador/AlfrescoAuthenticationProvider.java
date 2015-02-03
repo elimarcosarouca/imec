@@ -17,6 +17,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.client.HttpClientErrorException;
 
+import br.fucapi.ads.modelo.utils.FacesUtils;
+import br.fucapi.ads.modelo.utils.ItemMenu;
+import br.fucapi.ads.modelo.utils.Menu;
 import br.fucapi.bpms.alfresco.dominio.GrupoAlfresco;
 import br.fucapi.bpms.alfresco.dominio.Usuario;
 import br.fucapi.bpms.alfresco.servico.AlfrescoServico;
@@ -67,7 +70,7 @@ public class AlfrescoAuthenticationProvider implements AuthenticationProvider {
 			
 	        SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
 	        loginStatus.setShowMsgErro(false);
-
+	        
 		} catch (HttpClientErrorException e) {
 						
 			loginStatus.setShowMsgErro(true);			
@@ -81,7 +84,6 @@ public class AlfrescoAuthenticationProvider implements AuthenticationProvider {
 		return authenticatedUser;
 	}
 	
-
 	@Override
 	public boolean supports(Class<?> arg0) {
 		// TODO Auto-generated method stub

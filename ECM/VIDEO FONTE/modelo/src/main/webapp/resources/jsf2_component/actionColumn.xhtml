@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<ui:composition>
+	
+	<!-- buttonsAdded: additional button -->
+	<c:if test="#{empty buttonsAdded}">
+		<c:set var="buttonsAdded" value="0" />
+	</c:if>
+	
+	<c:set var="btnCount" value="#{buttonsAdded}" />
+	<c:if test="#{empty renderedDetail}">
+		<c:set var="renderedDetail" value="true" />
+		<c:set var="btnCount" value="#{btnCount + 1}" />
+	</c:if>
+	
+	<c:if test="#{empty renderedRemove}">
+		<c:set var="renderedRemove" value="true" />
+		<c:set var="btnCount" value="#{btnCount + 1}" />
+	</c:if>
+	
+	<c:set var="btnWidth" value="105" />
+	
+	<c:if test="#{empty width}">
+		<c:set var="width" value="#{btnCount * btnWidth}" />
+	</c:if>
+	
+	<c:if test="#{empty headerText}">
+		<c:set var="headerText" value="Ação" />
+	</c:if>
+
+	<c:if test="#{empty exportable}">
+		<c:set var="exportable" value="false" />
+	</c:if>
+
+	<p:column style="text-align:center" headerText="#{headerText}" width="#{width}" exportable="#{exportable}">
+		<center>
+			<!-- Insere o conteudo adicional caso haja -->
+			<ui:insert />
+			
+			<p:spacer width="5px" rendered="#{renderedDetail}"/>
+			
+			<ss:button managedBean="#{managedBean}" type="detalhe" render="#{renderedDetail}" />
+
+			<p:spacer width="5px" rendered="#{renderedRemove}"/>
+
+			<ss:button managedBean="#{managedBean}" update=":form:grid :form:msg" type="exclusao" render="#{renderedRemove}" />
+		</center>
+	</p:column>
+
+</ui:composition>
+
+</html>

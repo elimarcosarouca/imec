@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<div id="headcontent">
+	<h:form id="menuForm">
+
+		<div style="height: 35px;">
+
+			<div id="headerSystemTop">
+				<div id="headerSystemName">
+					<h:outputLabel value="#{applicationBean.sistema.codigo} : #{applicationBean.empresa.nomeFantasia}" 
+								title="#{applicationBean.sistema.descricao}" />
+				</div>
+				
+				<div style="margin-left: 250px;">
+					<h:outputLabel value="#{flash.msgBemVindo}" />
+					<!-- se quiser manter a msg usar: flash.keep.msgBemVindo -->
+				</div>
+				
+			</div>
+			
+
+			<div style="float: right; width: 30%;" align="right">
+				<h:outputText value="  |&#x00A0;  " />
+
+				<h:outputText value="#{usuarioLogado.nome}" />
+
+				<h:outputText value="  |&#x00A0;  " />
+
+				<p:commandButton value="Sair"
+								action="/login.xhtml?faces-redirect=true"
+								actionListener="#{authenticatorController.logout}"
+								icon="ui-icon-closethick" 
+								immediate="true" />
+
+				<h:outputText value="  |&#x00A0;  " />
+			</div>
+
+		</div>
+
+		<div>
+			<div style="float: left; width: 75%;" align="left">
+				
+				<p:outputPanel autoUpdate="true">
+ 					<!-- Nao é mais necessario navigation history, pq tem menu!
+ 					<ui:include src="navigationHistory.xhtml" /> 
+					-->
+				</p:outputPanel>
+				
+			</div>
+
+			<div style="float: right; width: 25%;" align="right">
+				<h:outputText value="#{dateBean.fullDate}" />
+			</div>
+
+		</div>
+
+	</h:form>
+</div>
+</ui:component>

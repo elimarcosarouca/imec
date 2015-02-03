@@ -1,15 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<faces-config 
-	xmlns="http://java.sun.com/xml/ns/javaee"
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
-	version="2.1">
-	
+	xsi:schemaLocation=" http://java.sun.com/xml/ns/javaee
+     					 http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+
 	<application>
 		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+
+		<locale-config>
+			<default-locale>pt_BR</default-locale>
+		</locale-config>
+
+		<resource-bundle>
+			<base-name>messages</base-name>
+			<var>msg</var>
+		</resource-bundle>
+
 	</application>
 
-<!-- 	<factory> -->
-<!-- 		<exception-handler-factory>br.fucapi.ads.modelo.excecaoHandler.ExcecaoHandlerFactory</exception-handler-factory> -->
-<!-- 	</factory> -->
+	<lifecycle>
+		<phase-listener>br.fucapi.ads.modelo.controlador.listener.MultiPageMessagesSupport</phase-listener>
+	</lifecycle>
+
+	<converter>
+		<converter-for-class>java.lang.Enum</converter-for-class>
+		<converter-class>javax.faces.convert.EnumConverter</converter-class>
+	</converter>
+
+	<!-- ========= NAVIGATION ========= -->
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>home</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/login.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>home</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>relatorio</from-outcome>
+			<to-view-id>/relatorio.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
 </faces-config>
