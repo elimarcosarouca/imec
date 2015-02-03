@@ -15,16 +15,16 @@
 		<ads-mail.version>2.0.1</ads-mail.version>
 		<ads-seguranca.version>2.0.1</ads-seguranca.version>
 		<javax-mail.version>1.4.4</javax-mail.version>
-		<hsqldb.version>2.2.9</hsqldb.version>
 		<cglib.version>2.2.2</cglib.version>
 		<spring.version>3.1.4.RELEASE</spring.version>
 		<junit.version>4.10</junit.version>
 		<slf4j.version>1.7.1</slf4j.version>
 		<jsf-api.version>2.2.4</jsf-api.version>
+<!-- 		<jsf-api.version>2.2.6</jsf-api.version> -->
 		
 		<servlet.version>2.5</servlet.version>
 		<jsf.version>2.1.2</jsf.version>
-		<primefaces.version>3.5</primefaces.version>
+		<primefaces.version>5.0</primefaces.version>
 		<el.version>2.2</el.version>
 		<hibernate.version>4.0.1.Final</hibernate.version>
 <!-- 		<slf4j.version>1.5.8</slf4j.version> -->
@@ -167,14 +167,6 @@
 <!-- ADS - FIM -->
 
 
-
-		<!-- hsql -->
-		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<version>${hsqldb.version}</version>
-			<scope>test</scope>
-		</dependency>
 
 		<!-- cglib -->
 		<dependency>

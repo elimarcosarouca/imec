@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<cc:interface>
+	
+		<cc:attribute name="id" required="false" default="id" />
+		<cc:attribute name="label" required="false" />	
+		<cc:attribute name="value" required="true" />
+		<cc:attribute name="required" required="false" default="false" />
+		<cc:attribute name="width" required="false" default="500" />
+		
+		<cc:attribute name="size" default="30"  />
+		<cc:attribute name="align" default="left" />
+		<cc:attribute name="maxlength" required="false" default="50" />
+		
+		<cc:attribute name="readonly" default="false"  />
+		<cc:attribute name="dir" default="ltr"  />
+		
+		
+		<!-- types: text, mask, number, calendar(date), textarea, password -->
+		<cc:attribute name="type" default="text" required="false"  />
+		
+		<cc:attribute name="maxlength" default="255" required="false"  />
+		<cc:attribute name="cols" default="60" required="false"  />
+		<cc:attribute name="rows" default="4" required="false"  />
+		
+		<cc:attribute name="title" default="#{cc.attrs.type eq 'date' ? 'Informar data' : 'Informar valor'}" required="false" />
+		<cc:attribute name="requiredMessage" default="Campo obrigatório" required="false" />
+		<cc:attribute name="validatorMessage" required="false" />
+		
+		<cc:attribute name="watermark" required="false"  />
+		
+		<cc:attribute name="email" default="false" required="false"  />
+		<cc:attribute name="emailValidatorMessage" default="E-mail inválido" required="false" />
+		
+		<cc:attribute name="labelStyle" required="false"  />
+		
+		<cc:attribute name="decimalPlaces" default="2" required="false" />
+		
+		<cc:attribute name="disabled" default="false"  />
+		<cc:attribute name="render" default="true" required="false" shortDescription="Indica se o componente deve ser exibido ou não" />
+		
+		<cc:attribute name="validatorComp" shortDescription="Validator do componente input" type="java.lang.String" required="false" method-signature="void Action(javax.faces.context.FacesContext, javax.faces.component.UIComponent,Object)" />
+		<cc:attribute name="converter" />
+		<cc:attribute name="converterMessage" />
+		
+	</cc:interface>
+	
+	<cc:implementation>
+		
+		<c:set var="label_style"  value="#{empty cc.attrs.labelStyle ? 'input-label-bold' : cc.attrs.labelStyle}" />
+		
+		<h:panelGrid columns="#{not empty cc.attrs.label ? 2 : 1}" rendered="#{cc.attrs.render}" width="#{cc.attrs.width}" columnClasses="#{label_style}, input_required">
+		 		
+	 		<p:column width="150" rendered="#{not empty cc.attrs.label}" >
+				<h:outputLabel value="#{cc.attrs.label}" for="#{cc.attrs.id}"/>
+		 		<h:outputText value="  * " styleClass="input_required" rendered="#{cc.attrs.required}" />
+	 		</p:column>
+	 		
+	 		<p:column>
+	 			
+ 				<c:set var="msgValidator" value="#{cc.attrs.email ? cc.attrs.emailValidatorMessage : cc.attrs.validatorMessage}"/>
+	 			
+	 			<c:if test="#{cc.attrs.type eq 'text'}">
+	 				<p:outputPanel autoUpdate="true">
+		 				<c:set var="idComp" value="tx_#{cc.attrs.id}"/>
+			 			<!-- Input Text -->
+						<p:inputText id="#{idComp}" value="#{cc.attrs.value}" style="#{cc.attrs.style}" disabled="#{cc.attrs.disabled}" readonly="#{cc.attrs.readonly}" maxlength="#{cc.attrs.maxlength}" required="#{cc.attrs.required}" requiredMessage="#{cc.attrs.requiredMessage}" validatorMessage="#{msgValidator}" size="#{cc.attrs.size}" immediate="#{cc.attrs.immediate}" dir="#{cc.attrs.dir}" >
+							<p:ajax event="blur" update="#{idComp}" />  
+							<c:if test="#{cc.attrs.email}">
+								<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+							</c:if>
+						</p:inputText>
+						<br />
+						<p:watermark for="#{idComp}" value="#{cc.attrs.watermark}" rendered="#{not empty cc.attrs.watermark}" />
+						<h:message for="#{idComp}" styleClass="error"  />
+	 				</p:outputPanel>
+	 			</c:if>
+	 		
+	 			<c:if test="#{cc.attrs.type eq 'mask'}">
+	 				<p:outputPanel autoUpdate="true">
+		 				<c:set var="idComp" value="ms_#{cc.attrs.id}"/>
+			 			<!-- Input Mask -->
+						<p:inputMask id="#{idComp}" value="#{cc.attrs.value}"  converter="#{cc.attrs.converter}" converterMessage="#{cc.attrs.converter}" style="#{cc.attrs.style}" disabled="#{cc.attrs.disabled}" readonly="#{cc.attrs.readonly}" mask="#{cc.attrs.mask}" maxlength="#{cc.attrs.maxlength}" required="#{cc.attrs.required}" requiredMessage="#{cc.attrs.requiredMessage}" size="#{cc.attrs.size}" immediate="#{cc.attrs.immediate}" dir="#{cc.attrs.dir}">
+							<p:ajax event="blur" update="#{idComp}" />
+							<f:validator for="#{idComp}" validatorId="#{cc.attrs.validatorComp}" disabled="#{empty cc.attrs.validatorComp}"/>
+						</p:inputMask>
+						<br />
+						<p:watermark for="#{idComp}" value="#{cc.attrs.watermark}" rendered="#{not empty cc.attrs.watermark}" />
+						<h:message for="#{idComp}" styleClass="error"  />
+	 				</p:outputPanel>
+	 			</c:if>
+	 		
+	 			<c:if test="#{cc.attrs.type eq 'number'}">
+	 				<p:outputPanel autoUpdate="true">
+		 				<c:set var="idComp" value="nb_#{cc.attrs.id}"/>
+			 			<!-- Input Number -->
+			 			<pe:inputNumber id="#{idComp}" value="#{cc.attrs.value}" style="#{cc.attrs.style}" size="#{cc.attrs.size}" disabled="#{cc.attrs.disabled}" readonly="#{cc.attrs.readonly}" decimalPlaces="#{cc.attrs.decimalPlaces}" decimalSeparator="," thousandSeparator="." required="#{cc.attrs.required}" requiredMessage="#{cc.attrs.requiredMessage}"  validatorMessage="#{cc.attrs.validatorMessage}" immediate="#{cc.attrs.immediate}" dir="#{cc.attrs.dir}" >
+							<p:ajax event="blur" update="#{idComp}" />  
+			 			</pe:inputNumber> 
+						<br />
+						<p:watermark for="#{idComp}" value="#{cc.attrs.watermark}" rendered="#{not empty cc.attrs.watermark}" />
+						<h:message for="#{idComp}" styleClass="error"  />
+	 				</p:outputPanel>
+	 			</c:if>
+	 		
+	 			<c:if test="#{cc.attrs.type eq 'date'}">
+		 			<!-- Calendar -->
+	 				<p:outputPanel autoUpdate="true">
+		 				<c:set var="idComp" value="dt_#{cc.attrs.id}"/>
+		 				
+		 				<c:set var="watermarkDate" value="#{cc.attrs.watermark}"/>
+		 				<c:if test="#{empty watermarkDate}">
+			 				<c:set var="watermarkDate" value="99/99/99"/>
+		 				</c:if>
+		 				
+			 			<p:calendar id="#{idComp}"
+			 						maxlength="10"
+									size="10"
+									locale="pt"
+									showButtonPanel="true" 
+									style="#{cc.attrs.style}"
+									navigator="true" 
+									dir="#{cc.attrs.dir}" 
+									immediate="#{cc.attrs.immediate}" 
+									disabled="#{cc.attrs.disabled}" 
+									readonly="#{cc.attrs.readonly}"
+									required="#{cc.attrs.required}"
+									requiredMessage="#{cc.attrs.requiredMessage}"
+									validatorMessage="Data inválida"
+									value="#{cc.attrs.value}"
+									title="#{cc.attrs.title}"
+									pattern="dd/MM/yyyy" >
+							<p:ajax event="dateSelect" update="#{idComp}" />  
+						</p:calendar>
+						<br />
+						<p:watermark for="#{idComp}" value="#{watermarkDate}" rendered="#{not empty watermarkDate}" />
+						<h:message for="#{idComp}" styleClass="error"  />
+	 				</p:outputPanel>
+	 			</c:if>
+	 			
+	 			<c:if test="#{cc.attrs.type eq 'textarea'}">
+		 			<!-- Input Textarea -->
+		 			<p:outputPanel autoUpdate="true">
+			 			<c:set var="idComp" value="ta_#{cc.attrs.id}"/>
+			 			<p:inputTextarea id="#{idComp}" value="#{cc.attrs.value}" immediate="#{cc.attrs.immediate}" disabled="#{cc.attrs.disabled}" readonly="#{cc.attrs.readonly}" 
+				 						required="#{cc.attrs.required}" requiredMessage="#{cc.attrs.requiredMessage}" validatorMessage="#{cc.attrs.validatorMessage}"  
+										maxlength="#{cc.attrs.maxlength}" cols="#{cc.attrs.cols}" rows="#{cc.attrs.rows}" autoResize="false" style="#{cc.attrs.style}"  >
+						</p:inputTextarea>
+						<br />
+						<p:watermark for="#{idComp}" value="#{cc.attrs.watermark}" rendered="#{not empty cc.attrs.watermark}" />
+						<h:message for="#{idComp}" styleClass="error"  />
+		 			</p:outputPanel>
+	 			</c:if>
+	 			
+	 			<c:if test="#{cc.attrs.type eq 'password'}">
+		 			<!-- password -->
+		 			<p:outputPanel autoUpdate="true">
+		 				<c:set var="idComp" value="ps_#{cc.attrs.id}"/>
+						<p:password id="#{idComp}" value="#{cc.attrs.value}" style="#{cc.attrs.style}" disabled="#{cc.attrs.disabled}" readonly="#{cc.attrs.readonly}" maxlength="#{cc.attrs.maxlength}" required="#{cc.attrs.required}" requiredMessage="#{cc.attrs.requiredMessage}" validatorMessage="#{cc.attrs.validatorMessage}" size="#{cc.attrs.size}" immediate="#{cc.attrs.immediate}">
+						</p:password>
+						<br />
+						<p:watermark for="#{idComp}" value="#{cc.attrs.watermark}" rendered="#{not empty cc.attrs.watermark}" />
+						<h:message for="#{idComp}" styleClass="error"  />
+		 			</p:outputPanel>
+	 			</c:if>
+	 		
+	 		</p:column>
+	 		
+		</h:panelGrid>
+		
+	</cc:implementation>
+	
+</html>

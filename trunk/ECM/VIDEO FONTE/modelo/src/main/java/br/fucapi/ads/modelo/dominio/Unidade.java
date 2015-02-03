@@ -32,9 +32,6 @@ public class Unidade extends AbstractEntity implements Serializable {
 	@Column(length = 30, nullable = false, unique = true)
 	private String nome;
 	
-	@Column( nullable = false )
-	private boolean global;
-
 	public Long getId() {
 		return id;
 	}
@@ -49,14 +46,6 @@ public class Unidade extends AbstractEntity implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public boolean isGlobal() {
-		return global;
-	}
-
-	public void setGlobal(boolean global) {
-		this.global = global;
 	}
 
 	public Unidade(String nome) {
