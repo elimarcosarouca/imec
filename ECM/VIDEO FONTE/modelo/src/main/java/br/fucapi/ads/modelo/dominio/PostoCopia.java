@@ -85,6 +85,22 @@ public class PostoCopia extends AbstractEntity implements Serializable {
 		this.setor = setor;
 	}
 
+	public String getLoginResponsavel() {
+		return loginResponsavel;
+	}
+
+	public void setLoginResponsavel(String loginResponsavel) {
+		this.loginResponsavel = loginResponsavel;
+	}
+
+	public List<Funcionario> getFuncionariosPostoCopia() {
+		return funcionariosPostoCopia;
+	}
+
+	public void setFuncionariosPostoCopia(List<Funcionario> funcionariosPostoCopia) {
+		this.funcionariosPostoCopia = funcionariosPostoCopia;
+	}
+
 	public boolean equals(Object o) {
 		if (o instanceof PostoCopia && ((PostoCopia) o).getId() == this.id)
 			return true;
