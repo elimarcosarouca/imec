@@ -11,19 +11,19 @@
 	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
 	template="/resources/layout/search_template.xhtml">
 
-	<ui:param name="pageTitle" value="Posto de Cópia" />
-	<ui:param name="pageHeader" value="Posto de Cópia" />
-	<ui:param name="managedBean" value="#{postoCopiaControlador}" />
+	<ui:param name="pageTitle" value="Funcionario" />
+	<ui:param name="pageHeader" value="Funcionario" />
+	<ui:param name="managedBean" value="#{funcionarioControlador}" />
 
 	<ui:define name="search_filter">
 
-		<ss:input label="Nome" value="#{postoCopiaControlador.pesquisa.nome}" />
+		<ss:input label="Nome" value="#{funcionarioControlador.pesquisa.nome}" />
 
 	</ui:define>
 
 	<ui:define name="grid_region">
 	
-		<ss:grid managedBean="#{postoCopiaControlador}">
+		<ss:grid managedBean="#{funcionarioControlador}">
 			
 			<ss2:column value="#{item.nome}" header="Nome" sortBy="nome" />
 				

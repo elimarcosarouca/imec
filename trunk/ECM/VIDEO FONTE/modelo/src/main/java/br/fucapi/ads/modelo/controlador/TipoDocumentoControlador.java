@@ -1,6 +1,5 @@
 package br.fucapi.ads.modelo.controlador;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;

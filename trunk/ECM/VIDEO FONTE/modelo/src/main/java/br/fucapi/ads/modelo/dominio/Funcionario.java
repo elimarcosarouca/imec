@@ -23,8 +23,8 @@ import flexjson.transformer.DateTransformer;
  * 
  */
 @Entity
-@Table(name = "ECM_FUNCIONARIO_POSTO_COPIA")
-public class FuncionarioPostoCopia extends AbstractEntity implements Serializable {
+@Table(name = "ECM_FUNCIONARIO")
+public class Funcionario extends AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = 7516652276680517473L;
 
@@ -68,11 +68,11 @@ public class FuncionarioPostoCopia extends AbstractEntity implements Serializabl
 		this.nome = nome;
 	}
 
-	public FuncionarioPostoCopia(String nome) {
+	public Funcionario(String nome) {
 		this.nome = nome;
 	}
 
-	public FuncionarioPostoCopia() {
+	public Funcionario() {
 	}
 	
 	public String getMatricula() {
@@ -92,14 +92,14 @@ public class FuncionarioPostoCopia extends AbstractEntity implements Serializabl
 	}
 
 	public boolean equals(Object o) {
-		if (o instanceof FuncionarioPostoCopia && ((FuncionarioPostoCopia) o).getId() == this.id)
+		if (o instanceof Funcionario && ((Funcionario) o).getId() == this.id)
 			return true;
 		else
 			return false;
 	}
 
-	public static FuncionarioPostoCopia fromJsonToObject(String json) {
-		return new JSONDeserializer<FuncionarioPostoCopia>().use(null, FuncionarioPostoCopia.class)
+	public static Funcionario fromJsonToObject(String json) {
+		return new JSONDeserializer<Funcionario>().use(null, Funcionario.class)
 				.deserialize(json);
 	}
 
@@ -110,7 +110,7 @@ public class FuncionarioPostoCopia extends AbstractEntity implements Serializabl
 						Date.class).serialize(this);
 	}
 
-	public static String toJsonArray(Collection<FuncionarioPostoCopia> collection) {
+	public static String toJsonArray(Collection<Funcionario> collection) {
 		return new JSONSerializer().exclude("*.class").serialize(collection);
 	}
 

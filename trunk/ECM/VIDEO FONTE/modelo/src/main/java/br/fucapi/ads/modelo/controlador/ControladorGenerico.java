@@ -174,7 +174,7 @@ public abstract class ControladorGenerico<T extends AbstractEntity> implements
 	 */
 	public String salvar(String url) {
 		try {
-			getService().save(entidade);
+			getService().saveOrUpdate(entidade);
 			setup();
 			showMessage(Constants.MSG_SUCESSO, FacesMessage.SEVERITY_INFO);
 
