@@ -49,7 +49,7 @@ public class PostoCopia extends AbstractEntity implements Serializable {
 	private String loginResponsavel;
 	
 	@OneToMany(mappedBy = "postoCopia", cascade = CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval = true )
-	private List<FuncionarioPostoCopia> funcionariosPostoCopia;
+	private List<Funcionario> funcionariosPostoCopia;
 	
 
 	public Long getId() {
