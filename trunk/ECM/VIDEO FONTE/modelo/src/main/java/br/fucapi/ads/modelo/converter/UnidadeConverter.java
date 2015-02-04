@@ -14,29 +14,6 @@ import br.fucapi.ads.modelo.dominio.Unidade;
 
 @FacesConverter(value = "unidadeConverter")
 public class UnidadeConverter implements Converter {
-
-	/*@Override
-	public Object getAsObject(FacesContext context, UIComponent component,
-			String value) {
-
-		if ("".equals(value) ) {
-			return "";
-		}
-		
-		return Unidade.fromJsonToUnidade(value);
-	}
-
-	@Override
-	public String getAsString(FacesContext context, UIComponent component,
-			Object value) {
-
-		if ("".equals(value) ) {
-			return "";
-		}
-		
-		return ((Unidade) value).toJson().replace("\"", "\'");
-
-	}*/
 	
 	public Object getAsObject(FacesContext facesContext, UIComponent uicomp,
 			String submittedValue) {

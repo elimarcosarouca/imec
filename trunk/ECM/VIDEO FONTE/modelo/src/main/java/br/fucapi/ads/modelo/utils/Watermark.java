@@ -1,23 +1,35 @@
 package br.fucapi.ads.modelo.utils;
 
-//import com.itextpdf.text.BaseColor;
-//import com.itextpdf.text.Document;
-//import com.itextpdf.text.Element;
-//import com.itextpdf.text.Font;
-//import com.itextpdf.text.Font.FontFamily;
-//import com.itextpdf.text.Phrase;
-//import com.itextpdf.text.pdf.ColumnText;
-//import com.itextpdf.text.pdf.PdfContentByte;
-//import com.itextpdf.text.pdf.PdfPageEventHelper;
-//import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileOutputStream;
 
-public class Watermark { //extends PdfPageEventHelper {
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 
-//	 protected Phrase watermark = new Phrase("CÓPIA NÃO CONTROLADA", new Font(FontFamily.HELVETICA, 60, Font.NORMAL, BaseColor.LIGHT_GRAY));
-//	 
-//     @Override
-//     public void onEndPage(PdfWriter writer, Document document) {
-//         PdfContentByte canvas = writer.getDirectContentUnder();
-//         ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER, watermark, 298, 421, 45);
-//     }
+public class Watermark {
+	public static void main(String[] args) {
+		try {
+			PdfReader Read_PDF_To_Watermark = new PdfReader(
+					"C:\\Users\\claudemirferreira\\Documents\\exemplo\\vai.pdf");
+			int number_of_pages = Read_PDF_To_Watermark.getNumberOfPages();
+			PdfStamper stamp = new PdfStamper(
+					Read_PDF_To_Watermark,
+					new FileOutputStream(
+							"C:\\Users\\claudemirferreira\\Documents\\exemplo\\novo.pdf"));
+			int i = 0;
+			Image watermark_image = Image
+					.getInstance("C:\\Users\\claudemirferreira\\Documents\\exemplo\\controlado.jpg");
+			watermark_image.setAbsolutePosition(10, 200);
+			PdfContentByte add_watermark;
+			while (i < number_of_pages) {
+				i++;
+				add_watermark = stamp.getUnderContent(i);
+				add_watermark.addImage(watermark_image);
+			}
+			stamp.close();
+		} catch (Exception i1) {
+			i1.printStackTrace();
+		}
+	}
 }

@@ -20,7 +20,7 @@ public class FuncionarioControlador extends ControladorGenerico<Funcionario> {
 
 	private List<PostoCopia> postosCopia;
 
-	@ManagedProperty(value = "#{setorServicoImpl}")
+	@ManagedProperty(value = "#{funcionarioServicoImpl}")
 	private FuncionarioServico servico;
 
 	@ManagedProperty(value = "#{postoCopiaServicoImpl}")

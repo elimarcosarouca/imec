@@ -10,15 +10,31 @@
 	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
 	template="/resources/layout/register_template.xhtml">
 
-	<ui:param name="pageHeader" value="Cadastro de Posto de Cópia"/>
-	<ui:param name="pageTitle" value="Cadastro de Posto de Cópia"/>
-	<ui:param name="managedBean" value="#{postoCopiaControlador}"/>
-	<ui:param name="widthContainer" value="950px"/>
+	<ui:param name="pageHeader" value="Cadastro de Posto de Cópia" />
+	<ui:param name="pageTitle" value="Cadastro de Posto de Cópia" />
+	<ui:param name="managedBean" value="#{postoCopiaControlador}" />
+	<ui:param name="widthContainer" value="950px" />
 
 	<ui:define name="register_region">
-	
-		<ss:input id="nome" label="Nome" required="true" value="#{postoCopiaControlador.entidade.nome}" /> 
-		
+
+		<ss:input id="nome" label="Nome" required="true"
+			value="#{postoCopiaControlador.entidade.nome}" />
+
+		<ss:autoComplete id="unidade" label="Setor"
+			value="#{postoCopiaControlador.entidade.setor}"
+			bean="#{postoCopiaControlador}" required="true"
+			completeMethod="listarSetor" itemLabel="#{item.nome}" size="50"
+			width="600" />
+
+		<p:outputLabel for="city" value="Responsavel " />
+		<p:selectOneMenu id="city"
+			value="#{postoCopiaControlador.entidade.loginResponsavel}"
+			effect="fold" editable="true">
+			<f:selectItem itemLabel="Select One" itemValue="" />
+			<f:selectItems value="#{postoCopiaControlador.usuarios}"
+				var="usuario" itemLabel="#{usuario.firstName} - #{usuario.lastName}" itemValue="#{usuario.userName}" />
+		</p:selectOneMenu>
+
 	</ui:define>
-	
+
 </ui:composition>
