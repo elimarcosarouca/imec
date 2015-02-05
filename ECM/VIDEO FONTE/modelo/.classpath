@@ -34,5 +34,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jodconverter-2.2.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

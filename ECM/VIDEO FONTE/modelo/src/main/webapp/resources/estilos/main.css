@@ -32,17 +32,19 @@
 		position: relative;
 		z-index: 500;
 		width: 100%;
-/*		height: 80px;*/
-/*		background: #fff url(images/logo.gif) no-repeat left top;	*/
+		height: 80px;
+		background: #fff url(images/logo.gif) no-repeat left top;	
 		background: #fff url(images/logo-escola-sabatina-small.png) no-repeat left top;	/* ### FIXME : alterar com a imagem da Empresa */
 		/* img da app */
-/* 		border-bottom: 3px solid #c0c0c0; */
+ 		border-bottom: 3px solid #c0c0c0; 
 		color: #f0f0f0; /* cor da fonte do header */
 		margin: 0;
 		padding: 0;
+		vertical-align: middle;
+		
 	}
 	#headcontent {
-		height: 50px;
+		height: 80px;
 		background: #225588;
 		position: relative;
 		padding: 10px;
@@ -55,7 +57,7 @@
 		font-size: 20px;
 	}
 
-	/*
+	/**/
 	#header h1 {
 		padding-top: 24px;
 		font-size: 250%;
@@ -64,7 +66,7 @@
 	#header a {
 		color: #f0f0f0;
 	}
-	*/
+	
 	#content {
 		padding: 10px;
 		background-color: #FFF;
@@ -892,5 +894,41 @@ a {
 }
 .fator2 {
 	color: purple;
+}
+
+#border-top.h_blue {
+    height: 80%;    
+    width: auto; 
+}
+
+#header-box {
+    background: none repeat scroll 0 0 #F0F0F0;
+    width: auto;
+	height: 30%;
+    border: 1px solid #CCCCCC;
+}
+
+
+#border-top .title {
+    font-size: 1.300em;
+    font-weight: bold;
+	font-family: Arial,Helvetica,sans-serif;
+	
+}
+
+#header-box {
+   /*  background: none repeat scroll 0 0 #F0F0F0;
+    width: auto;
+	height: 30%;
+    border: 1px solid #CCCCCC; */
+}
+
+
+#wrap-center{
+	color:#666666;
+	font-family: Arial,Helvetica,sans-serif;
+	float:left;
+	margin-left: 2.3%;
+	margin-top:0.8%;
 }
 
