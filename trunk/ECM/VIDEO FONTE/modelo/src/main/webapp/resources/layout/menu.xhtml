@@ -9,6 +9,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<h:form id="formMenu">
+	
 		<p:menubar class="menu">
 			<p:submenu label="Solicitacao" icon="ui-icon-document">
 				<p:menuitem value="Processo" url="#" />
@@ -27,8 +28,15 @@
 			<p:menuitem value="Quit" url="http://www.primefaces.org"
 				icon="ui-icon-close" />
 
-			<f:facet name="options">
-				<p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
+			<f:facet name="options"  class="menu">
+				<p:menuButton value="#{sessaoControladorBean.usuario.userName}" class="menu">
+				<p:menuitem value="Usuário" rendered="#{pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+					icon="ui-icon-person" actionListener="#{usuarioControladorBean.listarUsuarioNome}"/>
+				<p:menuitem value="Grupo" rendered="#{pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+					icon="ui-icon-gear" actionListener="#{grupoControladorBean.paginaincluir}" />
+				<p:menuitem value="Sair" action="#{sessaoControladorBean.logout}"
+					 icon="ui-icon-extlink" />
+			</p:menuButton>
 			</f:facet>
 		</p:menubar>
 		
