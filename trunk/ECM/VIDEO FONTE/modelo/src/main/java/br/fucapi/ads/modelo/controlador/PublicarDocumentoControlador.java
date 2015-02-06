@@ -1,7 +1,6 @@
 package br.fucapi.ads.modelo.controlador;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
@@ -50,6 +49,7 @@ import br.fucapi.ads.modelo.servico.TipoDocumentoServico;
 import br.fucapi.ads.modelo.servico.UnidadeServico;
 import br.fucapi.ads.modelo.servico.VariaveisTarefaServico;
 import br.fucapi.ads.modelo.utils.GeralUtils;
+import br.fucapi.ads.modelo.utils.Watermark;
 import br.fucapi.bpms.activiti.dominio.ProcessoDefinicao;
 import br.fucapi.bpms.activiti.dominio.ProcessoInstancia;
 import br.fucapi.bpms.activiti.dominio.TarefaInstancia;
@@ -68,14 +68,14 @@ public class PublicarDocumentoControlador implements Serializable {
 	private static final long serialVersionUID = 13244234324234332L;
 
 	private VariavelPublicarDocumento variaveis;
-	
+
 	private VariavelPublicarDocumento variaveisPesquisa;
 
 	private ProcessoInstancia processoInstancia;
 	private ProcessoDefinicao processoDefinicao;
 
 	private List<ProcessoInstancia> lista;
-	
+
 	private List<ProcessoInstancia> listaHistorico;
 
 	private List<ProcessoDefinicao> listaProcessosDefinicao;
@@ -141,13 +141,13 @@ public class PublicarDocumentoControlador implements Serializable {
 	private TipoDocumentoServico tipoDocumentoServico;
 
 	private String TELA_PESQUISA = "paginas/solicitacao/pesquisa.xhtml";
-	
+
 	private String TELA_CADASTRO = "paginas/solicitacao/publicardocumento/cadastro.xhtml";
 
 	private String TELA_DETALHE = "paginas/solicitacao/publicardocumento/detalhe.xhtml";
 
 	private String TELA_DETALHE_TAREFA = "paginas/solicitacao/publicardocumento/detalhetarefa.xhtml";
-	
+
 	// PickList
 
 	private DualListModel<Usuario> aprovadores;
@@ -165,7 +165,6 @@ public class PublicarDocumentoControlador implements Serializable {
 	private DualListModel<PostoCopia> postosCopia;
 	private List<PostoCopia> postosCopiaTarget;
 	private List<PostoCopia> postosCopiaSource;
-	
 
 	// Upload File
 
@@ -198,78 +197,67 @@ public class PublicarDocumentoControlador implements Serializable {
 			return event.getNewStep();
 		}
 	}
-	
+
 	public void converterDocToPDF() {
-		
-		// Salvando arquivo no diretorio da temporario do SO
-		
 		List<Arquivo> listaArquivos = new ArrayList<Arquivo>();
-		
+		String pathMarcaDagua = FacesContext.getCurrentInstance()
+				.getExternalContext().getRealPath("/")
+				+ "\\";
+
 		try {
-			
-			File fileTempOriginal = GeralUtils.converterFileUploadToFile(this.uploadFile);
-			
-			this.variaveis.getArquivoDoc().setNomeArquivo(fileTempOriginal.getName());
-			
+
+			File fileTempOriginal = GeralUtils
+					.converterFileUploadToFile(this.uploadFile);
+
+			this.variaveis.getArquivoDoc().setNomeArquivo(
+					fileTempOriginal.getName());
+
 			Arquivo arquivoDoc = new Arquivo();
 			arquivoDoc.setNomeArquivo(fileTempOriginal.getName());
 			arquivoDoc.setFile(fileTempOriginal);
-			
-			listaArquivos.add(arquivoDoc);
-			
-			String extensao = FilenameUtils.getExtension(fileTempOriginal.getName());
-			
-			if ("doc".equals(extensao) || "docx".equals(extensao)) {
 
+			listaArquivos.add(arquivoDoc);
+
+			String extensao = FilenameUtils.getExtension(fileTempOriginal
+					.getName());
+			if ("doc".equals(extensao) || "docx".equals(extensao)) {
 				try {
-				
-					// TODO - implementar tratativas para inserir tarja no arquivo DOC [Arquivo Controlado]
-					File fileTempDocTarja = GeralUtils.criarDocumentoTemporario("arquivoTemporarioDocTarja", extensao);
-					
-					Arquivo arquivoDocTarja = new Arquivo();
-					arquivoDocTarja.setNomeArquivo(fileTempDocTarja.getName());
-					arquivoDocTarja.setFile(fileTempDocTarja);
-					
-					listaArquivos.add(arquivoDocTarja);
-					
 					// Bloco para conversao de arquivo DOC em PDF
 					ConversaoParaPDF algoritmo = new ConversaoAPartirDeTextoOffice();
-					
+
 					Path path = Paths.get(fileTempOriginal.getAbsolutePath());
-					
+
 					byte[] data = Files.readAllBytes(path);
-
 					byte[] pdf = algoritmo.converterDocumento(data);
-					
-					File fileTempPDFTarja = GeralUtils.criarDocumentoTemporario("arquivoTemporarioPdfTarja", "pdf");
-					fileTempPDFTarja.deleteOnExit();
-					
-					FileOutputStream in = new FileOutputStream(fileTempPDFTarja);
-					in.write(pdf);
-					in.close();
-					
-					Arquivo arquivoPDF = new Arquivo();
-					arquivoPDF.setNomeArquivo(fileTempPDFTarja.getName());
-					arquivoPDF.setFile(fileTempPDFTarja);
 
-					listaArquivos.add(arquivoPDF);
-					
+					Arquivo controlada = new Arquivo();
+					controlada.setNomeArquivo("copianaocontrolado.pdf");
+					controlada.setFile(Watermark.inserirTarja(pdf, false,
+							pathMarcaDagua));
+					listaArquivos.add(controlada);
+
+					Arquivo naoControlada = new Arquivo();
+					naoControlada = new Arquivo();
+					naoControlada.setNomeArquivo("copiacontrolado.pdf");
+					naoControlada.setFile(Watermark.inserirTarja(pdf, true,
+							pathMarcaDagua));
+					listaArquivos.add(naoControlada);
+
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-			
+
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		// Invoca o metodo para salvar os documentos no Alfresco
 		if (!listaArquivos.isEmpty()) {
-			//this.saveArquivo(listaArquivos);
+			this.saveArquivo(listaArquivos);
 		}
 	}
-	
-	// TODO - Metodo pronto, pendente apenas de Testes
+
 	// Metodo responsavel por salvar no repositorio Alfresco o Documento
 	public void saveArquivo(List<Arquivo> listaArquivos) {
 
@@ -277,37 +265,37 @@ public class PublicarDocumentoControlador implements Serializable {
 		if (this.bpmswebproperties == null) {
 			this.bpmswebproperties = new Properties();
 			try {
-				this.bpmswebproperties.load(getClass().getClassLoader().getResourceAsStream(
-					"web.properties"));
+				this.bpmswebproperties.load(getClass().getClassLoader()
+						.getResourceAsStream("web.properties"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-	
+
 		String nomePasta = "" + protocolo.getAno() + protocolo.getSequencial();
-		
+
 		for (Arquivo arquivo : listaArquivos) {
-			
+
 			if (arquivo.getFile() != null) {
 				try {
 					String uuid;
-					
-					uuid = alfrescoServico.anexarArquivo(
-							bpmswebproperties.getProperty("uuid.parent.publicacao"),
-							nomePasta, "", this.descricao,
-							this.usuarioLogado.getTicket(), arquivo.getFile());
-					
+
+					uuid = alfrescoServico.anexarArquivo(bpmswebproperties
+							.getProperty("uuid.parent.publicacao"), nomePasta,
+							"", this.descricao, this.usuarioLogado.getTicket(),
+							arquivo.getFile());
+
 					arquivo.setUuid(uuid);
 					arquivo.setFile(null);
-				
+
 				} catch (HttpException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			} else {
-				FacesMessage message = new FacesMessage("warn",
-						arquivo.getFile().getName() + " is not uploaded.");
+				FacesMessage message = new FacesMessage("warn", arquivo
+						.getFile().getName() + " is not uploaded.");
 				FacesContext.getCurrentInstance().addMessage(null, message);
 			}
 		}
@@ -322,7 +310,7 @@ public class PublicarDocumentoControlador implements Serializable {
 			this.variaveis.setSetores(new ArrayList<Setor>());
 		}
 	}
-	
+
 	public String inicioNovaSolicitacao() {
 
 		this.variaveis = new VariavelPublicarDocumento();
@@ -340,7 +328,7 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		this.variaveis.setUnidades(unidadeServico.listAll());
 		this.variaveis.setTipoDocumentos(tipoDocumentoServico.listAll());
-	
+
 		// PickList Aprovadores
 		this.aprovadoresSource = new ArrayList<Usuario>();
 		this.aprovadoresSource.addAll(this.usuarios);
@@ -361,7 +349,7 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.elaboradoresTarget = new ArrayList<Usuario>();
 		this.elaboradores = new DualListModel<Usuario>(this.elaboradoresSource,
 				this.elaboradoresTarget);
-		
+
 		// PickList PostosCopia
 		this.postosCopiaSource = new ArrayList<PostoCopia>();
 		this.postosCopiaSource.addAll(postoCopiaServico.listAll());
@@ -381,7 +369,7 @@ public class PublicarDocumentoControlador implements Serializable {
 	public void init() {
 		this.inicioNovaSolicitacao();
 		this.variaveisPesquisa = new VariavelPublicarDocumento();
-		
+
 	}
 
 	/**
@@ -399,15 +387,17 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.variaveis.tratarAtributos(this.aprovadores.getTarget(),
 				this.concensos.getTarget(), this.elaboradores.getTarget());
 
-		// Chamada para converter o arquivo .doc e salvar os arquivos no Alfresco
+		// Chamada para converter o arquivo .doc e salvar os arquivos no
+		// Alfresco
 		this.converterDocToPDF();
 
 		this.variaveis.setSequencial(this.protocolo.getSequencial());
 		this.variaveis.setAno(this.protocolo.getAno());
-		
-		if (null == this.variaveis.getProtocoloOrigem() 
+
+		if (null == this.variaveis.getProtocoloOrigem()
 				|| this.variaveis.getProtocoloOrigem().length() < 5) {
-			this.variaveis.setProtocoloOrigem(this.variaveis.getAno()+""+this.variaveis.getSequencial());
+			this.variaveis.setProtocoloOrigem(this.variaveis.getAno() + ""
+					+ this.variaveis.getSequencial());
 		}
 
 		// TODO - Realizacao de testes
@@ -448,36 +438,32 @@ public class PublicarDocumentoControlador implements Serializable {
 	public void detalhe(ProcessoInstancia entity) throws ParseException {
 
 		this.processoInstancia = entity;
-		
+
 		System.out.println(entity.getId());
 
 		this.tarefaInstancias = activitiServico
 				.getHistoricoTarefasPorVariaveis(null, null, null, null,
 						this.processoInstancia.getId());
 
-		/*for (TarefaInstancia tarefaInstancia : this.tarefaInstancias) {
-			this.variaveis = new VariavelPublicarDocumento();
-
-			this.variaveis
-					.converterListaVariaveisParaVariaveisProcesso(tarefaInstancia
-							.getVariables());
-			// TODO
-			// this.variaveisTarefa = variaveisTarefaServico.findById(new
-			// Long(tarefaInstancia.getId()));
-			this.variaveisTarefa = null;
-
-			// Atualiza as variaveis da tarefa com os dados inseridos no banco
-			if (this.variaveisTarefa != null)
-				this.variaveisTreinamento
-						.converterVariaveisTarefa(this.variaveisTarefa);
-
-			if (tarefaInstancia.getEndTime() != null) {
-				this.variaveisTreinamento.setSituacao("FINALIZADO");
-			} else {
-				this.variaveisTreinamento.setSituacao("EM ANDAMENTO");
-			}
-			tarefaInstancia.setVariaveis(this.variaveisTreinamento);
-		}*/
+		/*
+		 * for (TarefaInstancia tarefaInstancia : this.tarefaInstancias) {
+		 * this.variaveis = new VariavelPublicarDocumento();
+		 * 
+		 * this.variaveis
+		 * .converterListaVariaveisParaVariaveisProcesso(tarefaInstancia
+		 * .getVariables()); // TODO // this.variaveisTarefa =
+		 * variaveisTarefaServico.findById(new //
+		 * Long(tarefaInstancia.getId())); this.variaveisTarefa = null;
+		 * 
+		 * // Atualiza as variaveis da tarefa com os dados inseridos no banco if
+		 * (this.variaveisTarefa != null) this.variaveisTreinamento
+		 * .converterVariaveisTarefa(this.variaveisTarefa);
+		 * 
+		 * if (tarefaInstancia.getEndTime() != null) {
+		 * this.variaveisTreinamento.setSituacao("FINALIZADO"); } else {
+		 * this.variaveisTreinamento.setSituacao("EM ANDAMENTO"); }
+		 * tarefaInstancia.setVariaveis(this.variaveisTreinamento); }
+		 */
 
 		paginaCentralControladorBean.setPaginaCentral(this.TELA_DETALHE);
 
@@ -493,7 +479,7 @@ public class PublicarDocumentoControlador implements Serializable {
 		for (Object item : event.getItems()) {
 			builder.append(((Usuario) item).getFirstName()).append("<br />");
 			this.aprovadores.getTarget().add((Usuario) item);
-			
+
 		}
 
 		System.out.println(builder.toString());
@@ -560,9 +546,9 @@ public class PublicarDocumentoControlador implements Serializable {
 			pInstancia.setVariaveis(variaveis);
 			this.lista.add(pInstancia);
 		}
-		
+
 	}
-	
+
 	public void pesquisarHistoricoDocumento(String protocoloOrigem) {
 		List<ProcessoInstancia> listaResultado = null;
 		this.listaHistorico = new ArrayList<ProcessoInstancia>();
@@ -570,7 +556,7 @@ public class PublicarDocumentoControlador implements Serializable {
 		Map<String, Object> var = new HashMap<String, Object>();
 		var.put("tipoSolicitacao", this.variaveisPesquisa.getTipoSolicitacao());
 		var.put("protocoloOrigem", protocoloOrigem);
-		
+
 		listaResultado = activitiServico.getHistoricoProcessosFiltroVariaveis(
 				var, "TODOS");
 
@@ -581,38 +567,42 @@ public class PublicarDocumentoControlador implements Serializable {
 			pInstancia.setVariaveis(variaveis);
 			this.listaHistorico.add(pInstancia);
 		}
-		
+
 	}
-	
-	public int incrementarVersao(String protocoloOrigem){
+
+	public int incrementarVersao(String protocoloOrigem) {
 		Map<String, Object> var = new HashMap<String, Object>();
 		var.put("tipoSolicitacao", this.variaveisPesquisa.getTipoSolicitacao());
 		var.put("protocoloOrigem", protocoloOrigem);
-		
+
 		return activitiServico.incrementarVersaoDocumento(var);
 
 	}
-	
+
 	private Map<String, Object> filtroVariaveis() {
 
 		Map<String, Object> var = new HashMap<String, Object>();
-		
-		/*if ( null != this.variaveisPesquisa.getStatusProcesso() 
-				&& this.variaveisPesquisa.getStatusProcesso() != "TODOS"  ) 
-			var.put("statusProcesso", this.variaveisPesquisa.getStatusProcesso());*/
-		
-		if ( null != this.variaveisPesquisa.getProtocoloOrigem() 
-				&& this.variaveisPesquisa.getProtocoloOrigem() != ""  ) 
-			var.put("protocoloOrigem", this.variaveisPesquisa.getProtocoloOrigem());
-		
-		if ( null != this.variaveisPesquisa.getProtocolo() 
-				&& this.variaveisPesquisa.getProtocolo().length() > 4  ) 
+
+		/*
+		 * if ( null != this.variaveisPesquisa.getStatusProcesso() &&
+		 * this.variaveisPesquisa.getStatusProcesso() != "TODOS" )
+		 * var.put("statusProcesso",
+		 * this.variaveisPesquisa.getStatusProcesso());
+		 */
+
+		if (null != this.variaveisPesquisa.getProtocoloOrigem()
+				&& this.variaveisPesquisa.getProtocoloOrigem() != "")
+			var.put("protocoloOrigem",
+					this.variaveisPesquisa.getProtocoloOrigem());
+
+		if (null != this.variaveisPesquisa.getProtocolo()
+				&& this.variaveisPesquisa.getProtocolo().length() > 4)
 			var.put("protocolo", this.variaveisPesquisa.getProtocolo());
-		
-		if ( null != this.variaveisPesquisa.getSolicitante()
-				&& this.variaveisPesquisa.getSolicitante() != ""  ) 
+
+		if (null != this.variaveisPesquisa.getSolicitante()
+				&& this.variaveisPesquisa.getSolicitante() != "")
 			var.put("solicitante", this.variaveisPesquisa.getSolicitante());
-		
+
 		var.put("tipoSolicitacao", this.variaveisPesquisa.getTipoSolicitacao());
 
 		return var;
@@ -636,8 +626,7 @@ public class PublicarDocumentoControlador implements Serializable {
 	}
 
 	public void abrirImagemProcesso(ProcessoInstancia entity) {
-		setImagem(activitiServico
-				.getProcessoDiagrama(entity.getId()));
+		setImagem(activitiServico.getProcessoDiagrama(entity.getId()));
 	}
 
 	public void telaDetalhe() {
