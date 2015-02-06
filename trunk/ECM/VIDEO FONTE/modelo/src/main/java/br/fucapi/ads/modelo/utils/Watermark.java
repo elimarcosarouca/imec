@@ -1,5 +1,6 @@
 package br.fucapi.ads.modelo.utils;
 
+import java.io.File;
 import java.io.FileOutputStream;
 
 import com.itextpdf.text.Image;
@@ -8,28 +9,44 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 
 public class Watermark {
-	public static void main(String[] args) {
+
+	public static File inserirTarja(byte[] bytes, boolean copiaControlada,
+			String pathMarcaDagua) {
+		PdfStamper stamp = null;
+		String pathFile = null;
 		try {
-			PdfReader Read_PDF_To_Watermark = new PdfReader(
-					"C:\\Users\\claudemirferreira\\Documents\\exemplo\\vai.pdf");
-			int number_of_pages = Read_PDF_To_Watermark.getNumberOfPages();
-			PdfStamper stamp = new PdfStamper(
-					Read_PDF_To_Watermark,
-					new FileOutputStream(
-							"C:\\Users\\claudemirferreira\\Documents\\exemplo\\novo.pdf"));
+			PdfReader watermark = new PdfReader(bytes);
+			int number_of_pages = watermark.getNumberOfPages();
 			int i = 0;
-			Image watermark_image = Image
-					.getInstance("C:\\Users\\claudemirferreira\\Documents\\exemplo\\controlado.jpg");
-			watermark_image.setAbsolutePosition(10, 200);
+			Image image;
+
+			if (copiaControlada) {
+				pathFile = pathMarcaDagua + "copiacontrolada.pdf";
+				stamp = new PdfStamper(watermark,
+						new FileOutputStream(pathFile));
+				image = Image.getInstance(pathMarcaDagua
+						+ "copiacontrolada.png");
+			} else {
+				pathFile = pathMarcaDagua + "copianaocontrolada.pdf";
+				stamp = new PdfStamper(watermark,
+						new FileOutputStream(pathFile));
+				image = Image.getInstance(pathMarcaDagua
+						+ "copianaocontrolada.png");
+			}
+
+			image.setAbsolutePosition(10, 200);
 			PdfContentByte add_watermark;
 			while (i < number_of_pages) {
 				i++;
 				add_watermark = stamp.getUnderContent(i);
-				add_watermark.addImage(watermark_image);
+				add_watermark.addImage(image);
 			}
 			stamp.close();
+
 		} catch (Exception i1) {
 			i1.printStackTrace();
 		}
+
+		return new File(pathFile);
 	}
 }
