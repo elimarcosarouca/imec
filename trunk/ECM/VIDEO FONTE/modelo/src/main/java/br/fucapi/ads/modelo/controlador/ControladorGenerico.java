@@ -36,12 +36,12 @@ import org.primefaces.model.StreamedContent;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.fucapi.ads.modelo.dominio.AbstractEntity;
-import br.fucapi.ads.modelo.dominio.ReflectionsUtil;
 import br.fucapi.ads.modelo.enumerated.Constants;
 import br.fucapi.ads.modelo.ireport.RelatorioUtil;
 import br.fucapi.ads.modelo.servico.Servico;
 import br.fucapi.ads.modelo.utils.DateUtil;
 import br.fucapi.ads.modelo.utils.FacesUtils;
+import br.fucapi.ads.modelo.utils.ReflectionsUtil;
 import br.fucapi.bpms.alfresco.dominio.Usuario;
 
 import com.lowagie.text.DocumentException;

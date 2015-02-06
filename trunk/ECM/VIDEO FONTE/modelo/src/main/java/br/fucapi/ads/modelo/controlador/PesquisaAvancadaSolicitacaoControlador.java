@@ -1,31 +1,30 @@
 package br.fucapi.ads.modelo.controlador;
 
 	import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+	import java.util.ArrayList;
+	import java.util.HashMap;
+	import java.util.List;
+	import java.util.Map;
+	import java.util.Properties;
 
 	import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
+	import javax.faces.application.FacesMessage;
+	import javax.faces.bean.ManagedBean;
+	import javax.faces.bean.ManagedProperty;
+	import javax.faces.bean.SessionScoped;
+	import javax.faces.context.FacesContext;
+	import javax.faces.model.SelectItem;
 
 	import org.springframework.security.core.context.SecurityContextHolder;
 
 	import br.fucapi.ads.modelo.dominio.VariaveisTreinamento;
-import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
-import br.fucapi.ads.modelo.ireport.RelatorioUtil;
-import br.fucapi.bpms.activiti.dominio.ProcessoDefinicao;
-import br.fucapi.bpms.activiti.dominio.ProcessoInstancia;
-import br.fucapi.bpms.activiti.servico.ActivitiServico;
-import br.fucapi.bpms.activiti.util.JsonUtil;
-import br.fucapi.bpms.alfresco.dominio.Usuario;
-import br.fucapi.bpms.alfresco.servico.AlfrescoServico;
+	import br.fucapi.ads.modelo.ireport.RelatorioUtil;
+	import br.fucapi.bpms.activiti.dominio.ProcessoDefinicao;
+	import br.fucapi.bpms.activiti.dominio.ProcessoInstancia;
+	import br.fucapi.bpms.activiti.servico.ActivitiServico;
+	import br.fucapi.bpms.activiti.util.JsonUtil;
+	import br.fucapi.bpms.alfresco.dominio.Usuario;
+	import br.fucapi.bpms.alfresco.servico.AlfrescoServico;
 
 	@ManagedBean
 	@SessionScoped
@@ -106,30 +105,30 @@ import br.fucapi.bpms.alfresco.servico.AlfrescoServico;
 		}
 
 		public void pesquisar() {
-			VariavelPublicarDocumento variaveisProcesso = null;
+			VariaveisTreinamento variaveisProcesso = null;
 			this.listaResultado = new ArrayList<ProcessoInstancia>();
 			Map<String, Object> var = this.filtroVariaveis();
 			
 			List<ProcessoInstancia> listaCancelados = new ArrayList<ProcessoInstancia>();
 			
-//			this.listaResultado = activitiServico.getHistoricoProcessosFiltroVariaveisOld(var, this.status);
+			this.listaResultado = activitiServico.getHistoricoProcessosFiltroVariaveis(var, this.status);
 
 			for (ProcessoInstancia pInstancia : listaResultado) {
-				variaveisProcesso = new VariavelPublicarDocumento();
+				variaveisProcesso = new VariaveisTreinamento();
 				variaveisProcesso
 						.converterListaVariaveisParaVariaveisProcesso(pInstancia
 								.getVariables());
 				
-				/*if(this.status.equals("CANCELADO")){
+				if(this.status.equals("CANCELADO")){
 					if ( variaveisProcesso.isCancelado()){
 						pInstancia.setVariaveis(variaveisProcesso);
 						listaCancelados.add(pInstancia);
 					}
 				}
-				else */
+				else 
 					pInstancia.setVariaveis(variaveisProcesso);
 			}
-			variaveisProcesso = new VariavelPublicarDocumento();
+			variaveisProcesso = new VariaveisTreinamento();
 			if(this.status.equals("CANCELADO"))
 				this.listaResultado = listaCancelados;
 				
