@@ -8,6 +8,8 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.PostLoad;
 import javax.persistence.Transient;
 
+import br.fucapi.ads.modelo.utils.ReflectionsUtil;
+
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
 

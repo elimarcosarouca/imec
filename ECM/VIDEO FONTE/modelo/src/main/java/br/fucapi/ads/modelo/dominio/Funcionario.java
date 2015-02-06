@@ -29,9 +29,9 @@ public class Funcionario extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 7516652276680517473L;
 
 	@Id
-	@GeneratedValue(generator = "SEQ_ECM_FUNCIONARIO_POSTO_COPIA", strategy = GenerationType.SEQUENCE)
-	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_FUNCIONARIO_POSTO_COPIA", name = "SEQ_ECM_FUNCIONARIO_POSTO_COPIA")
-	@Column(name = "ID_ECM_FUNCIONARIO_POSTO_COPIA")
+	@GeneratedValue(generator = "SEQ_ECM_FUNCIONARIO", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_FUNCIONARIO", name = "SEQ_ECM_FUNCIONARIO")
+	@Column(name = "ID_ECM_FUNCIONARIO")
 	private Long id;
 
 	@Column(length = 60, nullable = false)
