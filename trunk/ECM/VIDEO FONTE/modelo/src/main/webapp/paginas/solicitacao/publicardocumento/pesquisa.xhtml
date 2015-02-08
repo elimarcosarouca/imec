@@ -13,18 +13,16 @@
 		<p:panel header="Status das minhas solicitações" style="width:99%"
 			id="painel">
 			<p:growl id="growl" />
-
-
+			
+				
 			<h:panelGrid columns="2">
 
 				<h:outputText value="Protocolo: " />
 				<h:outputText value="Situação: " />
 
-				<p:inputText id="idProtocolo"
-					value="#{publicarDocumentoControlador.variaveisPesquisa.protocolo}" />
+				<p:inputText id="idProtocolo" value="#{publicarDocumentoControlador.variaveisPesquisa.protocolo}" />
 
-				<p:selectOneMenu
-					value="#{publicarDocumentoControlador.variaveisPesquisa.statusProcesso}">
+				<p:selectOneMenu value="#{publicarDocumentoControlador.variaveisPesquisa.statusProcesso}">
 					<f:selectItem itemLabel="PENDENTE" itemValue="PENDENTE" />
 					<f:selectItem itemLabel="CONCLUÍDO" itemValue="CONCLUÍDO" />
 					<f:selectItem itemLabel="CANCELADO" itemValue="CANCELADO" />
@@ -34,7 +32,7 @@
 			</h:panelGrid>
 
 			<p:commandButton id="pesquisa" icon="ui-icon-search"
-				actionListener="#{publicarDocumentoControlador.pesquisar}"
+				actionListener="#{publicarDocumentoControlador.pesquisaPorVariaveis}"
 				value="Pesquisar" update=":form" />
 
 			<p:commandButton id="novo" icon="ui-icon-search"
@@ -90,11 +88,6 @@
 						title="Imagem Solicitação" styleClass="ui-priority-primary"
 						icon="ui-icon-image" update=":formImagem:panelImagem"
 						action="#{publicarDocumentoControlador.abrirImagemProcesso(item)}" />
-
-					<p:commandButton oncomplete="PF('widgetVarTarefas').show()"
-						title="Listar Tarefas" styleClass="ui-priority-primary"
-						icon="ui-icon-image" update=":formTarefas:panelTarefas"
-						action="#{tarefaControle.listarTarefas(item)}" />
 
 				</p:column>
 
@@ -157,59 +150,6 @@
 
 			</p:panel>
 			<p:commandButton onclick="PF('widgetVarImagem').hide()"
-				value="Fechar" styleClass="ui-priority-primary" icon="ui-icon-image" />
-
-		</h:form>
-	</p:dialog>
-
-
-
-	<p:dialog id="widgetVarTarefas" widgetVar="widgetVarTarefas"
-		closable="false" modal="false" style="margin-bottom:10px" width="90%"
-		height="90%">
-		<h:form id="formTarefas">
-
-			<p:panel id="panelTarefas"
-			header="Lista de Tarefas da solicitação #{publicarDocumentoControlador.processoInstancia.businessKey}">
-				<p:dataTable id="gridSearch" var="item" rows="10" paginator="true"
-					value="#{tarefaControle.listaTarefasPendentes}"
-					paginatorPosition="bottom" paginatorAlwaysVisible="true"
-					emptyMessage="Nenhum registro encontrado."
-					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="5,10,15,20">
-
-					<p:column style="text-align:left" headerText="Usuário"
-						sortBy="#{item.assignee}">
-						<h:outputText
-							value="#{item.assignee}" />
-					</p:column>
-
-					<p:column style="text-align:left" headerText="Tarefa"
-						sortBy="#{item.name}}">
-						<h:outputText value="#{item.name}" />
-					</p:column>
-
-					<p:column style="text-align:left" headerText="Data de Criação"
-						sortBy="#{item.startTime}">
-						<h:outputText value="#{item.startTime}">
-							<f:convertDateTime pattern="dd/MM/yyyy" />
-						</h:outputText>
-					</p:column>
-
-					<p:column style="text-align:left" headerText="Data de Conclusão"
-						sortBy="#{item.endTime}">
-						<h:outputText value="#{item.endTime}">
-							<f:convertDateTime pattern="dd/MM/yyyy" />
-						</h:outputText>
-					</p:column>
-
-					<f:facet name="footer">
-						<h:outputText
-							value="#{fn:length(tarefaControle.listaTarefasPendentes)} Registro(s) encontrado(s)." />
-					</f:facet>
-				</p:dataTable>
-			</p:panel>
-			<p:commandButton onclick="PF('widgetVarTarefas').hide()"
 				value="Fechar" styleClass="ui-priority-primary" icon="ui-icon-image" />
 
 		</h:form>
