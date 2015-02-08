@@ -25,9 +25,6 @@
 				<p:menuitem value="Funcionário" url="/paginas/funcionario/pesquisa.xhtml?faces-redirect=true" icon="ui-icon-arrowreturnthick-1-w" />
 			</p:submenu>
 
-			<p:menuitem value="Quit" url="http://www.primefaces.org"
-				icon="ui-icon-close" />
-
 			<f:facet name="options"  class="menu">
 				<p:menuButton value="#{sessaoControladorBean.usuario.userName}" class="menu">
 				<p:menuitem value="Usuário" rendered="#{pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
