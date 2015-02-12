@@ -42,10 +42,10 @@ import br.fucapi.ads.modelo.dominio.VariaveisTarefa;
 import br.fucapi.ads.modelo.dominio.VariaveisTreinamento;
 import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
 import br.fucapi.ads.modelo.regranegocio.TreinamentoRN;
+import br.fucapi.ads.modelo.servico.CategoriaServico;
 import br.fucapi.ads.modelo.servico.PostoCopiaServico;
 import br.fucapi.ads.modelo.servico.ProtocoloServico;
 import br.fucapi.ads.modelo.servico.SetorServico;
-import br.fucapi.ads.modelo.servico.TipoDocumentoServico;
 import br.fucapi.ads.modelo.servico.UnidadeServico;
 import br.fucapi.ads.modelo.servico.VariaveisTarefaServico;
 import br.fucapi.ads.modelo.utils.GeralUtils;
@@ -137,12 +137,12 @@ public class PublicarDocumentoControlador implements Serializable {
 	@ManagedProperty(value = "#{setorServicoImpl}")
 	private SetorServico setorServico;
 
-	@ManagedProperty(value = "#{tipoDocumentoServicoImpl}")
-	private TipoDocumentoServico tipoDocumentoServico;
+	@ManagedProperty(value = "#{categoriaServicoImpl}")
+	private CategoriaServico categoriaServico;
 
 	private String TELA_PESQUISA = "paginas/solicitacao/pesquisa.xhtml";
 
-	private String TELA_CADASTRO = "paginas/solicitacao/publicardocumento/cadastro.xhtml";
+	private String TELA_CADASTRO = "/paginas/solicitacao/publicardocumento/cadastro.xhtml?faces-redirect=true";
 
 	private String TELA_DETALHE = "paginas/solicitacao/publicardocumento/detalhe.xhtml";
 
@@ -327,7 +327,7 @@ public class PublicarDocumentoControlador implements Serializable {
 				.getAuthentication().getPrincipal();
 
 		this.variaveis.setUnidades(unidadeServico.listAll());
-		this.variaveis.setTipoDocumentos(tipoDocumentoServico.listAll());
+		this.variaveis.setCategorias(categoriaServico.listAll());
 
 		// PickList Aprovadores
 		this.aprovadoresSource = new ArrayList<Usuario>();
@@ -360,9 +360,9 @@ public class PublicarDocumentoControlador implements Serializable {
 		// TODO foi incluido o redirect porque as paginas não estavam
 		// carregando os componentes da paginas, devido a um bug do primefaces
 
-		paginaCentralControladorBean.setPaginaCentral(this.TELA_CADASTRO);
+		// paginaCentralControladorBean.setPaginaCentral(this.TELA_CADASTRO);
 
-		return "index.xhtml?faces-redirect=true";
+		return TELA_CADASTRO;
 	}
 
 	@PostConstruct
@@ -892,13 +892,12 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.setorServico = setorServico;
 	}
 
-	public TipoDocumentoServico getTipoDocumentoServico() {
-		return tipoDocumentoServico;
+	public CategoriaServico getCategoriaServico() {
+		return categoriaServico;
 	}
 
-	public void setTipoDocumentoServico(
-			TipoDocumentoServico tipoDocumentoServico) {
-		this.tipoDocumentoServico = tipoDocumentoServico;
+	public void setCategoriaServico(CategoriaServico categoriaServico) {
+		this.categoriaServico = categoriaServico;
 	}
 
 	public DualListModel<Usuario> getAprovadores() {

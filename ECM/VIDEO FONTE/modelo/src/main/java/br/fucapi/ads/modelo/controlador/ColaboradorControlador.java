@@ -6,22 +6,22 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
-import br.fucapi.ads.modelo.dominio.Funcionario;
+import br.fucapi.ads.modelo.dominio.Colaborador;
 import br.fucapi.ads.modelo.dominio.PostoCopia;
-import br.fucapi.ads.modelo.servico.FuncionarioServico;
+import br.fucapi.ads.modelo.servico.ColaboradorServico;
 import br.fucapi.ads.modelo.servico.PostoCopiaServico;
 import br.fucapi.ads.modelo.servico.Servico;
 
 @ManagedBean
 @SessionScoped
-public class FuncionarioControlador extends ControladorGenerico<Funcionario> {
+public class ColaboradorControlador extends ControladorGenerico<Colaborador> {
 
 	private static final long serialVersionUID = -6832271293709421841L;
 
 	private List<PostoCopia> postosCopia;
 
-	@ManagedProperty(value = "#{funcionarioServicoImpl}")
-	private FuncionarioServico servico;
+	@ManagedProperty(value = "#{colaboradorServicoImpl}")
+	private ColaboradorServico servico;
 
 	@ManagedProperty(value = "#{postoCopiaServicoImpl}")
 	private PostoCopiaServico postoCopiaServico;
@@ -47,15 +47,15 @@ public class FuncionarioControlador extends ControladorGenerico<Funcionario> {
 	}
 
 	@Override
-	protected Servico<Funcionario, Long> getService() {
+	protected Servico<Colaborador, Long> getService() {
 		return servico;
 	}
 
-	public FuncionarioServico getServico() {
+	public ColaboradorServico getServico() {
 		return servico;
 	}
 
-	public void setServico(FuncionarioServico servico) {
+	public void setServico(ColaboradorServico servico) {
 		this.servico = servico;
 	}
 
