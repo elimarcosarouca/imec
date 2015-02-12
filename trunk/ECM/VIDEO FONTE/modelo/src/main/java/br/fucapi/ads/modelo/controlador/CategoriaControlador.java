@@ -4,19 +4,18 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
-import br.fucapi.ads.modelo.dominio.TipoDocumento;
+import br.fucapi.ads.modelo.dominio.Categoria;
+import br.fucapi.ads.modelo.servico.CategoriaServico;
 import br.fucapi.ads.modelo.servico.Servico;
-import br.fucapi.ads.modelo.servico.TipoDocumentoServico;
 
 @ManagedBean
 @SessionScoped
-public class TipoDocumentoControlador extends
-		ControladorGenerico<TipoDocumento> {
+public class CategoriaControlador extends ControladorGenerico<Categoria> {
 
 	private static final long serialVersionUID = -6832271293709421841L;
 
-	@ManagedProperty(value = "#{tipoDocumentoServicoImpl}")
-	private TipoDocumentoServico servico;
+	@ManagedProperty(value = "#{categoriaServicoImpl}")
+	private CategoriaServico servico;
 
 	private String nomeRelatorio = "tipoDocumento.jasper";
 
@@ -31,15 +30,15 @@ public class TipoDocumentoControlador extends
 	}
 
 	@Override
-	protected Servico<TipoDocumento, Long> getService() {
+	protected Servico<Categoria, Long> getService() {
 		return servico;
 	}
 
-	public TipoDocumentoServico getServico() {
+	public CategoriaServico getServico() {
 		return servico;
 	}
 
-	public void setServico(TipoDocumentoServico servico) {
+	public void setServico(CategoriaServico servico) {
 		this.servico = servico;
 	}
 
