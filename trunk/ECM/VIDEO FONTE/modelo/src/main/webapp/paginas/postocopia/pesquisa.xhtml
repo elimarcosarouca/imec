@@ -26,6 +26,8 @@
 		<ss:grid managedBean="#{postoCopiaControlador}">
 			
 			<ss2:column value="#{item.nome}" header="Nome" sortBy="nome" />
+			<ss2:column value="#{item.setor.nome}" header="Setor" sortBy="setor" />
+			<ss2:column value="#{item.loginResponsavel}" header="Responsavel" sortBy="loginResponsavel" />
 				
 		</ss:grid>
 
