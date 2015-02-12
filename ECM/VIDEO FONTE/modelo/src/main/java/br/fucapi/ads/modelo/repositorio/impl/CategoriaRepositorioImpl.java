@@ -7,21 +7,21 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
-import br.fucapi.ads.modelo.dominio.TipoDocumento;
-import br.fucapi.ads.modelo.repositorio.TipoDocumentoRepositorio;
+import br.fucapi.ads.modelo.dominio.Categoria;
+import br.fucapi.ads.modelo.repositorio.CategoriaRepositorio;
 
 @Repository
 @SuppressWarnings("unchecked")
-public class TipoDocumentoRepositorioImpl extends
-		GenericRepositorioImpl<TipoDocumento, Long> implements
-		TipoDocumentoRepositorio {
+public class CategoriaRepositorioImpl extends
+		GenericRepositorioImpl<Categoria, Long> implements
+		CategoriaRepositorio {
 
 	@Override
-	public List<TipoDocumento> pesquisar(TipoDocumento abstractEntity) {
+	public List<Categoria> pesquisar(Categoria abstractEntity) {
 		StringBuilder sb = new StringBuilder();
 		List<String> condictions = new ArrayList<String>();
 
-		sb.append(" select est from TipoDocumento est ");
+		sb.append(" select est from Categoria est ");
 
 		if (notEmpty(abstractEntity.getNome())) {
 			condictions.add(" lower( est.nome ) like :nome ");

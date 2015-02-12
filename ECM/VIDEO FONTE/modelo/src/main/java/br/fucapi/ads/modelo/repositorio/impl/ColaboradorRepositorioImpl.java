@@ -7,21 +7,21 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
-import br.fucapi.ads.modelo.dominio.Funcionario;
-import br.fucapi.ads.modelo.repositorio.FuncionarioRepositorio;
+import br.fucapi.ads.modelo.dominio.Colaborador;
+import br.fucapi.ads.modelo.repositorio.ColaboradorRepositorio;
 
 @Repository
 @SuppressWarnings("unchecked")
-public class FuncionarioRepositorioImpl extends
-		GenericRepositorioImpl<Funcionario, Long> implements
-		FuncionarioRepositorio {
+public class ColaboradorRepositorioImpl extends
+		GenericRepositorioImpl<Colaborador, Long> implements
+		ColaboradorRepositorio {
 
 	@Override
-	public List<Funcionario> pesquisar(Funcionario abstractEntity) {
+	public List<Colaborador> pesquisar(Colaborador abstractEntity) {
 		StringBuilder sb = new StringBuilder();
 		List<String> condictions = new ArrayList<String>();
 
-		sb.append(" select est from Funcionario est ");
+		sb.append(" select est from Colaborador est ");
 
 		if (notEmpty(abstractEntity.getNome())) {
 			condictions.add(" lower( est.nome ) like :nome ");
