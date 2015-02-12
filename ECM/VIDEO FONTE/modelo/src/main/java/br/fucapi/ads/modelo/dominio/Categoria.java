@@ -21,15 +21,15 @@ import flexjson.transformer.DateTransformer;
  * 
  */
 @Entity
-@Table(name = "ECM_TIPO_DOCUMENTO")
-public class TipoDocumento extends AbstractEntity implements Serializable {
+@Table(name = "ECM_CATEGORIA")
+public class Categoria extends AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = 7516652276680517473L;
 
 	@Id
-	@GeneratedValue(generator = "SEQ_ECM_TIPO_DOCUMENTO", strategy = GenerationType.SEQUENCE)
-	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_TIPO_DOCUMENTO", name = "SEQ_ECM_TIPO_DOCUMENTO")
-	@Column(name = "ID_ECM_TIPO_DOCUMENTO")
+	@GeneratedValue(generator = "SEQ_ECM_CATEGORIA", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_CATEGORIA", name = "SEQ_ECM_CATEGORIA")
+	@Column(name = "ID_ECM_CATEGORIA")
 	private Long id;
 
 	@Column(length = 30, nullable = false, unique = true)
@@ -72,25 +72,25 @@ public class TipoDocumento extends AbstractEntity implements Serializable {
 		this.possuiTarja = possuiTarja;
 	}
 
-	public TipoDocumento(String nome) {
+	public Categoria(String nome) {
 		super();
 		this.nome = nome;
 	}
 
-	public TipoDocumento() {
+	public Categoria() {
 		super();
 	}
 	
 	public boolean equals(Object o) {
-		if (o instanceof TipoDocumento && ((TipoDocumento) o).getId() == this.id)
+		if (o instanceof Categoria && ((Categoria) o).getId() == this.id)
 			return true;
 		else
 			return false;
 	}
 
-	public static TipoDocumento fromJsonToObject(String json) {
-		return new JSONDeserializer<TipoDocumento>().use(null,
-				TipoDocumento.class).deserialize(json);
+	public static Categoria fromJsonToObject(String json) {
+		return new JSONDeserializer<Categoria>().use(null,
+				Categoria.class).deserialize(json);
 	}
 
 	public String toJson() {
@@ -100,7 +100,7 @@ public class TipoDocumento extends AbstractEntity implements Serializable {
 						Date.class).serialize(this);
 	}
 
-	public static String toJsonArray(Collection<TipoDocumento> collection) {
+	public static String toJsonArray(Collection<Categoria> collection) {
 		return new JSONSerializer().exclude("*.class").serialize(collection);
 	}
 

@@ -49,7 +49,7 @@ public class PostoCopia extends AbstractEntity implements Serializable {
 	private String loginResponsavel;
 	
 	@OneToMany(mappedBy = "postoCopia", cascade = CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval = true )
-	private List<Funcionario> funcionariosPostoCopia;
+	private List<Colaborador> funcionariosPostoCopia;
 	
 
 	public Long getId() {
@@ -93,11 +93,11 @@ public class PostoCopia extends AbstractEntity implements Serializable {
 		this.loginResponsavel = loginResponsavel;
 	}
 
-	public List<Funcionario> getFuncionariosPostoCopia() {
+	public List<Colaborador> getFuncionariosPostoCopia() {
 		return funcionariosPostoCopia;
 	}
 
-	public void setFuncionariosPostoCopia(List<Funcionario> funcionariosPostoCopia) {
+	public void setFuncionariosPostoCopia(List<Colaborador> funcionariosPostoCopia) {
 		this.funcionariosPostoCopia = funcionariosPostoCopia;
 	}
 

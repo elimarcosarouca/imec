@@ -55,13 +55,13 @@ public class VariavelPublicarDocumento extends Variavel {
 
 	private Setor setor;
 
-	private TipoDocumento tipoDocumento;
+	private Categoria categoria;
 
 	private Unidade unidade;
 
 	private List<Setor> setores;
 
-	private List<TipoDocumento> tipoDocumentos;
+	private List<Categoria> categorias;
 
 	private List<Unidade> unidades;
 
@@ -75,17 +75,17 @@ public class VariavelPublicarDocumento extends Variavel {
 	
 	private int notificarVencimento;
 
-	private int versaoDocumento;
+	private int versaoRevisao;
 
 	private final String PUBLICAR_DOCUMENTO = "PUBLICAR_DOCUMENTO";
 
 	public VariavelPublicarDocumento() {
 		this.tipoSolicitacao = PUBLICAR_DOCUMENTO;
 		this.unidade = new Unidade();
-		this.tipoDocumento = new TipoDocumento();
+		this.categoria = new Categoria();
 		this.setor = new Setor();
 		this.postoCopia = new PostoCopia();
-		this.versaoDocumento = 1;
+		this.versaoRevisao = 0;
 		this.possuiTarja = true;
 		this.publicacaoAutomatica = true;
 		this.aprovadores = new ArrayList<String>();
@@ -234,12 +234,12 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.setor = setor;
 	}
 
-	public TipoDocumento getTipoDocumento() {
-		return tipoDocumento;
+	public Categoria getCategoria() {
+		return categoria;
 	}
 
-	public void setTipoDocumento(TipoDocumento tipoDocumento) {
-		this.tipoDocumento = tipoDocumento;
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 
 	public Unidade getUnidade() {
@@ -258,12 +258,12 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.setores = setores;
 	}
 
-	public List<TipoDocumento> getTipoDocumentos() {
-		return tipoDocumentos;
+	public List<Categoria> getCategorias() {
+		return categorias;
 	}
 
-	public void setTipoDocumentos(List<TipoDocumento> tipoDocumentos) {
-		this.tipoDocumentos = tipoDocumentos;
+	public void setCategorias(List<Categoria> categorias) {
+		this.categorias = categorias;
 	}
 
 	public List<Unidade> getUnidades() {
@@ -306,12 +306,12 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.protocoloOrigem = protocoloOrigem;
 	}
 
-	public int getVersaoDocumento() {
-		return versaoDocumento;
+	public int getVersaoRevisao() {
+		return versaoRevisao;
 	}
 
-	public void setVersaoDocumento(int versaoDocumento) {
-		this.versaoDocumento = versaoDocumento;
+	public void setVersaoRevisao(int versaoRevisao) {
+		this.versaoRevisao = versaoRevisao;
 	}
 
 	public Arquivo getArquivoDoc() {
@@ -423,9 +423,9 @@ public class VariavelPublicarDocumento extends Variavel {
 				//TODO DEVERA SER ALIMENTADA A LISTA				
 //				this.setEmailAprovadores( var.getValue().toString());
 
-			} else if (var.getName().equals("versaoDocumento")) {
+			} else if (var.getName().equals("versaoRevisao")) {
 				try {
-					this.setVersaoDocumento(Integer.valueOf(var.getValue()
+					this.setVersaoRevisao(Integer.valueOf(var.getValue()
 							.toString()));
 				} catch (NumberFormatException e) {
 
@@ -449,7 +449,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("emailConcensos", this.getEmailConcensos());
 		params.put("emailArovadores", this.getEmailAprovadores());
 
-		params.put("versaoDocumento", this.getVersaoDocumento());
+		params.put("versaoRevisao", this.getVersaoRevisao());
 		params.put("possuiTarja", this.isPossuiTarja());
 		params.put("publicacaoAutomatica", this.isPublicacaoAutomatica());
 		params.put("enviarConcensao", this.isEnviarConcensao());
@@ -461,6 +461,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("aprovadores", this.getAprovadores());
 		params.put("concensos", this.getConcensos());
 		params.put("elaboradores", this.getElaboradores());
+		params.put("categoria", this.getCategoria());
 		
 		if (null == this.getProtocoloOrigem())
 			params.put("protocoloOrigem", this.getProtocolo());

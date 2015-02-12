@@ -23,15 +23,15 @@ import flexjson.transformer.DateTransformer;
  * 
  */
 @Entity
-@Table(name = "ECM_FUNCIONARIO")
-public class Funcionario extends AbstractEntity implements Serializable {
+@Table(name = "ECM_COLABORADOR")
+public class Colaborador extends AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = 7516652276680517473L;
 
 	@Id
-	@GeneratedValue(generator = "SEQ_ECM_FUNCIONARIO", strategy = GenerationType.SEQUENCE)
-	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_FUNCIONARIO", name = "SEQ_ECM_FUNCIONARIO")
-	@Column(name = "ID_ECM_FUNCIONARIO")
+	@GeneratedValue(generator = "SEQ_ECM_COLABORADOR", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_COLABORADOR", name = "SEQ_ECM_COLABORADOR")
+	@Column(name = "ID_ECM_COLABORADOR")
 	private Long id;
 
 	@Column(length = 60, nullable = false)
@@ -68,11 +68,11 @@ public class Funcionario extends AbstractEntity implements Serializable {
 		this.nome = nome;
 	}
 
-	public Funcionario(String nome) {
+	public Colaborador(String nome) {
 		this.nome = nome;
 	}
 
-	public Funcionario() {
+	public Colaborador() {
 	}
 	
 	public String getMatricula() {
@@ -92,14 +92,14 @@ public class Funcionario extends AbstractEntity implements Serializable {
 	}
 
 	public boolean equals(Object o) {
-		if (o instanceof Funcionario && ((Funcionario) o).getId() == this.id)
+		if (o instanceof Colaborador && ((Colaborador) o).getId() == this.id)
 			return true;
 		else
 			return false;
 	}
 
-	public static Funcionario fromJsonToObject(String json) {
-		return new JSONDeserializer<Funcionario>().use(null, Funcionario.class)
+	public static Colaborador fromJsonToObject(String json) {
+		return new JSONDeserializer<Colaborador>().use(null, Colaborador.class)
 				.deserialize(json);
 	}
 
@@ -110,7 +110,7 @@ public class Funcionario extends AbstractEntity implements Serializable {
 						Date.class).serialize(this);
 	}
 
-	public static String toJsonArray(Collection<Funcionario> collection) {
+	public static String toJsonArray(Collection<Colaborador> collection) {
 		return new JSONSerializer().exclude("*.class").serialize(collection);
 	}
 
