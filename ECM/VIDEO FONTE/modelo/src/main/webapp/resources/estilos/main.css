@@ -932,3 +932,13 @@ a {
 	margin-top:0.8%;
 }
 
+#wizard {
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		background: #225588;
+		color: #fef9ee;
+		overflow: hidden;
+		border-top: 5px solid #D5DFE5;
+	}
+
