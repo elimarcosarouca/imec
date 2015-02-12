@@ -26,6 +26,7 @@
 		<ss:grid managedBean="#{setorControlador}">
 			
 			<ss2:column value="#{item.nome}" header="Nome" sortBy="nome" />
+			<ss2:column value="#{item.unidade.nome}" header="Unidade" sortBy="unidade.nome" />
 				
 		</ss:grid>
 
