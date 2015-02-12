@@ -6,28 +6,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.fucapi.ads.modelo.dominio.TipoDocumento;
+import br.fucapi.ads.modelo.dominio.Colaborador;
+import br.fucapi.ads.modelo.repositorio.ColaboradorRepositorio;
 import br.fucapi.ads.modelo.repositorio.GenericRepositorio;
-import br.fucapi.ads.modelo.repositorio.TipoDocumentoRepositorio;
-import br.fucapi.ads.modelo.servico.TipoDocumentoServico;
+import br.fucapi.ads.modelo.servico.ColaboradorServico;
 
 @Service
 @Transactional
-public class TipoDocumentoServicoImpl extends
-		GenericServico<TipoDocumento, Long> implements TipoDocumentoServico {
+public class ColaboradorServicoImpl extends GenericServico<Colaborador, Long>
+		implements ColaboradorServico {
 
 	private static final long serialVersionUID = -1380136082551143545L;
 
 	@Autowired
-	private TipoDocumentoRepositorio repositorio;
+	private ColaboradorRepositorio repositorio;
 
 	@Override
-	protected GenericRepositorio<TipoDocumento, Long> getDao() {
+	protected GenericRepositorio<Colaborador, Long> getDao() {
 		return repositorio;
 	}
 
 	@Override
-	public List<TipoDocumento> pesquisar(TipoDocumento entity) {
+	public List<Colaborador> pesquisar(Colaborador entity) {
 		return repositorio.pesquisar(entity);
 	}
+
 }
