@@ -39,9 +39,9 @@ public class VariavelPublicarDocumento extends Variavel {
 	
 	private Arquivo arquivoDoc;
 	
-	private Arquivo arquivoDocTarja;
+	private Arquivo arquivoControlado;
 	
-	private Arquivo arquivoPDF;
+	private Arquivo arquivoNaoControlado;
 	
 	private boolean possuiTarja;
 	
@@ -94,8 +94,8 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.emailAprovadores = new ArrayList<String>();
 		this.emailConcensos = new ArrayList<String>();
 		this.arquivoDoc = new Arquivo();
-		this.arquivoDocTarja = new Arquivo();
-		this.arquivoPDF = new Arquivo();
+		this.arquivoControlado = new Arquivo();
+		this.arquivoNaoControlado = new Arquivo();
 	}
 
 	public void tratarAtributos(List<Usuario> aprovadoresTarget, 
@@ -317,25 +317,25 @@ public class VariavelPublicarDocumento extends Variavel {
 	public Arquivo getArquivoDoc() {
 		return arquivoDoc;
 	}
+	
+	public Arquivo getArquivoControlado() {
+		return arquivoControlado;
+	}
+
+	public void setArquivoControlado(Arquivo arquivoControlado) {
+		this.arquivoControlado = arquivoControlado;
+	}
+
+	public Arquivo getArquivoNaoControlado() {
+		return arquivoNaoControlado;
+	}
+
+	public void setArquivoNaoControlado(Arquivo arquivoNaoControlado) {
+		this.arquivoNaoControlado = arquivoNaoControlado;
+	}
 
 	public void setArquivoDoc(Arquivo arquivoDoc) {
 		this.arquivoDoc = arquivoDoc;
-	}
-	
-	public Arquivo getArquivoDocTarja() {
-		return arquivoDocTarja;
-	}
-
-	public void setArquivoDocTarja(Arquivo arquivoDocTarja) {
-		this.arquivoDocTarja = arquivoDocTarja;
-	}
-
-	public Arquivo getArquivoPDF() {
-		return arquivoPDF;
-	}
-
-	public void setArquivoPDF(Arquivo arquivoPDF) {
-		this.arquivoPDF = arquivoPDF;
 	}
 
 	public boolean isPossuiTarja() {
@@ -455,8 +455,8 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("enviarConcensao", this.isEnviarConcensao());
 		
 		params.put("arquivoDoc", this.arquivoDoc);
-		params.put("arquivoDocTarja", this.arquivoDocTarja);
-		params.put("arquivoPDF", this.arquivoPDF);
+		params.put("arquivoControlado", this.arquivoControlado);
+		params.put("arquivoNaoControlado", this.arquivoNaoControlado);
 		
 		params.put("aprovadores", this.getAprovadores());
 		params.put("concensos", this.getConcensos());

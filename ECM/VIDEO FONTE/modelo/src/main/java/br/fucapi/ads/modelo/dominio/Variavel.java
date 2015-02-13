@@ -92,6 +92,8 @@ public class Variavel implements Serializable {
 			List<Variaveis> variaveisLista) {
 
 		for (Variaveis var : variaveisLista) {
+			
+			System.out.println(var.getName()+": "+var.getValue().toString());
 
 			if (var.getName().equals("sequencial") && var.getValue() != null) {
 				this.setSequencial(Integer.valueOf(var.getValue() != null ? var
