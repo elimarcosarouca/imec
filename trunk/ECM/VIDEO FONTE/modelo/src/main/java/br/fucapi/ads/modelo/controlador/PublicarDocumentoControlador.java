@@ -212,11 +212,11 @@ public class PublicarDocumentoControlador implements Serializable {
 			this.variaveis.getArquivoDoc().setNomeArquivo(
 					fileTempOriginal.getName());
 
-			Arquivo arquivoDoc = new Arquivo();
-			arquivoDoc.setNomeArquivo(fileTempOriginal.getName());
-			arquivoDoc.setFile(fileTempOriginal);
+			this.variaveis.setArquivoDoc(new Arquivo());
+			this.variaveis.getArquivoDoc().setNomeArquivo(fileTempOriginal.getName());
+			this.variaveis.getArquivoDoc().setFile(fileTempOriginal);
 
-			listaArquivos.add(arquivoDoc);
+			listaArquivos.add(this.variaveis.getArquivoDoc());
 
 			String extensao = FilenameUtils.getExtension(fileTempOriginal
 					.getName());
@@ -230,18 +230,15 @@ public class PublicarDocumentoControlador implements Serializable {
 					byte[] data = Files.readAllBytes(path);
 					byte[] pdf = algoritmo.converterDocumento(data);
 
-					Arquivo controlada = new Arquivo();
-					controlada.setNomeArquivo("copianaocontrolado.pdf");
-					controlada.setFile(Watermark.inserirTarja(pdf, false,
+					this.variaveis.getArquivoControlado().setNomeArquivo("copiacontrolado.pdf");
+					this.variaveis.getArquivoControlado().setFile(Watermark.inserirTarja(pdf, false,
 							pathMarcaDagua));
-					listaArquivos.add(controlada);
+					listaArquivos.add(this.variaveis.getArquivoControlado());
 
-					Arquivo naoControlada = new Arquivo();
-					naoControlada = new Arquivo();
-					naoControlada.setNomeArquivo("copiacontrolado.pdf");
-					naoControlada.setFile(Watermark.inserirTarja(pdf, true,
+					this.variaveis.getArquivoNaoControlado().setNomeArquivo("copianaocontrolado.pdf");
+					this.variaveis.getArquivoNaoControlado().setFile(Watermark.inserirTarja(pdf, true,
 							pathMarcaDagua));
-					listaArquivos.add(naoControlada);
+					listaArquivos.add(this.variaveis.getArquivoNaoControlado());
 
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -253,13 +250,13 @@ public class PublicarDocumentoControlador implements Serializable {
 		}
 
 		// Invoca o metodo para salvar os documentos no Alfresco
-		if (!listaArquivos.isEmpty()) {
-			this.saveArquivo(listaArquivos);
+		if (null != this.variaveis.getArquivoDoc().getFile()) {
+			this.saveArquivo();
 		}
 	}
 
 	// Metodo responsavel por salvar no repositorio Alfresco o Documento
-	public void saveArquivo(List<Arquivo> listaArquivos) {
+	public void saveArquivo() {
 
 		// Solucao temporaria
 		if (this.bpmswebproperties == null) {
@@ -274,19 +271,38 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		String nomePasta = "" + protocolo.getAno() + protocolo.getSequencial();
 
-		for (Arquivo arquivo : listaArquivos) {
+//		for (Arquivo arquivo : listaArquivos) {
 
-			if (arquivo.getFile() != null) {
+			if (this.variaveis.getArquivoDoc().getFile() != null) {
 				try {
 					String uuid;
 
+					//inseri o documento original
 					uuid = alfrescoServico.anexarArquivo(bpmswebproperties
 							.getProperty("uuid.parent.publicacao"), nomePasta,
 							"", this.descricao, this.usuarioLogado.getTicket(),
-							arquivo.getFile());
+							this.variaveis.getArquivoDoc().getFile());
 
-					arquivo.setUuid(uuid);
-					arquivo.setFile(null);
+					this.variaveis.getArquivoDoc().setUuid(uuid);
+					this.variaveis.getArquivoDoc().setFile(null);
+					
+					//inseri o documento controlado
+					uuid = alfrescoServico.anexarArquivo(bpmswebproperties
+							.getProperty("uuid.parent.publicacao"), nomePasta,
+							"", this.descricao, this.usuarioLogado.getTicket(),
+							this.variaveis.getArquivoControlado().getFile());
+
+					this.variaveis.getArquivoControlado().setUuid(uuid);
+					this.variaveis.getArquivoControlado().setFile(null);
+					
+					// inseri arquivo nao controlado
+					uuid = alfrescoServico.anexarArquivo(bpmswebproperties
+							.getProperty("uuid.parent.publicacao"), nomePasta,
+							"", this.descricao, this.usuarioLogado.getTicket(),
+							this.variaveis.getArquivoNaoControlado().getFile());
+
+					this.variaveis.getArquivoNaoControlado().setUuid(uuid);
+					this.variaveis.getArquivoNaoControlado().setFile(null);
 
 				} catch (HttpException e) {
 					e.printStackTrace();
@@ -294,11 +310,10 @@ public class PublicarDocumentoControlador implements Serializable {
 					e.printStackTrace();
 				}
 			} else {
-				FacesMessage message = new FacesMessage("warn", arquivo
-						.getFile().getName() + " is not uploaded.");
+				FacesMessage message = new FacesMessage("warn",  " Ocorreu um erro ao inserir o documento");
 				FacesContext.getCurrentInstance().addMessage(null, message);
 			}
-		}
+//		}
 	}
 
 	public void atualizarComboSetores() {
