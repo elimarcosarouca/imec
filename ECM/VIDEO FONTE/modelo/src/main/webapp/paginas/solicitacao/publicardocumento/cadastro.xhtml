@@ -50,21 +50,21 @@
 
 						<p:tab title="Geral" styleClass="wizard" titleStyle="wizard">
 							<h:panelGrid style="width:30%" columns="3" cellspacing="4">
-								<p:outputLabel value="Tipo de Documento: *"
+								<p:outputLabel value="Categoria *"
 									styleClass="ui-priority-primary" />
 								<p:outputLabel value="Unidade: *"
 									styleClass="ui-priority-primary" />
 								<p:outputLabel value="Setor: *" styleClass="ui-priority-primary" />
 
 								<p:selectOneMenu
-									value="#{publicarDocumentoControlador.variaveis.tipoDocumento}"
-									converter="tipoDocumentoConverter">
+									value="#{publicarDocumentoControlador.variaveis.categoria}"
+									converter="categoriaConverter">
 									<f:selectItem itemLabel="-- Selecione Um Item --" itemValue="" />
 									<f:selectItems
-										value="#{publicarDocumentoControlador.variaveis.tipoDocumentos}"
-										var="tipoDocumento"
-										itemLabel="#{tipoDocumento.sigla}-#{tipoDocumento.nome}"
-										itemValue="#{tipoDocumento}" />
+										value="#{publicarDocumentoControlador.variaveis.categorias}"
+										var="categoria"
+										itemLabel="#{categoria.sigla}-#{categoria.nome}"
+										itemValue="#{categoria}" />
 								</p:selectOneMenu>
 
 								<p:selectOneMenu required="true" id="unidade"
