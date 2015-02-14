@@ -37,6 +37,7 @@ public class PostoCopiaControlador extends ControladorGenerico<PostoCopia> {
 	
 	public void init(){
 		this.usuarios = alfrescoServico.getUsuarios();
+		this.setores = setorServico.listAll();
 	}
 
 	/**
