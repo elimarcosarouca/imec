@@ -74,6 +74,8 @@ public class TarefaControle implements Serializable {
 
 	private final String DETALHETAREFAPENDENTE = "paginas/tarefa/detalhe.xhtml";
 
+	private StreamedContent file;
+
 	private String parecer;
 
 	private boolean status;
@@ -399,16 +401,25 @@ public class TarefaControle implements Serializable {
 
 		}
 	}
+	
+	public void downloadArquivo() {
+		if (this.variaveis.getArquivoDoc() == null) {
+			FacesMessage msg = new FacesMessage(
+					"A solicitação não possui modelo anexado ", " ");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		} else {
 
-	public void SalvarPDF(final byte[] pdfAssinado, final String nomeArquivo)
-			throws IOException {
+			String nomeArquivo = this.variaveis.getArquivoDoc()
+					.getNomeArquivo();
+			String uuidArquivo = this.variaveis.getArquivoDoc().getUuid();
 
-		File file = new File("C:/assinatura" + getDateTime() + ".pdf");
-		FileOutputStream in = new FileOutputStream(file);
-		in.write(pdfAssinado);
-		in.close();
+			InputStream temp = alfrescoServico.baixarArquivo(nomeArquivo,
+					uuidArquivo);
+			file = new DefaultStreamedContent(temp, null, nomeArquivo);
 
+		}
 	}
+
 
 	public StreamedContent getFile(InputStream fPdf) {
 		return new DefaultStreamedContent(fPdf, "application/pdf", "DOCUMENTO_"
@@ -562,6 +573,14 @@ public class TarefaControle implements Serializable {
 
 	public void setTreinamentoRN(TreinamentoRN treinamentoRN) {
 		this.treinamentoRN = treinamentoRN;
+	}
+
+	public StreamedContent getFile() {
+		return file;
+	}
+
+	public void setFile(StreamedContent file) {
+		this.file = file;
 	}
 
 	public boolean getButtonReporvar() {
