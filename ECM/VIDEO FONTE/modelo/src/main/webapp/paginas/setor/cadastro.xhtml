@@ -20,11 +20,11 @@
 		<ss:input id="nome" label="Nome" required="true"
 			value="#{setorControlador.entidade.nome}" />
 			
-		<ss:autoComplete id="unidade" label="Unidade"
+		<ss:comboBox id="unidade" label="Unidade"
 			value="#{setorControlador.entidade.unidade}"
-			bean="#{setorControlador}" required="true"
-			completeMethod="listarUnidade" itemLabel="#{item.nome}" size="50"
-			width="600" />
+			 list="#{setorControlador.unidades}"			
+			required="true" foreignKey="true"
+			atributo="#{item.nome}" />
 
 	</ui:define>
 
