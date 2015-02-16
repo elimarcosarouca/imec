@@ -88,6 +88,17 @@
 					<p:commandButton ajax="false" immediate="true"
 						action="#{tarefaControle.detalhe(item)}" icon="ui-icon-newwin"
 						title="Detalhe" update=":form" />
+						
+					<p:commandButton ajax="false" immediate="true"
+						action="#{tarefaControle.detalhe(item)}" icon="ui-icon-newwin"
+						title="Detalhe" update=":form" />
+						
+					<p:commandButton id="download" value="Baixar Modelo" ajax="false"
+						actionListener="#{tarefaControle.downloadArquivo(item)}"
+						icon="ui-icon-document">
+						<p:fileDownload value="#{tarefaControle.file}" />
+					</p:commandButton>
+						
 				</p:column>
 
 				<f:facet name="footer">

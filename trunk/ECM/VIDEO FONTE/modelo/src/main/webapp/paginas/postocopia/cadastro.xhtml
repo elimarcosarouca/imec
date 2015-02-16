@@ -20,19 +20,19 @@
 		<ss:input id="nome" label="Nome" required="true"
 			value="#{postoCopiaControlador.entidade.nome}" />
 
-		<ss:autoComplete id="unidade" label="Setor"
+		<ss:comboBox id="setor" label="Setor"
 			value="#{postoCopiaControlador.entidade.setor}"
-			bean="#{postoCopiaControlador}" required="true"
-			completeMethod="listarSetor" itemLabel="#{item.nome}" size="50"
-			width="600" />
+			list="#{postoCopiaControlador.setores}"			
+			required="true" foreignKey="true"
+			atributo="#{item.nome}" />
 
-		<p:outputLabel for="city" value="Responsavel " />
-		<p:selectOneMenu id="city"
+		<p:outputLabel for="responsavel" value="Responsavel " />
+		<p:selectOneMenu id="responsavel"
 			value="#{postoCopiaControlador.entidade.loginResponsavel}"
 			effect="fold" editable="true">
 			<f:selectItem itemLabel="Select One" itemValue="" />
 			<f:selectItems value="#{postoCopiaControlador.usuarios}"
-				var="usuario" itemLabel="#{usuario.firstName} - #{usuario.lastName}" itemValue="#{usuario.userName}" />
+				var="usuario" itemLabel="#{usuario.firstName} #{usuario.lastName}" itemValue="#{usuario.userName}" />
 		</p:selectOneMenu>
 
 	</ui:define>
