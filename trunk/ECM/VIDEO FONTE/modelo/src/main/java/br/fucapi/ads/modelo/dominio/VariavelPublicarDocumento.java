@@ -389,6 +389,12 @@ public class VariavelPublicarDocumento extends Variavel {
 			} else if (var.getName().equals("gruposNotificar")) {
 				setGruposNotificar(var.getValue() != null ? (List<String>) var
 						.getValue() : null);
+				System.out.println(((Arquivo)var.getValue()).getUuid());
+				
+			} else if (var.getName().equals("arquivoDoc")) {
+				setArquivoDoc(var.getValue() != null ? (Arquivo) var
+						.getValue() : null);
+				System.out.println("#################################### "+((Arquivo)var.getValue()).getUuid());
 
 			} else if (var.getName().equals("concensos")) {
 				setConcensos(var.getValue() != null ? (List<String>) var
@@ -454,9 +460,9 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("publicacaoAutomatica", this.isPublicacaoAutomatica());
 		params.put("enviarConcensao", this.isEnviarConcensao());
 		
-		params.put("arquivoDoc", this.arquivoDoc);
-		params.put("arquivoControlado", this.arquivoControlado);
-		params.put("arquivoNaoControlado", this.arquivoNaoControlado);
+		params.put("arquivoDoc", this.getArquivoDoc());
+		params.put("arquivoControlado", this.getArquivoControlado());
+		params.put("arquivoNaoControlado", this.getArquivoNaoControlado());
 		
 		params.put("aprovadores", this.getAprovadores());
 		params.put("concensos", this.getConcensos());

@@ -394,6 +394,7 @@ public class PublicarDocumentoControlador implements Serializable {
 	public String salvarNovaSolicitacao() {
 
 		this.protocolo = protocoloServico.gerarProtocolo();
+		System.out.println(this.protocolo.toString());
 
 		/*
 		 * Trata a lista de aprovadores (login e email) e concensos (login e

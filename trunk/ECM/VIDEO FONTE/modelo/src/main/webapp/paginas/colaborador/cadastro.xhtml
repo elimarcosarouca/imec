@@ -22,12 +22,12 @@
 			
 		<ss:input id="matricula" label="Matrícula" required="true"
 			value="#{colaboradorControlador.entidade.matricula}" />
-
-		<ss:autoComplete id="postoCopia" label="Posto de Cópia"
+			
+		<ss:comboBox id="postoCopia" label="Posto de Cópia"
 			value="#{colaboradorControlador.entidade.postoCopia}"
-			bean="#{colaboradorControlador}" required="true"
-			completeMethod="listarPostoCopia" itemLabel="#{item.nome}" size="50"
-			width="600" />
+			 list="#{colaboradorControlador.postosCopia}"			
+			required="true" foreignKey="true"
+			atributo="#{item.nome}" />
 
 	</ui:define>
 

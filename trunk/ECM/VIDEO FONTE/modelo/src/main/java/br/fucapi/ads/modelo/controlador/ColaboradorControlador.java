@@ -2,6 +2,7 @@ package br.fucapi.ads.modelo.controlador;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -27,6 +28,14 @@ public class ColaboradorControlador extends ControladorGenerico<Colaborador> {
 	private PostoCopiaServico postoCopiaServico;
 
 	private String nomeRelatorio = "setor.jasper";
+	
+	@Override
+	@PostConstruct
+	public String novo(){
+		this.postosCopia = postoCopiaServico.listAll();
+		return super.novo();
+		
+	}
 
 	/**
 	 * Lista os Responsaveis - para a lista do auto-complete da tela de

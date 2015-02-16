@@ -54,7 +54,7 @@ public class PdfServlet extends GenericServlet {
                 if (ServletFileUpload.isMultipartContent(httpRequest)) {
                     List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(httpRequest);
                     for (FileItem item : items) {
-                        productSelection.SalvarPDF(IOUtils.toByteArray(item.getInputStream()), item.getName());
+                        //productSelection.SalvarPDF(IOUtils.toByteArray(item.getInputStream()), item.getName());
                     }
 
                 }

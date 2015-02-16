@@ -179,7 +179,7 @@ public class TarefaControle implements Serializable {
 			}
 
 			varTemp = new VariavelPublicarDocumento();
-			varTemp.converterListaVariaveisParaVariaveisProcesso(tarefaInstancia
+			varTemp.converterListaVariaveis(tarefaInstancia
 					.getVariables());
 			tarefaInstancia.setVariaveis(varTemp);
 		}
@@ -402,16 +402,15 @@ public class TarefaControle implements Serializable {
 		}
 	}
 	
-	public void downloadArquivo() {
+	public void downloadArquivo(TarefaInstancia tarefa) {
 		if (this.variaveis.getArquivoDoc() == null) {
 			FacesMessage msg = new FacesMessage(
 					"A solicitação não possui modelo anexado ", " ");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} else {
 
-			String nomeArquivo = this.variaveis.getArquivoDoc()
-					.getNomeArquivo();
-			String uuidArquivo = this.variaveis.getArquivoDoc().getUuid();
+			String nomeArquivo = ((VariavelPublicarDocumento)tarefa.getVariaveis()).getArquivoDoc().getNomeArquivo();
+			String uuidArquivo = ((VariavelPublicarDocumento)tarefa.getVariaveis()).getArquivoDoc().getUuid();
 
 			InputStream temp = alfrescoServico.baixarArquivo(nomeArquivo,
 					uuidArquivo);
