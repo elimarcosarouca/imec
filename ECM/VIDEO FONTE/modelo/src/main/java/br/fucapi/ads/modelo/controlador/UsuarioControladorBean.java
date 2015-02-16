@@ -64,6 +64,10 @@ public class UsuarioControladorBean implements Serializable {
 	private List<Usuario> usuarios;
 
 	private String token;
+	
+	private final String TELA_PESQUISA = "paginas/usuario/pesquisa.xhtml";
+	
+	private final String TELA_CADASTRO = "paginas/usuario/cadastro.xhtml";
 
 	// private String confirmaSenha;
 
@@ -275,11 +279,6 @@ public class UsuarioControladorBean implements Serializable {
 		usuarioLogServico.save(usuarioLog);
 	}
 
-	public void telaPesquisa() {
-		this.paginaCentralControladorBean
-				.setPaginaCentral("paginas/usuario/pesquisa.xhtml");
-	}
-
 	public String listarUsuarioNome() throws RemoteException {
 
 		if (this.usuario.getUserName() == null) {
@@ -292,7 +291,7 @@ public class UsuarioControladorBean implements Serializable {
 		paginaCentralControladorBean
 				.setPaginaCentral("paginas/usuario/pesquisa.xhtml");
 
-		return "";
+		return "paginas/usuario/pesquisa.xhtml?faces-redirect=true";
 	}
 
 	public String editar(Usuario usuario) {
@@ -345,7 +344,7 @@ public class UsuarioControladorBean implements Serializable {
 
 		paginaCentralControladorBean
 				.setPaginaCentral("paginas/usuario/cadastro.xhtml");
-		return "";
+		return "paginas/usuario/cadastro.xhtml?faces-redirect=true";
 
 	}
 
@@ -365,13 +364,15 @@ public class UsuarioControladorBean implements Serializable {
 
 		paginaCentralControladorBean
 				.setPaginaCentral("paginas/usuario/cadastro.xhtml");
-		return "";
+		return "paginas/usuario/cadastro.xhtml?faces-redirect=true";
 	}
 
-	public void cancelar() {
+	public String cancelar() {
 
 		paginaCentralControladorBean
 				.setPaginaCentral("paginas/usuario/pesquisa.xhtml");
+		
+		return "paginas/usuario/pesquisa.xhtml?faces-redirect=true";
 
 	}
 
@@ -533,6 +534,14 @@ public class UsuarioControladorBean implements Serializable {
 	// usuarioTokenServico) {
 	// this.usuarioTokenServico = usuarioTokenServico;
 	// }
+
+	public String telaPesquisa() {
+		return TELA_PESQUISA;
+	}
+
+	public String telaCadastro() {
+		return TELA_CADASTRO;
+	}
 
 	public Properties getAdsProperties() {
 		return adsProperties;
