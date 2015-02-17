@@ -61,6 +61,8 @@ import br.fucapi.bpms.alfresco.servico.AlfrescoServico;
 
 import com.sun.xml.ws.api.PropertySet.Property;
 
+import flexjson.JSONDeserializer;
+
 @ManagedBean
 @SessionScoped
 public class PublicarDocumentoControlador implements Serializable {
@@ -255,6 +257,13 @@ public class PublicarDocumentoControlador implements Serializable {
 		}
 	}
 
+	public static void main(String[] args) {
+		
+		String json = "{\"uuidPasta\":\"11111\",\"nodeRef\":\"2222\"}";
+		
+
+	}
+	
 	// Metodo responsavel por salvar no repositorio Alfresco o Documento
 	public void saveArquivo() {
 
@@ -275,35 +284,32 @@ public class PublicarDocumentoControlador implements Serializable {
 
 			if (this.variaveis.getArquivoDoc().getFile() != null) {
 				try {
-					String uuid;
+					String json;
 
 					//inseri o documento original
-					uuid = alfrescoServico.anexarArquivo(bpmswebproperties
+					json = alfrescoServico.anexarArquivo(bpmswebproperties
 							.getProperty("uuid.parent.publicacao"), nomePasta,
 							"", this.descricao, this.usuarioLogado.getTicket(),
 							this.variaveis.getArquivoDoc().getFile());
 
-					this.variaveis.getArquivoDoc().setUuid(uuid);
-					this.variaveis.getArquivoDoc().setFile(null);
+					this.deserializacaoReferenciaUUID(json, this.variaveis.getArquivoDoc());
 					
 					//inseri o documento controlado
-					uuid = alfrescoServico.anexarArquivo(bpmswebproperties
+					json = alfrescoServico.anexarArquivo(bpmswebproperties
 							.getProperty("uuid.parent.publicacao"), nomePasta,
 							"", this.descricao, this.usuarioLogado.getTicket(),
 							this.variaveis.getArquivoControlado().getFile());
-
-					this.variaveis.getArquivoControlado().setUuid(uuid);
-					this.variaveis.getArquivoControlado().setFile(null);
+					
+					this.deserializacaoReferenciaUUID(json, this.variaveis.getArquivoControlado());
 					
 					// inseri arquivo nao controlado
-					uuid = alfrescoServico.anexarArquivo(bpmswebproperties
+					json = alfrescoServico.anexarArquivo(bpmswebproperties
 							.getProperty("uuid.parent.publicacao"), nomePasta,
 							"", this.descricao, this.usuarioLogado.getTicket(),
 							this.variaveis.getArquivoNaoControlado().getFile());
 
-					this.variaveis.getArquivoNaoControlado().setUuid(uuid);
-					this.variaveis.getArquivoNaoControlado().setFile(null);
-
+					this.deserializacaoReferenciaUUID(json, this.variaveis.getArquivoNaoControlado());
+					
 				} catch (HttpException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -314,6 +320,15 @@ public class PublicarDocumentoControlador implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(null, message);
 			}
 //		}
+	}
+
+	private void deserializacaoReferenciaUUID(String json, Arquivo arquivo) {
+		Map<String, Map<String, Object>> deserialized = new JSONDeserializer<Map<String, Map<String, Object>>>()
+				.deserialize(json);
+		
+		arquivo.setUuid(deserialized.get("nodeRef")+"");
+		arquivo.setUuidPasta(deserialized.get("uuidPasta")+"");
+		arquivo.setFile(null);
 	}
 
 	public void atualizarComboSetores() {
