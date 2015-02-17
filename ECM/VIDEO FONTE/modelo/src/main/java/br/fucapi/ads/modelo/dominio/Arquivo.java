@@ -8,7 +8,6 @@ public class Arquivo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String uuid;
-	private String uuidPasta;
 	private File file;
 	private String processoId;
 	private String nomeArquivo;
@@ -19,14 +18,6 @@ public class Arquivo implements Serializable {
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
-	}
-
-	public String getUuidPasta() {
-		return uuidPasta;
-	}
-
-	public void setUuidPasta(String uuidPasta) {
-		this.uuidPasta = uuidPasta;
 	}
 
 	public File getFile() {

@@ -103,4 +103,8 @@ public class Setor extends AbstractEntity implements Serializable {
 		return new JSONSerializer().exclude("*.class").serialize(collection);
 	}
 
+	@Override
+	public String toString() {
+		return this.nome;
+	}
 }

@@ -43,12 +43,17 @@ public class VariavelPublicarDocumento extends Variavel {
 	
 	private Arquivo arquivoNaoControlado;
 	
+	private Arquivo arquivoObsoleto;
+	
 	private boolean possuiTarja;
 	
 	private boolean publicacaoAutomatica;
 	
 	private boolean enviarConcensao;
+	
+	private String alteracoes;
 
+	private String nomenclatura;
 
 	// dados da telas
 	private PostoCopia postoCopia;
@@ -96,6 +101,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.arquivoDoc = new Arquivo();
 		this.arquivoControlado = new Arquivo();
 		this.arquivoNaoControlado = new Arquivo();
+		this.arquivoObsoleto = new Arquivo();
 	}
 
 	public void tratarAtributos(List<Usuario> aprovadoresTarget, 
@@ -334,6 +340,14 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.arquivoNaoControlado = arquivoNaoControlado;
 	}
 
+	public Arquivo getArquivoObsoleto() {
+		return arquivoObsoleto;
+	}
+
+	public void setArquivoObsoleto(Arquivo arquivoObsoleto) {
+		this.arquivoObsoleto = arquivoObsoleto;
+	}
+
 	public void setArquivoDoc(Arquivo arquivoDoc) {
 		this.arquivoDoc = arquivoDoc;
 	}
@@ -360,6 +374,22 @@ public class VariavelPublicarDocumento extends Variavel {
 
 	public void setEnviarConcensao(boolean enviarConcensao) {
 		this.enviarConcensao = enviarConcensao;
+	}
+
+	public String getAlteracoes() {
+		return alteracoes;
+	}
+
+	public void setAlteracoes(String alteracoes) {
+		this.alteracoes = alteracoes;
+	}
+	
+	public String getNomenclatura() {
+		return nomenclatura;
+	}
+
+	public void setNomenclatura(String nomenclatura) {
+		this.nomenclatura = nomenclatura;
 	}
 
 	/**
@@ -437,6 +467,13 @@ public class VariavelPublicarDocumento extends Variavel {
 
 				}
 
+			} else if (var.getName().equals("alteracoes")
+					&& var.getValue() != null) {
+				this.setAlteracoes(var.getValue().toString());
+				
+			} else if (var.getName().equals("nomenclatura")
+					&& var.getValue() != null) {
+				this.setNomenclatura(var.getValue().toString());
 			}
 
 		}
@@ -463,6 +500,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("arquivoDoc", this.getArquivoDoc());
 		params.put("arquivoControlado", this.getArquivoControlado());
 		params.put("arquivoNaoControlado", this.getArquivoNaoControlado());
+		params.put("arquivoObsoleto", this.getArquivoObsoleto());
 		
 		params.put("aprovadores", this.getAprovadores());
 		params.put("concensos", this.getConcensos());
@@ -470,7 +508,12 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("categoria", this.getCategoria());
 		
 		if (null == this.getProtocoloOrigem())
-			params.put("protocoloOrigem", this.getProtocolo());
+			params.put("protocoloOrigem", this.getAno() + "" + this.getSequencial());
+		else 
+			params.put("protocoloOrigem", this.getProtocoloOrigem());
+
+		params.put("alteracoes", this.getAlteracoes());
+		params.put("nomenclatura", this.getNomenclatura());
 		
 		return params;
 	}

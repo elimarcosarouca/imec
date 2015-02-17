@@ -18,6 +18,7 @@ public class Variavel implements Serializable {
 	private String solicitante;
 	private String emailSolicitante;
 	private String statusProcesso;
+	private String uuidPasta;
 
 	private String protocolo;
 
@@ -79,6 +80,14 @@ public class Variavel implements Serializable {
 
 	public void setStatusProcesso(String statusProcesso) {
 		this.statusProcesso = statusProcesso;
+	}
+	
+	public String getUuidPasta() {
+		return uuidPasta;
+	}
+
+	public void setUuidPasta(String uuidPasta) {
+		this.uuidPasta = uuidPasta;
 	}
 
 	/**

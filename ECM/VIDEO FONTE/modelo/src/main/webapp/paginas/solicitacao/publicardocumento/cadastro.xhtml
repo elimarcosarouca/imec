@@ -94,6 +94,17 @@
 
 							<p />
 
+							<h:panelGrid columns="1">
+								<h:outputText value="Justificativa *"
+									styleClass="ui-priority-primary" />
+								<p:inputTextarea rows="3" cols="30"
+									value="#{publicarDocumentoControlador.variaveis.descricao}"
+									maxlength="255" style="width:450px" id="descricao"
+									autoResize="false" />
+							</h:panelGrid>
+
+							<p />
+
 							<h:panelGrid columns="2">
 								<p:outputLabel value="Data de Vencimento: *"
 									styleClass="ui-priority-primary" />
@@ -107,16 +118,6 @@
 									value="#{publicarDocumentoControlador.variaveis.notificarVencimento}" />
 							</h:panelGrid>
 
-							<p />
-
-							<h:panelGrid columns="1">
-								<h:outputText value="Descrição *"
-									styleClass="ui-priority-primary" />
-								<p:inputTextarea rows="3" cols="30"
-									value="#{publicarDocumentoControlador.variaveis.descricao}"
-									maxlength="255" style="width:450px" id="descricao"
-									autoResize="false" />
-							</h:panelGrid>
 						</p:tab>
 
 						<p:tab title="Elaboradores">
