@@ -147,6 +147,8 @@ public class PublicarDocumentoControlador implements Serializable {
 	private String TELA_CADASTRO = "/paginas/solicitacao/publicardocumento/cadastro.xhtml?faces-redirect=true";
 
 	private String TELA_DETALHE = "paginas/solicitacao/publicardocumento/detalhe.xhtml";
+	
+	private String TELA_REVISAO = "paginas/solicitacao/publicardocumento/revisar.xhtml";
 
 	private String TELA_DETALHE_TAREFA = "paginas/solicitacao/publicardocumento/detalhetarefa.xhtml";
 
@@ -241,6 +243,11 @@ public class PublicarDocumentoControlador implements Serializable {
 					this.variaveis.getArquivoNaoControlado().setFile(Watermark.inserirTarja(pdf, true,
 							pathMarcaDagua));
 					listaArquivos.add(this.variaveis.getArquivoNaoControlado());
+					
+					this.variaveis.getArquivoObsoleto().setNomeArquivo("copia-arquivo-obsoleto.pdf");
+					this.variaveis.getArquivoObsoleto().setFile(Watermark.inserirTarja(pdf, true,
+							pathMarcaDagua));
+					listaArquivos.add(this.variaveis.getArquivoObsoleto());
 
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -309,6 +316,14 @@ public class PublicarDocumentoControlador implements Serializable {
 							this.variaveis.getArquivoNaoControlado().getFile());
 
 					this.deserializacaoReferenciaUUID(json, this.variaveis.getArquivoNaoControlado());
+
+					// inseri arquivo obsoleto
+					json = alfrescoServico.anexarArquivo(bpmswebproperties
+							.getProperty("uuid.parent.publicacao"), nomePasta,
+							"", this.descricao, this.usuarioLogado.getTicket(),
+							this.variaveis.getArquivoObsoleto().getFile());
+
+					this.deserializacaoReferenciaUUID(json, this.variaveis.getArquivoObsoleto());
 					
 				} catch (HttpException e) {
 					e.printStackTrace();
@@ -327,7 +342,7 @@ public class PublicarDocumentoControlador implements Serializable {
 				.deserialize(json);
 		
 		arquivo.setUuid(deserialized.get("nodeRef")+"");
-		arquivo.setUuidPasta(deserialized.get("uuidPasta")+"");
+		this.variaveis.setUuidPasta(deserialized.get("uuidPasta")+"");
 		arquivo.setFile(null);
 	}
 
@@ -424,12 +439,7 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		this.variaveis.setSequencial(this.protocolo.getSequencial());
 		this.variaveis.setAno(this.protocolo.getAno());
-
-		if (null == this.variaveis.getProtocoloOrigem()
-				|| this.variaveis.getProtocoloOrigem().length() < 5) {
-			this.variaveis.setProtocoloOrigem(this.variaveis.getAno() + ""
-					+ this.variaveis.getSequencial());
-		}
+		this.variaveis.setSolicitante(this.usuarioLogado.getUserName());
 
 		// TODO - Realizacao de testes
 		this.activitiServico.iniciarInstanciaProcessoPorParametrosByKey(
@@ -498,6 +508,14 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		paginaCentralControladorBean.setPaginaCentral(this.TELA_DETALHE);
 
+	}
+	
+	public void revisar(ProcessoInstancia entity) {
+		
+		this.variaveis = (VariavelPublicarDocumento) entity.getVariaveis();
+		this.variaveis.setVersaoRevisao(this.incrementarVersao(this.variaveis.getProtocoloOrigem()));
+
+		paginaCentralControladorBean.setPaginaCentral(this.TELA_REVISAO);
 	}
 
 	public void telaPesquisa() {

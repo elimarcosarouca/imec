@@ -83,4 +83,8 @@ public class Unidade extends AbstractEntity implements Serializable {
 		return new JSONSerializer().exclude("*.class").serialize(this);
 	}
 
+	@Override
+	public String toString() {
+		return this.sigla + "-" + this.nome;
+	}
 }

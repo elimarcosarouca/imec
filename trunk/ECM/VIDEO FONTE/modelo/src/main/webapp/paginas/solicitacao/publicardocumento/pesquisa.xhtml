@@ -121,6 +121,11 @@
 								icon="ui-icon-image" update=":formImagem:panelImagem"
 								action="#{publicarDocumentoControlador.abrirImagemProcesso(item)}" />
 
+							<p:commandButton
+								action="#{publicarDocumentoControlador.revisar(item)}"
+								icon="ui-icon-newwin" title="Revisar"
+								styleClass="ui-priority-primary" update=":form" />
+
 						</p:column>
 
 						<f:facet name="footer">

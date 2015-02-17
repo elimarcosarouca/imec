@@ -907,7 +907,7 @@ public class ActivitiServicoImpl implements ActivitiServico {
 		List<HistoricProcessInstance> resultHistoricProcessInstance = query
 				.includeProcessVariables().list();
 
-		return resultHistoricProcessInstance.size() + 1;
+		return resultHistoricProcessInstance.size();
 
 	}
 
