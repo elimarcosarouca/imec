@@ -147,7 +147,7 @@ public class PublicarDocumentoControlador implements Serializable {
 	@ManagedProperty(value = "#{categoriaServicoImpl}")
 	private CategoriaServico categoriaServico;
 
-	private String TELA_PESQUISA = "paginas/solicitacao/pesquisa.xhtml?faces-redirect=true";
+	private String TELA_PESQUISA = "paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true";
 
 	private String TELA_CADASTRO = "/paginas/solicitacao/publicardocumento/cadastro.xhtml?faces-redirect=true";
 
@@ -426,7 +426,7 @@ public class PublicarDocumentoControlador implements Serializable {
 	 * Metodo responsavel por salvar uma nova solicitacao de treinamento no
 	 * activiti
 	 */
-	public void salvarNovaSolicitacao() {
+	public String salvarNovaSolicitacao() {
 
 		this.protocolo = protocoloServico.gerarProtocolo();
 		System.out.println(this.protocolo.toString());
@@ -470,7 +470,7 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		this.telaPesquisa();
 
-//		return "index.xhtml?faces-redirect=true";
+		return "index.xhtml?faces-redirect=true";
 	}
 
 	public void cancelar() {
