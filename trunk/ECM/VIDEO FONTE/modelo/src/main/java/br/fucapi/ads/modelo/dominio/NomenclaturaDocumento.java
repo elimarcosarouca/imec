@@ -23,16 +23,16 @@ import flexjson.transformer.DateTransformer;
  * 
  */
 @Entity
-@Table(name = "ECM_NOMECLATURA_DOCUMENTO")
-public class NomeclaturaDocumento extends AbstractEntity implements
+@Table(name = "ECM_NOMENCLATURA_DOCUMENTO")
+public class NomenclaturaDocumento extends AbstractEntity implements
 		Serializable {
 
 	private static final long serialVersionUID = 7516652276680517473L;
 
 	@Id
-	@GeneratedValue(generator = "SEQ_ECM_NOMECLATURA_DOCUMENTO", strategy = GenerationType.SEQUENCE)
-	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_NOMECLATURA_DOCUMENTO", name = "SEQ_ECM_NOMECLATURA_DOCUMENTO")
-	@Column(name = "ID_ECM_NOMECLATURA_DOCUMENTO")
+	@GeneratedValue(generator = "SEQ_ECM_NOMENCLATURA_DOCUMENTO", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_NOMENCLATURA_DOCUMENTO", name = "SEQ_ECM_NOMENCLATURA_DOCUMENTO")
+	@Column(name = "ID_ECM_NOMENCLATURA_DOCUMENTO")
 	private Long id;
 
 	@ManyToOne
@@ -58,7 +58,7 @@ public class NomeclaturaDocumento extends AbstractEntity implements
 		this.id = id;
 	}
 
-	public NomeclaturaDocumento() {
+	public NomenclaturaDocumento() {
 		super();
 	}
 
@@ -111,16 +111,16 @@ public class NomeclaturaDocumento extends AbstractEntity implements
 	}
 
 	public boolean equals(Object o) {
-		if (o instanceof NomeclaturaDocumento
-				&& ((NomeclaturaDocumento) o).getId() == this.id)
+		if (o instanceof NomenclaturaDocumento
+				&& ((NomenclaturaDocumento) o).getId() == this.id)
 			return true;
 		else
 			return false;
 	}
 
-	public static NomeclaturaDocumento fromJsonToObject(String json) {
-		return new JSONDeserializer<NomeclaturaDocumento>().use(null,
-				NomeclaturaDocumento.class).deserialize(json);
+	public static NomenclaturaDocumento fromJsonToObject(String json) {
+		return new JSONDeserializer<NomenclaturaDocumento>().use(null,
+				NomenclaturaDocumento.class).deserialize(json);
 	}
 
 	public String toJson() {
@@ -130,7 +130,7 @@ public class NomeclaturaDocumento extends AbstractEntity implements
 						Date.class).serialize(this);
 	}
 
-	public static String toJsonArray(Collection<NomeclaturaDocumento> collection) {
+	public static String toJsonArray(Collection<NomenclaturaDocumento> collection) {
 		return new JSONSerializer().exclude("*.class").serialize(collection);
 	}
 
