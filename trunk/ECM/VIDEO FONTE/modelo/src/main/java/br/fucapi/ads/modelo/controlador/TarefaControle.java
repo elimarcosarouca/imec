@@ -408,7 +408,7 @@ public class TarefaControle implements Serializable {
 			String nomeArquivo = ((VariavelPublicarDocumento)tarefa.getVariaveis()).getArquivoControlado().getNomeArquivo();
 			String uuidArquivo = ((VariavelPublicarDocumento)tarefa.getVariaveis()).getArquivoControlado().getUuid();
 
-			InputStream temp = alfrescoServico.baixarDocumento(nomeArquivo,
+			InputStream temp = alfrescoServico.baixarArquivo(nomeArquivo,
 					uuidArquivo);
 			file = new DefaultStreamedContent(temp, null, nomeArquivo);
 
