@@ -692,6 +692,9 @@ public class PublicarDocumentoControlador implements Serializable {
 	}
 
 	public void abrirImagemProcesso(ProcessoInstancia entity) {
+		this.variaveis = (VariavelPublicarDocumento) entity.getVariaveis();
+		processoInstancia = entity;
+		setImagem(null);
 		setImagem(activitiServico.getProcessoDiagrama(entity.getId()));
 	}
 
