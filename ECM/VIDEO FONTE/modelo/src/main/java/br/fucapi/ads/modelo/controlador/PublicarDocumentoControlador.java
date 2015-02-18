@@ -35,6 +35,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import br.com.jm.conversor.pdf.ConversaoParaPDF;
 import br.com.jm.conversor.pdf.office.ConversaoAPartirDeTextoOffice;
 import br.fucapi.ads.modelo.dominio.Arquivo;
+import br.fucapi.ads.modelo.dominio.NomeclaturaDocumento;
 import br.fucapi.ads.modelo.dominio.PostoCopia;
 import br.fucapi.ads.modelo.dominio.Protocolo;
 import br.fucapi.ads.modelo.dominio.Setor;
@@ -43,6 +44,7 @@ import br.fucapi.ads.modelo.dominio.VariaveisTreinamento;
 import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
 import br.fucapi.ads.modelo.regranegocio.TreinamentoRN;
 import br.fucapi.ads.modelo.servico.CategoriaServico;
+import br.fucapi.ads.modelo.servico.NomeclaturaDocumentoServico;
 import br.fucapi.ads.modelo.servico.PostoCopiaServico;
 import br.fucapi.ads.modelo.servico.ProtocoloServico;
 import br.fucapi.ads.modelo.servico.SetorServico;
@@ -138,6 +140,9 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	@ManagedProperty(value = "#{setorServicoImpl}")
 	private SetorServico setorServico;
+	
+	@ManagedProperty(value = "#{nomeclaturaDocumentoServicoImpl}")
+	private NomeclaturaDocumentoServico nomeclaturaDocumentoServico;
 
 	@ManagedProperty(value = "#{categoriaServicoImpl}")
 	private CategoriaServico categoriaServico;
@@ -1059,6 +1064,15 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	public void setListaHistorico(List<ProcessoInstancia> listaHistorico) {
 		this.listaHistorico = listaHistorico;
+	}
+
+	public NomeclaturaDocumentoServico getNomeclaturaDocumentoServico() {
+		return nomeclaturaDocumentoServico;
+	}
+
+	public void setNomeclaturaDocumentoServico(
+			NomeclaturaDocumentoServico nomeclaturaDocumentoServico) {
+		this.nomeclaturaDocumentoServico = nomeclaturaDocumentoServico;
 	}
 
 }

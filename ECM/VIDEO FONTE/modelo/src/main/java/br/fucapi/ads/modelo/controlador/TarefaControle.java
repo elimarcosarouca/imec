@@ -2,7 +2,6 @@ package br.fucapi.ads.modelo.controlador;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -98,9 +97,6 @@ public class TarefaControle implements Serializable {
 
 	@ManagedProperty(value = "#{paginaCentralControladorBean}")
 	private PaginaCentralControladorBean paginaCentralControladorBean;
-
-	// private VariaveisTreinamento variaveisTreinamento = new
-	// VariaveisTreinamento();
 
 	private VariavelPublicarDocumento variaveis;
 
@@ -409,16 +405,15 @@ public class TarefaControle implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} else {
 
-			String nomeArquivo = ((VariavelPublicarDocumento)tarefa.getVariaveis()).getArquivoDoc().getNomeArquivo();
-			String uuidArquivo = ((VariavelPublicarDocumento)tarefa.getVariaveis()).getArquivoDoc().getUuid();
+			String nomeArquivo = ((VariavelPublicarDocumento)tarefa.getVariaveis()).getArquivoControlado().getNomeArquivo();
+			String uuidArquivo = ((VariavelPublicarDocumento)tarefa.getVariaveis()).getArquivoControlado().getUuid();
 
-			InputStream temp = alfrescoServico.baixarArquivo(nomeArquivo,
+			InputStream temp = alfrescoServico.baixarDocumento(nomeArquivo,
 					uuidArquivo);
 			file = new DefaultStreamedContent(temp, null, nomeArquivo);
 
 		}
 	}
-
 
 	public StreamedContent getFile(InputStream fPdf) {
 		return new DefaultStreamedContent(fPdf, "application/pdf", "DOCUMENTO_"
