@@ -35,7 +35,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import br.com.jm.conversor.pdf.ConversaoParaPDF;
 import br.com.jm.conversor.pdf.office.ConversaoAPartirDeTextoOffice;
 import br.fucapi.ads.modelo.dominio.Arquivo;
-import br.fucapi.ads.modelo.dominio.NomeclaturaDocumento;
+import br.fucapi.ads.modelo.dominio.NomenclaturaDocumento;
 import br.fucapi.ads.modelo.dominio.PostoCopia;
 import br.fucapi.ads.modelo.dominio.Protocolo;
 import br.fucapi.ads.modelo.dominio.Setor;
@@ -44,7 +44,7 @@ import br.fucapi.ads.modelo.dominio.VariaveisTreinamento;
 import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
 import br.fucapi.ads.modelo.regranegocio.TreinamentoRN;
 import br.fucapi.ads.modelo.servico.CategoriaServico;
-import br.fucapi.ads.modelo.servico.NomeclaturaDocumentoServico;
+import br.fucapi.ads.modelo.servico.NomenclaturaDocumentoServico;
 import br.fucapi.ads.modelo.servico.PostoCopiaServico;
 import br.fucapi.ads.modelo.servico.ProtocoloServico;
 import br.fucapi.ads.modelo.servico.SetorServico;
@@ -142,7 +142,7 @@ public class PublicarDocumentoControlador implements Serializable {
 	private SetorServico setorServico;
 	
 	@ManagedProperty(value = "#{nomeclaturaDocumentoServicoImpl}")
-	private NomeclaturaDocumentoServico nomeclaturaDocumentoServico;
+	private NomenclaturaDocumentoServico nomenclaturaDocumentoServico;
 
 	@ManagedProperty(value = "#{categoriaServicoImpl}")
 	private CategoriaServico categoriaServico;
@@ -1066,13 +1066,13 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.listaHistorico = listaHistorico;
 	}
 
-	public NomeclaturaDocumentoServico getNomeclaturaDocumentoServico() {
-		return nomeclaturaDocumentoServico;
+	public NomenclaturaDocumentoServico getNomenclaturaDocumentoServico() {
+		return nomenclaturaDocumentoServico;
 	}
 
-	public void setNomeclaturaDocumentoServico(
-			NomeclaturaDocumentoServico nomeclaturaDocumentoServico) {
-		this.nomeclaturaDocumentoServico = nomeclaturaDocumentoServico;
+	public void setNomenclaturaDocumentoServico(
+			NomenclaturaDocumentoServico nomenclaturaDocumentoServico) {
+		this.nomenclaturaDocumentoServico = nomenclaturaDocumentoServico;
 	}
 
 }
