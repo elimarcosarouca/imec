@@ -21,8 +21,7 @@
 			access="hasAnyRole('ROLE_ALFRESCO_ADMINISTRATORS')" />
 		<intercept-url pattern="/pages/**"
 			access="hasAnyRole('ROLE_ALFRESCO_ADMINISTRATORS')" />
-		<form-login login-page="/login.xhtml" default-target-url="/index.xhtml" />
-		
+		<form-login login-page="/login.xhtml" default-target-url="/paginas/categoria/pesquisa.xhtml" />
 		
 	</http>
 
