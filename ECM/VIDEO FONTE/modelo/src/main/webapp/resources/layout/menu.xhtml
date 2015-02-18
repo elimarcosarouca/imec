@@ -12,7 +12,7 @@
 	
 		<p:menubar class="menu">
 			<p:submenu label="Solicitacao" icon="ui-icon-document">
-				<p:menuitem value="Processo" url="/paginas/solicitacao/publicardocumento/cadastro.xhtml?faces-redirect=true" icon="ui-icon-arrowreturnthick-1-w" />
+				<p:menuitem value="Pesquisar WorkFlow" url="/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true" icon="ui-icon-arrowreturnthick-1-w" />
 				<p:separator />
 				<p:menuitem value="Tarefas" url="/paginas/solicitacao/publicardocumento/teste.xhtml?faces-redirect=true" icon="ui-icon-arrowreturnthick-1-w" />
 			</p:submenu>
@@ -27,7 +27,7 @@
 
 			<f:facet name="options"  class="menu">
 				<p:menuButton value="#{sessaoControladorBean.usuario.userName}" class="menu">
-				<p:menuitem value="Teste" url="/paginas/usuario/pesquisa.xhtml?faces-redirect=true" icon="ui-icon-arrowreturnthick-1-w" />
+				<p:menuitem value="Teste" url="/paginas/novo/pesquisa.xhtml?faces-redirect=true" icon="ui-icon-arrowreturnthick-1-w" />
 				<p:menuitem value="Usuário" rendered="#{pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
 					icon="ui-icon-person" action="#{usuarioControladorBean.telaPesquisa()}" update=":form"/>
 				<p:menuitem value="Grupo" rendered="#{pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
