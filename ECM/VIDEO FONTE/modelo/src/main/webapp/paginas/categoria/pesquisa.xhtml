@@ -24,11 +24,10 @@
 
 	<ui:define name="grid_region">
 
-		<ss:grid managedBean="#{categoriaControlador}">
+		<ss:grid managedBean="#{categoriaControlador}" >
 
 			<ss2:column value="#{item.nome}" header="Nome" sortBy="nome" />
 			<ss2:column value="#{item.sigla}" header="Sigla" sortBy="sigla" />
-
 		</ss:grid>
 
 	</ui:define>
