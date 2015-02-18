@@ -481,7 +481,33 @@ public class VariavelPublicarDocumento extends Variavel {
 			} else if (var.getName().equals("nomenclatura")
 					&& var.getValue() != null) {
 				this.setNomenclatura(var.getValue().toString());
-			}
+				
+			} else if (var.getName().equals("categoria")
+					&& var.getValue() != null) {
+				
+				setCategoria(var.getValue() != null ? (Categoria) var
+						.getValue() : null);
+			
+			} else if (var.getName().equals("unidade")
+					&& var.getValue() != null) {
+				
+				setUnidade(var.getValue() != null ? (Unidade) var
+						.getValue() : null);
+			
+			} else if (var.getName().equals("setor")
+					&& var.getValue() != null) {
+				
+				setSetor(var.getValue() != null ? (Setor) var
+						.getValue() : null);
+			} else if (var.getName().equals("dataVencimento")
+					&& var.getValue() != null) {
+				this.setDataVencimento(new Date(var.getValue().toString()));
+				
+			} else if (var.getName().equals("dataNotificacao")
+					&& var.getValue() != null) {
+				
+				this.setDataNotificacao(new Date(var.getValue().toString()));
+			}	
 
 		}
 	}
@@ -513,6 +539,8 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("concensos", this.getConcensos());
 		params.put("elaboradores", this.getElaboradores());
 		params.put("categoria", this.getCategoria());
+		params.put("unidade", this.getUnidade());
+		params.put("setor", this.getSetor());
 		
 		if (null == this.getProtocoloOrigem())
 			params.put("protocoloOrigem", this.getAno() + "" + this.getSequencial());
@@ -521,6 +549,9 @@ public class VariavelPublicarDocumento extends Variavel {
 
 		params.put("alteracoes", this.getAlteracoes());
 		params.put("nomenclatura", this.getNomenclatura());
+		
+		params.put("dataVencimento", this.getDataNotificacao());
+		params.put("dataNotificacao", this.getDataNotificacao());
 		
 		return params;
 	}

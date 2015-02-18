@@ -103,10 +103,4 @@ public class Categoria extends AbstractEntity implements Serializable {
 	public static String toJsonArray(Collection<Categoria> collection) {
 		return new JSONSerializer().exclude("*.class").serialize(collection);
 	}
-	
-	@Override
-	public String toString() {
-		return this.sigla + "-" + this.nome;
-	}
-
 }

@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -50,8 +51,13 @@ import br.fucapi.bpms.activiti.servico.ActivitiServico;
 import br.fucapi.bpms.activiti.util.DataUtil;
 
 @Service("activitiServicoImpl")
-public class ActivitiServicoImpl implements ActivitiServico {
+public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2691466800072077335L;
+
 	private final String CONTENT_TYPE="application/json; charset=utf-8";
 
 	@Autowired
