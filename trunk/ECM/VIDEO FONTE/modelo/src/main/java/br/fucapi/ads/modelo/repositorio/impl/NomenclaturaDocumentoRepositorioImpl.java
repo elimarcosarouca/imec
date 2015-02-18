@@ -8,18 +8,18 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
-import br.fucapi.ads.modelo.dominio.NomeclaturaDocumento;
-import br.fucapi.ads.modelo.repositorio.NomeclaturaDocumentoRepositorio;
+import br.fucapi.ads.modelo.dominio.NomenclaturaDocumento;
+import br.fucapi.ads.modelo.repositorio.NomenclaturaDocumentoRepositorio;
 
 @Repository
 @SuppressWarnings("unchecked")
-public class NomeclaturaDocumentoRepositorioImpl extends
-		GenericRepositorioImpl<NomeclaturaDocumento, Long> implements
-		NomeclaturaDocumentoRepositorio {
+public class NomenclaturaDocumentoRepositorioImpl extends
+		GenericRepositorioImpl<NomenclaturaDocumento, Long> implements
+		NomenclaturaDocumentoRepositorio {
 
 	@Override
-	public List<NomeclaturaDocumento> pesquisar(
-			NomeclaturaDocumento abstractEntity) {
+	public List<NomenclaturaDocumento> pesquisar(
+			NomenclaturaDocumento abstractEntity) {
 		StringBuilder sb = new StringBuilder();
 		List<String> condictions = new ArrayList<String>();
 
@@ -34,17 +34,17 @@ public class NomeclaturaDocumentoRepositorioImpl extends
 	}
 
 	@Override
-	public NomeclaturaDocumento pegarSequencial(
-			NomeclaturaDocumento abstractEntity) {
+	public NomenclaturaDocumento pegarSequencial(
+			NomenclaturaDocumento abstractEntity) {
 
 		StringBuilder sb = new StringBuilder();
 		List<String> condictions = new ArrayList<String>();
 		
-		NomeclaturaDocumento nomeclaturaDocumento = new NomeclaturaDocumento();
+		NomenclaturaDocumento nomeclaturaDocumento = new NomenclaturaDocumento();
 
-		sb.append(" select est from NomeclaturaDocumento est ");
+		sb.append(" select est from NomenclaturaDocumento est ");
 
-		/*if (notEmpty(abstractEntity.getCategoria())) {
+		if (notEmpty(abstractEntity.getCategoria())) {
 			condictions.add(" est.categoria =:categoria ");
 		}
 
@@ -54,14 +54,14 @@ public class NomeclaturaDocumentoRepositorioImpl extends
 
 		if (notEmpty(abstractEntity.getUnidade())) {
 			condictions.add(" est.unidade =:unidade ");
-		}*/
+		}
 
 		String orderBy = " order by est.id";
 
 		Query query = entityManager.createQuery(generateHql(sb.toString(),
 				condictions) + orderBy);
 		
-		/*if (notEmpty(abstractEntity.getCategoria())) {
+		if (notEmpty(abstractEntity.getCategoria())) {
 			query.setParameter("categoria", abstractEntity.getCategoria());
 		}
 		if (notEmpty(abstractEntity.getSetor())) {
@@ -69,11 +69,11 @@ public class NomeclaturaDocumentoRepositorioImpl extends
 		}
 		if (notEmpty(abstractEntity.getUnidade())) {
 			query.setParameter("unidade", abstractEntity.getUnidade());
-		}*/
+		}
 		
 		try {
 			
-			return (NomeclaturaDocumento) query.getSingleResult();
+			return (NomenclaturaDocumento) query.getSingleResult();
 			
 		} catch (NoResultException e) {
 			abstractEntity.setSequencial(1);
