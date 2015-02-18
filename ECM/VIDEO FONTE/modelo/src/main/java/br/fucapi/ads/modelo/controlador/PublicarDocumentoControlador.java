@@ -141,7 +141,7 @@ public class PublicarDocumentoControlador implements Serializable {
 	@ManagedProperty(value = "#{setorServicoImpl}")
 	private SetorServico setorServico;
 	
-	@ManagedProperty(value = "#{nomeclaturaDocumentoServicoImpl}")
+	@ManagedProperty(value = "#{nomenclaturaDocumentoServicoImpl}")
 	private NomenclaturaDocumentoServico nomenclaturaDocumentoServico;
 
 	@ManagedProperty(value = "#{categoriaServicoImpl}")
@@ -446,7 +446,14 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.variaveis.setAno(this.protocolo.getAno());
 		this.variaveis.setSolicitante(this.usuarioLogado.getUserName());
 
-		// TODO - Realizacao de testes
+		// Bloco para setar Nomenclatura
+		NomenclaturaDocumento nomenclatura = new NomenclaturaDocumento();
+		nomenclatura.setUnidade(this.variaveis.getUnidade());
+		nomenclatura.setCategoria(this.variaveis.getCategoria());
+		nomenclatura.setSetor(this.variaveis.getSetor());
+		this.nomenclaturaDocumentoServico.pegarSequencial(nomenclatura);
+		this.variaveis.setNomenclatura(nomenclatura.toString());
+		
 		this.activitiServico.iniciarInstanciaProcessoPorParametrosByKey(
 				variaveis.getPUBLICAR_DOCUMENTO(), this.protocolo.toString(),
 				variaveis.converterVariaveis());

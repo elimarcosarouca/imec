@@ -32,22 +32,21 @@
 
 						<p:tab title="Geral" styleClass="wizard" titleStyle="wizard">
 							
-							<h:panelGrid style="width:30%" columns="3" cellspacing="4">
-								<p:outputLabel value="Nome: #{publicarDocumentoControlador.variaveis.arquivoDoc.nomeArquivo}"
-									styleClass="ui-priority-primary" />
-								<p:outputLabel value="Nomenclatura: #{publicarDocumentoControlador.variaveis.nomenclatura}"
-									styleClass="ui-priority-primary" />
+							<h:panelGrid style="width:30%" columns="5" cellspacing="4">
+								<h:outputLabel value="Nome: " styleClass="ui-priority-primary" />
+								<h:outputLabel value="Nomenclatura: " styleClass="ui-priority-primary" />
+								<h:outputLabel value="Categoria: " styleClass="ui-priority-primary" />
+								<h:outputLabel value="Unidade: " styleClass="ui-priority-primary" />
+								<h:outputLabel value="Setor: " styleClass="ui-priority-primary" />
+							
+								<p:inputText id="nomeDocumento" disabled="true" value="#{publicarDocumentoControlador.variaveis.arquivoDoc.nomeArquivo}"/>
+								<p:inputText id="nomenclatura" disabled="true" value="#{publicarDocumentoControlador.variaveis.nomenclatura}"/>
+								<p:inputText id="categoria" disabled="true" value="#{publicarDocumentoControlador.variaveis.categoria.sigla} - #{publicarDocumentoControlador.variaveis.categoria.nome}"/>
+								<p:inputText id="unidade" disabled="true" value="#{publicarDocumentoControlador.variaveis.unidade.sigla} - #{publicarDocumentoControlador.variaveis.unidade.nome}"/>
+								<p:inputText id="setor" disabled="true" value="#{publicarDocumentoControlador.variaveis.setor.nome}"/>
+
 							</h:panelGrid>
 							
-							<h:panelGrid style="width:30%" columns="3" cellspacing="4">
-								<p:outputLabel value="Categoria: #{publicarDocumentoControlador.variaveis.categoria}"
-									styleClass="ui-priority-primary" />
-								<p:outputLabel value="Unidade: #{publicarDocumentoControlador.variaveis.unidade}"
-									styleClass="ui-priority-primary" />
-								<p:outputLabel value="Setor: #{publicarDocumentoControlador.variaveis.setor}"
-									styleClass="ui-priority-primary" />
-							</h:panelGrid>
-
 							<p />
 
 							<h:panelGrid columns="1">
