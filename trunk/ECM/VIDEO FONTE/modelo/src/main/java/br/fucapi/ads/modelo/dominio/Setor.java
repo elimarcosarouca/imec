@@ -40,6 +40,9 @@ public class Setor extends AbstractEntity implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "ID_ECM_UNIDADE", nullable=false)
 	private Unidade unidade;
+	
+	@Column(length = 4, nullable = false, unique = true)
+	private String sigla;
 
 	public Long getId() {
 		return id;
@@ -75,6 +78,14 @@ public class Setor extends AbstractEntity implements Serializable {
 
 	public Setor(String nome) {
 		this.nome = nome;
+	}
+
+	public String getSigla() {
+		return sigla;
+	}
+
+	public void setSigla(String sigla) {
+		this.sigla = sigla;
 	}
 
 	public Setor() {

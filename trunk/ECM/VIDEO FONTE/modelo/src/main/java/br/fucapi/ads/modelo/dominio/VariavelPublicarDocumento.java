@@ -424,7 +424,14 @@ public class VariavelPublicarDocumento extends Variavel {
 			} else if (var.getName().equals("arquivoDoc")) {
 				setArquivoDoc(var.getValue() != null ? (Arquivo) var
 						.getValue() : null);
-				System.out.println("#################################### "+((Arquivo)var.getValue()).getUuid());
+				
+			} else if (var.getName().equals("arquivoControlado")) {
+				setArquivoControlado(var.getValue() != null ? (Arquivo) var
+						.getValue() : null);
+				
+			} else if (var.getName().equals("arquivoNaoControlado")) {
+				setArquivoNaoControlado(var.getValue() != null ? (Arquivo) var
+						.getValue() : null);
 
 			} else if (var.getName().equals("concensos")) {
 				setConcensos(var.getValue() != null ? (List<String>) var
