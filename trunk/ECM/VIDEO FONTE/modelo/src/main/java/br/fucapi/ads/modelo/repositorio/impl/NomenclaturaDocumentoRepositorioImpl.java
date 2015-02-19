@@ -23,7 +23,7 @@ public class NomenclaturaDocumentoRepositorioImpl extends
 		StringBuilder sb = new StringBuilder();
 		List<String> condictions = new ArrayList<String>();
 
-		sb.append(" select est from NomeclaturaDocumento est ");
+		sb.append(" select est from NomenclaturaDocumento est ");
 
 		String orderBy = " order by est.id";
 
@@ -72,8 +72,11 @@ public class NomenclaturaDocumentoRepositorioImpl extends
 		}
 		
 		try {
+			nomeclaturaDocumento = (NomenclaturaDocumento) query.getSingleResult();
+			nomeclaturaDocumento.setSequencial(nomeclaturaDocumento.getSequencial() + 1);
+			this.saveOrUpdate(nomeclaturaDocumento);
 			
-			return (NomenclaturaDocumento) query.getSingleResult();
+			return nomeclaturaDocumento;
 			
 		} catch (NoResultException e) {
 			abstractEntity.setSequencial(1);
