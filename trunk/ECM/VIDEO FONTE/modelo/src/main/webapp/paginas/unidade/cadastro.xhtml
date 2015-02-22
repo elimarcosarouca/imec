@@ -18,10 +18,10 @@
 	<ui:define name="register_region">
 
 		<ss:input id="nome" label="Nome" required="true"
-			value="#{unidadeControlador.entidade.nome}" />
+			value="#{unidadeControlador.entidade.nome}" maxlength="30"/>
 
 		<ss:input id="nomeSigla" label="Sigla" required="true"
-			value="#{unidadeControlador.entidade.sigla}" />
+			value="#{unidadeControlador.entidade.sigla}" maxlength="4"/>
 
 	</ui:define>
 

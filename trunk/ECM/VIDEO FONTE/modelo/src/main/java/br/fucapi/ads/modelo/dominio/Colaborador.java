@@ -34,10 +34,10 @@ public class Colaborador extends AbstractEntity implements Serializable {
 	@Column(name = "ID_ECM_COLABORADOR")
 	private Long id;
 
-	@Column(length = 60, nullable = false)
+	@Column(length = 50, nullable = false)
 	private String nome;
 	
-	@Column(length = 30, nullable = false, unique = true)
+	@Column(length = 10, nullable = false, unique = true)
 	private String matricula;
 	
 	@ManyToOne

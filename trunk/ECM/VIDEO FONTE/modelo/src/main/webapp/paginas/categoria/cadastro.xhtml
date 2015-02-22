@@ -17,9 +17,9 @@
 
 	<ui:define name="register_region">
 	
-		<ss:input id="nome" label="Nome" required="true" value="#{categoriaControlador.entidade.nome}" /> 
+		<ss:input id="nome" label="Nome" required="true" value="#{categoriaControlador.entidade.nome}" maxlength="30"/> 
 		
-		<ss:input id="siglas" label="Sigla" required="true" value="#{categoriaControlador.entidade.sigla}" />
+		<ss:input id="siglas" label="Sigla" required="true" value="#{categoriaControlador.entidade.sigla}" maxlength="4"/>
 		
 		<ss:checkBox id="possuiTarja" label="Tarja Obrigatória ?" required="true" value="#{categoriaControlador.entidade.possuiTarja}" />
 		
