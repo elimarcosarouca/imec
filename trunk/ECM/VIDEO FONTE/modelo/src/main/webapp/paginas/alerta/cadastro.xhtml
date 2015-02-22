@@ -18,6 +18,11 @@
 	<ui:define name="register_region">
 	
 		<ss:input id="protocolo" label="Protocolo" required="true" value="#{alertaControlador.entidade.protocolo}" /> 
+		<ss:input id="solicitante" label="Solicitante" required="true" value="#{alertaControlador.entidade.solicitante}" />
+		<ss:input type="date" id="dataAlerta" label="Data de Alerta" required="true" value="#{alertaControlador.entidade.dataAlerta}" />
+		<ss:input type="date" id="dataCadastro" label="Data de Cadastro" required="true" value="#{alertaControlador.entidade.dataCadastro}" />
+		<ss:input type="date" id="dataConclusao" label="Data de Conclusão" required="true" value="#{alertaControlador.entidade.dataConclusao}" />
+		<ss:input type="date" id="dataVencimento" label="Data de Vencimento" required="true" value="#{alertaControlador.entidade.dataVencimento}" />
 		
 	</ui:define>
 	
