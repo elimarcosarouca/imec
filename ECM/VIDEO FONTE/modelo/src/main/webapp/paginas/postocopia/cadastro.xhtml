@@ -18,7 +18,7 @@
 	<ui:define name="register_region">
 
 		<ss:input id="nome" label="Nome" required="true"
-			value="#{postoCopiaControlador.entidade.nome}" />
+			value="#{postoCopiaControlador.entidade.nome}" maxlength="30"/>
 
 		<ss:comboBox id="setor" label="Setor"
 			value="#{postoCopiaControlador.entidade.setor}"
