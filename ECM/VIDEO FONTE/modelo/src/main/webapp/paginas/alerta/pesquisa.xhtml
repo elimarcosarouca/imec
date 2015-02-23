@@ -27,6 +27,8 @@
 		<ss:grid managedBean="#{alertaControlador}" >
 		
 			<ss2:column value="#{item.protocolo}" header="Protocolo" sortBy="protocolo" />
+			<ss2:column value="#{item.solicitante}" header="Solicitante" sortBy="solicitante" />
+			<ss2:column value="#{item.dataAlerta}" type="date" header="Alerta" sortBy="dataAlerta" />
 			
 		</ss:grid>
 
