@@ -44,6 +44,7 @@ import br.fucapi.ads.modelo.dominio.UUIDNodeRef;
 import br.fucapi.ads.modelo.dominio.VariaveisTreinamento;
 import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
 import br.fucapi.ads.modelo.regranegocio.TreinamentoRN;
+import br.fucapi.ads.modelo.servico.AlertaServico;
 import br.fucapi.bpms.activiti.dominio.ProcessoDefinicao;
 import br.fucapi.bpms.activiti.dominio.ProcessoInstancia;
 import br.fucapi.bpms.activiti.dominio.TarefaInstancia;
@@ -65,6 +66,9 @@ public class TarefaControle implements Serializable {
 
 	@ManagedProperty(value = "#{treinamentoRN}")
 	private TreinamentoRN treinamentoRN;
+	
+	@ManagedProperty(value = "#{alertaServicoImpl}")
+	private AlertaServico alertaServico;
 
 	@Value("${uuid.parent.requerimentos.treinamentos}")
 	private String parentTreinamento;
@@ -587,11 +591,19 @@ public class TarefaControle implements Serializable {
 	public void update(String parecer) {
 		setParecer(parecer);
 	}
-
+	
 	private String getDateTime() {
 		DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy HHmmss");
 		Date date = new Date();
 		return dateFormat.format(date);
+	}
+
+	public AlertaServico getAlertaServico() {
+		return alertaServico;
+	}
+
+	public void setAlertaServico(AlertaServico alertaServico) {
+		this.alertaServico = alertaServico;
 	}
 
 }

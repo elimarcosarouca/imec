@@ -501,12 +501,13 @@ public class VariavelPublicarDocumento extends Variavel {
 						.getValue() : null);
 			} else if (var.getName().equals("dataVencimento")
 					&& var.getValue() != null) {
-				this.setDataVencimento(new Date(var.getValue().toString()));
+				System.out.println("dataVencimento = " + var.getValue().toString());
+//				this.setDataVencimento(new Date(var.getValue().toString()));
 				
 			} else if (var.getName().equals("dataNotificacao")
 					&& var.getValue() != null) {
 				
-				this.setDataNotificacao(new Date(var.getValue().toString()));
+//				this.setDataNotificacao(new Date(var.getValue().toString()));
 			}	
 
 		}
