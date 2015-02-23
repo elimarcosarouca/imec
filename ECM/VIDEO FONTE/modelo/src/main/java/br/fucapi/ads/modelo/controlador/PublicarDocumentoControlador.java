@@ -34,6 +34,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.com.jm.conversor.pdf.ConversaoParaPDF;
 import br.com.jm.conversor.pdf.office.ConversaoAPartirDeTextoOffice;
+import br.fucapi.ads.modelo.dominio.Alerta;
 import br.fucapi.ads.modelo.dominio.Arquivo;
 import br.fucapi.ads.modelo.dominio.NomenclaturaDocumento;
 import br.fucapi.ads.modelo.dominio.PostoCopia;
@@ -470,7 +471,7 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		this.telaPesquisa();
 
-		return "index.xhtml?faces-redirect=true";
+		return "/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true";
 	}
 
 	public void cancelar() {
@@ -527,17 +528,39 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	}
 	
-	public void revisar(ProcessoInstancia entity) {
+	public String revisar(ProcessoInstancia entity) {
 		
 		this.variaveis = (VariavelPublicarDocumento) entity.getVariaveis();
 		this.variaveis.setVersaoRevisao(this.incrementarVersao(this.variaveis.getProtocoloOrigem()));
 
-		paginaCentralControladorBean.setPaginaCentral(this.TELA_REVISAO);
+		return this.TELA_REVISAO;
+	}
+	
+	public String revisar(Alerta entity) {
+		
+		List<ProcessoInstancia> listaResultado = null;
+		this.lista = new ArrayList<ProcessoInstancia>();
+
+		Map<String, Object> var = new HashMap<String, Object>();
+		var.put("protocolo", entity.getProtocolo());
+		
+		listaResultado = activitiServico.getHistoricoProcessosFiltroVariaveis(
+				var, "PENDENTE");
+
+		for (ProcessoInstancia pInstancia : listaResultado) {
+			this.variaveis = new VariavelPublicarDocumento();
+			this.variaveis.converterListaVariaveis(pInstancia.getVariables());
+
+			pInstancia.setVariaveis(variaveis);
+			this.lista.add(pInstancia);
+		}
+		
+		return revisar(this.lista.get(0));
+		
 	}
 
-	public void telaPesquisa() {
-		paginaCentralControladorBean.setPaginaCentral(this.TELA_PESQUISA);
-
+	public String telaPesquisa() {
+		return this.TELA_PESQUISA;
 	}
 
 	public void handleTransfer(TransferEvent event) {
