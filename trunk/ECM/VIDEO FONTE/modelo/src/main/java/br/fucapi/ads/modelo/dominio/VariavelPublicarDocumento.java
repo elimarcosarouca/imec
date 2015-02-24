@@ -1,8 +1,14 @@
 package br.fucapi.ads.modelo.dominio;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -502,17 +508,32 @@ public class VariavelPublicarDocumento extends Variavel {
 			} else if (var.getName().equals("dataVencimento")
 					&& var.getValue() != null) {
 				System.out.println("dataVencimento = " + var.getValue().toString());
-//				this.setDataVencimento(new Date(var.getValue().toString()));
+				String data = var.getValue().toString();
+				
+				DateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH);
+				try {
+					this.dataVencimento = df.parse(data);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 				
 			} else if (var.getName().equals("dataNotificacao")
 					&& var.getValue() != null) {
 				
-//				this.setDataNotificacao(new Date(var.getValue().toString()));
+				System.out.println("dataVencimento = " + var.getValue().toString());
+				String data = var.getValue().toString();
+				
+				DateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH);
+				try {
+					this.dataNotificacao = df.parse(data);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 			}	
 
 		}
 	}
-
+	
 	public Map<String, Object> converterVariaveis() {
 
 		Map<String, Object> params = super.converterVariaveis();
