@@ -25,6 +25,12 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 		if (notEmpty(abstractEntity.getProtocolo())) {
 			condictions.add(" est.protocolo =:protocolo ");
 		}
+		
+		if (notEmpty(abstractEntity.getDataAlerta())) {
+			condictions.add(" est.dataAlerta >:dataAlerta");
+		}
+		
+		condictions.add(" est.concluida =:concluida ");
 
 		String orderBy = " order by est.protocolo";
 
@@ -33,6 +39,12 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 		if (notEmpty(abstractEntity.getProtocolo())) {
 			query.setParameter("protocolo", abstractEntity.getProtocolo());
 		}
+		
+		if (notEmpty(abstractEntity.getProtocolo())) {
+			query.setParameter("dataAlerta", abstractEntity.getDataAlerta());
+		}
+		
+		query.setParameter("concluida", abstractEntity.isConcluida());
 
 		return query.getResultList();
 	}
