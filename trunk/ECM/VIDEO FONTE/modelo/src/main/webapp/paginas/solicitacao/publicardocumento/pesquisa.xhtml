@@ -122,7 +122,7 @@
 								action="#{publicarDocumentoControlador.abrirImagemProcesso(item)}" />
 
 							<p:commandButton
-								action="#{publicarDocumentoControlador.revisar(item)}"
+								actionListener="#{publicarDocumentoControlador.revisar(item)}"
 								icon="ui-icon-newwin" title="Revisar"
 								styleClass="ui-priority-primary" update=":form" />
 

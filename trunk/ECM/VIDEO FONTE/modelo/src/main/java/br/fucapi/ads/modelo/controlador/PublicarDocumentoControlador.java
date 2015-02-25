@@ -27,6 +27,7 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.behavior.ajax.AjaxBehavior;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
@@ -112,6 +113,8 @@ public class PublicarDocumentoControlador implements Serializable {
 	private VariaveisTreinamento variaveisTreinamento;
 
 	private ProcessoInstancia processoStart;
+	
+	private boolean habilitar = false;
 
 	@ManagedProperty(value = "#{activitiServicoImpl}")
 	private ActivitiServico activitiServico;
@@ -153,9 +156,9 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	private String TELA_CADASTRO = "/paginas/solicitacao/publicardocumento/cadastro.xhtml?faces-redirect=true";
 
-	private String TELA_DETALHE = "paginas/solicitacao/publicardocumento/detalhe.xhtml";
+	private String TELA_DETALHE = "/paginas/solicitacao/publicardocumento/detalhe.xhtml";
 	
-	private String TELA_REVISAO = "paginas/solicitacao/publicardocumento/revisar.xhtml";
+	private String TELA_REVISAO = "/paginas/solicitacao/publicardocumento/revisar.xhtml?faces-redirect=true";
 
 	private String TELA_DETALHE_TAREFA = "paginas/solicitacao/publicardocumento/detalhetarefa.xhtml";
 
@@ -195,7 +198,16 @@ public class PublicarDocumentoControlador implements Serializable {
 	public boolean isSkip() {
 		return skip;
 	}
-
+	
+	public void handleFileUpload(FileUploadEvent event) {
+		FacesMessage message = new FacesMessage("Arquivo ["+ event.getFile()
+				.getFileName() + "] inserido com Sucesso!");
+		
+		this.uploadFile = event.getFile();
+		this.habilitar = true;
+		FacesContext.getCurrentInstance().addMessage("messages", message);
+	}
+	
 	public String onFlowProcess(FlowEvent event) {
 		if (skip) {
 			skip = false; // reset in case user goes back
@@ -205,11 +217,6 @@ public class PublicarDocumentoControlador implements Serializable {
 		}
 	}
 
-	public void atualizarListConcensoes() {
-		RequestContext context = RequestContext.getCurrentInstance();
-		context.update("form:wizard:pickListConcensoes");
-	}
-	
 	public void converterDocToPDF() {
 		List<Arquivo> listaArquivos = new ArrayList<Arquivo>();
 		String pathMarcaDagua = FacesContext.getCurrentInstance()
@@ -833,6 +840,10 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.processoStart = processoStart;
 	}
 
+	public boolean isHabilitar() {
+		return habilitar;
+	}
+	
 	public AlfrescoServico getAlfrescoServico() {
 		return alfrescoServico;
 	}
