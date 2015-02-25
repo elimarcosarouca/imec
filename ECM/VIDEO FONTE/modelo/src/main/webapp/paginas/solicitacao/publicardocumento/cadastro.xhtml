@@ -165,8 +165,8 @@
 						
 							<p:growl />
 							
-							<div style="float: left; width:50%; position: relative;" align="center">
-								<p:panel header="Posto de Cópia *" style="height: 324px;">
+							<div style="float: left; width:50%; position: relative; height: 311px;" align="center">
+								<p:panel header="Posto de Cópia *" style="height: 100%;">
 									<h:panelGroup style="width:99%">
 		
 										<p />
@@ -189,21 +189,21 @@
 							
 							<div style="float: left; width:50%; position: relative;" align="center">
 								<p:panel header="Concensão">
-									<h:panelGroup style="width:99%">
+									<h:panelGroup style="width:99%" id="pg1">
 										<div align="center">
 											<p />
 											<p:outputLabel value="Enviar para Concensão? "
 												styleClass="ui-priority-primary" />
 			
 											<p:selectBooleanCheckbox id="enviarConcensao"
-												value="#{publicarDocumentoControlador.variaveis.enviarConcensao}" onchange="rc()" />
-			
-											<p:remoteCommand name="rc" update="pickListConcensoes" actionListener="#{publicarDocumentoControlador.atualizarListConcensoes}"/>
-			
-											<p />
-			
-											<p:pickList id="pickListConcensoes"
-												rendered="#{publicarDocumentoControlador.variaveis.enviarConcensao}"
+												value="#{publicarDocumentoControlador.variaveis.enviarConcensao}">
+												
+												<p:ajax update=":form:pg1"
+													checked="#{publicarDocumentoControlador.variaveis.enviarConcensao}" />
+											</p:selectBooleanCheckbox>
+											
+<!-- 												rendered="#{publicarDocumentoControlador.variaveis.enviarConcensao}" -->
+											<p:pickList id="pickListConcensoes" disabled="#{publicarDocumentoControlador.variaveis.enviarConcensao eq false}"
 												value="#{publicarDocumentoControlador.concensos}"
 												effect="bounce" converter="usuarioConverter"
 												var="usuarioConcensao"
@@ -231,28 +231,41 @@
 										styleClass="ui-priority-primary" />
 									<p:selectBooleanCheckbox id="publicacaoAutomatica"
 										value="#{publicarDocumentoControlador.variaveis.publicacaoAutomatica}" />
+									
 									<p />
-	
-									<p:fileUpload value="#{publicarDocumentoControlador.uploadFile}"
-										label="selecione um arquivo" mode="simple" id="arquivo" allowTypes="*.docs;*.doc" invalidFileMessage="O tipo do arquivo é inválido! Apenas arquivos do tipo *.docs ou *.doc são permitidos."
-										required="true" requiredMessage="O campo upload documento é obrigatório!" />
-	
+							
+									<p:outputPanel id="op1">
+										<p:outputLabel value="Documento: #{publicarDocumentoControlador.uploadFile.fileName}"
+											rendered="#{publicarDocumentoControlador.uploadFile != null}" styleClass="ui-priority-primary"/>
+									</p:outputPanel>
+									<br/>
+							
+									<p:growl id="messages"/>
+									<p:fileUpload fileUploadListener="#{publicarDocumentoControlador.handleFileUpload}" 
+										mode="advanced" update="messages op1 op2" auto="true"
+										allowTypes="/(\.|\/)(docs|doc)$/" label="Escolher Arquivo" uploadLabel="Enviar" cancelLabel="Cancelar"  
+										value="#{publicarDocumentoControlador.uploadFile}" required="true" 
+										invalidFileMessage="O tipo do arquivo é inválido! Apenas arquivos do tipo *.docs ou *.doc são permitidos."
+										/>
+									
+    								<div align="right">
+    									<p:outputPanel id="op2">
+											<p:commandButton id="buttonSalvar" value="Gerar Solicitação" 
+												ajax="false" rendered="#{publicarDocumentoControlador.habilitar}"
+												styleClass="ui-priority-primary" icon="ui-icon-circle-check"
+												action="#{publicarDocumentoControlador.salvarNovaSolicitacao}" process="@this"/>
+										</p:outputPanel>	
+									</div>
+    								
 									<p />
 									</h:panelGroup>
 		
 								</p:panel>
 							</div>
-								
 						</p:tab>
 					</p:wizard>
 					
-					<div align="right">
-						<p:commandButton id="buttonSalvar" value="Gerar Solicitação"
-							ajax="false" update=":form"
-							styleClass="ui-priority-primary" icon="ui-icon-circle-check"
-							action="#{publicarDocumentoControlador.salvarNovaSolicitacao}" process="@this"/>
-					</div>
-
+					
 				</p:panel>
 
 			</h:form>
