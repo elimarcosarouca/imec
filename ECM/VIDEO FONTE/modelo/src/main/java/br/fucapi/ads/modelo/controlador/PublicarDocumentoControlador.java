@@ -25,6 +25,7 @@ import javax.faces.context.FacesContext;
 import org.alfresco.repo.webservice.administration.AdministrationFault;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.io.FilenameUtils;
+import org.primefaces.behavior.ajax.AjaxBehavior;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.TransferEvent;
@@ -195,10 +196,6 @@ public class PublicarDocumentoControlador implements Serializable {
 		return skip;
 	}
 
-	public void setSkip(boolean skip) {
-		this.skip = skip;
-	}
-
 	public String onFlowProcess(FlowEvent event) {
 		if (skip) {
 			skip = false; // reset in case user goes back
@@ -208,6 +205,11 @@ public class PublicarDocumentoControlador implements Serializable {
 		}
 	}
 
+	public void atualizarListConcensoes() {
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.update("form:wizard:pickListConcensoes");
+	}
+	
 	public void converterDocToPDF() {
 		List<Arquivo> listaArquivos = new ArrayList<Arquivo>();
 		String pathMarcaDagua = FacesContext.getCurrentInstance()
