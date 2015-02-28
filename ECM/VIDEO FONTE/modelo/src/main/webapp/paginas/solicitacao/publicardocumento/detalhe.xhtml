@@ -36,155 +36,194 @@
 
 		<ui:param name="pageTitle" value="Publicação de Documentos" />
 
-		<div class="mainForm" >
+		<div class="mainForm">
 
-			<h:form id="form">		
+			<h:form id="form">
 				<p:accordionPanel>
-        			<p:tab title="Geral">
+					<p:tab title="Geral">
 						<p:panel id="panel" closable="false"
 							header="Detalhes da Publicação de Documento" style="width:100%;">
-							
+
 							<h:panelGrid style="width:30%" columns="5" cellspacing="4">
 								<h:outputLabel value="Nome: " styleClass="ui-priority-primary" />
-								<h:outputLabel value="Nomenclatura: " styleClass="ui-priority-primary" />
-								<h:outputLabel value="Categoria: " styleClass="ui-priority-primary" />
-								<h:outputLabel value="Unidade: " styleClass="ui-priority-primary" />
+								<h:outputLabel value="Nomenclatura: "
+									styleClass="ui-priority-primary" />
+								<h:outputLabel value="Categoria: "
+									styleClass="ui-priority-primary" />
+								<h:outputLabel value="Unidade: "
+									styleClass="ui-priority-primary" />
 								<h:outputLabel value="Setor: " styleClass="ui-priority-primary" />
-							
-								<p:inputText id="nomeDocumento" readonly="true" value="#{publicarDocumentoControlador.processoInstancia.variaveis.arquivoDoc.nomeArquivo}"/>
-								<p:inputText id="nomenclatura" readonly="true" value="#{publicarDocumentoControlador.processoInstancia.variaveis.nomenclatura}"/>
-								<p:inputText id="categoria" readonly="true" value="#{publicarDocumentoControlador.processoInstancia.variaveis.categoria.sigla} - #{publicarDocumentoControlador.processoInstancia.variaveis.categoria.nome}"/>
-								<p:inputText id="unidade" readonly="true" value="#{publicarDocumentoControlador.processoInstancia.variaveis.unidade.sigla} - #{publicarDocumentoControlador.processoInstancia.variaveis.unidade.nome}"/>
-								<p:inputText id="setor" readonly="true" value="#{publicarDocumentoControlador.processoInstancia.variaveis.setor.nome}"/>
-		
+
+								<p:inputText id="nomeDocumento" readonly="true"
+									value="#{publicarDocumentoControlador.processoInstancia.variaveis.arquivoDoc.nomeArquivo}" />
+								<p:inputText id="nomenclatura" readonly="true"
+									value="#{publicarDocumentoControlador.processoInstancia.variaveis.nomenclatura}" />
+								<p:inputText id="categoria" readonly="true"
+									value="#{publicarDocumentoControlador.processoInstancia.variaveis.categoria.sigla} - #{publicarDocumentoControlador.processoInstancia.variaveis.categoria.nome}" />
+								<p:inputText id="unidade" readonly="true"
+									value="#{publicarDocumentoControlador.processoInstancia.variaveis.unidade.sigla} - #{publicarDocumentoControlador.processoInstancia.variaveis.unidade.nome}" />
+								<p:inputText id="setor" readonly="true"
+									value="#{publicarDocumentoControlador.processoInstancia.variaveis.setor.nome}" />
+
 							</h:panelGrid>
-							
+
 							<p />
-		
+
 							<h:panelGrid columns="1">
 								<h:outputText value="Justificativa "
 									styleClass="ui-priority-primary" />
-								<p:inputTextarea rows="3" cols="30" required="true" requiredMessage="O campo justificativa é obrigatório!"
+								<p:inputTextarea rows="3" cols="30" required="true"
+									requiredMessage="O campo justificativa é obrigatório!"
 									value="#{publicarDocumentoControlador.processoInstancia.variaveis.descricao}"
 									maxlength="255" style="width:450px" id="descricao"
-									autoResize="false" readonly="true"/>
+									autoResize="false" readonly="true" />
 							</h:panelGrid>
-		
+
 							<p />
-		
+
 							<h:panelGrid columns="2">
-								<p:outputLabel value="Data de Vencimento: " styleClass="ui-priority-primary" />
-								<p:outputLabel value="Data de Notificação de vencimento: " styleClass="ui-priority-primary" />
-		
-								<p:calendar id="dataVencimento" pattern="dd/MM/yyyy" mask="true" 
-									value="#{publicarDocumentoControlador.processoInstancia.variaveis.dataVencimento}" readonly="true" />
-								<p:calendar id="diasAntecedencia" pattern="dd/MM/yyyy" mask="true" 
-									value="#{publicarDocumentoControlador.processoInstancia.variaveis.dataNotificacao}" readonly="true" />
+								<p:outputLabel value="Data de Vencimento: "
+									styleClass="ui-priority-primary" />
+								<p:outputLabel value="Data de Notificação de vencimento: "
+									styleClass="ui-priority-primary" />
+
+								<p:calendar id="dataVencimento" pattern="dd/MM/yyyy" mask="true"
+									value="#{publicarDocumentoControlador.processoInstancia.variaveis.dataVencimento}"
+									readonly="true" />
+								<p:calendar id="diasAntecedencia" pattern="dd/MM/yyyy"
+									mask="true"
+									value="#{publicarDocumentoControlador.processoInstancia.variaveis.dataNotificacao}"
+									readonly="true" />
 							</h:panelGrid>
-							
-							<br/>
-							
-							<div style="float: left; width:25%; position: relative;" align="center">							
+
+							<br />
+						</p:panel>
+					</p:tab>
+					<p:tab title="Colaboradores">
+						<p:panel id="panelColaboradores" closable="false"
+							header="Detalhes da Publicação de Documento" style="width:100%;">
+
+							<div style="float: left; width: 25%; position: relative;"
+								align="center">
 								<p:panel header="Elaboradores " style="height: 324px;">
 									<h:panelGroup style="width:99%">
 										<p />
-										
-										<p:orderList id="listElaboradoes" value="#{publicarDocumentoControlador.processoInstancia.variaveis.elaboradores}" var="item" 
-											itemLabel="#{item}" itemValue="#{item}" controlsLocation="none" disabled="true" />
-										
+
+										<p:orderList id="listElaboradoes"
+											value="#{publicarDocumentoControlador.processoInstancia.variaveis.elaboradores}"
+											var="item" itemLabel="#{item}" itemValue="#{item}"
+											controlsLocation="none" disabled="true" />
+
 									</h:panelGroup>
 								</p:panel>
-							</div>	
-						
-							<div style="float: left; width:25%; position: relative;" align="center">
+							</div>
+
+							<div style="float: left; width: 25%; position: relative;"
+								align="center">
 								<p:panel header="Aprovadores " style="height: 324px;">
 									<h:panelGroup style="width:99%">
 										<p />
-										
-										<p:orderList id="listAprovadores" value="#{publicarDocumentoControlador.processoInstancia.variaveis.aprovadores}" var="item" 
-											itemLabel="#{item}" itemValue="#{item}" controlsLocation="none" disabled="true" />
-											
+
+										<p:orderList id="listAprovadores"
+											value="#{publicarDocumentoControlador.processoInstancia.variaveis.aprovadores}"
+											var="item" itemLabel="#{item}" itemValue="#{item}"
+											controlsLocation="none" disabled="true" />
+
 									</h:panelGroup>
 								</p:panel>
 							</div>
-							
-							<div style="float: left; width:25%; position: relative; height: 311px;" align="center">
+
+							<div
+								style="float: left; width: 25%; position: relative; height: 311px;"
+								align="center">
 								<p:panel header="Posto de Cópia" style="height: 324px;">
 									<h:panelGroup style="width:99%">
-		
+
 										<p />
-										
-										<p:orderList id="listPostoCopia" value="#{publicarDocumentoControlador.processoInstancia.variaveis.postosCopia}" var="item" 
-											itemLabel="#{item}" itemValue="#{item}" controlsLocation="none" disabled="true" />
-										
+
+										<p:orderList id="listPostoCopia"
+											value="#{publicarDocumentoControlador.processoInstancia.variaveis.postosCopia}"
+											var="item" itemLabel="#{item}" itemValue="#{item}"
+											controlsLocation="none" disabled="true" />
+
 									</h:panelGroup>
 								</p:panel>
 							</div>
-								
-							<div style="float: left; width:25%; position: relative;" align="center">
+
+							<div style="float: left; width: 25%; position: relative;"
+								align="center">
 								<p:panel header="Concensão" style="height: 324px;">
-									<h:panelGroup style="width:99%;" >
+									<h:panelGroup style="width:99%;">
 										<div align="center">
 											<p />
 											<p:outputLabel value="Enviar para Concensão? "
 												styleClass="ui-priority-primary" />
-			
+
 											<p:selectBooleanCheckbox id="enviarConcensao" disabled="true"
 												value="#{publicarDocumentoControlador.processoInstancia.variaveis.enviarConcensao}">
 											</p:selectBooleanCheckbox>
-											
-											<p:orderList id="listConcensao" value="#{publicarDocumentoControlador.processoInstancia.variaveis.concensos}" var="item" 
-												itemLabel="#{item}" itemValue="#{item}" controlsLocation="none" disabled="true" />
-											
+
+											<p:orderList id="listConcensao"
+												value="#{publicarDocumentoControlador.processoInstancia.variaveis.concensos}"
+												var="item" itemLabel="#{item}" itemValue="#{item}"
+												controlsLocation="none" disabled="true" />
+
 										</div>
 									</h:panelGroup>
 								</p:panel>
 							</div>
 						</p:panel>
 					</p:tab>
-					
+
 					<p:tab title="Documentos">
-						<h:panelGrid columns="1">
+						<h:panelGrid columns="3">
 							<p:commandButton id="downloadDoc" value="Baixar Documento"
-								ajax="false" actionListener="#{publicarDocumentoControlador.downloadArquivoDoc}"
+								ajax="false"
+								actionListener="#{publicarDocumentoControlador.downloadArquivoDoc}"
 								icon="ui-icon-document">
-								
-								<f:setPropertyActionListener value="doc" target="#{publicarDocumentoControlador.tipoDocumento}" />
-								
+
+								<f:setPropertyActionListener value="doc"
+									target="#{publicarDocumentoControlador.tipoDocumento}" />
+
 								<p:fileDownload value="#{publicarDocumentoControlador.file}" />
 							</p:commandButton>
-							
-							<p:commandButton id="downloadPdfControlado" value="Baixar Documento Controlado"
-								ajax="false" actionListener="#{publicarDocumentoControlador.downloadArquivoControlado}"
+
+							<p:commandButton id="downloadPdfControlado"
+								value="Baixar Documento Controlado" ajax="false"
+								actionListener="#{publicarDocumentoControlador.downloadArquivoControlado}"
 								icon="ui-icon-document">
-								
-								<f:setPropertyActionListener value="controlado" target="#{publicarDocumentoControlador.tipoDocumento}" />
-								
+
+								<f:setPropertyActionListener value="controlado"
+									target="#{publicarDocumentoControlador.tipoDocumento}" />
+
 								<p:fileDownload value="#{publicarDocumentoControlador.file}" />
 							</p:commandButton>
-							
-							<p:commandButton id="downloadPdfNaoControlado" value="Baixar Documento Não Controlado"
-								ajax="false" actionListener="#{publicarDocumentoControlador.downloadArquivoNaoControlado}"
+
+							<p:commandButton id="downloadPdfNaoControlado"
+								value="Baixar Documento Não Controlado" ajax="false"
+								actionListener="#{publicarDocumentoControlador.downloadArquivoNaoControlado}"
 								icon="ui-icon-document">
-								
-								<f:setPropertyActionListener value="naoControlado" target="#{publicarDocumentoControlador.tipoDocumento}" />
-								
+
+								<f:setPropertyActionListener value="naoControlado"
+									target="#{publicarDocumentoControlador.tipoDocumento}" />
+
 								<p:fileDownload value="#{publicarDocumentoControlador.file}" />
 							</p:commandButton>
-						</h:panelGrid>	
+						</h:panelGrid>
 					</p:tab>
-					
-				</p:accordionPanel>					
-		
+
+				</p:accordionPanel>
+
 				<h:panelGrid style="width:99%" columns="2">
 					<p:commandButton id="buttonRetornar" value="Voltar" ajax="false"
 						styleClass="ui-priority-primary" icon="ui-icon-circle-arrow-w"
-						action="#{publicarDocumentoControlador.telaPesquisa}" update=":form" />
+						action="#{publicarDocumentoControlador.telaPesquisa}"
+						update=":form" />
 				</h:panelGrid>
-		
+
 			</h:form>
-		</div>	
-		
+		</div>
+
 		<ui:insert name="modal_region" />
 
 	</ui:define>
