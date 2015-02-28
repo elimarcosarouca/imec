@@ -102,6 +102,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.aprovadores = new ArrayList<String>();
 		this.elaboradores = new ArrayList<String>();
 		this.concensos = new ArrayList<String>();
+		this.postosCopia = new ArrayList<String>();
 		this.emailAprovadores = new ArrayList<String>();
 		this.emailConcensos = new ArrayList<String>();
 		this.arquivoDoc = new Arquivo();
@@ -467,11 +468,21 @@ public class VariavelPublicarDocumento extends Variavel {
 					&& var.getValue() != null) {
 				this.setPublicacaoAutomatica(new Boolean (var.getValue().toString()));
 
+			} else if (var.getName().equals("aprovadores")
+					&& var.getValue() != null) {
+				this.setAprovadores(var.getValue() != null ? (List<String>) var
+						.getValue() : null);
+				
 			} else if (var.getName().equals("emailAprovadores")
 					&& var.getValue() != null) {
-				//TODO DEVERA SER ALIMENTADA A LISTA				
-//				this.setEmailAprovadores( var.getValue().toString());
-
+				this.setEmailAprovadores(var.getValue() != null ? (List<String>) var
+						.getValue() : null);
+				
+			} else if ("elaboradores".equals(var.getName()) 
+					&& var.getValue() != null) {
+				this.setElaboradores(var.getValue() != null ? (List<String>) var
+						.getValue() : null); 
+			
 			} else if (var.getName().equals("versaoRevisao")) {
 				try {
 					this.setVersaoRevisao(Integer.valueOf(var.getValue()
@@ -530,7 +541,6 @@ public class VariavelPublicarDocumento extends Variavel {
 					e.printStackTrace();
 				}
 			}	
-
 		}
 	}
 	

@@ -2,6 +2,7 @@ package br.fucapi.ads.modelo.controlador;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,12 +26,13 @@ import javax.faces.context.FacesContext;
 import org.alfresco.repo.webservice.administration.AdministrationFault;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.io.FilenameUtils;
-import org.primefaces.behavior.ajax.AjaxBehavior;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.TransferEvent;
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.DualListModel;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -180,6 +182,10 @@ public class PublicarDocumentoControlador implements Serializable {
 	private List<PostoCopia> postosCopiaTarget;
 	private List<PostoCopia> postosCopiaSource;
 
+	private StreamedContent file;
+	
+	private String tipoDocumento;
+	
 	// Upload File
 
 	private UploadedFile uploadFile;
@@ -197,6 +203,57 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	public boolean isSkip() {
 		return skip;
+	}
+	
+	public void downloadArquivoDoc() {
+		
+		this.variaveis = (VariavelPublicarDocumento)this.processoInstancia.getVariaveis();
+		
+		String nomeArquivo = null;
+		String uuidArquivo = null; 
+		
+		nomeArquivo = this.variaveis.getArquivoDoc().getNomeArquivo();
+		uuidArquivo = this.variaveis.getArquivoDoc().getUuid();
+		
+		InputStream temp = alfrescoServico.baixarArquivo(nomeArquivo, uuidArquivo);
+		
+		this.file = new DefaultStreamedContent(temp, null, nomeArquivo);
+		
+		this.tipoDocumento = null;
+	}
+	
+	public void downloadArquivoControlado() {
+		
+		this.variaveis = (VariavelPublicarDocumento)this.processoInstancia.getVariaveis();
+		
+		String nomeArquivo = null;
+		String uuidArquivo = null; 
+		
+		nomeArquivo = this.variaveis.getArquivoControlado().getNomeArquivo();
+		uuidArquivo = this.variaveis.getArquivoControlado().getUuid();
+		
+		InputStream temp = alfrescoServico.baixarArquivo(nomeArquivo, uuidArquivo);
+		
+		this.file = new DefaultStreamedContent(temp, null, nomeArquivo);
+		
+		this.tipoDocumento = null;
+	}
+	
+	public void downloadArquivoNaoControlado() {
+		
+		this.variaveis = (VariavelPublicarDocumento)this.processoInstancia.getVariaveis();
+		
+		String nomeArquivo = null;
+		String uuidArquivo = null; 
+		
+		nomeArquivo = this.variaveis.getArquivoNaoControlado().getNomeArquivo();
+		uuidArquivo = this.variaveis.getArquivoNaoControlado().getUuid();
+		
+		InputStream temp = alfrescoServico.baixarArquivo(nomeArquivo, uuidArquivo);
+		
+		this.file = new DefaultStreamedContent(temp, null, nomeArquivo);
+		
+		this.tipoDocumento = null;
 	}
 	
 	public void handleFileUpload(FileUploadEvent event) {
@@ -279,13 +336,6 @@ public class PublicarDocumentoControlador implements Serializable {
 		}
 	}
 
-	public static void main(String[] args) {
-		
-		String json = "{\"uuidPasta\":\"11111\",\"nodeRef\":\"2222\"}";
-		
-
-	}
-	
 	// Metodo responsavel por salvar no repositorio Alfresco o Documento
 	public void saveArquivo() {
 
@@ -1099,6 +1149,22 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	public void setPostosCopiaSource(List<PostoCopia> postosCopiaSource) {
 		this.postosCopiaSource = postosCopiaSource;
+	}
+
+	public StreamedContent getFile() {
+		return file;
+	}
+
+	public void setFile(StreamedContent file) {
+		this.file = file;
+	}
+
+	public String getTipoDocumento() {
+		return tipoDocumento;
+	}
+
+	public void setTipoDocumento(String tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
 	}
 
 	public VariavelPublicarDocumento getVariaveisPesquisa() {
