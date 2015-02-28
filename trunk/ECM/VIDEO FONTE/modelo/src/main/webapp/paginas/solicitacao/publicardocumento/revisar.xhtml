@@ -25,143 +25,167 @@
 
 				<p:panel id="panel" closable="false" footer="*Campos Obrigatórios"
 					header="Revisão de Documento" style="width:100%">
-					
+
 					<p:growl id="msg" showDetail="true" />
 
-					<br/>
-					
+					<br />
+
 					<p:wizard id="wizard" styleClass="wizard"
 						flowListener="#{publicarDocumentoControlador.onFlowProcess}">
 
 						<p:tab title="" styleClass="wizard" titleStyle="wizard">
-							
+
 							<p:fieldset legend="Geral">
 								<h:panelGrid style="width:30%" columns="5" cellspacing="4">
 									<h:outputLabel value="Nome: " styleClass="ui-priority-primary" />
-									<h:outputLabel value="Nomenclatura: " styleClass="ui-priority-primary" />
-									<h:outputLabel value="Categoria: " styleClass="ui-priority-primary" />
-									<h:outputLabel value="Unidade: " styleClass="ui-priority-primary" />
+									<h:outputLabel value="Nomenclatura: "
+										styleClass="ui-priority-primary" />
+									<h:outputLabel value="Categoria: "
+										styleClass="ui-priority-primary" />
+									<h:outputLabel value="Unidade: "
+										styleClass="ui-priority-primary" />
 									<h:outputLabel value="Setor: " styleClass="ui-priority-primary" />
-								
-									<p:inputText id="nomeDocumento" disabled="true" value="#{publicarDocumentoControlador.variaveis.arquivoDoc.nomeArquivo}"/>
-									<p:inputText id="nomenclatura" disabled="true" value="#{publicarDocumentoControlador.variaveis.nomenclatura}"/>
-									<p:inputText id="categoria" disabled="true" value="#{publicarDocumentoControlador.variaveis.categoria.sigla} - #{publicarDocumentoControlador.variaveis.categoria.nome}"/>
-									<p:inputText id="unidade" disabled="true" value="#{publicarDocumentoControlador.variaveis.unidade.sigla} - #{publicarDocumentoControlador.variaveis.unidade.nome}"/>
-									<p:inputText id="setor" disabled="true" value="#{publicarDocumentoControlador.variaveis.setor.nome}"/>
-	
+
+									<p:inputText id="nomeDocumento" disabled="true"
+										value="#{publicarDocumentoControlador.variaveis.arquivoDoc.nomeArquivo}" />
+									<p:inputText id="nomenclatura" disabled="true"
+										value="#{publicarDocumentoControlador.variaveis.nomenclatura}" />
+									<p:inputText id="categoria" disabled="true"
+										value="#{publicarDocumentoControlador.variaveis.categoria.sigla} - #{publicarDocumentoControlador.variaveis.categoria.nome}" />
+									<p:inputText id="unidade" disabled="true"
+										value="#{publicarDocumentoControlador.variaveis.unidade.sigla} - #{publicarDocumentoControlador.variaveis.unidade.nome}" />
+									<p:inputText id="setor" disabled="true"
+										value="#{publicarDocumentoControlador.variaveis.setor.nome}" />
+
 								</h:panelGrid>
-								
+
 								<p />
-	
+
 								<h:panelGrid columns="1">
 									<h:outputText value="Justificativa *"
 										styleClass="ui-priority-primary" />
-									<p:inputTextarea rows="3" cols="30" required="true" requiredMessage="O campo justificativa é obrigatório!"
+									<p:inputTextarea rows="3" cols="30" required="true"
+										requiredMessage="O campo justificativa é obrigatório!"
 										value="#{publicarDocumentoControlador.variaveis.descricao}"
 										maxlength="255" style="width:450px" id="descricao"
 										autoResize="false" />
 								</h:panelGrid>
-	
+
 								<p />
-	
+
 								<h:panelGrid columns="2">
-									<p:outputLabel value="Data de Vencimento: *" styleClass="ui-priority-primary" />
-									<p:outputLabel value="Notificação de vencimento (dias antes): *" styleClass="ui-priority-primary" />
-	
-									<p:calendar required="true" id="dataVencimento" pattern="dd/MM/yyyy" mask="true" requiredMessage="O campo data de vencimento é obrigatório!"
+									<p:outputLabel value="Data de Vencimento: *"
+										styleClass="ui-priority-primary" />
+									<p:outputLabel
+										value="Notificação de vencimento (dias antes): *"
+										styleClass="ui-priority-primary" />
+
+									<p:calendar required="true" id="dataVencimento"
+										pattern="dd/MM/yyyy" mask="true"
+										requiredMessage="O campo data de vencimento é obrigatório!"
 										value="#{publicarDocumentoControlador.variaveis.dataVencimento}" />
-									<p:inputText required="true" id="diasAntecedencia" style="width:20%"
+									<p:inputText required="true" id="diasAntecedencia"
+										style="width:20%"
 										value="#{publicarDocumentoControlador.variaveis.notificarVencimento}" />
 								</h:panelGrid>
 							</p:fieldset>
-							
-							<br/>
-						
-							<div style="float: left; width:50%; position: relative;" align="center">							
+
+							<br />
+
+							<div style="float: left; width: 50%; position: relative;"
+								align="center">
 								<p:panel header="Elaboradores *" style="height: 324px;">
 									<h:panelGroup style="width:99%">
 										<p />
-											<p:pickList id="pickListElaboradores" required="true" requiredMessage="O campo elaboradores é obrigatório!"
-												value="#{publicarDocumentoControlador.elaboradores}"
-												effect="bounce" converter="usuarioConverter" var="elaborador"
-												itemLabel="#{elaborador.firstName} #{elaborador.lastName}"
-												itemValue="#{elaborador}" showSourceControls="false"
-												showTargetControls="false" showCheckbox="false"
-												showSourceFilter="true" showTargetFilter="true">
-			
-												<f:facet name="sourceCaption">Disponíveis</f:facet>
-												<f:facet name="targetCaption">Selecionados</f:facet>
-			
-											</p:pickList>
-									</h:panelGroup>
-								</p:panel>
-							</div>	
-						
-							<div style="float: left; width:50%; position: relative;" align="center">
-								<p:panel header="Aprovadores *" style="height: 324px;">
-									<h:panelGroup style="width:99%">
-										<p />
-											<p:pickList id="pickListAprovadores" required="true" requiredMessage="O campo aprovadores é obrigatório!"
-												value="#{publicarDocumentoControlador.aprovadores}"
-												effect="bounce" converter="usuarioConverter" var="aprovador"
-												itemLabel="#{aprovador.firstName} #{aprovador.lastName}"
-												itemValue="#{aprovador}" showSourceControls="false"
-												showTargetControls="false" showCheckbox="false"
-												showSourceFilter="true" showTargetFilter="true">
-			
-												<f:facet name="sourceCaption">Disponíveis</f:facet>
-												<f:facet name="targetCaption">Selecionados</f:facet>
-			
-											</p:pickList>
+										<p:pickList id="pickListElaboradores" required="true"
+											requiredMessage="O campo elaboradores é obrigatório!"
+											value="#{publicarDocumentoControlador.elaboradores}"
+											effect="bounce" converter="usuarioConverter" var="elaborador"
+											itemLabel="#{elaborador.firstName} #{elaborador.lastName}"
+											itemValue="#{elaborador}" showSourceControls="false"
+											showTargetControls="false" showCheckbox="false"
+											showSourceFilter="true" showTargetFilter="true">
+
+											<f:facet name="sourceCaption">Disponíveis</f:facet>
+											<f:facet name="targetCaption">Selecionados</f:facet>
+
+										</p:pickList>
 									</h:panelGroup>
 								</p:panel>
 							</div>
-							
+
+							<div style="float: left; width: 50%; position: relative;"
+								align="center">
+								<p:panel header="Aprovadores *" style="height: 324px;">
+									<h:panelGroup style="width:99%">
+										<p />
+										<p:pickList id="pickListAprovadores" required="true"
+											requiredMessage="O campo aprovadores é obrigatório!"
+											value="#{publicarDocumentoControlador.aprovadores}"
+											effect="bounce" converter="usuarioConverter" var="aprovador"
+											itemLabel="#{aprovador.firstName} #{aprovador.lastName}"
+											itemValue="#{aprovador}" showSourceControls="false"
+											showTargetControls="false" showCheckbox="false"
+											showSourceFilter="true" showTargetFilter="true">
+
+											<f:facet name="sourceCaption">Disponíveis</f:facet>
+											<f:facet name="targetCaption">Selecionados</f:facet>
+
+										</p:pickList>
+									</h:panelGroup>
+								</p:panel>
+							</div>
+
 						</p:tab>
 
 						<p:tab>
-						
+
 							<p:growl />
-							
-							<div style="float: left; width:50%; position: relative; height: 311px;" align="center">
+
+							<div
+								style="float: left; width: 50%; position: relative; height: 311px;"
+								align="center">
 								<p:panel header="Posto de Cópia *" style="height: 100%;">
 									<h:panelGroup style="width:99%">
-		
+
 										<p />
-		
-										<p:pickList id="pickListPostoCopia" required="true" requiredMessage="O campo posto de cópia é obrigatório!"
+
+										<p:pickList id="pickListPostoCopia" required="true"
+											requiredMessage="O campo posto de cópia é obrigatório!"
 											value="#{publicarDocumentoControlador.postosCopia}"
 											effect="bounce" converter="postoCopiaConverter"
 											var="postoCopia" itemLabel="#{postoCopia.nome}"
 											itemValue="#{postoCopia}" showSourceControls="false"
 											showTargetControls="false" showCheckbox="false"
 											showSourceFilter="true" showTargetFilter="true">
-		
+
 											<f:facet name="sourceCaption">Disponíveis</f:facet>
 											<f:facet name="targetCaption">Selecionados</f:facet>
 										</p:pickList>
-		
+
 									</h:panelGroup>
 								</p:panel>
 							</div>
-							
-							<div style="float: left; width:50%; position: relative;" align="center">
+
+							<div style="float: left; width: 50%; position: relative;"
+								align="center">
 								<p:panel header="Concensão">
 									<h:panelGroup style="width:99%" id="pg1">
 										<div align="center">
 											<p />
 											<p:outputLabel value="Enviar para Concensão? "
 												styleClass="ui-priority-primary" />
-			
+
 											<p:selectBooleanCheckbox id="enviarConcensao"
 												value="#{publicarDocumentoControlador.variaveis.enviarConcensao}">
-												
+
 												<p:ajax update=":form:pg1"
 													checked="#{publicarDocumentoControlador.variaveis.enviarConcensao}" />
 											</p:selectBooleanCheckbox>
-											
-<!-- 												rendered="#{publicarDocumentoControlador.variaveis.enviarConcensao}" -->
-											<p:pickList id="pickListConcensoes" disabled="#{publicarDocumentoControlador.variaveis.enviarConcensao eq false}"
+
+											<!-- 												rendered="#{publicarDocumentoControlador.variaveis.enviarConcensao}" -->
+											<p:pickList id="pickListConcensoes"
+												disabled="#{publicarDocumentoControlador.variaveis.enviarConcensao eq false}"
 												value="#{publicarDocumentoControlador.concensos}"
 												effect="bounce" converter="usuarioConverter"
 												var="usuarioConcensao"
@@ -169,7 +193,7 @@
 												itemValue="#{usuarioConcensao}" showSourceControls="false"
 												showTargetControls="false" showCheckbox="false"
 												showSourceFilter="true" showTargetFilter="true">
-			
+
 												<f:facet name="sourceCaption">Disponíveis</f:facet>
 												<f:facet name="targetCaption">Selecionados</f:facet>
 											</p:pickList>
@@ -177,47 +201,54 @@
 									</h:panelGroup>
 								</p:panel>
 							</div>
-							
-							<br/>
-							
-							<div style="float: left; width:100%; position: relative;" >
+
+							<br />
+
+							<div style="float: left; width: 100%; position: relative;">
 								<p:panel header="Upload Documento *">
 									<h:panelGroup>
-	
-									<p />
-									<p:outputLabel value="Publicação Automática? "
-										styleClass="ui-priority-primary" />
-									<p:selectBooleanCheckbox id="publicacaoAutomatica"
-										value="#{publicarDocumentoControlador.variaveis.publicacaoAutomatica}" />
-									
-									<p />
-							
-									<p:outputPanel id="op1">
-										<p:outputLabel value="Documento: #{publicarDocumentoControlador.uploadFile.fileName}"
-											rendered="#{publicarDocumentoControlador.uploadFile != null}" styleClass="ui-priority-primary"/>
-									</p:outputPanel>
-									<br/>
-							
-									<p:growl id="mgsUpload"/>
-									<p:fileUpload fileUploadListener="#{publicarDocumentoControlador.handleFileUpload}" 
-										mode="advanced" update="mgsUpload op1 op2" auto="true"
-										allowTypes="/(\.|\/)(docs|doc)$/" label="Escolher Arquivo" uploadLabel="Enviar" cancelLabel="Cancelar"  
-										value="#{publicarDocumentoControlador.uploadFile}" required="true" 
-										invalidFileMessage="O tipo do arquivo é inválido! Apenas arquivos do tipo *.docs ou *.doc são permitidos."
-										/>
-									
-    								<div align="right">
-    									<p:outputPanel id="op2">
-											<p:commandButton id="buttonSalvar" value="Gerar Solicitação" 
-												ajax="false" rendered="#{publicarDocumentoControlador.habilitar}"
-												styleClass="ui-priority-primary" icon="ui-icon-circle-check"
-												action="#{publicarDocumentoControlador.salvarNovaSolicitacao}" process="@this"/>
-										</p:outputPanel>	
-									</div>
-    								
-									<p />
+
+										<p />
+										<p:outputLabel value="Publicação Automática? "
+											styleClass="ui-priority-primary" />
+										<p:selectBooleanCheckbox id="publicacaoAutomatica"
+											value="#{publicarDocumentoControlador.variaveis.publicacaoAutomatica}" />
+
+										<p />
+
+										<p:outputPanel id="op1">
+											<p:outputLabel
+												value="Documento: #{publicarDocumentoControlador.uploadFile.fileName}"
+												rendered="#{publicarDocumentoControlador.uploadFile != null}"
+												styleClass="ui-priority-primary" />
+										</p:outputPanel>
+										<br />
+
+										<p:growl id="mgsUpload" />
+										<p:fileUpload
+											fileUploadListener="#{publicarDocumentoControlador.handleFileUpload}"
+											mode="advanced" update="mgsUpload op1 op2" auto="true"
+											allowTypes="/(\.|\/)(docs|doc)$/" label="Escolher Arquivo"
+											uploadLabel="Enviar" cancelLabel="Cancelar"
+											value="#{publicarDocumentoControlador.uploadFile}"
+											required="true"
+											invalidFileMessage="O tipo do arquivo é inválido! Apenas arquivos do tipo *.docs ou *.doc são permitidos." />
+
+										<div align="right">
+											<p:outputPanel id="op2">
+												<p:commandButton id="buttonSalvar" value="Gerar Solicitação"
+													ajax="false"
+													rendered="#{publicarDocumentoControlador.habilitar}"
+													styleClass="ui-priority-primary"
+													icon="ui-icon-circle-check"
+													action="#{publicarDocumentoControlador.salvarNovaSolicitacao}"
+													process="@this" />
+											</p:outputPanel>
+										</div>
+
+										<p />
 									</h:panelGroup>
-		
+
 								</p:panel>
 							</div>
 						</p:tab>
