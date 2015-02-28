@@ -154,15 +154,15 @@ public class PublicarDocumentoControlador implements Serializable {
 	@ManagedProperty(value = "#{categoriaServicoImpl}")
 	private CategoriaServico categoriaServico;
 
-	private String TELA_PESQUISA = "paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true";
+	private String TELA_PESQUISA = "/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true";
 
 	private String TELA_CADASTRO = "/paginas/solicitacao/publicardocumento/cadastro.xhtml?faces-redirect=true";
 
-	private String TELA_DETALHE = "/paginas/solicitacao/publicardocumento/detalhe.xhtml";
+	private String TELA_DETALHE = "/paginas/solicitacao/publicardocumento/detalhe.xhtml?faces-redirect=true";
 	
 	private String TELA_REVISAO = "/paginas/solicitacao/publicardocumento/revisar.xhtml?faces-redirect=true";
 
-	private String TELA_DETALHE_TAREFA = "paginas/solicitacao/publicardocumento/detalhetarefa.xhtml";
+	private String TELA_DETALHE_TAREFA = "/paginas/solicitacao/publicardocumento/detalhetarefa.xhtml?faces-redirect=true";
 
 	// PickList
 
@@ -553,7 +553,7 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.telaPesquisa();
 	}
 
-	public void detalhe(ProcessoInstancia entity) throws ParseException {
+	public String detalhe(ProcessoInstancia entity) throws ParseException {
 
 		this.processoInstancia = entity;
 
@@ -583,7 +583,7 @@ public class PublicarDocumentoControlador implements Serializable {
 		 * tarefaInstancia.setVariaveis(this.variaveisTreinamento); }
 		 */
 
-		paginaCentralControladorBean.setPaginaCentral(this.TELA_DETALHE);
+		return this.TELA_DETALHE;
 
 	}
 	
@@ -756,7 +756,7 @@ public class PublicarDocumentoControlador implements Serializable {
 		return var;
 	}
 
-	public void detalheTarefa(TarefaInstancia tarefa) {
+	public String detalheTarefa(TarefaInstancia tarefa) {
 		this.tarefa = tarefa;
 		// TODO
 		// this.variaveisTarefa =
@@ -769,8 +769,8 @@ public class PublicarDocumentoControlador implements Serializable {
 			((VariaveisTreinamento) this.tarefa.getVariaveis())
 					.setParecer(this.variaveisTarefa.getParecer());
 		}
-		this.paginaCentralControladorBean
-				.setPaginaCentral(this.TELA_DETALHE_TAREFA);
+		
+		return this.TELA_DETALHE_TAREFA;
 	}
 
 	public void abrirImagemProcesso(ProcessoInstancia entity) {
@@ -780,8 +780,9 @@ public class PublicarDocumentoControlador implements Serializable {
 		setImagem(activitiServico.getProcessoDiagrama(entity.getId()));
 	}
 
-	public void telaDetalhe() {
-		this.paginaCentralControladorBean.setPaginaCentral(this.TELA_DETALHE);
+	public String telaDetalhe() {
+		return this.TELA_DETALHE;
+		
 	}
 
 	public List<ProcessoInstancia> getLista() {
