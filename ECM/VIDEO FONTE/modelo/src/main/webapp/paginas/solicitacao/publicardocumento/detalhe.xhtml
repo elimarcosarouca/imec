@@ -1,58 +1,191 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<ui:component xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:pe="http://primefaces.org/ui/extensions">
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	template="/resources/layout/template.xhtml">
 
-	<style type="text/css">
-.ui-picklist-source,.ui-picklist-target {
-	height: 400px;
-	width: 400px;
-}
-</style>
+	<!--  ====== Params ================ 
+			. Obrigatorios: 
+				- managedBean
+		 -->
 
-	<h:form id="form">
+	<ui:define name="content">
 
-		<p:panel id="panel" closable="false" style="width:99%"
-			header="Detalhe da solicitação">
-			<p:growl id="msg" />
-			<h:panelGrid columns="4" style="width:99%">
+		<c:if test="#{empty widthContainer}">
+			<c:set var="widthContainer" value="100%" />
+		</c:if>
 
-				<p:outputLabel value="Protocolo" style="width:95%" />
-				<p:outputLabel value="Descrição" />
-				<p:outputLabel value="Solicitante" />
-				<p:outputLabel value="Status" />
+		<c:if test="#{empty renderCancelar}">
+			<c:set var="renderCancelar" value="true" />
+		</c:if>
 
-				<p:inputText id="treinamento" disabled="true" style="width:75%"
-					styleClass="ui-priority-primary"
-					value="#{publicarDocumentoControlador.processoInstancia.businessKey}" />
+		<c:if test="#{empty disabledBtnSalvar}">
+			<c:set var="disabledBtnSalvar" value="false" />
+		</c:if>
 
-				<p:inputText id="custoEstimado" disabled="true" style="width:75%"
-					styleClass="ui-priority-primary"
-					value="#{publicarDocumentoControlador.processoInstancia.variaveis.descricao}" />
+		<c:if test="#{empty containerTitle}">
+			<c:set var="containerTitle" value="Preencher campos" />
+		</c:if>
+
+		<ui:param name="pageTitle" value="Publicação de Documentos" />
+
+		<div class="mainForm" >
+
+			<h:form id="form">		
+				<p:accordionPanel>
+        			<p:tab title="Geral">
+						<p:panel id="panel" closable="false"
+							header="Detalhes da Publicação de Documento" style="width:100%;">
+							
+							<h:panelGrid style="width:30%" columns="5" cellspacing="4">
+								<h:outputLabel value="Nome: " styleClass="ui-priority-primary" />
+								<h:outputLabel value="Nomenclatura: " styleClass="ui-priority-primary" />
+								<h:outputLabel value="Categoria: " styleClass="ui-priority-primary" />
+								<h:outputLabel value="Unidade: " styleClass="ui-priority-primary" />
+								<h:outputLabel value="Setor: " styleClass="ui-priority-primary" />
+							
+								<p:inputText id="nomeDocumento" readonly="true" value="#{publicarDocumentoControlador.processoInstancia.variaveis.arquivoDoc.nomeArquivo}"/>
+								<p:inputText id="nomenclatura" readonly="true" value="#{publicarDocumentoControlador.processoInstancia.variaveis.nomenclatura}"/>
+								<p:inputText id="categoria" readonly="true" value="#{publicarDocumentoControlador.processoInstancia.variaveis.categoria.sigla} - #{publicarDocumentoControlador.processoInstancia.variaveis.categoria.nome}"/>
+								<p:inputText id="unidade" readonly="true" value="#{publicarDocumentoControlador.processoInstancia.variaveis.unidade.sigla} - #{publicarDocumentoControlador.processoInstancia.variaveis.unidade.nome}"/>
+								<p:inputText id="setor" readonly="true" value="#{publicarDocumentoControlador.processoInstancia.variaveis.setor.nome}"/>
+		
+							</h:panelGrid>
+							
+							<p />
+		
+							<h:panelGrid columns="1">
+								<h:outputText value="Justificativa "
+									styleClass="ui-priority-primary" />
+								<p:inputTextarea rows="3" cols="30" required="true" requiredMessage="O campo justificativa é obrigatório!"
+									value="#{publicarDocumentoControlador.processoInstancia.variaveis.descricao}"
+									maxlength="255" style="width:450px" id="descricao"
+									autoResize="false" readonly="true"/>
+							</h:panelGrid>
+		
+							<p />
+		
+							<h:panelGrid columns="2">
+								<p:outputLabel value="Data de Vencimento: " styleClass="ui-priority-primary" />
+								<p:outputLabel value="Data de Notificação de vencimento: " styleClass="ui-priority-primary" />
+		
+								<p:calendar id="dataVencimento" pattern="dd/MM/yyyy" mask="true" 
+									value="#{publicarDocumentoControlador.processoInstancia.variaveis.dataVencimento}" readonly="true" />
+								<p:calendar id="diasAntecedencia" pattern="dd/MM/yyyy" mask="true" 
+									value="#{publicarDocumentoControlador.processoInstancia.variaveis.dataNotificacao}" readonly="true" />
+							</h:panelGrid>
+							
+							<br/>
+							
+							<div style="float: left; width:25%; position: relative;" align="center">							
+								<p:panel header="Elaboradores " style="height: 324px;">
+									<h:panelGroup style="width:99%">
+										<p />
+										
+										<p:orderList id="listElaboradoes" value="#{publicarDocumentoControlador.processoInstancia.variaveis.elaboradores}" var="item" 
+											itemLabel="#{item}" itemValue="#{item}" controlsLocation="none" disabled="true" />
+										
+									</h:panelGroup>
+								</p:panel>
+							</div>	
+						
+							<div style="float: left; width:25%; position: relative;" align="center">
+								<p:panel header="Aprovadores " style="height: 324px;">
+									<h:panelGroup style="width:99%">
+										<p />
+										
+										<p:orderList id="listAprovadores" value="#{publicarDocumentoControlador.processoInstancia.variaveis.aprovadores}" var="item" 
+											itemLabel="#{item}" itemValue="#{item}" controlsLocation="none" disabled="true" />
+											
+									</h:panelGroup>
+								</p:panel>
+							</div>
+							
+							<div style="float: left; width:25%; position: relative; height: 311px;" align="center">
+								<p:panel header="Posto de Cópia" style="height: 324px;">
+									<h:panelGroup style="width:99%">
+		
+										<p />
+										
+										<p:orderList id="listPostoCopia" value="#{publicarDocumentoControlador.processoInstancia.variaveis.postosCopia}" var="item" 
+											itemLabel="#{item}" itemValue="#{item}" controlsLocation="none" disabled="true" />
+										
+									</h:panelGroup>
+								</p:panel>
+							</div>
+								
+							<div style="float: left; width:25%; position: relative;" align="center">
+								<p:panel header="Concensão" style="height: 324px;">
+									<h:panelGroup style="width:99%;" >
+										<div align="center">
+											<p />
+											<p:outputLabel value="Enviar para Concensão? "
+												styleClass="ui-priority-primary" />
+			
+											<p:selectBooleanCheckbox id="enviarConcensao" disabled="true"
+												value="#{publicarDocumentoControlador.processoInstancia.variaveis.enviarConcensao}">
+											</p:selectBooleanCheckbox>
+											
+											<p:orderList id="listConcensao" value="#{publicarDocumentoControlador.processoInstancia.variaveis.concensos}" var="item" 
+												itemLabel="#{item}" itemValue="#{item}" controlsLocation="none" disabled="true" />
+											
+										</div>
+									</h:panelGroup>
+								</p:panel>
+							</div>
+						</p:panel>
+					</p:tab>
 					
-				<p:inputText disabled="true" style="width:75%"
-					styleClass="ui-priority-primary"
-					value="#{publicarDocumentoControlador.processoInstancia.variaveis.solicitante}" />
+					<p:tab title="Documentos">
+						<h:panelGrid columns="1">
+							<p:commandButton id="downloadDoc" value="Baixar Documento"
+								ajax="false" actionListener="#{publicarDocumentoControlador.downloadArquivoDoc}"
+								icon="ui-icon-document">
+								
+								<f:setPropertyActionListener value="doc" target="#{publicarDocumentoControlador.tipoDocumento}" />
+								
+								<p:fileDownload value="#{publicarDocumentoControlador.file}" />
+							</p:commandButton>
+							
+							<p:commandButton id="downloadPdfControlado" value="Baixar Documento Controlado"
+								ajax="false" actionListener="#{publicarDocumentoControlador.downloadArquivoControlado}"
+								icon="ui-icon-document">
+								
+								<f:setPropertyActionListener value="controlado" target="#{publicarDocumentoControlador.tipoDocumento}" />
+								
+								<p:fileDownload value="#{publicarDocumentoControlador.file}" />
+							</p:commandButton>
+							
+							<p:commandButton id="downloadPdfNaoControlado" value="Baixar Documento Não Controlado"
+								ajax="false" actionListener="#{publicarDocumentoControlador.downloadArquivoNaoControlado}"
+								icon="ui-icon-document">
+								
+								<f:setPropertyActionListener value="naoControlado" target="#{publicarDocumentoControlador.tipoDocumento}" />
+								
+								<p:fileDownload value="#{publicarDocumentoControlador.file}" />
+							</p:commandButton>
+						</h:panelGrid>	
+					</p:tab>
 					
-				<p:inputText disabled="true" style="width:75%"
-					styleClass="ui-priority-primary"
-					value="#{publicarDocumentoControlador.processoInstancia.variaveis.statusProcesso}" />
+				</p:accordionPanel>					
+		
+				<h:panelGrid style="width:99%" columns="2">
+					<p:commandButton id="buttonRetornar" value="Voltar" ajax="false"
+						styleClass="ui-priority-primary" icon="ui-icon-circle-arrow-w"
+						action="#{publicarDocumentoControlador.telaPesquisa}" update=":form" />
+				</h:panelGrid>
+		
+			</h:form>
+		</div>	
+		
+		<ui:insert name="modal_region" />
 
-			</h:panelGrid>
-		</p:panel>
-
-		<h:panelGrid style="width:99%" columns="2">
-			<p:commandButton id="buttonRetornar" value="Voltar" ajax="false"
-				styleClass="ui-priority-primary" icon="ui-icon-circle-arrow-w"
-				action="#{publicarDocumentoControlador.telaPesquisa}" update=":form" />
-
-		</h:panelGrid>
-
-
-	</h:form>
-</ui:component>
+	</ui:define>
+</ui:composition>
