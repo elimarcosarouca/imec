@@ -21,7 +21,7 @@ public enum TipoDeDocumento {
 	            }
 	        }
 	    }
-	    throw new IllegalArgumentException("Tipo de documento não suportado para conversão para PDF");
+	    throw new IllegalArgumentException("Tipo de documento nao suportado para conversao para PDF");
 	}
 	
 }

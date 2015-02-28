@@ -75,7 +75,7 @@ public class TarefaControle implements Serializable {
 
 	private final String PESQUISATAREFAPENDENTE = "paginas/tarefa/pesquisatarefapendente.xhtml";
 
-	private final String DETALHETAREFAPENDENTE = "paginas/tarefa/detalhe.xhtml";
+	private final String DETALHETAREFAPENDENTE = "paginas/tarefa/publicardocumento/detalhe.xhtml";
 
 	private StreamedContent file;
 

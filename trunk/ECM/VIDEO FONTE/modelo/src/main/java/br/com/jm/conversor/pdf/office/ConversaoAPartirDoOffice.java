@@ -20,8 +20,8 @@ import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConv
  */
 public abstract class ConversaoAPartirDoOffice implements ConversaoParaPDF {
 	
-    /* O host e a porta do open office estão fixos no código por 
-       simplicidade, mas essa configuração pode ser externalizada */
+    /* O host e a porta do open office estao fixos no codigo por 
+       simplicidade, mas essa configuracao pode ser externalizada */
     private String host = "localhost";
     private int porta = 8100;
     
@@ -30,7 +30,7 @@ public abstract class ConversaoAPartirDoOffice implements ConversaoParaPDF {
 			return this.converterInternamente(documento);
 		} catch (ConnectException e) {
 			throw new ImpossivelConverterDocumentoException(
-				"Serviço do open office fora do ar! Conversões para PDF a partir de documentos não irão funcionar!");
+				"Servico do open office fora do ar! Conversoes para PDF a partir de documentos nao irao funcionar!");
 		}
 	}
 	
@@ -57,7 +57,7 @@ public abstract class ConversaoAPartirDoOffice implements ConversaoParaPDF {
 		}
 	}
 
-	//para estender nas subclasses - define qual tipo de documento do office irá converter
+	//para estender nas subclasses - define qual tipo de documento do office ira converter
     protected abstract DocumentFormat getTipoDeDocumentoParaConverter();
 
 }
