@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -66,16 +65,19 @@ public class TarefaControle implements Serializable {
 
 	@ManagedProperty(value = "#{treinamentoRN}")
 	private TreinamentoRN treinamentoRN;
-	
+
 	@ManagedProperty(value = "#{alertaServicoImpl}")
 	private AlertaServico alertaServico;
 
 	@Value("${uuid.parent.requerimentos.treinamentos}")
 	private String parentTreinamento;
 
-	private final String PESQUISATAREFAPENDENTE = "paginas/tarefa/pesquisatarefapendente.xhtml";
+	@ManagedProperty(value = "#{emailControlador}")
+	private EmailControlador emailControlador;
 
-	private final String DETALHETAREFAPENDENTE = "paginas/tarefa/publicardocumento/detalhe.xhtml";
+	private final String PESQUISATAREFAPENDENTE = "/paginas/tarefa/pesquisatarefapendente.xhtml?faces-redirect=true";
+
+	private final String DETALHETAREFAPENDENTE = "/paginas/tarefa/publicardocumento/detalhe.xhtml?faces-redirect=true";
 
 	private StreamedContent file;
 
@@ -130,8 +132,7 @@ public class TarefaControle implements Serializable {
 
 	}
 
-	@PostConstruct
-	public void init() throws ParseException {
+	public String init() throws ParseException {
 
 		this.initTotalTarefasUsuario();
 
@@ -143,8 +144,10 @@ public class TarefaControle implements Serializable {
 				.getProcessosDefinicaoPorQueryLastVersion();
 		this.listaTarefasPendentes = new ArrayList<TarefaInstancia>();
 
-		this.pesquisar();
 		this.lerCookie();
+
+		return this.pesquisar();
+
 	}
 
 	public byte[] criarPDF() throws IOException {
@@ -179,8 +182,7 @@ public class TarefaControle implements Serializable {
 			}
 
 			varTemp = new VariavelPublicarDocumento();
-			varTemp.converterListaVariaveis(tarefaInstancia
-					.getVariables());
+			varTemp.converterListaVariaveis(tarefaInstancia.getVariables());
 			tarefaInstancia.setVariaveis(varTemp);
 		}
 
@@ -192,11 +194,11 @@ public class TarefaControle implements Serializable {
 						.getAuthentication().getPrincipal()).getUserName()))
 			this.totalTarefas = this.listaTarefasPendentes.size();
 
-		return "";
+		return this.PESQUISATAREFAPENDENTE;
 
 	}
 
-	public void aprovar(TarefaInstancia tarefa) throws ParseException {
+	public void aprovar(TarefaInstancia tarefa) throws Exception {
 
 		this.anexarDocumentosAlfresco();
 
@@ -217,7 +219,7 @@ public class TarefaControle implements Serializable {
 		this.telaPesquisaTarefaPendente();
 	}
 
-	public void reprovar(TarefaInstancia tarefa) throws ParseException {
+	public void reprovar(TarefaInstancia tarefa) throws Exception {
 		String json = "{\"name\":\"aprovacaoOK\", \"value\":false},"
 				+ "{\"name\":\"parecer\", \"value\":\"" + this.parecer + "\"}";
 
@@ -249,6 +251,14 @@ public class TarefaControle implements Serializable {
 			activitiServico.completarTarefa(tarefaInstancia.getId(), json);
 		}
 
+	}
+	
+	public void concluirWorkFlow(List<String> email){
+		
+		for (String string : email) {
+			System.out.println(string);
+		}
+		
 	}
 
 	public void detalhe(TarefaInstancia tarefa) {
@@ -348,7 +358,7 @@ public class TarefaControle implements Serializable {
 
 		Map<String, Object> var = new HashMap<String, Object>();
 
-		if (this.variaveis.getProtocolo() != null
+		if (null != this.variaveis.getProtocolo()
 				&& !this.variaveis.getProtocolo().equals("")) {
 			var.put("protocolo", this.variaveis.getProtocolo());
 
@@ -401,7 +411,7 @@ public class TarefaControle implements Serializable {
 
 		}
 	}
-	
+
 	public void downloadArquivo(TarefaInstancia tarefa) {
 		if (this.variaveis.getArquivoDoc() == null) {
 			FacesMessage msg = new FacesMessage(
@@ -409,8 +419,10 @@ public class TarefaControle implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} else {
 
-			String nomeArquivo = ((VariavelPublicarDocumento)tarefa.getVariaveis()).getArquivoControlado().getNomeArquivo();
-			String uuidArquivo = ((VariavelPublicarDocumento)tarefa.getVariaveis()).getArquivoControlado().getUuid();
+			String nomeArquivo = ((VariavelPublicarDocumento) tarefa
+					.getVariaveis()).getArquivoControlado().getNomeArquivo();
+			String uuidArquivo = ((VariavelPublicarDocumento) tarefa
+					.getVariaveis()).getArquivoControlado().getUuid();
 
 			InputStream temp = alfrescoServico.baixarArquivo(nomeArquivo,
 					uuidArquivo);
@@ -591,7 +603,7 @@ public class TarefaControle implements Serializable {
 	public void update(String parecer) {
 		setParecer(parecer);
 	}
-	
+
 	private String getDateTime() {
 		DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy HHmmss");
 		Date date = new Date();
@@ -604,6 +616,14 @@ public class TarefaControle implements Serializable {
 
 	public void setAlertaServico(AlertaServico alertaServico) {
 		this.alertaServico = alertaServico;
+	}
+
+	public EmailControlador getEmailControlador() {
+		return emailControlador;
+	}
+
+	public void setEmailControlador(EmailControlador emailControlador) {
+		this.emailControlador = emailControlador;
 	}
 
 }
