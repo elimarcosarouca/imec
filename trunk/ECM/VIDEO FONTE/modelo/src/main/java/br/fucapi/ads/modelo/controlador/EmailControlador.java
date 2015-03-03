@@ -210,6 +210,35 @@ public class EmailControlador {
 		this.mailSender.send(preparator);
 	}
 	
+	/**
+	 * Metodo utilizado para enviar email na finalização de criacao de um novo usuario
+	 * @param usuario
+	 * @throws Exception
+	 */
+	
+	public void sendmail() throws Exception {
+				
+		MimeMessagePreparator preparator = new MimeMessagePreparator() {
+			public void prepare(MimeMessage mimeMessage) throws Exception {
+				MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+				message.setTo("claudemirramosferreira@gmail.com");
+				message.setFrom(adsProperties.getProperty("mail.sender"));
+						
+				Map<String, String> model = new HashMap<String, String>();
+					
+				model.put("urlSenha", urlSenha);
+				message.setSubject(adsProperties.getProperty("send.subject"));
+
+				String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "tarefa_pendente.vm", model);
+				message.setText(text, true);
+		
+			}
+
+		};
+		this.mailSender.send(preparator);
+
+	}
+	
 	public JavaMailSender getMailSender() {
 		return mailSender;
 	}
