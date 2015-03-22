@@ -2,10 +2,8 @@ package br.fucapi.ads.modelo.dominio;
 
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -87,6 +85,8 @@ public class VariavelPublicarDocumento extends Variavel {
 	private int notificarVencimento;
 
 	private int versaoRevisao;
+	
+	private boolean obsoleto;
 
 	private final String PUBLICAR_DOCUMENTO = "PUBLICAR_DOCUMENTO";
 
@@ -109,6 +109,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.arquivoControlado = new Arquivo();
 		this.arquivoNaoControlado = new Arquivo();
 		this.arquivoObsoleto = new Arquivo();
+		this.obsoleto = false;
 	}
 
 	public void tratarAtributos(List<Usuario> aprovadoresTarget, 
@@ -398,6 +399,14 @@ public class VariavelPublicarDocumento extends Variavel {
 	public void setNomenclatura(String nomenclatura) {
 		this.nomenclatura = nomenclatura;
 	}
+	
+	public boolean isObsoleto() {
+		return obsoleto;
+	}
+
+	public void setObsoleto(boolean obsoleto) {
+		this.obsoleto = obsoleto;
+	}
 
 	/**
 	 * Metodo responsavel por converter lista de variaveis (Map) em um objeto
@@ -540,7 +549,10 @@ public class VariavelPublicarDocumento extends Variavel {
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-			}	
+			} else if (var.getName().equals("obsoleto")
+					&& var.getValue() != null) {
+				this.setObsoleto(new Boolean (var.getValue().toString()));
+			}
 		}
 	}
 	
@@ -584,6 +596,8 @@ public class VariavelPublicarDocumento extends Variavel {
 		
 		params.put("dataVencimento", this.getDataNotificacao());
 		params.put("dataNotificacao", this.getDataNotificacao());
+		
+		params.put("obsoleto", this.isObsoleto());
 		
 		return params;
 	}

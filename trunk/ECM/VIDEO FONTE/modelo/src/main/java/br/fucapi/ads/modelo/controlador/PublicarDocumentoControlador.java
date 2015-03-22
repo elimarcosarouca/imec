@@ -482,6 +482,17 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	}
 
+	public String validarFormulario() {
+		if (!"".equals(this.uploadFile.getFileName())) {
+			return this.salvarNovaSolicitacao();
+		} else {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "O arquivo deve ser selecionado!",
+					"O arquivo deve ser selecionado!");
+			FacesContext.getCurrentInstance().addMessage("messages", message);
+			return "";
+		}
+	}
+	
 	/**
 	 * Metodo responsavel por salvar uma nova solicitacao de treinamento no
 	 * activiti
