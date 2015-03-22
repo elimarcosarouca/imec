@@ -406,14 +406,6 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.nomenclatura = nomenclatura;
 	}
 	
-	public boolean isObsoleto() {
-		return obsoleto;
-	}
-
-	public void setObsoleto(boolean obsoleto) {
-		this.obsoleto = obsoleto;
-	}
-
 	/**
 	 * Metodo responsavel por converter lista de variaveis (Map) em um objeto
 	 * VariaveisProcesso
@@ -483,7 +475,7 @@ public class VariavelPublicarDocumento extends Variavel {
 					&& var.getValue() != null) {
 				this.setPublicacaoAutomatica(new Boolean (var.getValue().toString()));
 
-			} else if (var.getName().equals("aprovadores")
+			} else if ("aprovadores".equals(var.getName())
 					&& var.getValue() != null) {
 				this.setAprovadores(var.getValue() != null ? (List<String>) var
 						.getValue() : null);
@@ -555,9 +547,11 @@ public class VariavelPublicarDocumento extends Variavel {
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-			} else if (var.getName().equals("obsoleto")
+			} else if ("postosCopia".equals(var.getName()) 
 					&& var.getValue() != null) {
-				this.setObsoleto(new Boolean (var.getValue().toString()));
+				this.setPostosCopia(var.getValue() != null ? (List<Long>) var
+						.getValue() : null); 
+			
 			}
 		}
 	}
@@ -572,7 +566,10 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("elaboradores", this.getElaboradores());
 		params.put("emailProprietario", this.getEmailProprietario());
 
+		params.put("concensos", this.getConcensos());
 		params.put("emailConcensos", this.getEmailConcensos());
+
+		params.put("aprovadores", this.getAprovadores());
 		params.put("emailArovadores", this.getEmailAprovadores());
 
 		params.put("versaoRevisao", this.getVersaoRevisao());
@@ -585,9 +582,6 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("arquivoNaoControlado", this.getArquivoNaoControlado());
 		params.put("arquivoObsoleto", this.getArquivoObsoleto());
 		
-		params.put("aprovadores", this.getAprovadores());
-		params.put("concensos", this.getConcensos());
-		params.put("elaboradores", this.getElaboradores());
 		params.put("categoria", this.getCategoria());
 		params.put("unidade", this.getUnidade());
 		params.put("setor", this.getSetor());
@@ -603,7 +597,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("dataVencimento", this.getDataNotificacao());
 		params.put("dataNotificacao", this.getDataNotificacao());
 		
-		params.put("obsoleto", this.isObsoleto());
+		params.put("postosCopia", this.getPostosCopia());
 		
 		return params;
 	}

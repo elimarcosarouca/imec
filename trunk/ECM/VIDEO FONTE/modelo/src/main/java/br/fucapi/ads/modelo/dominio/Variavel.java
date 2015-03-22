@@ -21,6 +21,8 @@ public class Variavel implements Serializable {
 	private String uuidPasta;
 
 	private String protocolo;
+	
+	private String justificativaStatus;
 
 	public Variavel() {
 
@@ -170,4 +172,12 @@ public class Variavel implements Serializable {
 	 * 
 	 * return json; }
 	 */
+
+	public String getJustificativaStatus() {
+		return justificativaStatus;
+	}
+
+	public void setJustificativaStatus(String justificativaStatus) {
+		this.justificativaStatus = justificativaStatus;
+	}
 }

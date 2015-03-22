@@ -533,7 +533,6 @@ public class PublicarDocumentoControlador implements Serializable {
 		request.execute("sucessoDialog.show()");
 
 		this.variaveis = new VariavelPublicarDocumento();
-
 		
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "",
 				"Documento incluído no fluxo de processo!");
