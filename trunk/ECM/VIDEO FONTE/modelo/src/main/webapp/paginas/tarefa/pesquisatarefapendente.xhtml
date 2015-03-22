@@ -40,6 +40,8 @@
 
 			<h:form id="form">
 
+				<p:growl id="message" showDetail="true" />
+
 				<p:panel header="Tarefas Pendentes" style="width:99%"
 					id="painelPesquisa">
 					<p:growl id="growl" />
@@ -71,20 +73,21 @@
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15,20">
 
-						<p:column style="text-align:left" headerText="Protocolo"
-							sortBy="#{item.businessKey}">
-							<h:outputText
-								value="#{item.variaveis.ano}#{item.variaveis.sequencial}" />
-						</p:column>
-
 						<p:column style="text-align:left" headerText="Tarefa"
 							sortBy="#{item.name}}">
 							<h:outputText value="#{item.name}" />
 						</p:column>
 
-						<p:column style="text-align:left" headerText="Tipo de Solicitação"
-							sortBy="#{item.processDefinitionId}">
-							<h:outputText value="#{item.processDefinitionId}" />
+						<p:column style="text-align:left" headerText="Código do Documento"
+							sortBy="#{item.variaveis.nomenclatura}">
+							<h:outputText
+								value="#{item.variaveis.nomenclatura}" />
+						</p:column>
+
+						<p:column style="text-align:left" headerText="Nome do Documento"
+							sortBy="#{item.variaveis.arquivoDoc.nomeArquivo}">
+							<h:outputText
+								value="#{item.variaveis.arquivoDoc.nomeArquivo} 1" />
 						</p:column>
 
 						<p:column style="text-align:left" headerText="Data de Criação"
@@ -124,6 +127,9 @@
 								<p:fileDownload value="#{tarefaControle.file}" />
 							</p:commandButton>
 
+							<p:commandButton value="Modal" type="button"
+								onclick="PF('aprovar').show();" />
+
 						</p:column>
 
 						<f:facet name="footer">
@@ -137,22 +143,31 @@
 
 		</div>
 
-		<p:confirmDialog message="Deseja realmente aprovar ?"
-			header="CONFIRMAR" severity="alert" appendToBody="true"
-			widgetVar="aprovar" closable="false" showEffect="slide"
-			hideEffect="blind">
-			<h:form>
-				<p:commandButton value="Cancelar" onclick="aprovar.hide()"
-					actionListener="#{tarefaControle.init}" global="false"
-					style="height:32px;width:116px" />
+		<p:dialog header="Deseja aprovar a tarefa ?" widgetVar="dialogAprovar"
+			showEffect="explode" hideEffect="bounce" height="100">
 
-				<p:commandButton id="confirmDelBtn" value="Confirmar"
-					onsuccess="aprovar.hide()" ajax="false"
-					actionListener="#{tarefaControle.aprovar(tarefaControle.entity)}"
+			<h:form>
+				<h:panelGrid columns="1" cellspacing="1">
+					<h:outputText value="Parecer" styleClass="ui-priority-primary" />
+					<p:inputTextarea rows="6" cols="100" id="firstname"
+						value="#{tarefaControle.parecer}" required="true"
+						requiredMessage="O parecer deve ser informado">
+						<p:ajax event="keyup" update="cc" />
+					</p:inputTextarea>
+					<p:message for="firstname" display="icon" />
+				</h:panelGrid>
+
+				<p:commandButton value="Cancelar" id="cc" immediate="false"
+					actionListener="#{tarefaControle.aprovar}"
+					
 					global="false" style="height:32px;width:116px" />
+
+				<p:commandButton value="Cancelar" onclick="aprovar.hide()"
+					immediate="false" global="false" style="height:32px;width:116px" />
+
 			</h:form>
 
-		</p:confirmDialog>
+		</p:dialog>
 	</ui:define>
 
 </ui:composition>
