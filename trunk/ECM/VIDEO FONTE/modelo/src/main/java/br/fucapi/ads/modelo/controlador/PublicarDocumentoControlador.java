@@ -507,7 +507,7 @@ public class PublicarDocumentoControlador implements Serializable {
 		 * email) que devem ser enviadas ao Activiti
 		 */
 		this.variaveis.tratarAtributos(this.aprovadores.getTarget(),
-				this.concensos.getTarget(), this.elaboradores.getTarget());
+				this.concensos.getTarget(), this.elaboradores.getTarget(), this.postosCopia.getTarget());
 
 		// Chamada para converter o arquivo .doc e salvar os arquivos no
 		// Alfresco
