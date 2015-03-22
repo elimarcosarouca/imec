@@ -25,6 +25,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -35,12 +36,9 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.IOUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.fucapi.ads.modelo.dominio.Documento;
-import br.fucapi.ads.modelo.dominio.UUIDNodeRef;
-import br.fucapi.ads.modelo.dominio.VariaveisTreinamento;
 import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
 import br.fucapi.ads.modelo.regranegocio.TreinamentoRN;
 import br.fucapi.ads.modelo.servico.AlertaServico;
@@ -69,8 +67,10 @@ public class TarefaControle implements Serializable {
 	@ManagedProperty(value = "#{alertaServicoImpl}")
 	private AlertaServico alertaServico;
 
-	@Value("${uuid.parent.requerimentos.treinamentos}")
-	private String parentTreinamento;
+	/*
+	 * @Value("${uuid.parent.requerimentos.treinamentos}") private String
+	 * parentTreinamento;
+	 */
 
 	@ManagedProperty(value = "#{emailControlador}")
 	private EmailControlador emailControlador;
@@ -81,6 +81,7 @@ public class TarefaControle implements Serializable {
 
 	private StreamedContent file;
 
+	@NotNull
 	private String parecer;
 
 	private boolean status;
@@ -130,6 +131,16 @@ public class TarefaControle implements Serializable {
 		this.totalTarefas = (this.listaTarefasPendentes != null) ? this.listaTarefasPendentes
 				.size() : 0;
 
+	}
+
+	public void destroyWorld() {
+		addMessage("System Error", "Please try again later.");
+	}
+
+	public void addMessage(String summary, String detail) {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+				summary, detail);
+		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 	public String init() throws ParseException {
@@ -200,18 +211,16 @@ public class TarefaControle implements Serializable {
 
 	public void aprovar(TarefaInstancia tarefa) throws Exception {
 
-		this.anexarDocumentosAlfresco();
-
-		String jsonDocumentos = Documento.listToJson(this.documentos);
-
 		String json = "{\"name\":\"aprovacaoOK\", \"value\":true},"
-				+ "{\"name\":\"parecer\", \"value\":\"" + "teste" + "\"},"
-				+ "{\"name\":\"documentos\", \"value\":" + jsonDocumentos + "}";
+				+ "{\"name\":\"parecer\", \"value\":\"" + this.parecer + "\"}";
 
 		this.activitiServico.completarTarefa(tarefa.getId(), json);
 
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
 				"Tarefa aprovada com sucesso", "Tarefa aprovada com sucesso!");
+
+		org.primefaces.context.RequestContext.getCurrentInstance().execute(
+				"dialogAprovar.hide();");
 
 		FacesContext.getCurrentInstance().addMessage(null, message);
 
@@ -252,13 +261,13 @@ public class TarefaControle implements Serializable {
 		}
 
 	}
-	
-	public void concluirWorkFlow(List<String> email){
-		
+
+	public void concluirWorkFlow(List<String> email) {
+
 		for (String string : email) {
 			System.out.println(string);
 		}
-		
+
 	}
 
 	public void detalhe(TarefaInstancia tarefa) {
@@ -371,47 +380,39 @@ public class TarefaControle implements Serializable {
 		return var;
 	}
 
-	public void anexarDocumentosAlfresco() {
-
-		this.documentos = new ArrayList<Documento>();
-		Documento doc = null;
-
-		try {
-			String nomePasta = +((VariaveisTreinamento) this.entity
-					.getVariaveis()).getAno()
-					+ ""
-					+ ((VariaveisTreinamento) this.entity.getVariaveis())
-							.getSequencial();
-
-			File file = null;
-
-			for (FileItem item : this.itens) {
-
-				String nomeArquivo = item.getName();
-				doc = new Documento();
-
-				file = new File(nomeArquivo);
-
-				item.write(file);
-
-				String json = alfrescoServico.anexarArquivo(parentTreinamento,
-						nomePasta, null, nomeArquivo, this.usuario.getTicket(),
-						file);
-
-				UUIDNodeRef nodeRef = UUIDNodeRef.fromJsonToUUIDNodeRef(json);
-
-				doc.setUuid(nodeRef.getNodeRef());
-				doc.setFile(null);
-				doc.setNomeArquivo(nomeArquivo);
-
-				this.documentos.add(doc);
-			}
-
-		} catch (Exception e) {
-
-		}
-	}
-
+	/*
+	 * public void anexarDocumentosAlfresco() {
+	 * 
+	 * this.documentos = new ArrayList<Documento>(); Documento doc = null;
+	 * 
+	 * try { String nomePasta = +((VariaveisTreinamento) this.entity
+	 * .getVariaveis()).getAno() + "" + ((VariaveisTreinamento)
+	 * this.entity.getVariaveis()) .getSequencial();
+	 * 
+	 * File file = null;
+	 * 
+	 * for (FileItem item : this.itens) {
+	 * 
+	 * String nomeArquivo = item.getName(); doc = new Documento();
+	 * 
+	 * file = new File(nomeArquivo);
+	 * 
+	 * item.write(file);
+	 * 
+	 * String json = alfrescoServico.anexarArquivo(parentTreinamento, nomePasta,
+	 * null, nomeArquivo, this.usuario.getTicket(), file);
+	 * 
+	 * UUIDNodeRef nodeRef = UUIDNodeRef.fromJsonToUUIDNodeRef(json);
+	 * 
+	 * doc.setUuid(nodeRef.getNodeRef()); doc.setFile(null);
+	 * doc.setNomeArquivo(nomeArquivo);
+	 * 
+	 * this.documentos.add(doc); }
+	 * 
+	 * } catch (Exception e) {
+	 * 
+	 * } }
+	 */
 	public void downloadArquivo(TarefaInstancia tarefa) {
 		if (this.variaveis.getArquivoDoc() == null) {
 			FacesMessage msg = new FacesMessage(
