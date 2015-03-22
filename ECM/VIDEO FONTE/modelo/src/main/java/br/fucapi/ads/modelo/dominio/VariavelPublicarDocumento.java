@@ -37,7 +37,7 @@ public class VariavelPublicarDocumento extends Variavel {
 
 	private List<String> emailConcensos;
 	
-	private List<String> postosCopia;
+	private List<Long> postosCopia;
 
 	private List<String> gruposNotificar;
 	
@@ -102,7 +102,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.aprovadores = new ArrayList<String>();
 		this.elaboradores = new ArrayList<String>();
 		this.concensos = new ArrayList<String>();
-		this.postosCopia = new ArrayList<String>();
+		this.postosCopia = new ArrayList<Long>();
 		this.emailAprovadores = new ArrayList<String>();
 		this.emailConcensos = new ArrayList<String>();
 		this.arquivoDoc = new Arquivo();
@@ -113,7 +113,7 @@ public class VariavelPublicarDocumento extends Variavel {
 	}
 
 	public void tratarAtributos(List<Usuario> aprovadoresTarget, 
-			List<Usuario> concensosTarget, List<Usuario> elaboradoesTarget) {
+			List<Usuario> concensosTarget, List<Usuario> elaboradoesTarget, List<PostoCopia> postosCopiaTarget) {
 		
 		this.dataNotificacao = GeralUtils.gerarDataNotificacao(this.dataVencimento, this.notificarVencimento);
 		
@@ -135,6 +135,12 @@ public class VariavelPublicarDocumento extends Variavel {
 		if(elaboradoesTarget != null && elaboradoesTarget.size() > 0){
 			for (Usuario u : elaboradoesTarget) {
 				this.elaboradores.add(u.getUserName());
+			}
+		}
+		
+		if(postosCopiaTarget != null && postosCopiaTarget.size() > 0){
+			for (PostoCopia p : postosCopiaTarget) {
+				this.postosCopia.add(p.getId());
 			}
 		}
 		
@@ -176,11 +182,11 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.emailConcensos = emailConcensos;
 	}
 
-	public List<String> getPostosCopia() {
+	public List<Long> getPostosCopia() {
 		return postosCopia;
 	}
 
-	public void setPostosCopia(List<String> postosCopia) {
+	public void setPostosCopia(List<Long> postosCopia) {
 		this.postosCopia = postosCopia;
 	}
 
