@@ -22,6 +22,9 @@ public class Variavel implements Serializable {
 
 	private String protocolo;
 	
+	// TODO - checar regra com o Claudemir
+	/* Atributo para ser utizado tanto no cancelamento de solicitacao 
+	 * quanto na reprovacao */
 	private String justificativaStatus;
 
 	public Variavel() {
@@ -135,7 +138,10 @@ public class Variavel implements Serializable {
 			} else if (var.getName().equals("statusProcesso")
 					&& var.getValue() != null) {
 				this.setStatusProcesso(var.getValue().toString());
-				
+			
+			} else if (var.getName().equals("justificativaStatus")
+					&& var.getValue() != null) {
+				this.setJustificativaStatus(var.getValue().toString());
 			}
 		}
 	}
@@ -150,7 +156,7 @@ public class Variavel implements Serializable {
 		params.put("descricao", getDescricao());
 		params.put("protocolo", getProtocolo());
 		params.put("descricao", getDescricao());
-		params.put("statusProcesso", getStatusProcesso());
+//		params.put("statusProcesso", getStatusProcesso());
 		
 
 		return params;

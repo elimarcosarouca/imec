@@ -110,8 +110,8 @@
 										<p />
 
 										<p:orderList id="listElaboradoes"
-											value="#{publicarDocumentoControlador.processoInstancia.variaveis.elaboradores}"
-											var="item" itemLabel="#{item}" itemValue="#{item}"
+											value="#{publicarDocumentoControlador.processoInstancia.variaveis.elaboradoresObjeto}"
+											var="item" itemLabel="#{item.userName} - #{item.firstName} #{item.lastName}" itemValue="#{item}"
 											controlsLocation="none" disabled="true" />
 
 									</h:panelGroup>
@@ -125,8 +125,8 @@
 										<p />
 
 										<p:orderList id="listAprovadores"
-											value="#{publicarDocumentoControlador.processoInstancia.variaveis.aprovadores}"
-											var="item" itemLabel="#{item}" itemValue="#{item}"
+											value="#{publicarDocumentoControlador.processoInstancia.variaveis.aprovadoresObjeto}"
+											var="item" itemLabel="#{item.userName} - #{item.firstName} #{item.lastName}" itemValue="#{item}"
 											controlsLocation="none" disabled="true" />
 
 									</h:panelGroup>
@@ -142,8 +142,8 @@
 										<p />
 
 										<p:orderList id="listPostoCopia"
-											value="#{publicarDocumentoControlador.processoInstancia.variaveis.postosCopia}"
-											var="item" itemLabel="#{item}" itemValue="#{item}"
+											value="#{publicarDocumentoControlador.processoInstancia.variaveis.postosCopiaObjeto}"
+											var="item" itemLabel="#{item.nome}" itemValue="#{item}"
 											controlsLocation="none" disabled="true" />
 
 									</h:panelGroup>
@@ -164,8 +164,8 @@
 											</p:selectBooleanCheckbox>
 
 											<p:orderList id="listConcensao"
-												value="#{publicarDocumentoControlador.processoInstancia.variaveis.concensos}"
-												var="item" itemLabel="#{item}" itemValue="#{item}"
+												value="#{publicarDocumentoControlador.processoInstancia.variaveis.concensosObjeto}"
+												var="item" itemLabel="#{item.userName} - #{item.firstName} #{item.lastName}" itemValue="#{item}"
 												controlsLocation="none" disabled="true" />
 
 										</div>
@@ -178,9 +178,9 @@
 					<p:tab title="Documentos">
 						<h:panelGrid columns="3">
 							<p:commandButton id="downloadDoc" value="Baixar Documento"
-								ajax="false"
-								actionListener="#{publicarDocumentoControlador.downloadArquivoDoc}"
-								icon="ui-icon-document">
+								ajax="false" icon="ui-icon-document"
+								rendered="#{publicarDocumentoControlador.processoInstancia.variaveis.statusProcesso != 'CANCELADO'}"
+								actionListener="#{publicarDocumentoControlador.downloadArquivoDoc}" >
 
 								<f:setPropertyActionListener value="doc"
 									target="#{publicarDocumentoControlador.tipoDocumento}" />
@@ -189,9 +189,9 @@
 							</p:commandButton>
 
 							<p:commandButton id="downloadPdfControlado"
-								value="Baixar Documento Controlado" ajax="false"
-								actionListener="#{publicarDocumentoControlador.downloadArquivoControlado}"
-								icon="ui-icon-document">
+								value="Baixar Documento Controlado" ajax="false" icon="ui-icon-document"
+								rendered="#{publicarDocumentoControlador.processoInstancia.variaveis.statusProcesso != 'CANCELADO'}"
+								actionListener="#{publicarDocumentoControlador.downloadArquivoControlado}" >
 
 								<f:setPropertyActionListener value="controlado"
 									target="#{publicarDocumentoControlador.tipoDocumento}" />
@@ -219,9 +219,33 @@
 						styleClass="ui-priority-primary" icon="ui-icon-circle-arrow-w"
 						action="#{publicarDocumentoControlador.telaPesquisa}"
 						update=":form" />
+						
+					<p:commandButton id="buttonCancelar" value="Cancelar" 
+						rendered="#{publicarDocumentoControlador.processoInstancia.variaveis.statusProcesso != 'CANCELADO'}" 
+						styleClass="ui-priority-primary" icon="ui-icon-circle-arrow-w"
+						onclick="PF('dlgCancelar').show();" />
+							
 				</h:panelGrid>
 
 			</h:form>
+			
+			<p:dialog id="dlgCancelar" header="Justificativa *"
+				widgetVar="dlgCancelar" appendToBody="true" closable="false"
+				width="30%" modal="true">
+
+				<div align="center">
+					<h:form style="align: center;">
+						<p:inputTextarea rows="3" cols="30" required="true" requiredMessage="O campo justificativa é obrigatório!"
+							value="#{publicarDocumentoControlador.processoInstancia.variaveis.justificativaStatus}"
+							maxlength="255" style="width:450px" id="justificativaCanelar"
+							autoResize="false" />
+										
+						<p:commandButton value="Cancelar" onclick="dlgCancelar.hide()"
+							actionListener="#{publicarDocumentoControlador.cancelar}"
+							global="false" style="height:32px;width:25%" />
+					</h:form>
+				</div>
+			</p:dialog>
 		</div>
 
 		<ui:insert name="modal_region" />

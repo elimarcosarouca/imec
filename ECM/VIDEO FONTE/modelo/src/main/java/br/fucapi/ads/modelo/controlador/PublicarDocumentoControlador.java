@@ -46,6 +46,7 @@ import br.fucapi.ads.modelo.dominio.Protocolo;
 import br.fucapi.ads.modelo.dominio.Setor;
 import br.fucapi.ads.modelo.dominio.VariaveisTarefa;
 import br.fucapi.ads.modelo.dominio.VariaveisTreinamento;
+import br.fucapi.ads.modelo.dominio.Variavel;
 import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
 import br.fucapi.ads.modelo.regranegocio.TreinamentoRN;
 import br.fucapi.ads.modelo.servico.CategoriaServico;
@@ -109,8 +110,6 @@ public class PublicarDocumentoControlador implements Serializable {
 	private List<Usuario> usuarios;
 
 	private String imagem;
-
-	private String motivoCancelamento;
 
 	private VariaveisTreinamento variaveisTreinamento;
 
@@ -546,8 +545,8 @@ public class PublicarDocumentoControlador implements Serializable {
 	public void cancelar() {
 
 		Map<String, String> variaveis = new HashMap<String, String>();
-		variaveis.put("parecer", this.getMotivoCancelamento());
-		variaveis.put("acaoParecer", "PROCESSO CONCELADO");
+		variaveis.put("justificativaStatus", ((Variavel)this.processoInstancia.getVariaveis()).getJustificativaStatus());
+		variaveis.put("statusProcesso", "CONCELADO");
 
 		String json = JsonUtil.converterVariaveisToJson(variaveis);
 		this.activitiServico.atualizarVariaveis(this.processoInstancia.getId(),
@@ -566,7 +565,7 @@ public class PublicarDocumentoControlador implements Serializable {
 	public String detalhe(ProcessoInstancia entity) throws ParseException {
 
 		this.processoInstancia = entity;
-
+		
 		System.out.println(entity.getId());
 
 		this.tarefaInstancias = activitiServico
@@ -991,14 +990,6 @@ public class PublicarDocumentoControlador implements Serializable {
 		msg.setDetail(builder.toString());
 
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
-
-	public String getMotivoCancelamento() {
-		return motivoCancelamento;
-	}
-
-	public void setMotivoCancelamento(String motivoCancelamento) {
-		this.motivoCancelamento = motivoCancelamento;
 	}
 
 	public TarefaInstancia getTarefa() {
