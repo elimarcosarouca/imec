@@ -38,8 +38,8 @@ public class VariavelPublicarDocumento extends Variavel {
 	private List<String> emailConcensos;
 	
 	private List<Long> postosCopia;
-
-	private List<String> gruposNotificar;
+	
+		private List<String> gruposNotificar;
 	
 	private Arquivo arquivoDoc;
 	
@@ -86,10 +86,19 @@ public class VariavelPublicarDocumento extends Variavel {
 
 	private int versaoRevisao;
 	
-	private boolean obsoleto;
-
 	private final String PUBLICAR_DOCUMENTO = "PUBLICAR_DOCUMENTO";
 
+	private List<PostoCopia> postosCopiaObjeto;
+	
+	/* Atributo utilizado para guardar no activiti o objeto completo de usuario aprovador. */
+	private List<Usuario> aprovadoresObjeto;
+	
+	/* Atributo utilizado para guardar no activiti o objeto completo de usuario elaborador. */
+	private List<Usuario> elaboradoresObjeto;
+	
+	/* Atributo utilizado para guardar no activiti o objeto completo de usuario concenso. */
+	private List<Usuario> concensosObjeto;
+	
 	public VariavelPublicarDocumento() {
 		this.tipoSolicitacao = PUBLICAR_DOCUMENTO;
 		this.unidade = new Unidade();
@@ -109,7 +118,10 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.arquivoControlado = new Arquivo();
 		this.arquivoNaoControlado = new Arquivo();
 		this.arquivoObsoleto = new Arquivo();
-		this.obsoleto = false;
+		this.postosCopiaObjeto = new ArrayList<PostoCopia>();
+		this.aprovadoresObjeto = new ArrayList<Usuario>();
+		this.elaboradoresObjeto = new ArrayList<Usuario>();
+		this.concensosObjeto = new ArrayList<Usuario>();
 	}
 
 	public void tratarAtributos(List<Usuario> aprovadoresTarget, 
@@ -118,7 +130,8 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.dataNotificacao = GeralUtils.gerarDataNotificacao(this.dataVencimento, this.notificarVencimento);
 		
 		if(aprovadoresTarget != null && aprovadoresTarget.size() > 0){
-			for (Usuario u :  concensosTarget) {
+			this.aprovadoresObjeto = aprovadoresTarget;
+			for (Usuario u :  aprovadoresTarget) {
 				this.aprovadores.add(u.getUserName());
 				this.emailAprovadores.add(u.getEmail());
 				
@@ -126,6 +139,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		}
 		
 		if(concensosTarget != null && concensosTarget.size() > 0){
+			this.concensosObjeto = concensosTarget;
 			for (Usuario u : concensosTarget) {
 				this.concensos.add(u.getUserName());
 				this.emailConcensos.add(u.getEmail());
@@ -133,12 +147,14 @@ public class VariavelPublicarDocumento extends Variavel {
 		}
 		
 		if(elaboradoesTarget != null && elaboradoesTarget.size() > 0){
+			this.elaboradoresObjeto = elaboradoesTarget;
 			for (Usuario u : elaboradoesTarget) {
 				this.elaboradores.add(u.getUserName());
 			}
 		}
 		
 		if(postosCopiaTarget != null && postosCopiaTarget.size() > 0){
+			this.postosCopiaObjeto = postosCopiaTarget;
 			for (PostoCopia p : postosCopiaTarget) {
 				this.postosCopia.add(p.getId());
 			}
@@ -188,6 +204,14 @@ public class VariavelPublicarDocumento extends Variavel {
 
 	public void setPostosCopia(List<Long> postosCopia) {
 		this.postosCopia = postosCopia;
+	}
+	
+	public List<PostoCopia> getPostosCopiaObjeto() {
+		return postosCopiaObjeto;
+	}
+
+	public void setPostosCopiaObjeto(List<PostoCopia> postosCopiaObjeto) {
+		this.postosCopiaObjeto = postosCopiaObjeto;
 	}
 
 	public Date getDataVencimento() {
@@ -406,6 +430,38 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.nomenclatura = nomenclatura;
 	}
 	
+	public List<PostoCopia> getPostosCopiaObject() {
+		return postosCopiaObjeto;
+	}
+
+	public void setPostosCopiaObject(List<PostoCopia> postosCopiaObject) {
+		this.postosCopiaObjeto = postosCopiaObject;
+	}
+
+	public List<Usuario> getAprovadoresObjeto() {
+		return aprovadoresObjeto;
+	}
+
+	public void setAprovadoresObjeto(List<Usuario> aprovadoresObjeto) {
+		this.aprovadoresObjeto = aprovadoresObjeto;
+	}
+
+	public List<Usuario> getElaboradoresObjeto() {
+		return elaboradoresObjeto;
+	}
+
+	public void setElaboradoresObjeto(List<Usuario> elaboradoresObjeto) {
+		this.elaboradoresObjeto = elaboradoresObjeto;
+	}
+
+	public List<Usuario> getConcensosObjeto() {
+		return concensosObjeto;
+	}
+
+	public void setConcensosObjeto(List<Usuario> concensosObjeto) {
+		this.concensosObjeto = concensosObjeto;
+	}
+
 	/**
 	 * Metodo responsavel por converter lista de variaveis (Map) em um objeto
 	 * VariaveisProcesso
@@ -552,6 +608,33 @@ public class VariavelPublicarDocumento extends Variavel {
 				this.setPostosCopia(var.getValue() != null ? (List<Long>) var
 						.getValue() : null); 
 			
+			} else if ("postosCopiaObjeto".equals(var.getName()) 
+					&& var.getValue() != null) {
+				this.setPostosCopiaObjeto(var.getValue() != null ? (List<PostoCopia>) var
+						.getValue() : null); 
+			
+			} else if ("aprovadoresObjeto".equals(var.getName()) 
+					&& var.getValue() != null) {
+				this.setAprovadoresObjeto(var.getValue() != null ? (List<Usuario>) var
+						.getValue() : null); 
+			
+			} else if ("elaboradoresObjeto".equals(var.getName()) 
+					&& var.getValue() != null) {
+				this.setElaboradoresObjeto(var.getValue() != null ? (List<Usuario>) var
+						.getValue() : null); 
+			
+			} else if ("concensosObjeto".equals(var.getName()) 
+					&& var.getValue() != null) {
+				this.setConcensosObjeto(var.getValue() != null ? (List<Usuario>) var
+						.getValue() : null);
+				
+			} else if (var.getName().equals("statusProcesso")
+					&& var.getValue() != null) {
+				this.setStatusProcesso(var.getValue().toString());
+			
+			} else if (var.getName().equals("justificativaStatus")
+					&& var.getValue() != null) {
+				this.setJustificativaStatus(var.getValue().toString());
 			}
 		}
 	}
@@ -598,6 +681,11 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("dataNotificacao", this.getDataNotificacao());
 		
 		params.put("postosCopia", this.getPostosCopia());
+		
+		params.put("postosCopiaObjeto", this.getPostosCopiaObjeto());
+		params.put("aprovadoresObjeto", this.getAprovadoresObjeto());
+		params.put("elaboradoresObjeto", this.getElaboradoresObjeto());
+		params.put("concensosObjeto", this.getConcensosObjeto());
 		
 		return params;
 	}
