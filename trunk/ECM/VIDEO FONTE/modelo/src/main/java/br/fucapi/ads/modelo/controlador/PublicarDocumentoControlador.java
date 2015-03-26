@@ -188,6 +188,10 @@ public class PublicarDocumentoControlador implements Serializable {
 	// Upload File
 
 	private UploadedFile uploadFile;
+	
+	private boolean renderCancelar;
+	
+	private boolean renderDownload;
 
 	public UploadedFile getUploadFile() {
 		return uploadFile;
@@ -306,17 +310,22 @@ public class PublicarDocumentoControlador implements Serializable {
 					byte[] pdf = algoritmo.converterDocumento(data);
 
 					this.variaveis.getArquivoControlado().setNomeArquivo("copiacontrolado.pdf");
-					this.variaveis.getArquivoControlado().setFile(Watermark.inserirTarja(pdf, false,
+					this.variaveis.getArquivoControlado().setFile(Watermark.inserirTarja(pdf, "copiacontrolado",
 							pathMarcaDagua));
 					listaArquivos.add(this.variaveis.getArquivoControlado());
 
 					this.variaveis.getArquivoNaoControlado().setNomeArquivo("copianaocontrolado.pdf");
-					this.variaveis.getArquivoNaoControlado().setFile(Watermark.inserirTarja(pdf, true,
+					this.variaveis.getArquivoNaoControlado().setFile(Watermark.inserirTarja(pdf, "copianaocontrolado",
 							pathMarcaDagua));
 					listaArquivos.add(this.variaveis.getArquivoNaoControlado());
 					
 					this.variaveis.getArquivoObsoleto().setNomeArquivo("copia-arquivo-obsoleto.pdf");
-					this.variaveis.getArquivoObsoleto().setFile(Watermark.inserirTarja(pdf, true,
+					this.variaveis.getArquivoObsoleto().setFile(Watermark.inserirTarja(pdf, "copia-arquivo-obsoleto",
+							pathMarcaDagua));
+					listaArquivos.add(this.variaveis.getArquivoObsoleto());
+
+					this.variaveis.getArquivoObsoleto().setNomeArquivo("copia-arquivo-cancelado.pdf");
+					this.variaveis.getArquivoObsoleto().setFile(Watermark.inserirTarja(pdf, "copia-arquivo-cancelado",
 							pathMarcaDagua));
 					listaArquivos.add(this.variaveis.getArquivoObsoleto());
 
@@ -432,9 +441,6 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		this.variaveis.setProprietarios(usuarios);
 
-		this.usuarioLogado = (Usuario) SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal();
-
 		this.variaveis.setUnidades(unidadeServico.listAll());
 		this.variaveis.setCategorias(categoriaServico.listAll());
 
@@ -476,6 +482,9 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		this.usuarioLogado = (Usuario) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+		
 		this.inicioNovaSolicitacao();
 		this.variaveisPesquisa = new VariavelPublicarDocumento();
 
@@ -537,16 +546,17 @@ public class PublicarDocumentoControlador implements Serializable {
 				"Documento incluído no fluxo de processo!");
 		FacesContext.getCurrentInstance().addMessage("msg", message);
 
-		this.telaPesquisa();
-
-		return "/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true";
+		// Atualiza a lista de processos.
+		this.pesquisar();
+		
+		return this.telaPesquisa();
 	}
 
-	public void cancelar() {
+	public String cancelar() {
 
 		Map<String, String> variaveis = new HashMap<String, String>();
 		variaveis.put("justificativaStatus", ((Variavel)this.processoInstancia.getVariaveis()).getJustificativaStatus());
-		variaveis.put("statusProcesso", "CONCELADO");
+		variaveis.put("statusProcesso", "CANCELADO");
 
 		String json = JsonUtil.converterVariaveisToJson(variaveis);
 		this.activitiServico.atualizarVariaveis(this.processoInstancia.getId(),
@@ -559,41 +569,37 @@ public class PublicarDocumentoControlador implements Serializable {
 				"Solicitação cancelado com sucesso!");
 		FacesContext.getCurrentInstance().addMessage("msg", message);
 
-		this.telaPesquisa();
+		// Atualiza a lista de processos
+		this.pesquisar();
+		
+		return this.telaPesquisa();
 	}
 
 	public String detalhe(ProcessoInstancia entity) throws ParseException {
 
 		this.processoInstancia = entity;
 		
-		System.out.println(entity.getId());
-
 		this.tarefaInstancias = activitiServico
 				.getHistoricoTarefasPorVariaveis(null, null, null, null,
 						this.processoInstancia.getId());
 
-		/*
-		 * for (TarefaInstancia tarefaInstancia : this.tarefaInstancias) {
-		 * this.variaveis = new VariavelPublicarDocumento();
-		 * 
-		 * this.variaveis
-		 * .converterListaVariaveisParaVariaveisProcesso(tarefaInstancia
-		 * .getVariables()); // TODO // this.variaveisTarefa =
-		 * variaveisTarefaServico.findById(new //
-		 * Long(tarefaInstancia.getId())); this.variaveisTarefa = null;
-		 * 
-		 * // Atualiza as variaveis da tarefa com os dados inseridos no banco if
-		 * (this.variaveisTarefa != null) this.variaveisTreinamento
-		 * .converterVariaveisTarefa(this.variaveisTarefa);
-		 * 
-		 * if (tarefaInstancia.getEndTime() != null) {
-		 * this.variaveisTreinamento.setSituacao("FINALIZADO"); } else {
-		 * this.variaveisTreinamento.setSituacao("EM ANDAMENTO"); }
-		 * tarefaInstancia.setVariaveis(this.variaveisTreinamento); }
-		 */
-
 		return this.TELA_DETALHE;
 
+	}
+	
+	public void preRenderView() {
+		
+		if (this.usuarioLogado.getCapabilities().isAdmin()) {
+			this.renderDownload = true;
+				if ((!"CANCELADO".equals(((Variavel)this.processoInstancia.getVariaveis()).getStatusProcesso())) ) {
+					this.renderCancelar = true;
+				} else {
+					this.renderCancelar = false;
+				}
+		} else {
+			this.renderCancelar = false;
+			this.renderDownload = false;
+		}
 	}
 	
 	public String revisar(ProcessoInstancia entity) {
@@ -797,7 +803,7 @@ public class PublicarDocumentoControlador implements Serializable {
 	public List<ProcessoInstancia> getLista() {
 		return lista;
 	}
-
+	
 	public void setLista(List<ProcessoInstancia> lista) {
 		this.lista = lista;
 	}
@@ -1194,4 +1200,19 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.nomenclaturaDocumentoServico = nomenclaturaDocumentoServico;
 	}
 
+	public boolean isRenderCancelar() {
+		return renderCancelar;
+	}
+
+	public void setRenderCancelar(boolean renderCancelar) {
+		this.renderCancelar = renderCancelar;
+	}
+
+	public boolean isRenderDownload() {
+		return renderDownload;
+	}
+
+	public void setRenderDownload(boolean renderDownload) {
+		this.renderDownload = renderDownload;
+	}
 }
