@@ -26,11 +26,20 @@ public class VariaveisTarefa extends AbstractEntity implements Serializable {
 	@Column(name = "ID_ECM_VARIAVEIS_TAREFA")
 	private Long id;
 
+	@Column(nullable = false)
+	private Long idProcesso;
+
+	@Column(nullable = false, unique = true)
+	private Long idTarefa;
+
 	@Column(nullable = false, length = 300)
 	private String parecer;
 
-	@Column(nullable = false, length = 300)
-	private String acao;
+	@Column(nullable = false)
+	private boolean status;
+	
+	@Column(nullable = false, length = 30)
+	private String login;
 
 	public Long getId() {
 		return id;
@@ -48,12 +57,36 @@ public class VariaveisTarefa extends AbstractEntity implements Serializable {
 		this.parecer = parecer;
 	}
 
-	public String getAcao() {
-		return acao;
+	public boolean isStatus() {
+		return status;
 	}
 
-	public void setAcao(String acao) {
-		this.acao = acao;
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public Long getIdProcesso() {
+		return idProcesso;
+	}
+
+	public void setIdProcesso(Long idProcesso) {
+		this.idProcesso = idProcesso;
+	}
+
+	public Long getIdTarefa() {
+		return idTarefa;
+	}
+
+	public void setIdTarefa(Long idTarefa) {
+		this.idTarefa = idTarefa;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 }
