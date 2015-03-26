@@ -18,6 +18,10 @@
 
 	<ui:define name="content">
 
+		<f:metadata>
+			<f:event listener="#{publicarDocumentoControlador.preRenderView}" type="preRenderView"></f:event>
+		</f:metadata>
+
 		<c:if test="#{empty widthContainer}">
 			<c:set var="widthContainer" value="100%" />
 		</c:if>
@@ -179,7 +183,7 @@
 						<h:panelGrid columns="3">
 							<p:commandButton id="downloadDoc" value="Baixar Documento"
 								ajax="false" icon="ui-icon-document"
-								rendered="#{publicarDocumentoControlador.processoInstancia.variaveis.statusProcesso != 'CANCELADO'}"
+								rendered="#{publicarDocumentoControlador.renderDownload}"
 								actionListener="#{publicarDocumentoControlador.downloadArquivoDoc}" >
 
 								<f:setPropertyActionListener value="doc"
@@ -190,7 +194,7 @@
 
 							<p:commandButton id="downloadPdfControlado"
 								value="Baixar Documento Controlado" ajax="false" icon="ui-icon-document"
-								rendered="#{publicarDocumentoControlador.processoInstancia.variaveis.statusProcesso != 'CANCELADO'}"
+								rendered="#{publicarDocumentoControlador.renderCancelar || publicarDocumentoControlador.renderDownload}"
 								actionListener="#{publicarDocumentoControlador.downloadArquivoControlado}" >
 
 								<f:setPropertyActionListener value="controlado"
@@ -202,7 +206,7 @@
 							<p:commandButton id="downloadPdfNaoControlado"
 								value="Baixar Documento Não Controlado" ajax="false"
 								actionListener="#{publicarDocumentoControlador.downloadArquivoNaoControlado}"
-								icon="ui-icon-document">
+								icon="ui-icon-document" rendered="#{publicarDocumentoControlador.renderCancelar}" >
 
 								<f:setPropertyActionListener value="naoControlado"
 									target="#{publicarDocumentoControlador.tipoDocumento}" />
@@ -221,7 +225,7 @@
 						update=":form" />
 						
 					<p:commandButton id="buttonCancelar" value="Cancelar" 
-						rendered="#{publicarDocumentoControlador.processoInstancia.variaveis.statusProcesso != 'CANCELADO'}" 
+						rendered="#{publicarDocumentoControlador.renderCancelar}" 
 						styleClass="ui-priority-primary" icon="ui-icon-circle-arrow-w"
 						onclick="PF('dlgCancelar').show();" />
 							
@@ -230,8 +234,8 @@
 			</h:form>
 			
 			<p:dialog id="dlgCancelar" header="Justificativa *"
-				widgetVar="dlgCancelar" appendToBody="true" closable="false"
-				width="30%" modal="true">
+				widgetVar="dlgCancelar" appendToBody="true"
+				width="30%" modal="true" >
 
 				<div align="center">
 					<h:form style="align: center;">
@@ -240,8 +244,8 @@
 							maxlength="255" style="width:450px" id="justificativaCanelar"
 							autoResize="false" />
 										
-						<p:commandButton value="Cancelar" onclick="dlgCancelar.hide()"
-							actionListener="#{publicarDocumentoControlador.cancelar}"
+						<p:commandButton value="Confirmar" onclick="dlgCancelar.hide()"
+							action="#{publicarDocumentoControlador.cancelar}" update=":form"
 							global="false" style="height:32px;width:25%" />
 					</h:form>
 				</div>

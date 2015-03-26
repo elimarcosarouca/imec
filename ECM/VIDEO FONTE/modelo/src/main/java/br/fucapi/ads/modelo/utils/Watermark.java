@@ -10,7 +10,7 @@ import com.itextpdf.text.pdf.PdfStamper;
 
 public class Watermark {
 
-	public static File inserirTarja(byte[] bytes, boolean copiaControlada,
+	public static File inserirTarja(byte[] bytes, String tipoCopia,
 			String pathMarcaDagua) {
 		PdfStamper stamp = null;
 		String pathFile = null;
@@ -20,20 +20,34 @@ public class Watermark {
 			int i = 0;
 			Image image;
 
-			if (copiaControlada) {
+			if ("copiaControlada".equals(tipoCopia)) {
 				pathFile = pathMarcaDagua + "copiacontrolada.pdf";
 				stamp = new PdfStamper(watermark,
 						new FileOutputStream(pathFile));
 				image = Image.getInstance(pathMarcaDagua
 						+ "copiacontrolada.png");
-			} else {
+			
+			} else if ("copianaocontrolado".equals(tipoCopia)){
 				pathFile = pathMarcaDagua + "copianaocontrolada.pdf";
 				stamp = new PdfStamper(watermark,
 						new FileOutputStream(pathFile));
 				image = Image.getInstance(pathMarcaDagua
 						+ "copianaocontrolada.png");
+			
+			} else if ("copia-arquivo-obsoleto".equals(tipoCopia)){
+				pathFile = pathMarcaDagua + "capiaobsoleta.png";
+				stamp = new PdfStamper(watermark,
+						new FileOutputStream(pathFile));
+				image = Image.getInstance(pathMarcaDagua
+						+ "capiaobsoleta.png");
+			} else {
+				pathFile = pathMarcaDagua + "copiacancelada.png";
+				stamp = new PdfStamper(watermark,
+						new FileOutputStream(pathFile));
+				image = Image.getInstance(pathMarcaDagua
+						+ "copiacancelada.png");
 			}
-
+			
 			image.setAbsolutePosition(10, 200);
 			PdfContentByte add_watermark;
 			while (i < number_of_pages) {
