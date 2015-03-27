@@ -250,9 +250,9 @@ public class TreinamentoControlador implements Serializable {
 			this.variaveisTarefa = null;
 			
 			// Atualiza as variaveis da tarefa com os dados inseridos no banco
-			if (this.variaveisTarefa != null)
+			/*if (this.variaveisTarefa != null)
 				this.variaveisTreinamento.converterVariaveisTarefa(this.variaveisTarefa);
-
+*/
 			if (tarefaInstancia.getEndTime() != null) {
 				this.variaveisTreinamento.setSituacao("FINALIZADO");
 			} else {
@@ -342,10 +342,10 @@ public class TreinamentoControlador implements Serializable {
 //		this.variaveisTarefa = variaveisTarefaServico.findById(Long.valueOf(tarefa.getId()));
 		this.variaveisTarefa = null;
 		
-		if (this.variaveisTarefa != null) {
+		/*if (this.variaveisTarefa != null) {
 			((VariaveisTreinamento)this.tarefa.getVariaveis()).setAcao(this.variaveisTarefa.getAcao());
 			((VariaveisTreinamento)this.tarefa.getVariaveis()).setParecer(this.variaveisTarefa.getParecer());
-		}
+		}*/
 		this.paginaCentralControladorBean.setPaginaCentral(this.TELA_DETALHE_TAREFA);
 	}
 	
