@@ -39,9 +39,11 @@ import org.primefaces.model.StreamedContent;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.fucapi.ads.modelo.dominio.Documento;
+import br.fucapi.ads.modelo.dominio.VariaveisTarefa;
 import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
 import br.fucapi.ads.modelo.regranegocio.TreinamentoRN;
 import br.fucapi.ads.modelo.servico.AlertaServico;
+import br.fucapi.ads.modelo.servico.VariaveisTarefaServico;
 import br.fucapi.bpms.activiti.dominio.ProcessoDefinicao;
 import br.fucapi.bpms.activiti.dominio.ProcessoInstancia;
 import br.fucapi.bpms.activiti.dominio.TarefaInstancia;
@@ -67,13 +69,11 @@ public class TarefaControle implements Serializable {
 	@ManagedProperty(value = "#{alertaServicoImpl}")
 	private AlertaServico alertaServico;
 
-	/*
-	 * @Value("${uuid.parent.requerimentos.treinamentos}") private String
-	 * parentTreinamento;
-	 */
-
 	@ManagedProperty(value = "#{emailControlador}")
 	private EmailControlador emailControlador;
+
+	@ManagedProperty(value = "#{variaveisTarefaServicoImpl}")
+	private VariaveisTarefaServico variaveisTarefaServico;
 
 	private final String PESQUISATAREFAPENDENTE = "/paginas/tarefa/pesquisatarefapendente.xhtml?faces-redirect=true";
 
@@ -209,7 +209,7 @@ public class TarefaControle implements Serializable {
 
 	}
 
-	public void aprovar(TarefaInstancia tarefa) throws Exception {
+	public String aprovar(TarefaInstancia tarefa) throws Exception {
 
 		String json = "{\"name\":\"aprovacaoOK\", \"value\":true},"
 				+ "{\"name\":\"parecer\", \"value\":\"" + this.parecer + "\"}";
@@ -224,17 +224,18 @@ public class TarefaControle implements Serializable {
 
 		FacesContext.getCurrentInstance().addMessage(null, message);
 
-		this.pesquisar();
-		this.telaPesquisaTarefaPendente();
+		return this.pesquisar();
 	}
 
-	public void reprovar(TarefaInstancia tarefa) throws Exception {
+	public String reprovar() throws Exception {
 		String json = "{\"name\":\"aprovacaoOK\", \"value\":false},"
 				+ "{\"name\":\"parecer\", \"value\":\"" + this.parecer + "\"}";
 
-		String processInstanceId = tarefa.getProcessInstanceId();
+		String processInstanceId = this.entity.getProcessInstanceId();
 
-		activitiServico.completarTarefa(tarefa.getId(), json);
+		activitiServico.completarTarefa(this.entity.getId(), json);
+
+		salvarVariaveisTarefa(this.entity, false);
 
 		reprovarOutrasTarefas(processInstanceId);
 
@@ -244,8 +245,7 @@ public class TarefaControle implements Serializable {
 				MSG, MSG);
 		FacesContext.getCurrentInstance().addMessage(null, message);
 
-		this.pesquisar();
-		this.telaPesquisaTarefaPendente();
+		return this.pesquisar();
 	}
 
 	public void reprovarOutrasTarefas(String processInstanceId)
@@ -257,17 +257,34 @@ public class TarefaControle implements Serializable {
 				.getTarefasProcessoInstancia(processInstanceId);
 
 		for (TarefaInstancia tarefaInstancia : tasks) {
-			activitiServico.completarTarefa(tarefaInstancia.getId(), json);
+			if (null != tarefaInstancia.getId())
+				activitiServico.completarTarefa(tarefaInstancia.getId(), json);
 		}
 
 	}
 
-	public void concluirWorkFlow(List<String> email) {
+	public void salvarVariaveisTarefa(TarefaInstancia tarefaInstancia,
+			boolean status) {
+		VariaveisTarefa variaveisTarefa = new VariaveisTarefa();
+		variaveisTarefa.setIdProcesso(Long.valueOf(tarefaInstancia
+				.getProcessInstanceId()));
+		variaveisTarefa.setIdTarefa(Long.valueOf(tarefaInstancia.getId()));
+		variaveisTarefa.setLogin(tarefaInstancia.getAssignee());
+		variaveisTarefa.setParecer(this.parecer);
+		variaveisTarefa.setStatus(status);
 
+		variaveisTarefaServico.saveOrUpdate(variaveisTarefa);
+	}
+
+	public void prepararParecer(TarefaInstancia tarefaInstancia) {
+		this.entity = tarefaInstancia;
+		this.parecer = "";
+	}
+
+	public void concluirWorkFlow(List<String> email) {
 		for (String string : email) {
 			System.out.println(string);
 		}
-
 	}
 
 	public void detalhe(TarefaInstancia tarefa) {
@@ -568,9 +585,8 @@ public class TarefaControle implements Serializable {
 		this.itens = itens;
 	}
 
-	public void telaPesquisaTarefaPendente() {
-		paginaCentralControladorBean
-				.setPaginaCentral(this.PESQUISATAREFAPENDENTE);
+	public String telaPesquisaTarefaPendente() {
+		return this.PESQUISATAREFAPENDENTE;
 	}
 
 	public void telaDetalheTarefaPendente() {
@@ -625,6 +641,15 @@ public class TarefaControle implements Serializable {
 
 	public void setEmailControlador(EmailControlador emailControlador) {
 		this.emailControlador = emailControlador;
+	}
+
+	public VariaveisTarefaServico getVariaveisTarefaServico() {
+		return variaveisTarefaServico;
+	}
+
+	public void setVariaveisTarefaServico(
+			VariaveisTarefaServico variaveisTarefaServico) {
+		this.variaveisTarefaServico = variaveisTarefaServico;
 	}
 
 }
