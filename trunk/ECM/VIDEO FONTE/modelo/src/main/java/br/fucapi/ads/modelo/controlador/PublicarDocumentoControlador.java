@@ -778,13 +778,6 @@ public class PublicarDocumentoControlador implements Serializable {
 		// variaveisTarefaServico.findById(Long.valueOf(tarefa.getId()));
 		this.variaveisTarefa = null;
 
-		if (this.variaveisTarefa != null) {
-			((VariaveisTreinamento) this.tarefa.getVariaveis())
-					.setAcao(this.variaveisTarefa.getAcao());
-			((VariaveisTreinamento) this.tarefa.getVariaveis())
-					.setParecer(this.variaveisTarefa.getParecer());
-		}
-		
 		return this.TELA_DETALHE_TAREFA;
 	}
 
