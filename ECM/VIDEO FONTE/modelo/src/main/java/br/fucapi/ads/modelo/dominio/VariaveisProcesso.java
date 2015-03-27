@@ -213,11 +213,6 @@ public class VariaveisProcesso {
 		this.startUserId = startUserId;
 	}
 
-	public void converterVariaveisTarefa(VariaveisTarefa variaveisTarefa){
-		this.setAcao(variaveisTarefa.getAcao());
-		this.setParecer(variaveisTarefa.getParecer());
-	}
-
 	/**
 	 * Metodo responsavel por converter lista de variaveis (Map) em um objeto
 	 * VariaveisProcesso
