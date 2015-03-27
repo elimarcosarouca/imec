@@ -40,24 +40,28 @@
 
 			<h:form id="form">
 
-				<p:panel header="Pesquisa Workflow" style="width:99%" id="painel">
+				<p:panel header="Pesquisa Documento / Workflow" style="width:99%" id="painel">
 					<p:growl id="growl" />
 
 
-					<h:panelGrid columns="2">
-
+					<h:panelGrid columns="3">
+						<h:outputText value="Numero do Documento: " />
 						<h:outputText value="Protocolo: " />
 						<h:outputText value="Situação: " />
 
 						<p:inputText id="idProtocolo"
 							value="#{publicarDocumentoControlador.variaveisPesquisa.protocolo}" />
+							
+						<p:inputText
+							value="#{publicarDocumentoControlador.variaveisPesquisa.protocolo}" />
 
 						<p:selectOneMenu
 							value="#{publicarDocumentoControlador.variaveisPesquisa.statusProcesso}">
+							<f:selectItem itemLabel="TODOS" itemValue="TODOS" />
 							<f:selectItem itemLabel="PENDENTE" itemValue="PENDENTE" />
 							<f:selectItem itemLabel="CONCLUÍDO" itemValue="CONCLUÍDO" />
 							<f:selectItem itemLabel="CANCELADO" itemValue="CANCELADO" />
-							<f:selectItem itemLabel="TODOS" itemValue="TODOS" />
+							
 						</p:selectOneMenu>
 
 					</h:panelGrid>
