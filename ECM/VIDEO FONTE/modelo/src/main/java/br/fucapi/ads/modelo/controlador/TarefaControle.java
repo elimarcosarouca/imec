@@ -209,18 +209,15 @@ public class TarefaControle implements Serializable {
 
 	}
 
-	public String aprovar(TarefaInstancia tarefa) throws Exception {
+	public String aprovar() throws Exception {
 
 		String json = "{\"name\":\"aprovacaoOK\", \"value\":true},"
 				+ "{\"name\":\"parecer\", \"value\":\"" + this.parecer + "\"}";
 
-		this.activitiServico.completarTarefa(tarefa.getId(), json);
+		this.activitiServico.completarTarefa(this.entity.getId(), json);
 
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
 				"Tarefa aprovada com sucesso", "Tarefa aprovada com sucesso!");
-
-		org.primefaces.context.RequestContext.getCurrentInstance().execute(
-				"dialogAprovar.hide();");
 
 		FacesContext.getCurrentInstance().addMessage(null, message);
 
