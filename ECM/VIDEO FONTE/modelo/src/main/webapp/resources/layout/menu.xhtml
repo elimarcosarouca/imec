@@ -11,7 +11,7 @@
 	<h:form id="formMenu">
 	
 		<p:menubar class="menu">
-			<p:submenu label="Solicitacao" icon="ui-icon-document">
+			<p:submenu label="Solicitacao" icon="ui-icon-document" rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}">
 				<p:menuitem value="Pesquisar WorkFlow" url="/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true" icon="ui-icon-arrowreturnthick-1-w" />
 				<p:separator />
 				<p:menuitem value="Tarefas" action="#{tarefaControle.init}" icon="ui-icon-arrowreturnthick-1-w" update=":form" />
