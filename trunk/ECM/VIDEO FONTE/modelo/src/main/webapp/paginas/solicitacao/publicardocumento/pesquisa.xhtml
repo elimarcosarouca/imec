@@ -40,7 +40,8 @@
 
 			<h:form id="form">
 
-				<p:panel header="Pesquisa Documento / Workflow" style="width:99%" id="painel">
+				<p:panel header="Pesquisa Documento / Workflow" style="width:99%"
+					id="painel">
 					<p:growl id="growl" />
 
 
@@ -51,17 +52,19 @@
 
 						<p:inputText id="idProtocolo"
 							value="#{publicarDocumentoControlador.variaveisPesquisa.protocolo}" />
-							
+
 						<p:inputText
 							value="#{publicarDocumentoControlador.variaveisPesquisa.protocolo}" />
 
 						<p:selectOneMenu
 							value="#{publicarDocumentoControlador.variaveisPesquisa.statusProcesso}">
-							<f:selectItem itemLabel="TODOS" itemValue="TODOS" />
-							<f:selectItem itemLabel="PENDENTE" itemValue="PENDENTE" />
-							<f:selectItem itemLabel="CONCLUÍDO" itemValue="CONCLUÍDO" />
+							<f:selectItem itemLabel="TODOS" itemValue="" />
+							<f:selectItem itemLabel="ATIVO" itemValue="ATIVO" />
 							<f:selectItem itemLabel="CANCELADO" itemValue="CANCELADO" />
-							
+							<f:selectItem itemLabel="OBSOLETO" itemValue="OBSOLETO" />
+							<f:selectItem itemLabel="PENDENTE" itemValue="PENDENTE" />
+							<f:selectItem itemLabel="REPROVADO" itemValue="REPROVADO" />
+
 						</p:selectOneMenu>
 
 					</h:panelGrid>
@@ -108,7 +111,7 @@
 							exportable="false">
 							<h:outputText value="#{item.variaveis.statusProcesso}" />
 						</p:column>
-						
+
 						<p:column style="text-align:left" headerText="Data Criação"
 							exportable="false">
 							<h:outputText value="#{item.startTime}">
