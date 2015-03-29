@@ -56,6 +56,13 @@ public class AlfrescoAuthenticationProvider implements AuthenticationProvider {
 					break;
 				}
 			}
+			
+			for (GrupoAlfresco grupoAlfresco : usuario.getGroups()) {
+				if (grupoAlfresco.getDisplayName().equals("ANALISTA")) {
+					usuario.setAnalista(true);
+					break;
+				}
+			}
 
 			List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
 			

@@ -1,12 +1,16 @@
 package br.fucapi.ads.modelo.controlador;
 
+import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
+import net.sf.jasperreports.engine.JRException;
 import br.fucapi.ads.modelo.dominio.Colaborador;
 import br.fucapi.ads.modelo.dominio.PostoCopia;
 import br.fucapi.ads.modelo.servico.ColaboradorServico;
@@ -23,18 +27,18 @@ public class ColaboradorControlador extends ControladorGenerico<Colaborador> {
 
 	@ManagedProperty(value = "#{colaboradorServicoImpl}")
 	private ColaboradorServico servico;
-
+	
 	@ManagedProperty(value = "#{postoCopiaServicoImpl}")
 	private PostoCopiaServico postoCopiaServico;
 
 	private String nomeRelatorio = "setor.jasper";
-	
+
 	@Override
 	@PostConstruct
-	public String novo(){
+	public String novo() {
 		this.postosCopia = postoCopiaServico.listAll();
 		return super.novo();
-		
+
 	}
 
 	/**
@@ -43,6 +47,19 @@ public class ColaboradorControlador extends ControladorGenerico<Colaborador> {
 	 */
 	public List<PostoCopia> listarPostoCopia(String nome) {
 		return postoCopiaServico.pesquisar(new PostoCopia(nome));
+	}
+
+	public void imprimirListaColaboradores(PostoCopia postoCopia) throws FileNotFoundException, JRException {
+		// faz o load de mensalidades para evitar lazyException
+		
+		this.entidade.setPostoCopia(postoCopia);
+		this.listaPesquisa = servico.pesquisar(this.entidade);
+
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put(REPORT_TITLE, "RELATÓRIO ");
+
+		gerarRelatorioWeb(this.listaPesquisa, param, "report1.jasper");
+
 	}
 
 	@Override

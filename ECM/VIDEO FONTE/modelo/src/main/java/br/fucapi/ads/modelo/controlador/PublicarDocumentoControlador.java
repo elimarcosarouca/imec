@@ -207,67 +207,73 @@ public class PublicarDocumentoControlador implements Serializable {
 	public boolean isSkip() {
 		return skip;
 	}
-	
+
 	public void downloadArquivoDoc() {
-		
-		this.variaveis = (VariavelPublicarDocumento)this.processoInstancia.getVariaveis();
-		
+
+		this.variaveis = (VariavelPublicarDocumento) this.processoInstancia
+				.getVariaveis();
+
 		String nomeArquivo = null;
-		String uuidArquivo = null; 
-		
+		String uuidArquivo = null;
+
 		nomeArquivo = this.variaveis.getArquivoDoc().getNomeArquivo();
 		uuidArquivo = this.variaveis.getArquivoDoc().getUuid();
-		
-		InputStream temp = alfrescoServico.baixarArquivo(nomeArquivo, uuidArquivo);
-		
+
+		InputStream temp = alfrescoServico.baixarArquivo(nomeArquivo,
+				uuidArquivo);
+
 		this.file = new DefaultStreamedContent(temp, null, nomeArquivo);
-		
+
 		this.tipoDocumento = null;
 	}
-	
+
 	public void downloadArquivoControlado() {
-		
-		this.variaveis = (VariavelPublicarDocumento)this.processoInstancia.getVariaveis();
-		
+
+		this.variaveis = (VariavelPublicarDocumento) this.processoInstancia
+				.getVariaveis();
+
 		String nomeArquivo = null;
-		String uuidArquivo = null; 
-		
+		String uuidArquivo = null;
+
 		nomeArquivo = this.variaveis.getArquivoControlado().getNomeArquivo();
 		uuidArquivo = this.variaveis.getArquivoControlado().getUuid();
-		
-		InputStream temp = alfrescoServico.baixarArquivo(nomeArquivo, uuidArquivo);
-		
+
+		InputStream temp = alfrescoServico.baixarArquivo(nomeArquivo,
+				uuidArquivo);
+
 		this.file = new DefaultStreamedContent(temp, null, nomeArquivo);
-		
+
 		this.tipoDocumento = null;
 	}
-	
+
 	public void downloadArquivoNaoControlado() {
-		
-		this.variaveis = (VariavelPublicarDocumento)this.processoInstancia.getVariaveis();
-		
+
+		this.variaveis = (VariavelPublicarDocumento) this.processoInstancia
+				.getVariaveis();
+
 		String nomeArquivo = null;
-		String uuidArquivo = null; 
-		
+		String uuidArquivo = null;
+
 		nomeArquivo = this.variaveis.getArquivoNaoControlado().getNomeArquivo();
 		uuidArquivo = this.variaveis.getArquivoNaoControlado().getUuid();
-		
-		InputStream temp = alfrescoServico.baixarArquivo(nomeArquivo, uuidArquivo);
-		
+
+		InputStream temp = alfrescoServico.baixarArquivo(nomeArquivo,
+				uuidArquivo);
+
 		this.file = new DefaultStreamedContent(temp, null, nomeArquivo);
-		
+
 		this.tipoDocumento = null;
 	}
-	
+
 	public void handleFileUpload(FileUploadEvent event) {
-		FacesMessage message = new FacesMessage("Arquivo ["+ event.getFile()
-				.getFileName() + "] inserido com Sucesso!");
-		
+		FacesMessage message = new FacesMessage("Arquivo ["
+				+ event.getFile().getFileName() + "] inserido com Sucesso!");
+
 		this.uploadFile = event.getFile();
 		this.habilitar = true;
 		FacesContext.getCurrentInstance().addMessage("messages", message);
 	}
-	
+
 	public String onFlowProcess(FlowEvent event) {
 		if (skip) {
 			skip = false; // reset in case user goes back
@@ -292,7 +298,8 @@ public class PublicarDocumentoControlador implements Serializable {
 					fileTempOriginal.getName());
 
 			this.variaveis.setArquivoDoc(new Arquivo());
-			this.variaveis.getArquivoDoc().setNomeArquivo(fileTempOriginal.getName());
+			this.variaveis.getArquivoDoc().setNomeArquivo(
+					fileTempOriginal.getName());
 			this.variaveis.getArquivoDoc().setFile(fileTempOriginal);
 
 			listaArquivos.add(this.variaveis.getArquivoDoc());
@@ -309,24 +316,32 @@ public class PublicarDocumentoControlador implements Serializable {
 					byte[] data = Files.readAllBytes(path);
 					byte[] pdf = algoritmo.converterDocumento(data);
 
-					this.variaveis.getArquivoControlado().setNomeArquivo("copiacontrolado.pdf");
-					this.variaveis.getArquivoControlado().setFile(Watermark.inserirTarja(pdf, "copiacontrolado",
-							pathMarcaDagua));
+					this.variaveis.getArquivoControlado().setNomeArquivo(
+							"copiacontrolado.pdf");
+					this.variaveis.getArquivoControlado().setFile(
+							Watermark.inserirTarja(pdf, "copiacontrolado",
+									pathMarcaDagua));
 					listaArquivos.add(this.variaveis.getArquivoControlado());
 
-					this.variaveis.getArquivoNaoControlado().setNomeArquivo("copianaocontrolado.pdf");
-					this.variaveis.getArquivoNaoControlado().setFile(Watermark.inserirTarja(pdf, "copianaocontrolado",
-							pathMarcaDagua));
+					this.variaveis.getArquivoNaoControlado().setNomeArquivo(
+							"copianaocontrolado.pdf");
+					this.variaveis.getArquivoNaoControlado().setFile(
+							Watermark.inserirTarja(pdf, "copianaocontrolado",
+									pathMarcaDagua));
 					listaArquivos.add(this.variaveis.getArquivoNaoControlado());
-					
-					this.variaveis.getArquivoObsoleto().setNomeArquivo("copia-arquivo-obsoleto.pdf");
-					this.variaveis.getArquivoObsoleto().setFile(Watermark.inserirTarja(pdf, "copia-arquivo-obsoleto",
-							pathMarcaDagua));
+
+					this.variaveis.getArquivoObsoleto().setNomeArquivo(
+							"copia-arquivo-obsoleto.pdf");
+					this.variaveis.getArquivoObsoleto().setFile(
+							Watermark.inserirTarja(pdf,
+									"copia-arquivo-obsoleto", pathMarcaDagua));
 					listaArquivos.add(this.variaveis.getArquivoObsoleto());
 
-					this.variaveis.getArquivoObsoleto().setNomeArquivo("copia-arquivo-cancelado.pdf");
-					this.variaveis.getArquivoObsoleto().setFile(Watermark.inserirTarja(pdf, "copia-arquivo-cancelado",
-							pathMarcaDagua));
+					this.variaveis.getArquivoObsoleto().setNomeArquivo(
+							"copia-arquivo-cancelado.pdf");
+					this.variaveis.getArquivoObsoleto().setFile(
+							Watermark.inserirTarja(pdf,
+									"copia-arquivo-cancelado", pathMarcaDagua));
 					listaArquivos.add(this.variaveis.getArquivoObsoleto());
 
 				} catch (IOException e) {
@@ -360,62 +375,75 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		String nomePasta = "" + protocolo.getAno() + protocolo.getSequencial();
 
-//		for (Arquivo arquivo : listaArquivos) {
+		// for (Arquivo arquivo : listaArquivos) {
 
-			if (this.variaveis.getArquivoDoc().getFile() != null) {
-				try {
-					String json;
+		if (this.variaveis.getArquivoDoc().getFile() != null) {
+			try {
+				String json;
 
-					//inseri o documento original
-					json = alfrescoServico.anexarArquivo(bpmswebproperties
-							.getProperty("uuid.parent.publicacao"), nomePasta,
-							"", this.descricao, this.usuarioLogado.getTicket(),
-							this.variaveis.getArquivoDoc().getFile());
+				// inseri o documento original
+				json = alfrescoServico
+						.anexarArquivo(bpmswebproperties
+								.getProperty("uuid.parent.publicacao"),
+								nomePasta, "", this.descricao,
+								this.usuarioLogado.getTicket(), this.variaveis
+										.getArquivoDoc().getFile());
 
-					this.deserializacaoReferenciaUUID(json, this.variaveis.getArquivoDoc());
-					
-					//inseri o documento controlado
-					json = alfrescoServico.anexarArquivo(bpmswebproperties
-							.getProperty("uuid.parent.publicacao"), nomePasta,
-							"", this.descricao, this.usuarioLogado.getTicket(),
-							this.variaveis.getArquivoControlado().getFile());
-					
-					this.deserializacaoReferenciaUUID(json, this.variaveis.getArquivoControlado());
-					
-					// inseri arquivo nao controlado
-					json = alfrescoServico.anexarArquivo(bpmswebproperties
-							.getProperty("uuid.parent.publicacao"), nomePasta,
-							"", this.descricao, this.usuarioLogado.getTicket(),
-							this.variaveis.getArquivoNaoControlado().getFile());
+				this.deserializacaoReferenciaUUID(json,
+						this.variaveis.getArquivoDoc());
 
-					this.deserializacaoReferenciaUUID(json, this.variaveis.getArquivoNaoControlado());
+				// inseri o documento controlado
+				json = alfrescoServico
+						.anexarArquivo(bpmswebproperties
+								.getProperty("uuid.parent.publicacao"),
+								nomePasta, "", this.descricao,
+								this.usuarioLogado.getTicket(), this.variaveis
+										.getArquivoControlado().getFile());
 
-					// inseri arquivo obsoleto
-					json = alfrescoServico.anexarArquivo(bpmswebproperties
-							.getProperty("uuid.parent.publicacao"), nomePasta,
-							"", this.descricao, this.usuarioLogado.getTicket(),
-							this.variaveis.getArquivoObsoleto().getFile());
+				this.deserializacaoReferenciaUUID(json,
+						this.variaveis.getArquivoControlado());
 
-					this.deserializacaoReferenciaUUID(json, this.variaveis.getArquivoObsoleto());
-					
-				} catch (HttpException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			} else {
-				FacesMessage message = new FacesMessage("warn",  " Ocorreu um erro ao inserir o documento");
-				FacesContext.getCurrentInstance().addMessage(null, message);
+				// inseri arquivo nao controlado
+				json = alfrescoServico
+						.anexarArquivo(bpmswebproperties
+								.getProperty("uuid.parent.publicacao"),
+								nomePasta, "", this.descricao,
+								this.usuarioLogado.getTicket(), this.variaveis
+										.getArquivoNaoControlado().getFile());
+
+				this.deserializacaoReferenciaUUID(json,
+						this.variaveis.getArquivoNaoControlado());
+
+				// inseri arquivo obsoleto
+				json = alfrescoServico
+						.anexarArquivo(bpmswebproperties
+								.getProperty("uuid.parent.publicacao"),
+								nomePasta, "", this.descricao,
+								this.usuarioLogado.getTicket(), this.variaveis
+										.getArquivoObsoleto().getFile());
+
+				this.deserializacaoReferenciaUUID(json,
+						this.variaveis.getArquivoObsoleto());
+
+			} catch (HttpException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-//		}
+		} else {
+			FacesMessage message = new FacesMessage("warn",
+					" Ocorreu um erro ao inserir o documento");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+		// }
 	}
 
 	private void deserializacaoReferenciaUUID(String json, Arquivo arquivo) {
 		Map<String, Map<String, Object>> deserialized = new JSONDeserializer<Map<String, Map<String, Object>>>()
 				.deserialize(json);
-		
-		arquivo.setUuid(deserialized.get("nodeRef")+"");
-		this.variaveis.setUuidPasta(deserialized.get("uuidPasta")+"");
+
+		arquivo.setUuid(deserialized.get("nodeRef") + "");
+		this.variaveis.setUuidPasta(deserialized.get("uuidPasta") + "");
 		arquivo.setFile(null);
 	}
 
@@ -484,7 +512,7 @@ public class PublicarDocumentoControlador implements Serializable {
 	public void init() {
 		this.usuarioLogado = (Usuario) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
-		
+
 		this.inicioNovaSolicitacao();
 		this.variaveisPesquisa = new VariavelPublicarDocumento();
 
@@ -494,13 +522,15 @@ public class PublicarDocumentoControlador implements Serializable {
 		if (!"".equals(this.uploadFile.getFileName())) {
 			return this.salvarNovaSolicitacao();
 		} else {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "O arquivo deve ser selecionado!",
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR,
+					"O arquivo deve ser selecionado!",
 					"O arquivo deve ser selecionado!");
 			FacesContext.getCurrentInstance().addMessage("messages", message);
 			return "";
 		}
 	}
-	
+
 	/**
 	 * Metodo responsavel por salvar uma nova solicitacao de treinamento no
 	 * activiti
@@ -515,7 +545,8 @@ public class PublicarDocumentoControlador implements Serializable {
 		 * email) que devem ser enviadas ao Activiti
 		 */
 		this.variaveis.tratarAtributos(this.aprovadores.getTarget(),
-				this.concensos.getTarget(), this.elaboradores.getTarget(), this.postosCopia.getTarget());
+				this.concensos.getTarget(), this.elaboradores.getTarget(),
+				this.postosCopia.getTarget());
 
 		// Chamada para converter o arquivo .doc e salvar os arquivos no
 		// Alfresco
@@ -532,7 +563,7 @@ public class PublicarDocumentoControlador implements Serializable {
 		nomenclatura.setSetor(this.variaveis.getSetor());
 		this.nomenclaturaDocumentoServico.pegarSequencial(nomenclatura);
 		this.variaveis.setNomenclatura(nomenclatura.toString());
-		
+
 		this.activitiServico.iniciarInstanciaProcessoPorParametrosByKey(
 				variaveis.getPUBLICAR_DOCUMENTO(), this.protocolo.toString(),
 				variaveis.converterVariaveis());
@@ -541,21 +572,23 @@ public class PublicarDocumentoControlador implements Serializable {
 		request.execute("sucessoDialog.show()");
 
 		this.variaveis = new VariavelPublicarDocumento();
-		
+
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "",
 				"Documento incluído no fluxo de processo!");
 		FacesContext.getCurrentInstance().addMessage("msg", message);
 
 		// Atualiza a lista de processos.
+		this.variaveisPesquisa.setStatusProcesso("PENDENTE");
 		this.pesquisar();
-		
+
 		return this.telaPesquisa();
 	}
 
 	public String cancelar() {
 
 		Map<String, String> variaveis = new HashMap<String, String>();
-		variaveis.put("justificativaStatus", ((Variavel)this.processoInstancia.getVariaveis()).getJustificativaStatus());
+		variaveis.put("justificativaStatus", ((Variavel) this.processoInstancia
+				.getVariaveis()).getJustificativaStatus());
 		variaveis.put("statusProcesso", "CANCELADO");
 
 		String json = JsonUtil.converterVariaveisToJson(variaveis);
@@ -571,14 +604,14 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		// Atualiza a lista de processos
 		this.pesquisar();
-		
+
 		return this.telaPesquisa();
 	}
 
 	public String detalhe(ProcessoInstancia entity) throws ParseException {
 
 		this.processoInstancia = entity;
-		
+
 		this.tarefaInstancias = activitiServico
 				.getHistoricoTarefasPorVariaveis(null, null, null, null,
 						this.processoInstancia.getId());
@@ -586,38 +619,40 @@ public class PublicarDocumentoControlador implements Serializable {
 		return this.TELA_DETALHE;
 
 	}
-	
+
 	public void preRenderView() {
-		
+
 		if (this.usuarioLogado.getCapabilities().isAdmin()) {
 			this.renderDownload = true;
-				if ((!"CANCELADO".equals(((Variavel)this.processoInstancia.getVariaveis()).getStatusProcesso())) ) {
-					this.renderCancelar = true;
-				} else {
-					this.renderCancelar = false;
-				}
+			if ((!"CANCELADO".equals(((Variavel) this.processoInstancia
+					.getVariaveis()).getStatusProcesso()))) {
+				this.renderCancelar = true;
+			} else {
+				this.renderCancelar = false;
+			}
 		} else {
 			this.renderCancelar = false;
 			this.renderDownload = false;
 		}
 	}
-	
+
 	public String revisar(ProcessoInstancia entity) {
-		
+
 		this.variaveis = (VariavelPublicarDocumento) entity.getVariaveis();
-		this.variaveis.setVersaoRevisao(this.incrementarVersao(this.variaveis.getProtocoloOrigem()));
+		this.variaveis.setVersaoRevisao(this.incrementarVersao(this.variaveis
+				.getProtocoloOrigem()));
 
 		return this.TELA_REVISAO;
 	}
-	
+
 	public String revisar(Alerta entity) {
-		
+
 		List<ProcessoInstancia> listaResultado = null;
 		this.lista = new ArrayList<ProcessoInstancia>();
 
 		Map<String, Object> var = new HashMap<String, Object>();
 		var.put("protocolo", entity.getProtocolo());
-		
+
 		listaResultado = activitiServico.getHistoricoProcessosFiltroVariaveis(
 				var, "PENDENTE");
 
@@ -628,9 +663,9 @@ public class PublicarDocumentoControlador implements Serializable {
 			pInstancia.setVariaveis(variaveis);
 			this.lista.add(pInstancia);
 		}
-		
+
 		return revisar(this.lista.get(0));
-		
+
 	}
 
 	public String telaPesquisa() {
@@ -746,12 +781,10 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		Map<String, Object> var = new HashMap<String, Object>();
 
-		/*
-		 * if ( null != this.variaveisPesquisa.getStatusProcesso() &&
-		 * this.variaveisPesquisa.getStatusProcesso() != "TODOS" )
-		 * var.put("statusProcesso",
-		 * this.variaveisPesquisa.getStatusProcesso());
-		 */
+		if (null != this.variaveisPesquisa.getStatusProcesso()
+				&& this.variaveisPesquisa.getStatusProcesso() != "")
+			var.put("statusProcesso",
+					this.variaveisPesquisa.getStatusProcesso());
 
 		if (null != this.variaveisPesquisa.getProtocoloOrigem()
 				&& this.variaveisPesquisa.getProtocoloOrigem() != "")
@@ -790,13 +823,13 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	public String telaDetalhe() {
 		return this.TELA_DETALHE;
-		
+
 	}
 
 	public List<ProcessoInstancia> getLista() {
 		return lista;
 	}
-	
+
 	public void setLista(List<ProcessoInstancia> lista) {
 		this.lista = lista;
 	}
@@ -902,7 +935,7 @@ public class PublicarDocumentoControlador implements Serializable {
 	public boolean isHabilitar() {
 		return habilitar;
 	}
-	
+
 	public AlfrescoServico getAlfrescoServico() {
 		return alfrescoServico;
 	}
