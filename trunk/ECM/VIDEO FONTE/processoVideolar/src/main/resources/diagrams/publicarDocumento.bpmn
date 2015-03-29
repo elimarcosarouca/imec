@@ -52,9 +52,6 @@
       </extensionElements>
     </sequenceFlow>
     <sequenceFlow id="flow7" sourceRef="exclusivegateway1" targetRef="usertask1">
-      <extensionElements>
-        <activiti:executionListener event="take" expression="#{execution.setVariable(&quot;statusProcesso&quot;,&quot;APROVADO&quot;)}"></activiti:executionListener>
-      </extensionElements>
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${publicacaoAutomatica == 'true'}]]></conditionExpression>
     </sequenceFlow>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
@@ -98,9 +95,17 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${aprovacaoOK == 'false'}]]></conditionExpression>
     </sequenceFlow>
     <userTask id="usertask1" name="Disponibilizar o Documento" activiti:assignee="${solicitante}"></userTask>
-    <sequenceFlow id="flow17" sourceRef="usertask1" targetRef="usertask2"></sequenceFlow>
+    <sequenceFlow id="flow17" sourceRef="usertask1" targetRef="usertask2">
+      <extensionElements>
+        <activiti:executionListener event="take" expression="#{execution.setVariable(&quot;statusProcesso&quot;,&quot;ATIVO&quot;)}"></activiti:executionListener>
+      </extensionElements>
+    </sequenceFlow>
     <userTask id="usertask2" name="Notificar Publicação" activiti:assignee="${solicitante}"></userTask>
-    <sequenceFlow id="flow18" sourceRef="usertask2" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow18" sourceRef="usertask2" targetRef="endevent1">
+      <extensionElements>
+        <activiti:executionListener event="take" expression="#{execution.setVariable(&quot;statusProcesso&quot;,&quot;ATIVO&quot;)}"></activiti:executionListener>
+      </extensionElements>
+    </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_PUBLICAR_DOCUMENTO">
     <bpmndi:BPMNPlane bpmnElement="PUBLICAR_DOCUMENTO" id="BPMNPlane_PUBLICAR_DOCUMENTO">
