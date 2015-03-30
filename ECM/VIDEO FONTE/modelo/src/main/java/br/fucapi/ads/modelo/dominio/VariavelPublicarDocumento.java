@@ -19,42 +19,42 @@ import br.fucapi.bpms.alfresco.dominio.Usuario;
 public class VariavelPublicarDocumento extends Variavel {
 
 	private static final long serialVersionUID = 6327176552063724332L;
-	
-	//dados DEVEM enviado para o activiti
+
+	// dados DEVEM enviado para o activiti
 	private String tipoSolicitacao;
 
 	private String protocoloOrigem;
 
-	private  List<String> elaboradores;
+	private List<String> elaboradores;
 
 	private String emailProprietario;
 
 	private List<String> aprovadores;
 
 	private List<String> emailAprovadores;
-	
+
 	private List<String> concensos;
 
 	private List<String> emailConcensos;
-	
+
 	private List<Long> postosCopia;
-	
-		private List<String> gruposNotificar;
-	
+
+	private List<String> gruposNotificar;
+
 	private Arquivo arquivoDoc;
-	
+
 	private Arquivo arquivoControlado;
-	
+
 	private Arquivo arquivoNaoControlado;
-	
+
 	private Arquivo arquivoObsoleto;
-	
+
 	private boolean possuiTarja;
-	
+
 	private boolean publicacaoAutomatica;
-	
+
 	private boolean enviarConcensao;
-	
+
 	private String alteracoes;
 
 	private String nomenclatura;
@@ -79,26 +79,35 @@ public class VariavelPublicarDocumento extends Variavel {
 	private List<Usuario> proprietarios;
 
 	private Date dataVencimento;
-	
+
 	private Date dataNotificacao;
-	
+
 	private int notificarVencimento;
 
 	private int versaoRevisao;
-	
+
 	private final String PUBLICAR_DOCUMENTO = "PUBLICAR_DOCUMENTO";
 
 	private List<PostoCopia> postosCopiaObjeto;
-	
-	/* Atributo utilizado para guardar no activiti o objeto completo de usuario aprovador. */
+
+	/*
+	 * Atributo utilizado para guardar no activiti o objeto completo de usuario
+	 * aprovador.
+	 */
 	private List<Usuario> aprovadoresObjeto;
-	
-	/* Atributo utilizado para guardar no activiti o objeto completo de usuario elaborador. */
+
+	/*
+	 * Atributo utilizado para guardar no activiti o objeto completo de usuario
+	 * elaborador.
+	 */
 	private List<Usuario> elaboradoresObjeto;
-	
-	/* Atributo utilizado para guardar no activiti o objeto completo de usuario concenso. */
+
+	/*
+	 * Atributo utilizado para guardar no activiti o objeto completo de usuario
+	 * concenso.
+	 */
 	private List<Usuario> concensosObjeto;
-	
+
 	public VariavelPublicarDocumento() {
 		this.tipoSolicitacao = PUBLICAR_DOCUMENTO;
 		this.unidade = new Unidade();
@@ -124,44 +133,46 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.concensosObjeto = new ArrayList<Usuario>();
 	}
 
-	public void tratarAtributos(List<Usuario> aprovadoresTarget, 
-			List<Usuario> concensosTarget, List<Usuario> elaboradoesTarget, List<PostoCopia> postosCopiaTarget) {
-		
-		this.dataNotificacao = GeralUtils.gerarDataNotificacao(this.dataVencimento, this.notificarVencimento);
-		
-		if(aprovadoresTarget != null && aprovadoresTarget.size() > 0){
+	public void tratarAtributos(List<Usuario> aprovadoresTarget,
+			List<Usuario> concensosTarget, List<Usuario> elaboradoesTarget,
+			List<PostoCopia> postosCopiaTarget) {
+
+		this.dataNotificacao = GeralUtils.gerarDataNotificacao(
+				this.dataVencimento, this.notificarVencimento);
+
+		if (aprovadoresTarget != null && aprovadoresTarget.size() > 0) {
 			this.aprovadoresObjeto = aprovadoresTarget;
-			for (Usuario u :  aprovadoresTarget) {
+			for (Usuario u : aprovadoresTarget) {
 				this.aprovadores.add(u.getUserName());
 				this.emailAprovadores.add(u.getEmail());
-				
+
 			}
 		}
-		
-		if(concensosTarget != null && concensosTarget.size() > 0){
+
+		if (concensosTarget != null && concensosTarget.size() > 0) {
 			this.concensosObjeto = concensosTarget;
 			for (Usuario u : concensosTarget) {
 				this.concensos.add(u.getUserName());
 				this.emailConcensos.add(u.getEmail());
 			}
 		}
-		
-		if(elaboradoesTarget != null && elaboradoesTarget.size() > 0){
+
+		if (elaboradoesTarget != null && elaboradoesTarget.size() > 0) {
 			this.elaboradoresObjeto = elaboradoesTarget;
 			for (Usuario u : elaboradoesTarget) {
 				this.elaboradores.add(u.getUserName());
 			}
 		}
-		
-		if(postosCopiaTarget != null && postosCopiaTarget.size() > 0){
+
+		if (postosCopiaTarget != null && postosCopiaTarget.size() > 0) {
 			this.postosCopiaObjeto = postosCopiaTarget;
 			for (PostoCopia p : postosCopiaTarget) {
 				this.postosCopia.add(p.getId());
 			}
 		}
-		
+
 	}
-	
+
 	public String getPUBLICAR_DOCUMENTO() {
 		return PUBLICAR_DOCUMENTO;
 	}
@@ -205,7 +216,7 @@ public class VariavelPublicarDocumento extends Variavel {
 	public void setPostosCopia(List<Long> postosCopia) {
 		this.postosCopia = postosCopia;
 	}
-	
+
 	public List<PostoCopia> getPostosCopiaObjeto() {
 		return postosCopiaObjeto;
 	}
@@ -217,7 +228,7 @@ public class VariavelPublicarDocumento extends Variavel {
 	public Date getDataVencimento() {
 		return this.dataVencimento;
 	}
-	
+
 	public void setDataVencimento(Date dataVencimento) {
 		this.dataVencimento = dataVencimento;
 	}
@@ -333,7 +344,7 @@ public class VariavelPublicarDocumento extends Variavel {
 	public void setProprietarios(List<Usuario> proprietarios) {
 		this.proprietarios = proprietarios;
 	}
-	
+
 	public int getNotificarVencimento() {
 		return notificarVencimento;
 	}
@@ -361,7 +372,7 @@ public class VariavelPublicarDocumento extends Variavel {
 	public Arquivo getArquivoDoc() {
 		return arquivoDoc;
 	}
-	
+
 	public Arquivo getArquivoControlado() {
 		return arquivoControlado;
 	}
@@ -421,15 +432,15 @@ public class VariavelPublicarDocumento extends Variavel {
 	public void setAlteracoes(String alteracoes) {
 		this.alteracoes = alteracoes;
 	}
-	
+
 	public String getNomenclatura() {
-		return nomenclatura;
+		return nomenclatura.toUpperCase();
 	}
 
 	public void setNomenclatura(String nomenclatura) {
-		this.nomenclatura = nomenclatura;
+		this.nomenclatura = nomenclatura.toUpperCase();
 	}
-	
+
 	public List<PostoCopia> getPostosCopiaObject() {
 		return postosCopiaObjeto;
 	}
@@ -489,16 +500,16 @@ public class VariavelPublicarDocumento extends Variavel {
 			} else if (var.getName().equals("gruposNotificar")) {
 				setGruposNotificar(var.getValue() != null ? (List<String>) var
 						.getValue() : null);
-				System.out.println(((Arquivo)var.getValue()).getUuid());
-				
+				System.out.println(((Arquivo) var.getValue()).getUuid());
+
 			} else if (var.getName().equals("arquivoDoc")) {
-				setArquivoDoc(var.getValue() != null ? (Arquivo) var
-						.getValue() : null);
-				
+				setArquivoDoc(var.getValue() != null ? (Arquivo) var.getValue()
+						: null);
+
 			} else if (var.getName().equals("arquivoControlado")) {
 				setArquivoControlado(var.getValue() != null ? (Arquivo) var
 						.getValue() : null);
-				
+
 			} else if (var.getName().equals("arquivoNaoControlado")) {
 				setArquivoNaoControlado(var.getValue() != null ? (Arquivo) var
 						.getValue() : null);
@@ -506,7 +517,7 @@ public class VariavelPublicarDocumento extends Variavel {
 			} else if (var.getName().equals("concensos")) {
 				setConcensos(var.getValue() != null ? (List<String>) var
 						.getValue() : null);
-				
+
 			} else if (var.getName().equals("emailConcensos")) {
 				setEmailConcensos(var.getValue() != null ? (List<String>) var
 						.getValue() : null);
@@ -522,30 +533,31 @@ public class VariavelPublicarDocumento extends Variavel {
 			} else if (var.getName().equals("protocoloOrigem")
 					&& var.getValue() != null) {
 				this.setProtocoloOrigem(var.getValue().toString());
-				
+
 			} else if (var.getName().equals("enviarConcensao")
 					&& var.getValue() != null) {
-				this.setEnviarConcensao(new Boolean (var.getValue().toString()));
-				
+				this.setEnviarConcensao(new Boolean(var.getValue().toString()));
+
 			} else if (var.getName().equals("publicacaoAutomatica")
 					&& var.getValue() != null) {
-				this.setPublicacaoAutomatica(new Boolean (var.getValue().toString()));
+				this.setPublicacaoAutomatica(new Boolean(var.getValue()
+						.toString()));
 
 			} else if ("aprovadores".equals(var.getName())
 					&& var.getValue() != null) {
 				this.setAprovadores(var.getValue() != null ? (List<String>) var
 						.getValue() : null);
-				
+
 			} else if (var.getName().equals("emailAprovadores")
 					&& var.getValue() != null) {
 				this.setEmailAprovadores(var.getValue() != null ? (List<String>) var
 						.getValue() : null);
-				
-			} else if ("elaboradores".equals(var.getName()) 
+
+			} else if ("elaboradores".equals(var.getName())
 					&& var.getValue() != null) {
 				this.setElaboradores(var.getValue() != null ? (List<String>) var
-						.getValue() : null); 
-			
+						.getValue() : null);
+
 			} else if (var.getName().equals("versaoRevisao")) {
 				try {
 					this.setVersaoRevisao(Integer.valueOf(var.getValue()
@@ -557,88 +569,88 @@ public class VariavelPublicarDocumento extends Variavel {
 			} else if (var.getName().equals("alteracoes")
 					&& var.getValue() != null) {
 				this.setAlteracoes(var.getValue().toString());
-				
+
 			} else if (var.getName().equals("nomenclatura")
 					&& var.getValue() != null) {
 				this.setNomenclatura(var.getValue().toString());
-				
+
 			} else if (var.getName().equals("categoria")
 					&& var.getValue() != null) {
-				
+
 				setCategoria(var.getValue() != null ? (Categoria) var
 						.getValue() : null);
-			
+
 			} else if (var.getName().equals("unidade")
 					&& var.getValue() != null) {
-				
-				setUnidade(var.getValue() != null ? (Unidade) var
-						.getValue() : null);
-			
-			} else if (var.getName().equals("setor")
-					&& var.getValue() != null) {
-				
-				setSetor(var.getValue() != null ? (Setor) var
-						.getValue() : null);
+
+				setUnidade(var.getValue() != null ? (Unidade) var.getValue()
+						: null);
+
+			} else if (var.getName().equals("setor") && var.getValue() != null) {
+
+				setSetor(var.getValue() != null ? (Setor) var.getValue() : null);
 			} else if (var.getName().equals("dataVencimento")
 					&& var.getValue() != null) {
-				System.out.println("dataVencimento = " + var.getValue().toString());
+				System.out.println("dataVencimento = "
+						+ var.getValue().toString());
 				String data = var.getValue().toString();
-				
-				DateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH);
+
+				DateFormat df = new SimpleDateFormat(
+						"EEE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH);
 				try {
 					this.dataVencimento = df.parse(data);
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				
+
 			} else if (var.getName().equals("dataNotificacao")
 					&& var.getValue() != null) {
-				
-				System.out.println("dataVencimento = " + var.getValue().toString());
+
 				String data = var.getValue().toString();
-				
-				DateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH);
+
+				DateFormat df = new SimpleDateFormat(
+						"EEE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH);
 				try {
 					this.dataNotificacao = df.parse(data);
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-			} else if ("postosCopia".equals(var.getName()) 
+			} else if ("postosCopia".equals(var.getName())
 					&& var.getValue() != null) {
 				this.setPostosCopia(var.getValue() != null ? (List<Long>) var
-						.getValue() : null); 
-			
-			} else if ("postosCopiaObjeto".equals(var.getName()) 
+						.getValue() : null);
+
+			} else if ("postosCopiaObjeto".equals(var.getName())
 					&& var.getValue() != null) {
 				this.setPostosCopiaObjeto(var.getValue() != null ? (List<PostoCopia>) var
-						.getValue() : null); 
-			
-			} else if ("aprovadoresObjeto".equals(var.getName()) 
+						.getValue() : null);
+
+			} else if ("aprovadoresObjeto".equals(var.getName())
 					&& var.getValue() != null) {
 				this.setAprovadoresObjeto(var.getValue() != null ? (List<Usuario>) var
-						.getValue() : null); 
-			
-			} else if ("elaboradoresObjeto".equals(var.getName()) 
+						.getValue() : null);
+
+			} else if ("elaboradoresObjeto".equals(var.getName())
 					&& var.getValue() != null) {
 				this.setElaboradoresObjeto(var.getValue() != null ? (List<Usuario>) var
-						.getValue() : null); 
-			
-			} else if ("concensosObjeto".equals(var.getName()) 
+						.getValue() : null);
+
+			} else if ("concensosObjeto".equals(var.getName())
 					&& var.getValue() != null) {
 				this.setConcensosObjeto(var.getValue() != null ? (List<Usuario>) var
 						.getValue() : null);
-				
+
 			} else if (var.getName().equals("statusProcesso")
 					&& var.getValue() != null) {
 				this.setStatusProcesso(var.getValue().toString());
-			
+
 			} else if (var.getName().equals("justificativaStatus")
 					&& var.getValue() != null) {
 				this.setJustificativaStatus(var.getValue().toString());
 			}
 		}
 	}
-	
+
 	public Map<String, Object> converterVariaveis() {
 
 		Map<String, Object> params = super.converterVariaveis();
@@ -659,34 +671,35 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("possuiTarja", this.isPossuiTarja());
 		params.put("publicacaoAutomatica", this.isPublicacaoAutomatica());
 		params.put("enviarConcensao", this.isEnviarConcensao());
-		
+
 		params.put("arquivoDoc", this.getArquivoDoc());
 		params.put("arquivoControlado", this.getArquivoControlado());
 		params.put("arquivoNaoControlado", this.getArquivoNaoControlado());
 		params.put("arquivoObsoleto", this.getArquivoObsoleto());
-		
+
 		params.put("categoria", this.getCategoria());
 		params.put("unidade", this.getUnidade());
 		params.put("setor", this.getSetor());
-		
+
 		if (null == this.getProtocoloOrigem())
-			params.put("protocoloOrigem", this.getAno() + "" + this.getSequencial());
-		else 
+			params.put("protocoloOrigem",
+					this.getAno() + "" + this.getSequencial());
+		else
 			params.put("protocoloOrigem", this.getProtocoloOrigem());
 
 		params.put("alteracoes", this.getAlteracoes());
 		params.put("nomenclatura", this.getNomenclatura());
-		
+
 		params.put("dataVencimento", this.getDataNotificacao());
 		params.put("dataNotificacao", this.getDataNotificacao());
-		
+
 		params.put("postosCopia", this.getPostosCopia());
-		
+
 		params.put("postosCopiaObjeto", this.getPostosCopiaObjeto());
 		params.put("aprovadoresObjeto", this.getAprovadoresObjeto());
 		params.put("elaboradoresObjeto", this.getElaboradoresObjeto());
 		params.put("concensosObjeto", this.getConcensosObjeto());
-		
+
 		return params;
 	}
 
