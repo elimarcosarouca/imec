@@ -58,7 +58,7 @@ public class ColaboradorControlador extends ControladorGenerico<Colaborador> {
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put(REPORT_TITLE, "RELATÓRIO ");
 
-		gerarRelatorioWeb(this.listaPesquisa, param, "report1.jasper");
+		gerarRelatorioWeb(this.listaPesquisa, param, "colaboradoresPostoCopia.jasper");
 
 	}
 
