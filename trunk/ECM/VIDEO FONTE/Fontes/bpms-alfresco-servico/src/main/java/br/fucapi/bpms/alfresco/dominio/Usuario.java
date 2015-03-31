@@ -38,6 +38,7 @@ public class Usuario implements Serializable {
 	private String senha;
 	private List<GrupoAlfresco> groups;
 	private Capabilities capabilities;
+	private boolean analista;
 
 	public String getUserName() {
 		return userName;
@@ -261,6 +262,14 @@ public class Usuario implements Serializable {
 
 	public void setCapabilities(Capabilities capabilities) {
 		this.capabilities = capabilities;
+	}
+
+	public boolean isAnalista() {
+		return analista;
+	}
+
+	public void setAnalista(boolean analista) {
+		this.analista = analista;
 	}
 
 	public boolean equals(Object o) {
