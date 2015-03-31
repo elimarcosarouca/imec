@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report5" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="98dc61e5-9ea7-40c8-adc5-a6ad575f7ba9">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -43,7 +43,7 @@
 			<property name="local_mesure_unitheight" value="pixel"/>
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<staticText>
-				<reportElement mode="Opaque" x="130" y="0" width="425" height="18" forecolor="#006699" backcolor="#E6E6E6" uuid="145e4b24-6569-4e50-94b3-4658274a4003">
+				<reportElement mode="Opaque" x="62" y="0" width="224" height="18" forecolor="#006699" backcolor="#E6E6E6" uuid="145e4b24-6569-4e50-94b3-4658274a4003">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -57,10 +57,10 @@
 					<font size="13" isBold="false"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
-				<text><![CDATA[Nome]]></text>
+				<text><![CDATA[Colaborador(a)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="130" height="18" forecolor="#006699" backcolor="#E6E6E6" uuid="2c304841-63be-4b45-b88c-5541781aa6a3">
+				<reportElement mode="Opaque" x="0" y="0" width="62" height="18" forecolor="#006699" backcolor="#E6E6E6" uuid="2c304841-63be-4b45-b88c-5541781aa6a3">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -76,12 +76,59 @@
 				</textElement>
 				<text><![CDATA[Matricula]]></text>
 			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="286" y="0" width="77" height="18" forecolor="#006699" backcolor="#E6E6E6" uuid="78ff46e0-c022-49f4-88c1-dd9e3fed36a3">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="13" isBold="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="363" y="0" width="192" height="18" forecolor="#006699" backcolor="#E6E6E6" uuid="96211ccf-edd5-46e7-9dbe-234b9dfd5a5b">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="13" isBold="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Assinatura]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="18">
 			<property name="local_mesure_unitheight" value="pixel"/>
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="2" y="0" width="60" height="18" uuid="883cedda-8f8b-4f5a-8f45-371b61bc2463"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{matricula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="64" y="0" width="222" height="18" uuid="9dd5c49c-5fd9-4d05-9591-054c4342e641"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="2" y="16" width="553" height="1" uuid="35367ab5-134c-4c55-9d8e-9b609f7c0b83"/>
+			</line>
 		</band>
 	</detail>
 	<columnFooter>
