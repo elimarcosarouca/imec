@@ -703,8 +703,6 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 				.includeProcessVariables().list();
 
 		List<ProcessoInstancia> listaProcessos = new ArrayList<ProcessoInstancia>();
-		List<ProcessoInstancia> listaProcessosPendentes = new ArrayList<ProcessoInstancia>();
-		List<ProcessoInstancia> listaProcessosConcluidos = new ArrayList<ProcessoInstancia>();
 
 		if (!resultHistoricProcessInstance.isEmpty()) {
 
@@ -720,17 +718,10 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 				processoInstancia.setVariables(listaVariaveis);
 				listaProcessos.add(processoInstancia);
 
-				if (historicProcess.getEndTime() != null) {
-					listaProcessosConcluidos.add(processoInstancia);
-				} else {
-					listaProcessosPendentes.add(processoInstancia);
-				}
 			}
 		}
 
-		return (status.equals("PENDENTE")) ? listaProcessosPendentes : (status
-				.equals("CONCLUÍDO")) ? listaProcessosConcluidos
-				: listaProcessos;
+		return listaProcessos;
 
 	}
 
@@ -853,21 +844,6 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 				sqlQuery.append(" and T.end_time_ is null ");
 			} else {
 				sqlQuery.append(" and T.end_time_ is not null ");
-			}
-		}
-		
-		if (variables != null) {
-			for (String s : variables.keySet()) {
-				if (s.equals("dataFinal")) {
-					// incrementa a data final com mais 2 dia para que o between
-					// funcione corretamente
-					String dataFinal = DataUtil.incremetarData( variables.get("dataFinal").toString(), 2);
-					sqlQuery.append(" and T.start_time_ BETWEEN date('"+  variables.get("dataInicial").toString() + "')");
-					sqlQuery.append(" and date('" + dataFinal + "')");
-				} else if (s.equals("dataInicial")) {
-					// Nao deve fazer nada
-				
-				}
 			}
 		}
 
