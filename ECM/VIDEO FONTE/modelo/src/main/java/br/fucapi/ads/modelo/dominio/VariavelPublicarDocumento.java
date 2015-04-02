@@ -434,11 +434,11 @@ public class VariavelPublicarDocumento extends Variavel {
 	}
 
 	public String getNomenclatura() {
-		return nomenclatura.toUpperCase();
+		return nomenclatura;
 	}
 
 	public void setNomenclatura(String nomenclatura) {
-		this.nomenclatura = nomenclatura.toUpperCase();
+		this.nomenclatura = nomenclatura;
 	}
 
 	public List<PostoCopia> getPostosCopiaObject() {
@@ -591,8 +591,6 @@ public class VariavelPublicarDocumento extends Variavel {
 				setSetor(var.getValue() != null ? (Setor) var.getValue() : null);
 			} else if (var.getName().equals("dataVencimento")
 					&& var.getValue() != null) {
-				System.out.println("dataVencimento = "
-						+ var.getValue().toString());
 				String data = var.getValue().toString();
 
 				DateFormat df = new SimpleDateFormat(

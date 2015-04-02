@@ -37,7 +37,7 @@ public class Arquivo implements Serializable {
 	}
 
 	public String getNomeArquivo() {
-		return nomeArquivo.toUpperCase();
+		return nomeArquivo;
 	}
 
 	public void setNomeArquivo(String nomeArquivo) {
