@@ -20,7 +20,7 @@ public class Watermark {
 			int i = 0;
 			Image image;
 
-			if ("copiaControlada".equals(tipoCopia)) {
+			if ("copiacontrolado".equals(tipoCopia)) {
 				pathFile = pathMarcaDagua + "copiacontrolada.pdf";
 				stamp = new PdfStamper(watermark,
 						new FileOutputStream(pathFile));
@@ -35,13 +35,13 @@ public class Watermark {
 						+ "copianaocontrolada.png");
 			
 			} else if ("copia-arquivo-obsoleto".equals(tipoCopia)){
-				pathFile = pathMarcaDagua + "capiaobsoleta.png";
+				pathFile = pathMarcaDagua + "capiaobsoleta.pdf";
 				stamp = new PdfStamper(watermark,
 						new FileOutputStream(pathFile));
 				image = Image.getInstance(pathMarcaDagua
 						+ "capiaobsoleta.png");
 			} else {
-				pathFile = pathMarcaDagua + "copiacancelada.png";
+				pathFile = pathMarcaDagua + "copiacancelada.pdf";
 				stamp = new PdfStamper(watermark,
 						new FileOutputStream(pathFile));
 				image = Image.getInstance(pathMarcaDagua

@@ -49,6 +49,8 @@ public class VariavelPublicarDocumento extends Variavel {
 
 	private Arquivo arquivoObsoleto;
 
+	private Arquivo arquivoCancelado;
+	
 	private boolean possuiTarja;
 
 	private boolean publicacaoAutomatica;
@@ -129,6 +131,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.arquivoControlado = new Arquivo();
 		this.arquivoNaoControlado = new Arquivo();
 		this.arquivoObsoleto = new Arquivo();
+		this.arquivoCancelado = new Arquivo();
 		this.postosCopiaObjeto = new ArrayList<PostoCopia>();
 		this.aprovadoresObjeto = new ArrayList<Usuario>();
 		this.elaboradoresObjeto = new ArrayList<Usuario>();
@@ -399,6 +402,14 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.arquivoObsoleto = arquivoObsoleto;
 	}
 
+	public Arquivo getArquivoCancelado() {
+		return arquivoCancelado;
+	}
+
+	public void setArquivoCancelado(Arquivo arquivoCancelado) {
+		this.arquivoCancelado = arquivoCancelado;
+	}
+	
 	public void setArquivoDoc(Arquivo arquivoDoc) {
 		this.arquivoDoc = arquivoDoc;
 	}
@@ -522,6 +533,14 @@ public class VariavelPublicarDocumento extends Variavel {
 
 			} else if (var.getName().equals("arquivoNaoControlado")) {
 				setArquivoNaoControlado(var.getValue() != null ? (Arquivo) var
+						.getValue() : null);
+				
+			} else if (var.getName().equals("arquivoObsoleto")) {
+				setArquivoObsoleto(var.getValue() != null ? (Arquivo) var
+						.getValue() : null);
+
+			} else if (var.getName().equals("arquivoCancelado")) {
+				setArquivoCancelado(var.getValue() != null ? (Arquivo) var
 						.getValue() : null);
 
 			} else if (var.getName().equals("concensos")) {
@@ -683,12 +702,12 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("possuiTarja", this.isPossuiTarja());
 		params.put("publicacaoAutomatica", this.isPublicacaoAutomatica());
 		params.put("enviarConcensao", this.isEnviarConcensao());
-		params.put("finalizarProcesso", this.isFinalizarProcesso());
 
 		params.put("arquivoDoc", this.getArquivoDoc());
 		params.put("arquivoControlado", this.getArquivoControlado());
 		params.put("arquivoNaoControlado", this.getArquivoNaoControlado());
 		params.put("arquivoObsoleto", this.getArquivoObsoleto());
+		params.put("arquivoCancelado", this.getArquivoCancelado());
 
 		params.put("categoria", this.getCategoria());
 		params.put("unidade", this.getUnidade());

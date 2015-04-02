@@ -333,18 +333,18 @@ public class PublicarDocumentoControlador implements Serializable {
 					listaArquivos.add(this.variaveis.getArquivoNaoControlado());
 
 					this.variaveis.getArquivoObsoleto().setNomeArquivo(
-							"copia-arquivo-obsoleto.pdf");
+							"arquivoobsoleto.pdf");
 					this.variaveis.getArquivoObsoleto().setFile(
 							Watermark.inserirTarja(pdf,
 									"copia-arquivo-obsoleto", pathMarcaDagua));
 					listaArquivos.add(this.variaveis.getArquivoObsoleto());
 
-					this.variaveis.getArquivoObsoleto().setNomeArquivo(
+					this.variaveis.getArquivoCancelado().setNomeArquivo(
 							"copia-arquivo-cancelado.pdf");
-					this.variaveis.getArquivoObsoleto().setFile(
+					this.variaveis.getArquivoCancelado().setFile(
 							Watermark.inserirTarja(pdf,
 									"copia-arquivo-cancelado", pathMarcaDagua));
-					listaArquivos.add(this.variaveis.getArquivoObsoleto());
+					listaArquivos.add(this.variaveis.getArquivoCancelado());
 
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -426,6 +426,17 @@ public class PublicarDocumentoControlador implements Serializable {
 
 				this.deserializacaoReferenciaUUID(json,
 						this.variaveis.getArquivoObsoleto());
+
+				// inseri arquivo cancelado
+				json = alfrescoServico
+						.anexarArquivo(bpmswebproperties
+								.getProperty("uuid.parent.publicacao"),
+								nomePasta, "", this.descricao,
+								this.usuarioLogado.getTicket(), this.variaveis
+										.getArquivoCancelado().getFile());
+
+				this.deserializacaoReferenciaUUID(json,
+						this.variaveis.getArquivoCancelado());
 
 			} catch (HttpException e) {
 				e.printStackTrace();
