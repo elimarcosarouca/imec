@@ -48,17 +48,16 @@ import br.fucapi.bpms.activiti.dominio.TarefaInstancia;
 import br.fucapi.bpms.activiti.dominio.TarefaInstanciaEntidade;
 import br.fucapi.bpms.activiti.dominio.Variaveis;
 import br.fucapi.bpms.activiti.servico.ActivitiServico;
-import br.fucapi.bpms.activiti.util.DataUtil;
 
 @Service("activitiServicoImpl")
 public class ActivitiServicoImpl implements ActivitiServico, Serializable {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2691466800072077335L;
 
-	private final String CONTENT_TYPE="application/json; charset=utf-8";
+	private final String CONTENT_TYPE = "application/json; charset=utf-8";
 
 	@Autowired
 	@Qualifier("restTemplateActiviti")
@@ -81,7 +80,7 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 
 	@Autowired
 	private ManagementService managementService;
-	
+
 	@Autowired
 	private IdentityService identityService;
 
@@ -267,13 +266,13 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 	}
 
 	public String alterarExecutor(String idTarefa, String userName) {
-		
+
 		String uri = MessageFormat.format(
 				activitiProperties.getProperty("activiti.server.tarefa"),
 				idTarefa);
 
-		String json = "{\"action\" : \"delegate\"," + "\"assignee\":\"" + userName
-				+ "\"}";
+		String json = "{\"action\" : \"delegate\"," + "\"assignee\":\""
+				+ userName + "\"}";
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Content-type", this.CONTENT_TYPE);
@@ -283,9 +282,9 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 				request, String.class);
 
 		return response.getStatusCode().toString();
-		
+
 	}
-	
+
 	public String completarTarefa(String idTarefa, String jsonVariaveis) {
 
 		/*
@@ -371,6 +370,27 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 		return processoInstanciaEntidade.getData();
 	}
 
+	public ProcessoInstancia getProcessosInstanciaId(String processInstanceId) {
+
+		// Solucao temporaria
+		String uri = MessageFormat.format(
+				activitiProperties.getProperty("activiti.server.processo.instanciado.byid"),
+				processInstanceId);
+		
+		ResponseEntity<String> response = restTemplate.getForEntity(uri,
+				String.class);
+
+		ProcessoInstancia processoInstancia = ProcessoInstancia
+				.fromJsonToObject(response.getBody());
+		
+		List<Variaveis> listaVariaveis = this
+				.getVariaveisAPIExplorer(processoInstancia.getId());
+		
+		processoInstancia.setVariables(listaVariaveis);
+
+		return processoInstancia;
+	}
+
 	public List<ProcessoInstancia> getProcessosInstancia(
 			String processDefinitionId) {
 		/*
@@ -410,23 +430,21 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 				.getProperty("activiti.server.processo.variaveis"), idProcesso);
 		ResponseEntity<String> response = restTemplate.getForEntity(uri,
 				String.class);
-		// return Variaveis.fromJsonArrayToVariaveis(response.getBody());
-		return Variaveis.fromJsonArrayToVariaveisList(response.getBody());
+		 return Variaveis.fromJsonArrayToVariaveis(response.getBody());
+//		return Variaveis.fromJsonArrayToVariaveisList(response.getBody());
 	}
-	
+
 	@Override
 	public String atualizarVariaveis(String idProcesso, String json) {
-		
+
 		/*
-		 *  ESTRUTURA DO JSON EX:
-		 *  
-		 *  [{\"name\" : \"nomeVariavel\", \"value\" : \"valorVariavel\"}]
-		 *  
+		 * ESTRUTURA DO JSON EX:
+		 * 
+		 * [{\"name\" : \"nomeVariavel\", \"value\" : \"valorVariavel\"}]
 		 */
-		
+
 		String uri = MessageFormat.format(activitiProperties
-				.getProperty("activiti.server.processo.variaveis"),
-				idProcesso);
+				.getProperty("activiti.server.processo.variaveis"), idProcesso);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Content-type", this.CONTENT_TYPE);
@@ -434,9 +452,9 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 		HttpEntity<String> request = new HttpEntity<String>(json, headers);
 		restTemplate.put(uri, request);
 
-		return HttpStatus.OK+"";
+		return HttpStatus.OK + "";
 	}
-	
+
 	public String iniciarInstanciaProcesso(String json) {
 
 		String uri = activitiProperties
@@ -444,7 +462,7 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Content-type", this.CONTENT_TYPE);
-		
+
 		HttpEntity<String> request = new HttpEntity<String>(json, headers);
 
 		ResponseEntity<String> response = restTemplate.postForEntity(uri,
@@ -458,8 +476,9 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 			Map<String, Object> paramsProcesso) {
 
 		/* Diz a engine que o usuario autenticado e o fluxo */
-        this.identityService.setAuthenticatedUserId(paramsProcesso.get("solicitante").toString());
-		
+		this.identityService.setAuthenticatedUserId(paramsProcesso.get(
+				"solicitante").toString());
+
 		ProcessInstance processInstance = runtimeService
 				.startProcessInstanceByKey(processoDefinicaoId, businessKey,
 						paramsProcesso);
@@ -469,116 +488,52 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 
 		return (processInstance != null) ? processInstance.getId() : null;
 	}
-	
 
-	//TODO atualizar para a nova versao, utilizando a API para realizar pesquisa
+	// TODO atualizar para a nova versao, utilizando a API para realizar
+	// pesquisa
 	public List<ProcessoInstancia> getHistoricoProcessos(
-				Map<String, Object> variables, String status) throws ParseException {
-	
+			Map<String, Object> variables, String status) throws ParseException {
 
-	StringBuffer sqlQuery = new StringBuffer("SELECT a.id_, a.proc_inst_id_, a.business_key_, a.proc_def_id_, a.start_time_, a.end_time_, "
-			+ " a.start_user_id_ , b.suspension_state_ duration_ FROM "
-			+ managementService.getTableName(HistoricProcessInstance.class) + " a "
-			+ " left join act_ru_task b on a.id_ = b.execution_id_ WHERE a.proc_def_id_ like '%%'");
-
-	if (status.equals("PENDENTE"))
-		sqlQuery.append(" and b.suspension_state_ = 1 "); 
-	else if (status.equals("CANCELADO"))
-		sqlQuery.append(" and b.suspension_state_ = 2 "); 
-	else if (status.equals("CONCLUÍDO"))
-		sqlQuery.append(" and a.end_time_ is not null "); 
-
-	if (variables != null) {
-		for (String s : variables.keySet()) {
-			
-			if (s.equals("solicitante")) {
-				sqlQuery.append(" and start_user_id_ ='" + variables.get("solicitante") + "'"); 
-			} 
-			
-			if (s.equals("tipoSolicitacao")) {
-				sqlQuery.append(" and a.proc_def_id_ like '" + variables.get("tipoSolicitacao") + "%'"); 
-			} 
-			
-			if (s.equals("protocolo")) {
-				sqlQuery.append(" and a.business_key_ ='" + variables.get("protocolo") +"'"); 
-			} 
-			
-		}
-	}
-	
-	List<HistoricProcessInstance> resultHistoricProcess = historyService.
-			createNativeHistoricProcessInstanceQuery().sql(sqlQuery.toString()).list();
-	
-	List<Variaveis> listaVariaveis = null;
-	List<ProcessoInstancia> listaProcessoInstancia = new ArrayList<ProcessoInstancia>();
-	ProcessoInstancia processoInstancia = null;
-
-	if (!resultHistoricProcess.isEmpty()) {
-
-		for (HistoricProcessInstance process : resultHistoricProcess) {
-			processoInstancia = new ProcessoInstancia();
-			processoInstancia.parseHistoricProcessToProcessoInstancia(process);
-
-			listaVariaveis = new ArrayList<Variaveis>();
-
-			if (processoInstancia.getId() != null) {
-				listaVariaveis = this
-						.getVariaveisAPIExplorer(processoInstancia
-								.getId());
-			}
-			
-				processoInstancia.setVariables(listaVariaveis);
-				listaProcessoInstancia.add(processoInstancia);
-		}
-		
-	}
-
-	return listaProcessoInstancia;
-		
-	}
-	
-	
-	//TODO atualizar para a nova versao, utilizando a API para realizar pesquisa
-		public List<ProcessoInstancia> getHistoricoProcessos(
-					Map<String, Object> variables, String status, String custoInicial, String custoFinal) throws ParseException {
-		
-		StringBuffer sqlQuery = new StringBuffer("SELECT a.id_, a.proc_inst_id_, a.business_key_, a.proc_def_id_, a.start_time_, a.end_time_, "
-				+ " a.start_user_id_ , b.suspension_state_ duration_ FROM "
-				+ managementService.getTableName(HistoricProcessInstance.class) + " a "
-				+ " left join act_ru_task b on a.id_ = b.execution_id_ left join act_ru_variable c on c.execution_id_ = b.execution_id_ "
-				+ " WHERE a.proc_def_id_ like '%%'");
+		StringBuffer sqlQuery = new StringBuffer(
+				"SELECT a.id_, a.proc_inst_id_, a.business_key_, a.proc_def_id_, a.start_time_, a.end_time_, "
+						+ " a.start_user_id_ , b.suspension_state_ duration_ FROM "
+						+ managementService
+								.getTableName(HistoricProcessInstance.class)
+						+ " a "
+						+ " left join act_ru_task b on a.id_ = b.execution_id_ WHERE a.proc_def_id_ like '%%'");
 
 		if (status.equals("PENDENTE"))
-			sqlQuery.append(" and b.suspension_state_ = 1 "); 
+			sqlQuery.append(" and b.suspension_state_ = 1 ");
 		else if (status.equals("CANCELADO"))
-			sqlQuery.append(" and b.suspension_state_ = 2 "); 
+			sqlQuery.append(" and b.suspension_state_ = 2 ");
 		else if (status.equals("CONCLUÍDO"))
-			sqlQuery.append(" and b.suspension_state_ is null "); 
+			sqlQuery.append(" and a.end_time_ is not null ");
 
 		if (variables != null) {
 			for (String s : variables.keySet()) {
-				
+
 				if (s.equals("solicitante")) {
-					sqlQuery.append(" and start_user_id_ ='" + variables.get("solicitante") + "'"); 
-				} 
-				
+					sqlQuery.append(" and start_user_id_ ='"
+							+ variables.get("solicitante") + "'");
+				}
+
 				if (s.equals("tipoSolicitacao")) {
-					sqlQuery.append(" and a.proc_def_id_ like '" + variables.get("tipoSolicitacao") + "%'"); 
-				} 
-				
+					sqlQuery.append(" and a.proc_def_id_ like '"
+							+ variables.get("tipoSolicitacao") + "%'");
+				}
+
 				if (s.equals("protocolo")) {
-					sqlQuery.append(" and a.business_key_ ='" + variables.get("protocolo") +"'"); 
-				} 
-				
+					sqlQuery.append(" and a.business_key_ ='"
+							+ variables.get("protocolo") + "'");
+				}
+
 			}
 		}
-		
-		sqlQuery.append(" and c.name_ ='protocoloOrigem'"); 
-		System.out.println(sqlQuery.toString());
-		
-		List<HistoricProcessInstance> resultHistoricProcess = historyService.
-				createNativeHistoricProcessInstanceQuery().sql(sqlQuery.toString()).list();
-		
+
+		List<HistoricProcessInstance> resultHistoricProcess = historyService
+				.createNativeHistoricProcessInstanceQuery()
+				.sql(sqlQuery.toString()).list();
+
 		List<Variaveis> listaVariaveis = null;
 		List<ProcessoInstancia> listaProcessoInstancia = new ArrayList<ProcessoInstancia>();
 		ProcessoInstancia processoInstancia = null;
@@ -587,25 +542,103 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 
 			for (HistoricProcessInstance process : resultHistoricProcess) {
 				processoInstancia = new ProcessoInstancia();
-				processoInstancia.parseHistoricProcessToProcessoInstancia(process);
+				processoInstancia
+						.parseHistoricProcessToProcessoInstancia(process);
 
 				listaVariaveis = new ArrayList<Variaveis>();
 
 				if (processoInstancia.getId() != null) {
 					listaVariaveis = this
-							.getVariaveisAPIExplorer(processoInstancia
-									.getId());
+							.getVariaveisAPIExplorer(processoInstancia.getId());
 				}
-				
+
 				processoInstancia.setVariables(listaVariaveis);
 				listaProcessoInstancia.add(processoInstancia);
 			}
-			
+
 		}
 
 		return listaProcessoInstancia;
-			
+
+	}
+
+	// TODO atualizar para a nova versao, utilizando a API para realizar
+	// pesquisa
+	public List<ProcessoInstancia> getHistoricoProcessos(
+			Map<String, Object> variables, String status, String custoInicial,
+			String custoFinal) throws ParseException {
+
+		StringBuffer sqlQuery = new StringBuffer(
+				"SELECT a.id_, a.proc_inst_id_, a.business_key_, a.proc_def_id_, a.start_time_, a.end_time_, "
+						+ " a.start_user_id_ , b.suspension_state_ duration_ FROM "
+						+ managementService
+								.getTableName(HistoricProcessInstance.class)
+						+ " a "
+						+ " left join act_ru_task b on a.id_ = b.execution_id_ left join act_ru_variable c on c.execution_id_ = b.execution_id_ "
+						+ " WHERE a.proc_def_id_ like '%%'");
+
+		if (status.equals("PENDENTE"))
+			sqlQuery.append(" and b.suspension_state_ = 1 ");
+		else if (status.equals("CANCELADO"))
+			sqlQuery.append(" and b.suspension_state_ = 2 ");
+		else if (status.equals("CONCLUÍDO"))
+			sqlQuery.append(" and b.suspension_state_ is null ");
+
+		if (variables != null) {
+			for (String s : variables.keySet()) {
+
+				if (s.equals("solicitante")) {
+					sqlQuery.append(" and start_user_id_ ='"
+							+ variables.get("solicitante") + "'");
+				}
+
+				if (s.equals("tipoSolicitacao")) {
+					sqlQuery.append(" and a.proc_def_id_ like '"
+							+ variables.get("tipoSolicitacao") + "%'");
+				}
+
+				if (s.equals("protocolo")) {
+					sqlQuery.append(" and a.business_key_ ='"
+							+ variables.get("protocolo") + "'");
+				}
+
+			}
 		}
+
+		sqlQuery.append(" and c.name_ ='protocoloOrigem'");
+		System.out.println(sqlQuery.toString());
+
+		List<HistoricProcessInstance> resultHistoricProcess = historyService
+				.createNativeHistoricProcessInstanceQuery()
+				.sql(sqlQuery.toString()).list();
+
+		List<Variaveis> listaVariaveis = null;
+		List<ProcessoInstancia> listaProcessoInstancia = new ArrayList<ProcessoInstancia>();
+		ProcessoInstancia processoInstancia = null;
+
+		if (!resultHistoricProcess.isEmpty()) {
+
+			for (HistoricProcessInstance process : resultHistoricProcess) {
+				processoInstancia = new ProcessoInstancia();
+				processoInstancia
+						.parseHistoricProcessToProcessoInstancia(process);
+
+				listaVariaveis = new ArrayList<Variaveis>();
+
+				if (processoInstancia.getId() != null) {
+					listaVariaveis = this
+							.getVariaveisAPIExplorer(processoInstancia.getId());
+				}
+
+				processoInstancia.setVariables(listaVariaveis);
+				listaProcessoInstancia.add(processoInstancia);
+			}
+
+		}
+
+		return listaProcessoInstancia;
+
+	}
 
 	public List<ProcessoInstancia> getProcessosInstanciaFiltroVariaveis(
 			Map<String, String> variables, String status) {
@@ -639,17 +672,17 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 
 		return listaProcessoInstancia;
 	}
-	
+
 	public List<ProcessoInstancia> getHistoricoProcessosFiltroVariaveisOld(
 			Map<String, Object> variables, String status) {
 		HistoricProcessInstanceQuery query = historyService
 				.createHistoricProcessInstanceQuery();
 		List<Variaveis> listaVariaveis = null;
 
-//		for (String s : variables.keySet()) {
-//			query.variableValueEquals(s, variables.get(s));
-//		}
-		
+		// for (String s : variables.keySet()) {
+		// query.variableValueEquals(s, variables.get(s));
+		// }
+
 		query.variableValueEquals("tipoSolicitacao", "PUBLICAR_DOCUMENTO");
 
 		List<HistoricProcessInstance> resultHistoricProcessInstance = query
@@ -680,17 +713,19 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 				}
 			}
 		}
-		
+
 		return listaProcessos;
 
-		/*return (status.equals("PENDENTE")) ? listaProcessosPendentes : (status
-				.equals("CONCLUÍDO")) ? listaProcessosConcluidos
-				: listaProcessos;*/
+		/*
+		 * return (status.equals("PENDENTE")) ? listaProcessosPendentes :
+		 * (status .equals("CONCLUÍDO")) ? listaProcessosConcluidos :
+		 * listaProcessos;
+		 */
 
 	}
 
 	public List<ProcessoInstancia> getHistoricoProcessosFiltroVariaveis(
-			Map<String, Object> variables, String status) {
+			Map<String, Object> variables) {
 		HistoricProcessInstanceQuery query = historyService
 				.createHistoricProcessInstanceQuery();
 		List<Variaveis> listaVariaveis = null;
@@ -698,7 +733,7 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 		for (String s : variables.keySet()) {
 			query.variableValueEquals(s, variables.get(s));
 		}
-		
+
 		List<HistoricProcessInstance> resultHistoricProcessInstance = query
 				.includeProcessVariables().list();
 
@@ -783,8 +818,9 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 	public String iniciarInstanciaProcessoPorParametrosByKey(
 			String processoDefinicaoKey, String businessKey,
 			Map<String, Object> paramsProcesso) {
-		
-		this.identityService.setAuthenticatedUserId((String) paramsProcesso.get("solicitante"));
+
+		this.identityService.setAuthenticatedUserId((String) paramsProcesso
+				.get("solicitante"));
 		ProcessInstance processInstance = runtimeService
 				.startProcessInstanceByKey(processoDefinicaoKey, businessKey,
 						paramsProcesso);
@@ -818,25 +854,28 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 		return ProcessoDefinicao
 				.exportProcessDefinitionInterfaceToProcessoDefinicaoBean(result);
 	}
-	
+
 	public List<TarefaInstancia> getHistoricoTarefasPorVariaveis(
 			Map<String, Object> variables, String assignee,
-			String processDefinitionKey, Boolean isPendente, String idProcesso) throws ParseException {
-		
+			String processDefinitionKey, Boolean isPendente, String idProcesso)
+			throws ParseException {
+
 		StringBuffer sqlQuery = new StringBuffer("SELECT distinct(T.*) FROM "
-				+ managementService.getTableName(HistoricTaskInstance.class) + " T,"
+				+ managementService.getTableName(HistoricTaskInstance.class)
+				+ " T,"
 				+ "ACT_HI_VARINST V WHERE T.execution_id_ = V.execution_id_");
 
 		if (idProcesso != null) {
-			sqlQuery.append(" and T.proc_inst_id_ = '" + idProcesso + "'"); 
+			sqlQuery.append(" and T.proc_inst_id_ = '" + idProcesso + "'");
 		}
-		
+
 		if (assignee != null) {
 			sqlQuery.append(" and T.assignee_ = '" + assignee + "'");
 		}
 
 		if (processDefinitionKey != null) {
-			sqlQuery.append(" and T.proc_def_id_ like '" + processDefinitionKey + "%'");
+			sqlQuery.append(" and T.proc_def_id_ like '" + processDefinitionKey
+					+ "%'");
 		}
 
 		if (isPendente != null) {
@@ -847,7 +886,9 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 			}
 		}
 
-		List<HistoricTaskInstance> resultTask = historyService.createNativeHistoricTaskInstanceQuery().sql(sqlQuery.toString()).list();
+		List<HistoricTaskInstance> resultTask = historyService
+				.createNativeHistoricTaskInstanceQuery()
+				.sql(sqlQuery.toString()).list();
 
 		List<Variaveis> listaVariaveis = null;
 		List<TarefaInstancia> listaTarefaInstancia = new ArrayList<TarefaInstancia>();
@@ -870,14 +911,13 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 				tarefaInstancia.setVariables(listaVariaveis);
 				listaTarefaInstancia.add(tarefaInstancia);
 			}
-			
+
 		}
 
 		return listaTarefaInstancia;
 	}
-	
-	public int incrementarVersaoDocumento(
-			Map<String, Object> variables) {
+
+	public int incrementarVersaoDocumento(Map<String, Object> variables) {
 		HistoricProcessInstanceQuery query = historyService
 				.createHistoricProcessInstanceQuery();
 
@@ -885,7 +925,7 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 			query.variableValueEquals(s, variables.get(s));
 			System.out.println(s + "=" + variables.get(s));
 		}
-		
+
 		List<HistoricProcessInstance> resultHistoricProcessInstance = query
 				.includeProcessVariables().list();
 
