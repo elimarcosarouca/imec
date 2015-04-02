@@ -27,6 +27,7 @@
     <sequenceFlow id="flow3" sourceRef="startevent1" targetRef="ELABORAR_PUBLICACAO">
       <extensionElements>
         <activiti:executionListener event="take" expression="#{execution.setVariable(&quot;statusProcesso&quot;,&quot;PENDENTE&quot;)}"></activiti:executionListener>
+        <activiti:executionListener event="take" expression="#{execution.setVariable(&quot;finalizarProcesso&quot;,false)}"></activiti:executionListener>
       </extensionElements>
     </sequenceFlow>
     <userTask id="CONCENSO_PUBLICACAO" name="Aprovar Concenso ${loopCounter}" activiti:assignee="${assignee}">
@@ -48,7 +49,8 @@
     </sequenceFlow>
     <sequenceFlow id="flow6" sourceRef="NOTIFICACAO_MANUAL" targetRef="usertask2">
       <extensionElements>
-        <activiti:executionListener event="take" expression="#{execution.setVariable(&quot;statusProcesso&quot;,&quot;APROVADO&quot;)}"></activiti:executionListener>
+        <activiti:executionListener event="take" expression="#{execution.setVariable(&quot;statusProcesso&quot;,&quot;ATIVO&quot;)}"></activiti:executionListener>
+        <activiti:executionListener event="take" expression="#{execution.setVariable(&quot;finalizarProcesso&quot;,true)}"></activiti:executionListener>
       </extensionElements>
     </sequenceFlow>
     <sequenceFlow id="flow7" sourceRef="exclusivegateway1" targetRef="usertask1">
@@ -98,6 +100,7 @@
     <sequenceFlow id="flow17" sourceRef="usertask1" targetRef="usertask2">
       <extensionElements>
         <activiti:executionListener event="take" expression="#{execution.setVariable(&quot;statusProcesso&quot;,&quot;ATIVO&quot;)}"></activiti:executionListener>
+        <activiti:executionListener event="take" expression="#{execution.setVariable(&quot;finalizarProcesso&quot;,true)}"></activiti:executionListener>
       </extensionElements>
     </sequenceFlow>
     <userTask id="usertask2" name="Notificar Publicação" activiti:assignee="${solicitante}"></userTask>
