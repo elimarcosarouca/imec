@@ -113,6 +113,13 @@ public interface ActivitiServico {
 	List<ProcessoInstancia> getProcessosInstancia();
 	
 	/**
+	 * Metodo responsavel por retornar a instancia de processo
+	 * @param processInstanceId
+	 * @return ProcessoInstancia
+	 */
+	ProcessoInstancia getProcessosInstanciaId(String processInstanceId);
+	
+	/**
 	 * @param processInstanceId
 	 * Metodo responsavel por retornar a imagem (InputStream) do processo que esta em execução
 	 * @return InputStream
@@ -187,7 +194,7 @@ public interface ActivitiServico {
 	 * @param status
 	 * @return
 	 */	
-	List<ProcessoInstancia> getHistoricoProcessosFiltroVariaveis(Map<String, Object> variables, String status);
+	List<ProcessoInstancia> getHistoricoProcessosFiltroVariaveis(Map<String, Object> variables);
 	
 	/**
 	 * Metodo responsavel por filtrar historico de processos por variaveis de processo e status (TODOS; PENDENTE; CONCLUIDO)
