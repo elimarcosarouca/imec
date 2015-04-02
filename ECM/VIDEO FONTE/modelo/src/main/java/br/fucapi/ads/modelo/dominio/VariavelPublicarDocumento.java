@@ -54,6 +54,8 @@ public class VariavelPublicarDocumento extends Variavel {
 	private boolean publicacaoAutomatica;
 
 	private boolean enviarConcensao;
+	
+	private boolean finalizarProcesso;
 
 	private String alteracoes;
 
@@ -425,6 +427,14 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.enviarConcensao = enviarConcensao;
 	}
 
+	public boolean isFinalizarProcesso() {
+		return finalizarProcesso;
+	}
+
+	public void setFinalizarProcesso(boolean finalizarProcesso) {
+		this.finalizarProcesso = finalizarProcesso;
+	}
+
 	public String getAlteracoes() {
 		return alteracoes;
 	}
@@ -537,6 +547,10 @@ public class VariavelPublicarDocumento extends Variavel {
 			} else if (var.getName().equals("enviarConcensao")
 					&& var.getValue() != null) {
 				this.setEnviarConcensao(new Boolean(var.getValue().toString()));
+				
+			} else if (var.getName().equals("finalizarProcesso")
+					&& var.getValue() != null) {
+				this.setFinalizarProcesso(new Boolean(var.getValue().toString()));
 
 			} else if (var.getName().equals("publicacaoAutomatica")
 					&& var.getValue() != null) {
@@ -669,6 +683,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("possuiTarja", this.isPossuiTarja());
 		params.put("publicacaoAutomatica", this.isPublicacaoAutomatica());
 		params.put("enviarConcensao", this.isEnviarConcensao());
+		params.put("finalizarProcesso", this.isFinalizarProcesso());
 
 		params.put("arquivoDoc", this.getArquivoDoc());
 		params.put("arquivoControlado", this.getArquivoControlado());
