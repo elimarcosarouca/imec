@@ -119,15 +119,21 @@
 							</p:commandButton>
 
 							<p:commandButton oncomplete="PF('dlgReprovar').show()"
+								rendered="#{item.variaveis.finalizarProcesso ne true}"
 								icon="ui-icon-closethick" title="Reprovar"
 								styleClass="ui-priority-primary"
-								rendered="#{item.name ne 'Elaborar Publicação1'}"
 								actionListener="#{tarefaControle.prepararParecer(item)}" />
 
 							<p:commandButton oncomplete="PF('dlgAprovar').show()"
+								rendered="#{item.variaveis.finalizarProcesso ne true}"
 								icon="ui-icon-circle-check" title="Aprovar"
 								styleClass="ui-priority-primary"
 								actionListener="#{tarefaControle.prepararParecer(item)}" />
+								
+							<p:commandButton ajax="false" immediate="true"
+								rendered="#{item.variaveis.finalizarProcesso eq true}"
+								action="#{publicarDocumentoControlador.detalhe(item)}" icon="ui-icon-folder-open"
+								title="Finalizar Processo" update=":form" />
 
 						</p:column>
 

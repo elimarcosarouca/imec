@@ -75,6 +75,7 @@
 
 					<p:commandButton id="novo" icon="ui-icon-search"
 						action="#{publicarDocumentoControlador.inicioNovaSolicitacao}"
+						rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
 						value="Novo" update=":form" />
 
 				</p:panel>
