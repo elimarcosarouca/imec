@@ -51,7 +51,6 @@ public class TreinamentoRN {
 		
 		VariaveisTarefa variaveisTarefaTemp = new VariaveisTarefa();
 		
-		variaveisTarefaTemp.setAcao(variaveisTreinamento.getAcao());
 		variaveisTarefaTemp.setParecer(variaveisTreinamento.getParecer());
 		variaveisTarefaTemp.setId(Long.valueOf(tarefaInstancia.getId()));
 		
