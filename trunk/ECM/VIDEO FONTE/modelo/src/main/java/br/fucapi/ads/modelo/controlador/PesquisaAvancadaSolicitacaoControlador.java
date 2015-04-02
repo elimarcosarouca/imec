@@ -111,7 +111,7 @@ package br.fucapi.ads.modelo.controlador;
 			
 			List<ProcessoInstancia> listaCancelados = new ArrayList<ProcessoInstancia>();
 			
-			this.listaResultado = activitiServico.getHistoricoProcessosFiltroVariaveis(var, this.status);
+			this.listaResultado = activitiServico.getHistoricoProcessosFiltroVariaveis(var);
 
 			for (ProcessoInstancia pInstancia : listaResultado) {
 				variaveisProcesso = new VariaveisTreinamento();

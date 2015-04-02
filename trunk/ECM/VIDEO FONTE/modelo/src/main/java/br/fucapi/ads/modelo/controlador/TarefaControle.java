@@ -284,10 +284,10 @@ public class TarefaControle implements Serializable {
 		}
 	}
 
-	public void detalhe(TarefaInstancia tarefa) {
+	public String detalhe(TarefaInstancia tarefa) {
 		this.parecer = "";
 		this.entity = tarefa;
-		this.telaDetalheTarefaPendente();
+		return this.telaDetalheTarefaPendente();
 	}
 
 	public void listarTarefas(ProcessoInstancia entity) {
@@ -586,9 +586,8 @@ public class TarefaControle implements Serializable {
 		return this.PESQUISATAREFAPENDENTE;
 	}
 
-	public void telaDetalheTarefaPendente() {
-		paginaCentralControladorBean
-				.setPaginaCentral(this.DETALHETAREFAPENDENTE);
+	public String telaDetalheTarefaPendente() {
+		return this.DETALHETAREFAPENDENTE;
 	}
 
 	public TreinamentoRN getTreinamentoRN() {

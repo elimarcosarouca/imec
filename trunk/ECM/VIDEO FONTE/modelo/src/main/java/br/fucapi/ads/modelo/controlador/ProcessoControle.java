@@ -179,7 +179,7 @@ public class ProcessoControle implements Serializable {
 
 		// if (this.origem.getId() == null) {
 		listaResultado = activitiServico.getHistoricoProcessosFiltroVariaveis(
-				new HashMap<String, Object>(), "TODOS");
+				new HashMap<String, Object>());
 		// } else {
 		// Map<String, Object> var = this.filtroVariaveis();
 		// listaResultado = activitiServico

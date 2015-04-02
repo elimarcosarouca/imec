@@ -317,7 +317,7 @@ public class TreinamentoControlador implements Serializable {
 		this.lista = new ArrayList<ProcessoInstancia>();
 
 		listaResultado = activitiServico.getHistoricoProcessosFiltroVariaveis(
-				new HashMap<String, Object>(), "TODOS");
+				new HashMap<String, Object>());
 
 		// Map<String, Object> var = this.filtroVariaveis();
 		// listaResultado = activitiServico
