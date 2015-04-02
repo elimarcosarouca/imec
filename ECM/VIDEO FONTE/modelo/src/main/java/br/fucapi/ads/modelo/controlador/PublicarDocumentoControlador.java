@@ -114,7 +114,7 @@ public class PublicarDocumentoControlador implements Serializable {
 	private VariaveisTreinamento variaveisTreinamento;
 
 	private ProcessoInstancia processoStart;
-	
+
 	private boolean habilitar = false;
 
 	@ManagedProperty(value = "#{activitiServicoImpl}")
@@ -146,7 +146,7 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	@ManagedProperty(value = "#{setorServicoImpl}")
 	private SetorServico setorServico;
-	
+
 	@ManagedProperty(value = "#{nomenclaturaDocumentoServicoImpl}")
 	private NomenclaturaDocumentoServico nomenclaturaDocumentoServico;
 
@@ -158,10 +158,12 @@ public class PublicarDocumentoControlador implements Serializable {
 	private String TELA_CADASTRO = "/paginas/solicitacao/publicardocumento/cadastro.xhtml?faces-redirect=true";
 
 	private String TELA_DETALHE = "/paginas/solicitacao/publicardocumento/detalhe.xhtml?faces-redirect=true";
-	
+
 	private String TELA_REVISAO = "/paginas/solicitacao/publicardocumento/revisar.xhtml?faces-redirect=true";
 
 	private String TELA_DETALHE_TAREFA = "/paginas/solicitacao/publicardocumento/detalhetarefa.xhtml?faces-redirect=true";
+	
+	private final String PESQUISATAREFAPENDENTE = "/paginas/tarefa/pesquisatarefapendente.xhtml?faces-redirect=true";
 
 	// PickList
 
@@ -182,15 +184,15 @@ public class PublicarDocumentoControlador implements Serializable {
 	private List<PostoCopia> postosCopiaSource;
 
 	private StreamedContent file;
-	
+
 	private String tipoDocumento;
-	
+
 	// Upload File
 
 	private UploadedFile uploadFile;
-	
+
 	private boolean renderCancelar;
-	
+
 	private boolean renderDownload;
 
 	public UploadedFile getUploadFile() {
@@ -620,6 +622,21 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	}
 
+	public String detalhe(TarefaInstancia tarefaInstancia)
+			throws ParseException {
+		this.TELA_PESQUISA = this.PESQUISATAREFAPENDENTE;
+		
+		this.processoInstancia = activitiServico
+				.getProcessosInstanciaId(tarefaInstancia.getProcessInstanceId());
+		
+		this.variaveis = new VariavelPublicarDocumento();
+		this.variaveis.converterListaVariaveis(this.processoInstancia.getVariables());
+
+		this.processoInstancia.setVariaveis(variaveis);
+		
+		return detalhe(this.processoInstancia);
+	}
+
 	public void preRenderView() {
 
 		if (this.usuarioLogado.getCapabilities().isAdmin()) {
@@ -653,8 +670,8 @@ public class PublicarDocumentoControlador implements Serializable {
 		Map<String, Object> var = new HashMap<String, Object>();
 		var.put("protocolo", entity.getProtocolo());
 
-		listaResultado = activitiServico.getHistoricoProcessosFiltroVariaveis(
-				var, "PENDENTE");
+		listaResultado = activitiServico
+				.getHistoricoProcessosFiltroVariaveis(var);
 
 		for (ProcessoInstancia pInstancia : listaResultado) {
 			this.variaveis = new VariavelPublicarDocumento();
@@ -734,8 +751,8 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.lista = new ArrayList<ProcessoInstancia>();
 
 		Map<String, Object> var = this.filtroVariaveis();
-		listaResultado = activitiServico.getHistoricoProcessosFiltroVariaveis(
-				var, "PENDENTE");
+		listaResultado = activitiServico
+				.getHistoricoProcessosFiltroVariaveis(var);
 
 		for (ProcessoInstancia pInstancia : listaResultado) {
 			this.variaveis = new VariavelPublicarDocumento();
@@ -744,6 +761,8 @@ public class PublicarDocumentoControlador implements Serializable {
 			pInstancia.setVariaveis(variaveis);
 			this.lista.add(pInstancia);
 		}
+		
+		this.TELA_PESQUISA = "/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true";
 
 	}
 
@@ -755,8 +774,8 @@ public class PublicarDocumentoControlador implements Serializable {
 		var.put("tipoSolicitacao", this.variaveisPesquisa.getTipoSolicitacao());
 		var.put("protocoloOrigem", protocoloOrigem);
 
-		listaResultado = activitiServico.getHistoricoProcessosFiltroVariaveis(
-				var, "TODOS");
+		listaResultado = activitiServico
+				.getHistoricoProcessosFiltroVariaveis(var);
 
 		for (ProcessoInstancia pInstancia : listaResultado) {
 			this.variaveis = new VariavelPublicarDocumento();
