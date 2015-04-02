@@ -157,27 +157,9 @@ public class Variavel implements Serializable {
 		params.put("protocolo", getProtocolo());
 		params.put("descricao", getDescricao());
 //		params.put("statusProcesso", getStatusProcesso());
-		
 
 		return params;
 	}
-	/*
-	 * public String ObjectToJson(String processoDefinitionKey, Protocolo
-	 * protocolo) {
-	 * 
-	 * processoDefinitionKey = ("TREINAMENTO");
-	 * 
-	 * String json = "\"processDefinitionKey\":\"" + processoDefinitionKey +
-	 * "\",\"businessKey\":\"" + protocolo + "\"," + "\"variables\":[{" +
-	 * "\"sequencial\":\"" + this.getSequencial() + "\",\"ano\":\"" +
-	 * this.getAno() + "\",\"gruposNotificar\":\"" + this.getGruposNotificar() +
-	 * "\",\"solicitante\":\"" + this.getSolicitante() +
-	 * "\",\"emailSolicitante\":\"" + this.getEmailSolicitante() +
-	 * "\",\"sistema\":\"" + this.getSistema() + "\",\"descricao:" +
-	 * this.getDescricao() + "\",\"protocolo:" + this.getProtocolo() + "\"}]";
-	 * 
-	 * return json; }
-	 */
 
 	public String getJustificativaStatus() {
 		return justificativaStatus;
