@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -38,7 +39,6 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import br.fucapi.ads.modelo.dominio.Documento;
 import br.fucapi.ads.modelo.dominio.VariaveisTarefa;
 import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
 import br.fucapi.ads.modelo.regranegocio.TreinamentoRN;
@@ -88,7 +88,7 @@ public class TarefaControle implements Serializable {
 
 	private Usuario usuario;
 
-	private ProcessoDefinicao processoDefinicao;
+	private List<Usuario> listaUsuarios;
 
 	private TarefaInstancia entity;
 
@@ -115,18 +115,14 @@ public class TarefaControle implements Serializable {
 
 	private List<FileItem> itens;
 
-	private List<Documento> documentos;
-
 	/**
 	 * Metodo responsavel por verificar a quantidade de tarefas pendentes de um
 	 * usuario
 	 */
-	public void initTotalTarefasUsuario() {
-		this.usuario = ((Usuario) SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal());
+	public void initTotalTarefasUsuario(String login) {
 
 		this.listaTarefasPendentes = this.activitiServico
-				.getTarefasUsuario(this.usuario.getUserName());
+				.getTarefasUsuario(login);
 
 		this.totalTarefas = (this.listaTarefasPendentes != null) ? this.listaTarefasPendentes
 				.size() : 0;
@@ -143,21 +139,27 @@ public class TarefaControle implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
+	@PostConstruct
 	public String init() throws ParseException {
 
-		this.initTotalTarefasUsuario();
-
-		this.processoDefinicao = new ProcessoDefinicao();
-		this.variaveis = new VariavelPublicarDocumento();
 		this.usuario = (Usuario) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
-		this.listaProcessosDefinicao = activitiServico
-				.getProcessosDefinicaoPorQueryLastVersion();
-		this.listaTarefasPendentes = new ArrayList<TarefaInstancia>();
+		
+		this.initTotalTarefasUsuario(this.usuario.getUserName());
+
+		if (this.usuario.getCapabilities().isAdmin()) {
+			this.listaUsuarios = alfrescoServico.getUsuarios();
+		} else {
+			this.listaUsuarios = new ArrayList<Usuario>();
+		}
 
 		this.lerCookie();
+		
+		this.variaveis = new VariavelPublicarDocumento();
 
-		return this.pesquisar();
+		this.pesquisar();
+		
+		return this.PESQUISATAREFAPENDENTE;
 
 	}
 
@@ -170,15 +172,19 @@ public class TarefaControle implements Serializable {
 		return IOUtils.toByteArray(is);
 
 	}
-
+	
 	public String pesquisar() throws ParseException {
+		return pesquisar(this.usuario.getUserName());
+	}
+
+	public String pesquisar(String login) throws ParseException {
 
 		Map<String, Object> filtro = this.filtroVariaveis();
 
 		// Soh deverah trazer as tarefas que estao com o status pendente
 		this.listaTarefasPendentes = activitiServico
 				.getHistoricoTarefasPorVariaveis(filtro,
-						this.usuario.getUserName(),
+						login,
 						this.variaveis.getTipoSolicitacao(), true, null);
 
 		VariavelPublicarDocumento varTemp = null;
@@ -209,7 +215,7 @@ public class TarefaControle implements Serializable {
 
 	}
 
-	public String aprovar() throws Exception {
+	public void aprovar() throws Exception {
 
 		String json = "{\"name\":\"aprovacaoOK\", \"value\":true},"
 				+ "{\"name\":\"parecer\", \"value\":\"" + this.parecer + "\"}";
@@ -221,10 +227,10 @@ public class TarefaControle implements Serializable {
 
 		FacesContext.getCurrentInstance().addMessage(null, message);
 
-		return this.pesquisar();
+		this.pesquisar();
 	}
 
-	public String reprovar() throws Exception {
+	public void reprovar() throws Exception {
 		String json = "{\"name\":\"aprovacaoOK\", \"value\":false},"
 				+ "{\"name\":\"parecer\", \"value\":\"" + this.parecer + "\"}";
 
@@ -242,7 +248,7 @@ public class TarefaControle implements Serializable {
 				MSG, MSG);
 		FacesContext.getCurrentInstance().addMessage(null, message);
 
-		return this.pesquisar();
+		this.pesquisar();
 	}
 
 	public void reprovarOutrasTarefas(String processInstanceId)
@@ -394,39 +400,7 @@ public class TarefaControle implements Serializable {
 		return var;
 	}
 
-	/*
-	 * public void anexarDocumentosAlfresco() {
-	 * 
-	 * this.documentos = new ArrayList<Documento>(); Documento doc = null;
-	 * 
-	 * try { String nomePasta = +((VariaveisTreinamento) this.entity
-	 * .getVariaveis()).getAno() + "" + ((VariaveisTreinamento)
-	 * this.entity.getVariaveis()) .getSequencial();
-	 * 
-	 * File file = null;
-	 * 
-	 * for (FileItem item : this.itens) {
-	 * 
-	 * String nomeArquivo = item.getName(); doc = new Documento();
-	 * 
-	 * file = new File(nomeArquivo);
-	 * 
-	 * item.write(file);
-	 * 
-	 * String json = alfrescoServico.anexarArquivo(parentTreinamento, nomePasta,
-	 * null, nomeArquivo, this.usuario.getTicket(), file);
-	 * 
-	 * UUIDNodeRef nodeRef = UUIDNodeRef.fromJsonToUUIDNodeRef(json);
-	 * 
-	 * doc.setUuid(nodeRef.getNodeRef()); doc.setFile(null);
-	 * doc.setNomeArquivo(nomeArquivo);
-	 * 
-	 * this.documentos.add(doc); }
-	 * 
-	 * } catch (Exception e) {
-	 * 
-	 * } }
-	 */
+	
 	public void downloadArquivo(TarefaInstancia tarefa) {
 		if (this.variaveis.getArquivoDoc() == null) {
 			FacesMessage msg = new FacesMessage(
@@ -475,12 +449,12 @@ public class TarefaControle implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public ProcessoDefinicao getProcessoDefinicao() {
-		return processoDefinicao;
+	public List<Usuario> getListaUsuarios() {
+		return listaUsuarios;
 	}
 
-	public void setProcessoDefinicao(ProcessoDefinicao processoDefinicao) {
-		this.processoDefinicao = processoDefinicao;
+	public void setListaUsuarios(List<Usuario> listaUsuarios) {
+		this.listaUsuarios = listaUsuarios;
 	}
 
 	public List<TarefaInstancia> getListaTarefasPendentes() {
