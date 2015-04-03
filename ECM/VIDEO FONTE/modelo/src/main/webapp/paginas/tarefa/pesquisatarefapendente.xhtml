@@ -17,7 +17,7 @@
 		 -->
 
 	<ui:define name="content">
-
+	
 		<c:if test="#{empty widthContainer}">
 			<c:set var="widthContainer" value="100%" />
 		</c:if>
@@ -49,14 +49,23 @@
 					<h:panelGrid columns="2" cellspacing="5" style="width:100%">
 
 						<h:outputText value="Protocolo:" styleClass="ui-priority-primary" />
-						<p:inputText id="idProtocolo"
-							value="#{tarefaControle.variaveis.protocolo}" />
+						<p:inputText value="#{sessaoControladorBean.usuario.userName}"
+						rendered="#{!sessaoControladorBean.usuario.getCapabilities().isAdmin()}"
+						disabled="true" />
+
+					<p:selectOneMenu value="#{tarefaControle.usuario.userName}" style="width:300px;"
+						rendered="#{sessaoControladorBean.usuario.getCapabilities().isAdmin()}" >
+						<f:selectItem itemLabel="TODAS" />
+						<f:selectItems value="#{tarefaControle.listaUsuarios}"
+							var="usuario" itemLabel="#{usuario.firstName} #{usuario.lastName}"
+							itemValue="#{usuario.userName}" />
+					</p:selectOneMenu>
 
 					</h:panelGrid>
 
 					<p:commandButton id="pesquisa" icon="ui-icon-search"
-						action="#{tarefaControle.pesquisar}"
-						styleClass="ui-priority-primary" value="Pesquisa" update=":form" />
+						actionListener="#{tarefaControle.pesquisar(tarefaControle.usuario.userName)}"
+						styleClass="ui-priority-primary" value="Pesquisa" update=":form:painelGrid" />
 
 				</p:panel>
 
