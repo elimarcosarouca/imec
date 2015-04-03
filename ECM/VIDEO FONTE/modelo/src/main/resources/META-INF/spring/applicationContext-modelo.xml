@@ -20,8 +20,6 @@
 	
 	<tx:annotation-driven transaction-manager="transactionManagerModelo" />
 
-	<bean id="tarefaControlador" class="br.fucapi.ads.modelo.controlador.TarefaControle" />
-
 	<context:property-placeholder
 		location="classpath:ads.properties,classpath:messenger.properties,classpath:log4j.properties,classpath:web.properties,classpath:META-INF/spring/database-modelo.properties" />
 

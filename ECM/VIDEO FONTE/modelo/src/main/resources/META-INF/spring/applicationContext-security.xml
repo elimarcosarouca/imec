@@ -19,7 +19,7 @@
 		
 		<intercept-url pattern="/paginas/**"
 			access="hasAnyRole('ROLE_ALFRESCO_ADMINISTRATORS')" />
-		<form-login login-page="/login.xhtml" default-target-url="/paginas/tarefa/pesquisatarefapendente.xhtml" />
+		<form-login login-page="/login.xhtml" default-target-url="/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true" />
 		
 	</http>
 
