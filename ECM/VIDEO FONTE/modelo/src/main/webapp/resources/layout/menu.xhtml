@@ -16,7 +16,9 @@
 				<p:separator />
 				<p:menuitem value="Tarefas" action="#{tarefaControle.init}" icon="ui-icon-arrowreturnthick-1-w" update=":form" />
 				<p:separator />
-				<p:menuitem value="Alerta" url="/paginas/alerta/pesquisa.xhtml?faces-redirect=true" icon="ui-icon-arrowreturnthick-1-w" />
+				<p:menuitem value="Alerta"
+					url="/paginas/alerta/pesquisa.xhtml?faces-redirect=true"
+					icon="ui-icon-arrowreturnthick-1-w" />
 			</p:submenu>
 
 			<p:submenu label="Cadastros" icon="ui-icon-pencil" rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}">
