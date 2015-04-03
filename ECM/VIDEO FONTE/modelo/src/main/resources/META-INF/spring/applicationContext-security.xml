@@ -16,12 +16,10 @@
 		<intercept-url pattern="/lembrarsenha.xhtml" access="permitAll" />
 		<intercept-url pattern="/index.xhtml" access="hasAnyRole('ROLE_ALFRESCO_ADMINISTRATORS')" />
 		<intercept-url pattern="/login.xhtml" access="permitAll" />
-
-		<intercept-url pattern="/home*"
+		
+		<intercept-url pattern="/paginas/**"
 			access="hasAnyRole('ROLE_ALFRESCO_ADMINISTRATORS')" />
-		<intercept-url pattern="/pages/**"
-			access="hasAnyRole('ROLE_ALFRESCO_ADMINISTRATORS')" />
-		<form-login login-page="/login.xhtml" default-target-url="/paginas/categoria/pesquisa.xhtml" />
+		<form-login login-page="/login.xhtml" default-target-url="/paginas/tarefa/pesquisatarefapendente.xhtml" />
 		
 	</http>
 
