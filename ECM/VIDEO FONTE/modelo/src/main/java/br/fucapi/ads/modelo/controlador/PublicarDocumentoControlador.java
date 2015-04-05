@@ -574,7 +574,7 @@ public class PublicarDocumentoControlador implements Serializable {
 		nomenclatura.setUnidade(this.variaveis.getUnidade());
 		nomenclatura.setCategoria(this.variaveis.getCategoria());
 		nomenclatura.setSetor(this.variaveis.getSetor());
-		this.nomenclaturaDocumentoServico.pegarSequencial(nomenclatura);
+		nomenclatura = this.nomenclaturaDocumentoServico.pegarSequencial(nomenclatura);
 		this.variaveis.setNomenclatura(nomenclatura.toString());
 
 		this.activitiServico.iniciarInstanciaProcessoPorParametrosByKey(
