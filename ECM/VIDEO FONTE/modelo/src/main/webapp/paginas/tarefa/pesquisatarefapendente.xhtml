@@ -17,7 +17,7 @@
 		 -->
 
 	<ui:define name="content">
-	
+
 		<c:if test="#{empty widthContainer}">
 			<c:set var="widthContainer" value="100%" />
 		</c:if>
@@ -48,24 +48,27 @@
 
 					<h:panelGrid columns="2" cellspacing="5" style="width:100%">
 
-						<h:outputText value="Protocolo:" styleClass="ui-priority-primary" />
+						<h:outputText value="Colaborador:" styleClass="ui-priority-primary" />
 						<p:inputText value="#{sessaoControladorBean.usuario.userName}"
-						rendered="#{!sessaoControladorBean.usuario.getCapabilities().isAdmin()}"
-						disabled="true" />
+							rendered="#{!sessaoControladorBean.usuario.getCapabilities().isAdmin()}"
+							disabled="true" />
 
-					<p:selectOneMenu value="#{tarefaControle.usuario.userName}" style="width:300px;"
-						rendered="#{sessaoControladorBean.usuario.getCapabilities().isAdmin()}" >
-						<f:selectItem itemLabel="TODAS" />
-						<f:selectItems value="#{tarefaControle.listaUsuarios}"
-							var="usuario" itemLabel="#{usuario.firstName} #{usuario.lastName}"
-							itemValue="#{usuario.userName}" />
-					</p:selectOneMenu>
+						<p:selectOneMenu value="#{tarefaControle.usuario.userName}"
+							style="width:300px;"
+							rendered="#{sessaoControladorBean.usuario.getCapabilities().isAdmin()}">
+							<f:selectItem itemLabel="TODAS" />
+							<f:selectItems value="#{tarefaControle.listaUsuarios}"
+								var="usuario"
+								itemLabel="#{usuario.firstName} #{usuario.lastName}"
+								itemValue="#{usuario.userName}" />
+						</p:selectOneMenu>
 
 					</h:panelGrid>
 
 					<p:commandButton id="pesquisa" icon="ui-icon-search"
 						actionListener="#{tarefaControle.pesquisar(tarefaControle.usuario.userName)}"
-						styleClass="ui-priority-primary" value="Pesquisa" update=":form:painelGrid" />
+						styleClass="ui-priority-primary" value="Pesquisa"
+						update=":form:painelGrid" />
 
 				</p:panel>
 
@@ -84,9 +87,10 @@
 
 						<p:column style="text-align:left" headerText="Protocolo"
 							sortBy="#{item.variaveis.ano}">
-							<h:outputText value="#{item.variaveis.ano}#{item.variaveis.sequencial}" />
+							<h:outputText
+								value="#{item.variaveis.ano}#{item.variaveis.sequencial}" />
 						</p:column>
-						
+
 						<p:column style="text-align:left" headerText="Tarefa"
 							sortBy="#{item.name}">
 							<h:outputText value="#{item.name}" />
@@ -113,12 +117,17 @@
 							sortBy="#{item.variaveis.descricao}">
 							<h:outputText value="#{item.variaveis.descricao}" />
 						</p:column>
+						
+						<p:column style="text-align:left" headerText="Colaborador"
+							sortBy="#{item.assignee}">
+							<h:outputText value="#{item.assignee}" />
+						</p:column>
 
 						<p:column style="text-align:left" headerText="Ações">
 
 							<p:commandButton ajax="false" immediate="true"
-								action="#{publicarDocumentoControlador.detalhe(item)}" icon="ui-icon-folder-open"
-								title="Detalhe" update=":form" />
+								action="#{publicarDocumentoControlador.detalhe(item)}"
+								icon="ui-icon-folder-open" title="Detalhe" update=":form" />
 
 							<p:commandButton id="download" ajax="false"
 								title="Baixar Documento"
@@ -128,21 +137,22 @@
 							</p:commandButton>
 
 							<p:commandButton oncomplete="PF('dlgReprovar').show()"
-								rendered="#{item.variaveis.finalizarProcesso ne true}"
+								rendered="#{item.variaveis.finalizarProcesso}"
 								icon="ui-icon-closethick" title="Reprovar"
 								styleClass="ui-priority-primary"
 								actionListener="#{tarefaControle.prepararParecer(item)}" />
 
 							<p:commandButton oncomplete="PF('dlgAprovar').show()"
-								rendered="#{item.variaveis.finalizarProcesso ne true}"
+								rendered="#{item.variaveis.finalizarProcesso}"
 								icon="ui-icon-circle-check" title="Aprovar"
 								styleClass="ui-priority-primary"
 								actionListener="#{tarefaControle.prepararParecer(item)}" />
-								
+
 							<p:commandButton ajax="false" immediate="true"
 								rendered="#{item.variaveis.finalizarProcesso eq true}"
-								action="#{publicarDocumentoControlador.detalhe(item)}" icon="ui-icon-folder-open"
-								title="Finalizar Processo" update=":form" />
+								action="#{publicarDocumentoControlador.detalhe(item)}"
+								icon="ui-icon-folder-open" title="Finalizar Processo"
+								update=":form" />
 
 						</p:column>
 
