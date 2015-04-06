@@ -19,14 +19,12 @@
 
 		<ss:input label="Protocolo"
 			value="#{alertaControlador.pesquisa.protocolo}" />
-			
+
 		<ss:checkBox label="Concluído"
 			value="#{alertaControlador.pesquisa.concluida}" />
-			
-		<ss:comboBox id="setor" label="Setor"
-			value="#{alertaControlador.usuario}"
-			list="#{alertaControlador.usuarios}"			
-			foreignKey="true"
+
+		<ss:comboBox label="Colaborador" value="#{alertaControlador.usuario}"
+			list="#{alertaControlador.usuarios}" foreignKey="true"
 			atributo="#{item.firstName} #{item.lastName}" />
 
 	</ui:define>
