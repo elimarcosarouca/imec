@@ -1,0 +1,17 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<p>Prezado (a) Usu&aacute;rio,</p>
+<p>Informamos que o documento do protocolo n&uacute;mero ${numeroProtocolo}, deve ser atualizado antes do vencimento. <br />
+Acesse o sistema GEDEasy para realizar a an&aacute;lise da solicita&ccedil;&atilde;o.</p>
+<p>Atenciosamente<br />
+  GEDEasy</p>
+<p>NAO RESPONDA ESTA MENSAGEM<br />
+  Este e-mail e gerado automaticamente</p>
+</body>
+</html>
