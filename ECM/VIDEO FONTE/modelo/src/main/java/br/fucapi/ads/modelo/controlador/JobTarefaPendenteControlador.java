@@ -16,14 +16,13 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
-import br.fucapi.ads.modelo.dominio.VariaveisProcesso;
 import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
 import br.fucapi.bpms.activiti.dominio.TarefaInstancia;
 import br.fucapi.bpms.activiti.servico.ActivitiServico;
 import br.fucapi.bpms.alfresco.dominio.Usuario;
 import br.fucapi.bpms.alfresco.servico.AlfrescoServico;
 
-public class JobControlador {
+public class JobTarefaPendenteControlador {
 
 	private List<TarefaInstancia> listaTarefas;
 
@@ -42,7 +41,7 @@ public class JobControlador {
 	@Autowired
 	private VelocityEngine velocityEngine;
 
-	public void metodoQuartz() throws Exception {
+	public void notificarTarefasPendentes() throws Exception {
 
 		Map<String, Object> filtro = new HashMap<String, Object>();
 
@@ -62,7 +61,8 @@ public class JobControlador {
 		for (TarefaInstancia tarefaInstancia : listaTarefas) {
 			System.out.println(tarefaInstancia.getAssignee());
 			VariavelPublicarDocumento variavelPublicarDocumento = new VariavelPublicarDocumento();
-			variavelPublicarDocumento.converterListaVariaveis(tarefaInstancia.getVariables());
+			variavelPublicarDocumento.converterListaVariaveis(tarefaInstancia
+					.getVariables());
 			tarefaInstancia.setVariaveis(variavelPublicarDocumento);
 			enviarEmailNovoExecutor(tarefaInstancia);
 		}
@@ -90,16 +90,23 @@ public class JobControlador {
 				message.setFrom(adsProperties.getProperty("mail.sender"));
 
 				Map<String, String> model = new HashMap<String, String>();
-
 				model.put("nomeAtividade", tarefa.getName());
-				model.put("numeroProtocolo", ((VariavelPublicarDocumento) tarefa.getVariaveis()).getAno()+""+((VariavelPublicarDocumento) tarefa.getVariaveis()).getSequencial());
-				model.put("tipoSolicitacao", ((VariavelPublicarDocumento) tarefa.getVariaveis()).getTipoSolicitacao());
-				
+				model.put(
+						"numeroProtocolo",
+						((VariavelPublicarDocumento) tarefa.getVariaveis())
+								.getAno()
+								+ ""
+								+ ((VariavelPublicarDocumento) tarefa
+										.getVariaveis()).getSequencial());
+				model.put("tipoSolicitacao",
+						((VariavelPublicarDocumento) tarefa.getVariaveis())
+								.getTipoSolicitacao());
+
 				message.setSubject(adsProperties
-						.getProperty("send.subject.novatarefa"));
+						.getProperty("send.subject.tarefapendente"));
 
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
-						velocityEngine, "email_novo_executor.vm", model);
+						velocityEngine, "mail/tarefa_pendente.vm", model);
 				message.setText(text, true);
 
 			}
@@ -115,20 +122,14 @@ public class JobControlador {
 				MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 				message.setTo("claudemirramosferreira@gmail.com");
 				message.setFrom(adsProperties.getProperty("mail.sender"));
-
 				Map<String, String> model = new HashMap<String, String>();
-
 				message.setSubject(adsProperties.getProperty("send.subject"));
-
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
 						velocityEngine, "tarefa_pendente.vm", model);
 				message.setText(text, true);
-
 			}
 
 		};
 		this.mailSender.send(preparator);
-
 	}
-
 }
