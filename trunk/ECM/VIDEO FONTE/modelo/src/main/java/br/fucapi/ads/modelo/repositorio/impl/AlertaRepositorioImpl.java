@@ -27,7 +27,7 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 		}
 		
 		if (notEmpty(abstractEntity.getDataAlerta())) {
-			condictions.add(" est.dataAlerta >:dataAlerta");
+			condictions.add(" est.dataAlerta >= :dataAlerta ");
 		}
 		
 		condictions.add(" est.concluida =:concluida ");
@@ -40,7 +40,7 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 			query.setParameter("protocolo", abstractEntity.getProtocolo());
 		}
 		
-		if (notEmpty(abstractEntity.getProtocolo())) {
+		if (notEmpty(abstractEntity.getDataAlerta())) {
 			query.setParameter("dataAlerta", abstractEntity.getDataAlerta());
 		}
 		
