@@ -101,8 +101,10 @@
 		<!-- Lista de triggers que devem ser executadas -->
 		<property name="triggers">
 			<list>
-				<!-- <ref bean="tarefaPendenteTrigger" /> -->
-				<ref bean="alertaTrigger" />
+				<!-- ativar o job
+				<ref bean="tarefaPendenteTrigger" /> 
+				<ref bean="alertaTrigger" /> 
+				-->
 			</list>
 		</property>
 	</bean>
