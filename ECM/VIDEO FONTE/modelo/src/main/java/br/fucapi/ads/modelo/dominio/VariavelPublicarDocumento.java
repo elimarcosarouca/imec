@@ -554,6 +554,10 @@ public class VariavelPublicarDocumento extends Variavel {
 			} else if (var.getName().equals("tipoSolicitacao")
 					&& var.getValue() != null) {
 				setTipoSolicitacao(var.getValue().toString());
+				
+			} else if (var.getName().equals("solicitante")
+					&& var.getValue() != null) {
+				setSolicitante(var.getValue().toString());
 
 			} else if (var.getName().equals("protocolo")
 					&& var.getValue() != null) {
@@ -685,6 +689,8 @@ public class VariavelPublicarDocumento extends Variavel {
 	public Map<String, Object> converterVariaveis() {
 
 		Map<String, Object> params = super.converterVariaveis();
+		
+		params = super.converterVariaveis();
 
 		params.put("tipoSolicitacao", this.getTipoSolicitacao());
 		params.put("gruposNotificar", this.getGruposNotificar());

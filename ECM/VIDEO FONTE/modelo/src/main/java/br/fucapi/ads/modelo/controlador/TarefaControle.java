@@ -39,6 +39,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import br.fucapi.ads.modelo.dominio.Alerta;
 import br.fucapi.ads.modelo.dominio.VariaveisTarefa;
 import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
 import br.fucapi.ads.modelo.regranegocio.TreinamentoRN;
@@ -144,7 +145,7 @@ public class TarefaControle implements Serializable {
 
 		this.usuario = (Usuario) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
-		
+
 		this.initTotalTarefasUsuario(this.usuario.getUserName());
 
 		if (this.usuario.getCapabilities().isAdmin()) {
@@ -154,11 +155,11 @@ public class TarefaControle implements Serializable {
 		}
 
 		this.lerCookie();
-		
+
 		this.variaveis = new VariavelPublicarDocumento();
 
 		this.pesquisar();
-		
+
 		return this.PESQUISATAREFAPENDENTE;
 
 	}
@@ -172,7 +173,7 @@ public class TarefaControle implements Serializable {
 		return IOUtils.toByteArray(is);
 
 	}
-	
+
 	public String pesquisar() throws ParseException {
 		return pesquisar(this.usuario.getUserName());
 	}
@@ -183,8 +184,7 @@ public class TarefaControle implements Serializable {
 
 		// Soh deverah trazer as tarefas que estao com o status pendente
 		this.listaTarefasPendentes = activitiServico
-				.getHistoricoTarefasPorVariaveis(filtro,
-						login,
+				.getHistoricoTarefasPorVariaveis(filtro, login,
 						this.variaveis.getTipoSolicitacao(), true, null);
 
 		VariavelPublicarDocumento varTemp = null;
@@ -222,6 +222,8 @@ public class TarefaControle implements Serializable {
 
 		this.activitiServico.completarTarefa(this.entity.getId(), json);
 
+		this.parecer = "";
+
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
 				"Tarefa aprovada com sucesso", "Tarefa aprovada com sucesso!");
 
@@ -237,6 +239,7 @@ public class TarefaControle implements Serializable {
 		String processInstanceId = this.entity.getProcessInstanceId();
 
 		activitiServico.completarTarefa(this.entity.getId(), json);
+		this.parecer = "";
 
 		salvarVariaveisTarefa(this.entity, false);
 
@@ -249,6 +252,17 @@ public class TarefaControle implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, message);
 
 		this.pesquisar();
+	}
+
+	public void notificarPublicacao(TarefaInstancia tarefa) throws Exception {
+		
+		this.entity = tarefa;
+		Alerta alerta = new Alerta();
+		alerta.converterTarefaInstanciaToAlerta(tarefa);
+		alertaServico.saveOrUpdate(alerta);
+		
+		aprovar();
+
 	}
 
 	public void reprovarOutrasTarefas(String processInstanceId)
@@ -265,13 +279,13 @@ public class TarefaControle implements Serializable {
 		}
 
 	}
-	
-	public boolean habilitarAprovacao(boolean tarefa){
-		
-		//if()
-		
+
+	public boolean habilitarAprovacao(boolean tarefa) {
+
+		// if()
+
 		return true;
-		
+
 	}
 
 	public void salvarVariaveisTarefa(TarefaInstancia tarefaInstancia,
@@ -408,7 +422,6 @@ public class TarefaControle implements Serializable {
 		return var;
 	}
 
-	
 	public void downloadArquivo(TarefaInstancia tarefa) {
 		if (this.variaveis.getArquivoDoc() == null) {
 			FacesMessage msg = new FacesMessage(
