@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import br.fucapi.bpms.activiti.dominio.TarefaInstancia;
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
 
@@ -115,6 +116,15 @@ public class Alerta extends AbstractEntity implements Serializable {
 	}
 
 	public Alerta() {
+	}
+	
+	public void converterTarefaInstanciaToAlerta(TarefaInstancia tarefaInstancia){
+		this.concluida = false;
+		this.dataAlerta = ((VariavelPublicarDocumento) tarefaInstancia.getVariaveis()).getDataNotificacao();
+		this.dataCadastro = new Date();
+		this.dataVencimento = ((VariavelPublicarDocumento) tarefaInstancia.getVariaveis()).getDataVencimento();
+		this.protocolo = ((VariavelPublicarDocumento) tarefaInstancia.getVariaveis()).getProtocolo();
+		this.solicitante = ((VariavelPublicarDocumento) tarefaInstancia.getVariaveis()).getSolicitante();
 	}
 
 	public boolean equals(Object o) {

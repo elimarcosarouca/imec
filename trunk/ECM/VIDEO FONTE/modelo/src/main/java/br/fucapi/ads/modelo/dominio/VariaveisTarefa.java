@@ -88,5 +88,4 @@ public class VariaveisTarefa extends AbstractEntity implements Serializable {
 	public void setLogin(String login) {
 		this.login = login;
 	}
-
 }

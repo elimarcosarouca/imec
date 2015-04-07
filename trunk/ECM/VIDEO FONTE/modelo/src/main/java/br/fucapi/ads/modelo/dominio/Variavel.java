@@ -72,7 +72,7 @@ public class Variavel implements Serializable {
 	}
 
 	public String getProtocolo() {
-		return protocolo;
+		return getAno()+""+getSequencial();
 	}
 
 	public void setProtocolo(String protocolo) {
@@ -154,9 +154,9 @@ public class Variavel implements Serializable {
 		params.put("solicitante", getSolicitante());
 		params.put("emailSolicitante", getEmailSolicitante());
 		params.put("descricao", getDescricao());
-		params.put("protocolo", getProtocolo());
+		params.put("protocolo", getAno()+""+getSequencial());
 		params.put("descricao", getDescricao());
-//		params.put("statusProcesso", getStatusProcesso());
+		params.put("statusProcesso", getStatusProcesso());
 
 		return params;
 	}
