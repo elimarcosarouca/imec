@@ -198,7 +198,6 @@
 			<version>${spring-data.version}</version>
 		</dependency>
 		
-		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
@@ -379,12 +378,28 @@
 			<artifactId>docx4j</artifactId>
 			<version>3.1.0</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
 			<version>5.1.0</version>
 		</dependency>
+
+		<!-- Quartz API -->
+		<dependency>
+			<groupId>opensymphony</groupId>
+			<artifactId>quartz</artifactId>
+			<version>1.6.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.directory.studio</groupId>
+			<artifactId>org.apache.commons.logging</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>javax.validation</groupId> <artifactId>validation-api</artifactId> 
+			<version>1.0.0.GA</version> </dependency> -->
 
 	</dependencies>
 </project>
