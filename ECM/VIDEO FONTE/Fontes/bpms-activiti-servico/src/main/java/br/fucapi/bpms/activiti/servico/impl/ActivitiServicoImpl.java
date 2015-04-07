@@ -869,7 +869,7 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 			sqlQuery.append(" and T.proc_inst_id_ = '" + idProcesso + "'");
 		}
 
-		if (assignee != null) {
+		if (assignee != null && assignee.length() > 0) {
 			sqlQuery.append(" and T.assignee_ = '" + assignee + "'");
 		}
 
