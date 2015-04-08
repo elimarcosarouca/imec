@@ -280,14 +280,6 @@ public class TarefaControle implements Serializable {
 
 	}
 
-	public boolean habilitarAprovacao(boolean tarefa) {
-
-		// if()
-
-		return true;
-
-	}
-
 	public void salvarVariaveisTarefa(TarefaInstancia tarefaInstancia,
 			boolean status) {
 		VariaveisTarefa variaveisTarefa = new VariaveisTarefa();
