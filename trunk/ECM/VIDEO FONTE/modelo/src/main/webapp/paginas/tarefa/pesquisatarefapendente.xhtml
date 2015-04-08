@@ -48,14 +48,15 @@
 
 					<h:panelGrid columns="2" cellspacing="5" style="width:100%">
 
-						<h:outputText value="Colaborador:" styleClass="ui-priority-primary" />
-						<p:inputText value="#{sessaoControladorBean.usuario.userName}"
-							rendered="#{!sessaoControladorBean.usuario.getCapabilities().isAdmin()}"
+						<h:outputText value="Colaborador:"
+							styleClass="ui-priority-primary" />
+						<p:inputText value="#{tarefaControle.usuario.userName}"
+							rendered="#{!tarefaControle.usuario.getCapabilities().isAdmin()}"
 							disabled="true" />
 
 						<p:selectOneMenu value="#{tarefaControle.usuario.userName}"
 							style="width:300px;"
-							rendered="#{sessaoControladorBean.usuario.getCapabilities().isAdmin()}">
+							rendered="#{tarefaControle.usuario.getCapabilities().isAdmin()}">
 							<f:selectItem itemLabel="TODAS" />
 							<f:selectItems value="#{tarefaControle.listaUsuarios}"
 								var="usuario"
@@ -86,7 +87,7 @@
 						rowsPerPageTemplate="5,10,15,20">
 
 						<p:column style="text-align:left" headerText="Protocolo"
-							sortBy="#{item.variaveis.ano}">
+							sortBy="#{item.variaveis.ano}#{item.variaveis.sequencial}">
 							<h:outputText
 								value="#{item.variaveis.ano}#{item.variaveis.sequencial}" />
 						</p:column>
@@ -117,7 +118,7 @@
 							sortBy="#{item.variaveis.descricao}">
 							<h:outputText value="#{item.variaveis.descricao}" />
 						</p:column>
-						
+
 						<p:column style="text-align:left" headerText="Colaborador"
 							sortBy="#{item.assignee}">
 							<h:outputText value="#{item.assignee}" />
@@ -137,19 +138,24 @@
 							</p:commandButton>
 
 							<p:commandButton oncomplete="PF('dlgReprovar').show()"
-								rendered="#{item.variaveis.finalizarProcesso}"
+								rendered="#{!item.variaveis.finalizarProcesso}"
 								icon="ui-icon-closethick" title="Reprovar"
 								styleClass="ui-priority-primary"
 								actionListener="#{tarefaControle.prepararParecer(item)}" />
 
 							<p:commandButton oncomplete="PF('dlgAprovar').show()"
-								rendered="#{item.variaveis.finalizarProcesso}"
+								rendered="#{!item.variaveis.finalizarProcesso}"
 								icon="ui-icon-circle-check" title="Aprovar"
 								styleClass="ui-priority-primary"
 								actionListener="#{tarefaControle.prepararParecer(item)}" />
 
+							<p:commandButton icon="ui-icon-circle-check" title="Notificar"
+								rendered="#{item.variaveis.finalizarProcesso}"
+								update=":form"
+								styleClass="ui-priority-primary"
+								actionListener="#{tarefaControle.notificarPublicacao(item)}" />
+
 							<p:commandButton ajax="false" immediate="true"
-								rendered="#{item.variaveis.finalizarProcesso eq true}"
 								action="#{publicarDocumentoControlador.detalhe(item)}"
 								icon="ui-icon-folder-open" title="Finalizar Processo"
 								update=":form" />
@@ -168,7 +174,7 @@
 		</div>
 
 		<p:dialog id="dlgReprovar" header="Justificativa da Reprovação *"
-			widgetVar="dlgReprovar" appendToBody="true" width="30%" modal="true">
+			widgetVar="dlgReprovar" appendToBody="true" width="35%" modal="true">
 
 			<div align="center">
 				<h:form style="align: center;">
@@ -186,7 +192,7 @@
 		</p:dialog>
 
 		<p:dialog id="dlgAprovar" header="Justificativa da Aprovação *"
-			widgetVar="dlgAprovar" appendToBody="true" width="30%" modal="true">
+			widgetVar="dlgAprovar" appendToBody="true" width="35%" modal="true">
 
 			<div align="center">
 				<h:form style="align: center;">
