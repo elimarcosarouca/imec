@@ -149,16 +149,11 @@
 								styleClass="ui-priority-primary"
 								actionListener="#{tarefaControle.prepararParecer(item)}" />
 
-							<p:commandButton icon="ui-icon-circle-check" title="Notificar"
+							<p:commandButton icon="ui-icon-circle-check" title="Notificar Publicacao"
 								rendered="#{item.variaveis.finalizarProcesso}"
 								update=":form"
 								styleClass="ui-priority-primary"
 								actionListener="#{tarefaControle.notificarPublicacao(item)}" />
-
-							<p:commandButton ajax="false" immediate="true"
-								action="#{publicarDocumentoControlador.detalhe(item)}"
-								icon="ui-icon-folder-open" title="Finalizar Processo"
-								update=":form" />
 
 						</p:column>
 
