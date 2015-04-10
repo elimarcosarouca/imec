@@ -185,8 +185,6 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	private StreamedContent file;
 
-	private String tipoDocumento;
-
 	// Upload File
 
 	private UploadedFile uploadFile;
@@ -226,7 +224,6 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		this.file = new DefaultStreamedContent(temp, null, nomeArquivo);
 
-		this.tipoDocumento = null;
 	}
 
 	public void downloadArquivoControlado() {
@@ -245,7 +242,6 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		this.file = new DefaultStreamedContent(temp, null, nomeArquivo);
 
-		this.tipoDocumento = null;
 	}
 
 	public void downloadArquivoNaoControlado() {
@@ -264,7 +260,6 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		this.file = new DefaultStreamedContent(temp, null, nomeArquivo);
 
-		this.tipoDocumento = null;
 	}
 
 	public void handleFileUpload(FileUploadEvent event) {
@@ -1221,14 +1216,6 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	public void setFile(StreamedContent file) {
 		this.file = file;
-	}
-
-	public String getTipoDocumento() {
-		return tipoDocumento;
-	}
-
-	public void setTipoDocumento(String tipoDocumento) {
-		this.tipoDocumento = tipoDocumento;
 	}
 
 	public VariavelPublicarDocumento getVariaveisPesquisa() {

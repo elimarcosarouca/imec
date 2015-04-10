@@ -54,8 +54,6 @@ public class JobAlertaControlador {
 				+ new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date(
 						(System.currentTimeMillis()))));
 
-		System.out.println(activitiServico);
-
 		Alerta alerta = new Alerta();
 		alerta.setChecked(false);
 		alerta.setDataAlerta(new Date());

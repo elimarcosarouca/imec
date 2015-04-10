@@ -25,26 +25,32 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 		if (notEmpty(abstractEntity.getProtocolo())) {
 			condictions.add(" est.protocolo =:protocolo ");
 		}
-		
-		if (notEmpty(abstractEntity.getDataAlerta())) {
-			condictions.add(" est.dataAlerta >= :dataAlerta ");
-		}
-		
-		condictions.add(" est.concluida =:concluida ");
 
-		String orderBy = " order by est.protocolo";
+		if (notEmpty(abstractEntity.getSolicitante())) {
+			condictions.add(" est.solicitante =:solicitante ");
+		}
+
+		/*if (notEmpty(abstractEntity.getDataAlerta())) {
+			condictions.add(" est.dataAlerta  >= :dataAlerta ");
+
+		}*/
+
+		String orderBy = " order by est.dataAlerta";
 
 		Query query = entityManager.createQuery(generateHql(sb.toString(),
 				condictions) + orderBy);
 		if (notEmpty(abstractEntity.getProtocolo())) {
 			query.setParameter("protocolo", abstractEntity.getProtocolo());
 		}
-		
-		if (notEmpty(abstractEntity.getDataAlerta())) {
-			query.setParameter("dataAlerta", abstractEntity.getDataAlerta());
+
+		if (notEmpty(abstractEntity.getSolicitante())) {
+			query.setParameter("solicitante", abstractEntity.getSolicitante());
 		}
-		
-		query.setParameter("concluida", abstractEntity.isConcluida());
+
+		/*if (notEmpty(abstractEntity.getDataAlerta())) {
+			System.out.println("data alerta " + abstractEntity.getDataAlerta());
+			query.setParameter("dataAlerta", abstractEntity.getDataAlerta());
+		}*/
 
 		return query.getResultList();
 	}
