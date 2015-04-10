@@ -72,6 +72,8 @@ public class Variavel implements Serializable {
 	}
 
 	public String getProtocolo() {
+		if (getAno()==null && getSequencial() == null)
+			return "";
 		return getAno()+""+getSequencial();
 	}
 

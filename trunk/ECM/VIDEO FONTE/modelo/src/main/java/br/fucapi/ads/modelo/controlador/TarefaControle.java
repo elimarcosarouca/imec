@@ -49,6 +49,7 @@ import br.fucapi.bpms.activiti.dominio.ProcessoDefinicao;
 import br.fucapi.bpms.activiti.dominio.ProcessoInstancia;
 import br.fucapi.bpms.activiti.dominio.TarefaInstancia;
 import br.fucapi.bpms.activiti.servico.ActivitiServico;
+import br.fucapi.bpms.activiti.util.JsonUtil;
 import br.fucapi.bpms.alfresco.dominio.Usuario;
 import br.fucapi.bpms.alfresco.servico.AlfrescoServico;
 
@@ -255,13 +256,42 @@ public class TarefaControle implements Serializable {
 	}
 
 	public void notificarPublicacao(TarefaInstancia tarefa) throws Exception {
-		
 		this.entity = tarefa;
+
+		obsoletarProcessos(tarefa);
+
 		Alerta alerta = new Alerta();
-		alerta.converterTarefaInstanciaToAlerta(tarefa);
+		alerta.converterTarefaInstanciaToAlerta(tarefa); // inserir o
+		// registro de alerta de vencimento 
 		alertaServico.saveOrUpdate(alerta);
-		
+
 		aprovar();
+	}
+
+	public void obsoletarProcessos(TarefaInstancia tarefa) {
+
+		Map<String, String> variaveis = new HashMap<String, String>();
+		variaveis.put("statusProcesso", "OBSOLETO");
+		String json = JsonUtil.converterVariaveisToJson(variaveis);
+
+		List<ProcessoInstancia> listaResultado = new ArrayList<ProcessoInstancia>();
+
+		Map<String, Object> var = new HashMap<String, Object>();
+
+		var.put("protocoloOrigem", ((VariavelPublicarDocumento) tarefa
+				.getVariaveis()).getProtocoloOrigem());
+
+		listaResultado = activitiServico
+				.getHistoricoProcessosFiltroVariaveis(var);
+
+		for (ProcessoInstancia processoInstancia : listaResultado) {
+			System.out.println(processoInstancia.getId());
+			if (!tarefa.getProcessInstanceId()
+					.equals(processoInstancia.getId())) {
+				this.activitiServico.atualizarVariaveis(
+						processoInstancia.getId(), json);
+			}
+		}
 
 	}
 
