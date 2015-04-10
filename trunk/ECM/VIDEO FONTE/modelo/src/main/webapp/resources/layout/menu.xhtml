@@ -9,38 +9,76 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<h:form id="formMenu">
-	
+
 		<p:menubar class="menu">
-			<p:submenu label="Solicitacao" icon="ui-icon-document" >
-				<p:menuitem value="Pesquisar WorkFlow" url="/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true" icon="ui-icon-arrowreturnthick-1-w" />
+			<p:submenu label="Solicitacao" icon="ui-icon-document">
+				<p:menuitem value="Pesquisar WorkFlow"
+					url="/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true"
+					icon="ui-icon-arrowreturnthick-1-w" />
 				<p:separator />
-				<p:menuitem value="Tarefas" action="#{tarefaControle.init}" icon="ui-icon-arrowreturnthick-1-w" update=":form" />
+				<p:menuitem value="Tarefas" action="#{tarefaControle.init}"
+					icon="ui-icon-arrowreturnthick-1-w" update=":form" />
 				<p:separator />
 				<p:menuitem value="Alerta"
 					url="/paginas/alerta/pesquisa.xhtml?faces-redirect=true"
 					icon="ui-icon-arrowreturnthick-1-w" />
 			</p:submenu>
 
-			<p:submenu label="Cadastros" icon="ui-icon-pencil" rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}">
-				<p:menuitem value="Unidades" url="/paginas/unidade/pesquisa.xhtml?faces-redirect=true" icon="ui-icon-arrowreturnthick-1-w" />
-				<p:menuitem value="Setores" url="/paginas/setor/pesquisa.xhtml?faces-redirect=true" icon="ui-icon-arrowreturnthick-1-w" />
-				<p:menuitem value="Categorias" url="/paginas/categoria/pesquisa.xhtml?faces-redirect=true" icon="ui-icon-arrowreturnthick-1-w" />
-				<p:menuitem value="Postos de Cópia" url="/paginas/postocopia/pesquisa.xhtml?faces-redirect=true" icon="ui-icon-arrowreturnthick-1-w" />
-				<p:menuitem value="Colaboradores" url="/paginas/colaborador/pesquisa.xhtml?faces-redirect=true" icon="ui-icon-arrowreturnthick-1-w" />
+			<p:submenu label="Cadastros" icon="ui-icon-pencil"
+				rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}">
+				<p:menuitem value="Unidades"
+					url="/paginas/unidade/pesquisa.xhtml?faces-redirect=true"
+					icon="ui-icon-arrowreturnthick-1-w" />
+				<p:menuitem value="Setores"
+					url="/paginas/setor/pesquisa.xhtml?faces-redirect=true"
+					icon="ui-icon-arrowreturnthick-1-w" />
+				<p:menuitem value="Categorias"
+					url="/paginas/categoria/pesquisa.xhtml?faces-redirect=true"
+					icon="ui-icon-arrowreturnthick-1-w" />
+				<p:menuitem value="Postos de Cópia"
+					url="/paginas/postocopia/pesquisa.xhtml?faces-redirect=true"
+					icon="ui-icon-arrowreturnthick-1-w" />
+				<p:menuitem value="Colaboradores"
+					url="/paginas/colaborador/pesquisa.xhtml?faces-redirect=true"
+					icon="ui-icon-arrowreturnthick-1-w" />
 			</p:submenu>
 
-			<f:facet name="options"  class="menu">
-				<p:menuButton value="#{sessaoControladorBean.usuario.userName}" class="menu">
-				<p:menuitem value="Teste" url="/paginas/novo/pesquisa.xhtml?faces-redirect=true" icon="ui-icon-arrowreturnthick-1-w" />
-				<p:menuitem value="Usuário" rendered="#{pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
-					icon="ui-icon-person" action="#{usuarioControladorBean.telaPesquisa()}" update=":form"/>
-				<p:menuitem value="Grupo" rendered="#{pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
-					icon="ui-icon-gear" actionListener="#{grupoControladorBean.paginaincluir}" />
-				<p:menuitem value="Sair" action="#{sessaoControladorBean.logout}"
-					 icon="ui-icon-extlink" />
-			</p:menuButton>
+			<f:facet name="options">
+				<p:commandButton value="#{sessaoControladorBean.countTarefa} Tarefa(s) Pendente(s)"
+					id="totalTarefa" />
+					
+				<p:commandButton value="#{sessaoControladorBean.countAlerta} Alerta(s) Pendente(s)"
+					id="totalAlerta" update=":formMenu:totalAlerta"/>
+					
+				<p:poll interval="5"
+					listener="#{sessaoControladorBean.countTarefaPendente(sessaoControladorBean.usuario.userName)}"
+					update=":formMenu:totalTarefa" />
+					
+				<p:poll interval="5"
+					listener="#{sessaoControladorBean.countAlertaPendente(sessaoControladorBean.usuario.userName)}"
+					update=":formMenu:totalAlerta" />
+				
+			</f:facet>
+
+			<f:facet name="options" class="menu">
+				<p:menuButton value="#{sessaoControladorBean.usuario.userName}"
+					class="menu">
+					<p:menuitem value="Teste"
+						url="/paginas/novo/pesquisa.xhtml?faces-redirect=true"
+						icon="ui-icon-arrowreturnthick-1-w" />
+					<p:menuitem value="Usuário"
+						rendered="#{pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+						icon="ui-icon-person"
+						action="#{usuarioControladorBean.telaPesquisa()}" update=":form" />
+					<p:menuitem value="Grupo"
+						rendered="#{pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+						icon="ui-icon-gear"
+						actionListener="#{grupoControladorBean.paginaincluir}" />
+					<p:menuitem value="Sair" action="#{sessaoControladorBean.logout}"
+						icon="ui-icon-extlink" />
+				</p:menuButton>
 			</f:facet>
 		</p:menubar>
-		
+
 	</h:form>
 </ui:component>
