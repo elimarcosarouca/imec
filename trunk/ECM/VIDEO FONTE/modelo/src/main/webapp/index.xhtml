@@ -1,74 +1,30 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
-<h:head>
-<!-- 	<h:outputStylesheet library="estilos" name="style.css" /> -->
-<link type="text/css" rel="stylesheet" href="resources/estilos/style-custom.css" />
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<style type="text/css">
-body {
-	background-color: #ffffff !important;
-	font-size: 12px
-}
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	template="/resources/layout/template.xhtml">
 
-</style>
-</h:head>
-<h:body>
-	<p:layout fullPage="true" resizeTitle="false">
-		<p:layoutUnit position="north" style="z-index: 1 !important; height:82%; width:100%; margin: -6px -4px 0px -3px; " size="145" resizable="false">
-			<div id="border-top" class="h_blue">
-				<span class="title" style="margin-bottom: 0%;"><h2>Painel de Controle</h2></span>
-				<div id="logo" />
-			</div>	
-			<div id="header-box">
-                <div id="wrap-center">
-                	<h:form>
-	                	<p:outputLabel id="data" value="#{sessaoControladorBean.data}"/>
-						<p:poll interval="60" listener="#{sessaoControladorBean.atualizarData}" update="data" />
-					</h:form>
-                </div>
-                
-                <div id="viewsite">
-		            <p:outputPanel id="navigationPanel">
-						<ui:include src="paginas/navigation.xhtml" />
-					</p:outputPanel>
-		        </div>
-<!-- 		        <div id="countnotificacoes"> -->
-<!--                 	<h:form> -->
-	                	
-<!-- 	                	<p:commandButton id="notificacaoBtn" value="10" type="button" />   -->
-<!--     					<p:overlayPanel id="notificacaoPanel" for="notificacaoBtn" showEffect="fold" hideEffect="fold" appendToBody="false" style="position: fixed;">   -->
-<!--     						<p:dataTable value="#" paginator="true" /> -->
-<!--     					</p:overlayPanel> -->
-<!-- 					</h:form> -->
-<!--                 </div> -->
-<!--                 <div id="labelnotificacoes"> -->
-<!--                 	<p:outputLabel value="Notificações"/> -->
-<!--                 </div> -->
-                
-            </div> 
-		</p:layoutUnit>
-		<p:layoutUnit position="west" minSize="250" resizable="false">
-			<p:outputPanel>
-				<ui:include src="paginas/menu.xhtml" />
-			</p:outputPanel>
-		</p:layoutUnit>
-		<p:layoutUnit position="center">
-			<p:outputPanel id="paginaCentral">
-				<p:growl/>
-				<ui:include src="#{paginaCentralControladorBean.paginaCentral}" />
-			</p:outputPanel>
-		</p:layoutUnit>
-		<!-- 		<p:layoutUnit position="south" style="height:580px"> -->
-		<!-- 			<p:outputPanel> -->
-		<!-- 				<h:graphicImage library="imagens" name="logofucapi.png" /> -->
-		<!-- 			</p:outputPanel> -->
-		<!-- 		</p:layoutUnit> -->
-	</p:layout>
-</h:body>
-</html>
+	<!--  ====== Params ================ 
+			. Obrigatorios: 
+				- managedBean
+		 -->
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<f:event listener="#{tarefaControle.init()}" type=""></f:event>
+		</f:metadata>
+		
+		<h:form id="form">
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
