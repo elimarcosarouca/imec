@@ -17,9 +17,9 @@ import br.fucapi.bpms.alfresco.servico.AlfrescoServico;
 public class AlertaControlador extends ControladorGenerico<Alerta> {
 
 	private static final long serialVersionUID = -6832271293709421841L;
-	
+
 	private Usuario usuario = new Usuario();
-	
+
 	private List<Usuario> usuarios;
 
 	@ManagedProperty(value = "#{alfrescoServicoImpl}")
@@ -34,16 +34,17 @@ public class AlertaControlador extends ControladorGenerico<Alerta> {
 	protected String getNomeRelatorioJasper() {
 		return this.nomeRelatorio;
 	}
-	
+
 	@Override
 	public void pesquisar() {
-		
-//		this.pesquisa.setSolicitante(this.usuario.getUserName());
+
+		this.pesquisa.setSolicitante(this.usuario.getUserName());
 		super.pesquisar();
 	}
-	
+
 	@Override
 	protected void init() {
+		this.pesquisa.setConcluida(false);
 		this.usuarios = alfrescoServico.getUsuarios();
 	}
 

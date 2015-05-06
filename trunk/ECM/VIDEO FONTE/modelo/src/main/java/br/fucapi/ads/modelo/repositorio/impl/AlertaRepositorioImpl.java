@@ -29,6 +29,8 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 		if (notEmpty(abstractEntity.getSolicitante())) {
 			condictions.add(" est.solicitante =:solicitante ");
 		}
+		
+		condictions.add(" est.concluida =:concluida ");
 
 		/*if (notEmpty(abstractEntity.getDataAlerta())) {
 			condictions.add(" est.dataAlerta  >= :dataAlerta ");
@@ -46,6 +48,8 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 		if (notEmpty(abstractEntity.getSolicitante())) {
 			query.setParameter("solicitante", abstractEntity.getSolicitante());
 		}
+		
+		query.setParameter("concluida", abstractEntity.isConcluida());
 
 		/*if (notEmpty(abstractEntity.getDataAlerta())) {
 			System.out.println("data alerta " + abstractEntity.getDataAlerta());
