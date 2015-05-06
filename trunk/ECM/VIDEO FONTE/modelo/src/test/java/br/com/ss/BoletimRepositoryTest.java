@@ -1,5 +1,7 @@
 package br.com.ss;
 
+import java.util.Date;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,27 +9,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import br.fucapi.ads.modelo.dominio.Protocolo;
-import br.fucapi.ads.modelo.repositorio.ProtocoloRepositorio;
+import br.fucapi.ads.modelo.dominio.Alerta;
+import br.fucapi.ads.modelo.repositorio.AlertaRepositorio;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath*:META-INF/spring/test-applicationContext.xml")
+@ContextConfiguration(locations = "classpath*:META-INF/spring/applicationContext-modelo.xml")
 // @ContextConfiguration(locations="classpath*:META-INF/spring/test-context.xml")
  @Ignore
 public class BoletimRepositoryTest {
 
 	@Autowired
-	ProtocoloRepositorio repository;
+	AlertaRepositorio repository;
 
 	@Test
 	public void test() {
 		System.out.println("1");
-		Protocolo protocolo = new Protocolo();
-		protocolo.setAno(2015);
+		Alerta alerta = new Alerta();
+		alerta.setConcluida(false);
+		alerta.setDataAlerta(new Date());
+		alerta.setDataCadastro(new Date());
+		alerta.setDataVencimento(new Date());
+		alerta.setProtocolo("20151");
+		alerta.setSolicitante("admin");
 
-		protocolo = repository.pesquisarPorAno(protocolo);
+		repository.saveOrUpdate(alerta);
 
-		System.out.println(protocolo.getSequencial());
 	}
 
 	// @Test
