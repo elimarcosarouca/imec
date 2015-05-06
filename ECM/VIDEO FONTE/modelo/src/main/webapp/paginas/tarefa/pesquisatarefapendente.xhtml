@@ -42,7 +42,7 @@
 
 				<p:growl id="message" showDetail="true" />
 
-				<p:panel header="Tarefas Pendentes" style="width:99%"
+				<p:panel header="Tarefas Pendentes #{sessaoControladorBean.usuario.userName}" style="width:99%"
 					id="painelPesquisa">
 					<p:growl id="growl" />
 
@@ -50,13 +50,13 @@
 
 						<h:outputText value="Colaborador:"
 							styleClass="ui-priority-primary" />
-						<p:inputText value="#{tarefaControle.usuario.userName}"
-							rendered="#{!tarefaControle.usuario.getCapabilities().isAdmin()}"
+						<p:inputText value="#{tarefaControle.usuarioSelecionado.userName}"
+							rendered="#{!tarefaControle.usuarioSelecionado.getCapabilities().isAdmin()}"
 							disabled="true" />
 
-						<p:selectOneMenu value="#{tarefaControle.usuario.userName}"
+						<p:selectOneMenu value="#{tarefaControle.usuarioSelecionado.userName}"
 							style="width:300px;"
-							rendered="#{tarefaControle.usuario.getCapabilities().isAdmin()}">
+							rendered="#{tarefaControle.usuarioSelecionado.getCapabilities().isAdmin()}">
 							<f:selectItem itemLabel="TODAS" />
 							<f:selectItems value="#{tarefaControle.listaUsuarios}"
 								var="usuario"
@@ -67,7 +67,7 @@
 					</h:panelGrid>
 
 					<p:commandButton id="pesquisa" icon="ui-icon-search"
-						actionListener="#{tarefaControle.pesquisar(tarefaControle.usuario.userName)}"
+						actionListener="#{tarefaControle.pesquisar()}"
 						styleClass="ui-priority-primary" value="Pesquisa"
 						update=":form:painelGrid" />
 
