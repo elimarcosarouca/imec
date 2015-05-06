@@ -93,21 +93,21 @@
 
 	<bean id="alertaTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
 		<property name="jobDetail" ref="jobAlerta" />
-		<property name="startDelay" value="20000" />
-		<property name="repeatInterval" value="10000" />
+		<property name="startDelay" value="100000" />
+		<property name="repeatInterval" value="1000000" />
 	</bean>
 
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<!-- Lista de triggers que devem ser executadas -->
 		<property name="triggers">
 			<list>
-				<!-- ativar o job
+				<!-- ativar o job 
 				<ref bean="tarefaPendenteTrigger" /> 
 				<ref bean="alertaTrigger" /> 
 				-->
+				
 			</list>
 		</property>
 	</bean>
-
 
 </beans>
