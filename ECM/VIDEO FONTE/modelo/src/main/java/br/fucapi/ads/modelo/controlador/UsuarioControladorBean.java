@@ -1,5 +1,6 @@
 package br.fucapi.ads.modelo.controlador;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -12,7 +13,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.alfresco.repo.webservice.administration.AdministrationFault;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,9 +24,9 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import br.fucapi.ads.modelo.dominio.UsuarioGrupoLog;
 import br.fucapi.ads.modelo.dominio.UsuarioLog;
+import br.fucapi.ads.modelo.enumerated.Constants;
 import br.fucapi.ads.modelo.servico.UsuarioGrupoLogServico;
 import br.fucapi.ads.modelo.servico.UsuarioLogServico;
-import br.fucapi.ads.modelo.servico.UsuarioTokenServico;
 import br.fucapi.ads.modelo.utils.FacesUtils;
 import br.fucapi.ads.modelo.utils.ItemMenu;
 import br.fucapi.ads.modelo.utils.Menu;
@@ -58,16 +61,19 @@ public class UsuarioControladorBean implements Serializable {
 
 	private GrupoAlfresco grupoAlfresco = new GrupoAlfresco();
 
-	@ManagedProperty(value = "#{paginaCentralControladorBean}")
-	private PaginaCentralControladorBean paginaCentralControladorBean;
-
 	private List<Usuario> usuarios;
 
 	private String token;
-	
-	private final String TELA_PESQUISA = "paginas/usuario/pesquisa.xhtml";
-	
-	private final String TELA_CADASTRO = "paginas/usuario/cadastro.xhtml";
+
+	/**
+	 * Alias para redirecionar para a tela de cadastro.
+	 */
+	public static final String CADASTRO = "cadastro";
+
+	/**
+	 * Alias para redirecionar para a tela de pesquisa.
+	 */
+	public static final String PESQUISA = "pesquisa";
 
 	// private String confirmaSenha;
 
@@ -107,6 +113,29 @@ public class UsuarioControladorBean implements Serializable {
 		 * 
 		 * }
 		 */
+	}
+
+	protected String redirect(String page) {
+		try {
+
+			ExternalContext context = FacesContext.getCurrentInstance()
+					.getExternalContext();
+			HttpServletRequest request = (HttpServletRequest) context
+					.getRequest();
+
+			String fullUrl = request.getRequestURL().toString();
+			String path = fullUrl.substring(0,
+					fullUrl.lastIndexOf(Constants.BARRA));
+			String url = path + Constants.BARRA + page + Constants.EXTENSION
+					+ Constants.REDIRECT;
+
+			context.redirect(url);
+			FacesContext.getCurrentInstance().responseComplete();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return page;
 	}
 
 	public void incluir() throws RemoteException {
@@ -288,10 +317,7 @@ public class UsuarioControladorBean implements Serializable {
 		this.usuarios = this.alfrescoServico.listarUsuarioNomeLike(this.usuario
 				.getUserName());
 
-		paginaCentralControladorBean
-				.setPaginaCentral("paginas/usuario/pesquisa.xhtml");
-
-		return "paginas/usuario/pesquisa.xhtml?faces-redirect=true";
+		return redirect(PESQUISA);
 	}
 
 	public String editar(Usuario usuario) {
@@ -342,9 +368,7 @@ public class UsuarioControladorBean implements Serializable {
 
 		this.isBloqueado = !usuario.isEnabled();
 
-		paginaCentralControladorBean
-				.setPaginaCentral("paginas/usuario/cadastro.xhtml");
-		return "paginas/usuario/cadastro.xhtml?faces-redirect=true";
+		return redirect(CADASTRO);
 
 	}
 
@@ -362,17 +386,13 @@ public class UsuarioControladorBean implements Serializable {
 		this.isEditarUsuario = false;
 		this.usuario = new Usuario();
 
-		paginaCentralControladorBean
-				.setPaginaCentral("paginas/usuario/cadastro.xhtml");
-		return "paginas/usuario/cadastro.xhtml?faces-redirect=true";
+		return redirect(CADASTRO);
+
 	}
 
 	public String cancelar() {
-
-		paginaCentralControladorBean
-				.setPaginaCentral("paginas/usuario/pesquisa.xhtml");
-		
-		return "paginas/usuario/pesquisa.xhtml?faces-redirect=true";
+		this.usuario = new Usuario();
+		return redirect(PESQUISA);
 
 	}
 
@@ -436,15 +456,6 @@ public class UsuarioControladorBean implements Serializable {
 	 * 
 	 * }
 	 */
-
-	public PaginaCentralControladorBean getPaginaCentralControladorBean() {
-		return paginaCentralControladorBean;
-	}
-
-	public void setPaginaCentralControladorBean(
-			PaginaCentralControladorBean paginaCentralControladorBean) {
-		this.paginaCentralControladorBean = paginaCentralControladorBean;
-	}
 
 	public Boolean getIsEditarUsuario() {
 		return isEditarUsuario;
@@ -535,14 +546,6 @@ public class UsuarioControladorBean implements Serializable {
 	// this.usuarioTokenServico = usuarioTokenServico;
 	// }
 
-	public String telaPesquisa() {
-		return TELA_PESQUISA;
-	}
-
-	public String telaCadastro() {
-		return TELA_CADASTRO;
-	}
-
 	public Properties getAdsProperties() {
 		return adsProperties;
 	}
@@ -575,26 +578,30 @@ public class UsuarioControladorBean implements Serializable {
 	// public void setConfirmaSenha(String confirmaSenha) {
 	// this.confirmaSenha = confirmaSenha;
 	// }
-	
+
 	/**
 	 * Carrega os perfis do usuario logado.
+	 * 
 	 * @param usuario
 	 */
 	private void carregarPerfisUsuario(Usuario usuario) {
 		String redirec = "?faces-redirect=true";
-//		String idSistema = MessageUtils.getMessageResourceString( MessageUtils.ID_SISTEMA );
-		
-//		List<Perfil> perfis = perfilServico.listaPerfilPorSistemaPorUsuario( new Integer(idSistema), usuario.getId() );
-		
+		// String idSistema = MessageUtils.getMessageResourceString(
+		// MessageUtils.ID_SISTEMA );
+
+		// List<Perfil> perfis = perfilServico.listaPerfilPorSistemaPorUsuario(
+		// new Integer(idSistema), usuario.getId() );
+
 		List<Menu> menuList = new ArrayList<Menu>();
-		
-		Menu menu = new Menu("Cadastro", null );
-			
-		ItemMenu item = new ItemMenu(null, "TIPO DE DOCUMENTO", "/paginas/tipodocumento/pesquisa.xhtml" + redirec);
+
+		Menu menu = new Menu("Cadastro", null);
+
+		ItemMenu item = new ItemMenu(null, "TIPO DE DOCUMENTO",
+				"/paginas/tipodocumento/pesquisa.xhtml" + redirec);
 		menu.getItemMenus().add(item);
-			
+
 		menuList.add(menu);
-			
+
 		// armazena menu na sessao do usuario
 		FacesUtils.getRequest().getSession().setAttribute("menuList", menuList);
 	}
