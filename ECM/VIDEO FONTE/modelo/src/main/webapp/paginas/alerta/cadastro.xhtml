@@ -10,20 +10,28 @@
 	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
 	template="/resources/layout/register_template.xhtml">
 
-	<ui:param name="pageHeader" value="Cadastro de Alerta"/>
-	<ui:param name="pageTitle" value="Cadastro de Alerta"/>
-	<ui:param name="managedBean" value="#{alertaControlador}"/>
-	<ui:param name="widthContainer" value="950px"/>
+	<ui:param name="pageHeader" value="Cadastro de Alerta" />
+	<ui:param name="pageTitle" value="Cadastro de Alerta" />
+	<ui:param name="managedBean" value="#{alertaControlador}" />
+	<ui:param name="widthContainer" value="950px" />
 
 	<ui:define name="register_region">
-	
-		<ss:input id="protocolo" label="Protocolo" required="true" value="#{alertaControlador.entidade.protocolo}" /> 
-		<ss:input id="solicitante" label="Solicitante" required="true" value="#{alertaControlador.entidade.solicitante}" />
-		<ss:input type="date" id="dataAlerta" label="Data de Alerta" required="true" value="#{alertaControlador.entidade.dataAlerta}" />
-		<ss:input type="date" id="dataCadastro" label="Data de Cadastro" required="true" value="#{alertaControlador.entidade.dataCadastro}" />
-		<ss:input type="date" id="dataConclusao" label="Data de Conclusão" required="true" value="#{alertaControlador.entidade.dataConclusao}" />
-		<ss:input type="date" id="dataVencimento" label="Data de Vencimento" required="true" value="#{alertaControlador.entidade.dataVencimento}" />
-		
+
+		<ss:input id="protocolo" label="Protocolo" required="true"
+			value="#{alertaControlador.entidade.protocolo}" />
+		<ss:input id="solicitante" label="Solicitante" required="true"
+			value="#{alertaControlador.entidade.solicitante}" />
+		<ss:input type="date" id="dataAlerta" label="Data de Alerta"
+			required="true" value="#{alertaControlador.entidade.dataAlerta}" />
+		<ss:input type="date" id="dataCadastro" label="Data de Cadastro"
+			required="true" value="#{alertaControlador.entidade.dataCadastro}" />
+		<ss:input type="date" id="dataConclusao" label="Data de Conclusão"
+			required="true" value="#{alertaControlador.entidade.dataConclusao}" />
+		<ss:input type="date" id="dataVencimento" label="Data de Vencimento"
+			required="true" value="#{alertaControlador.entidade.dataVencimento}" />
+		<ss:checkBox disabled="true" id="concluida" label="Concluida"
+			required="true" value="#{alertaControlador.entidade.concluida}" />
+
 	</ui:define>
-	
+
 </ui:composition>
