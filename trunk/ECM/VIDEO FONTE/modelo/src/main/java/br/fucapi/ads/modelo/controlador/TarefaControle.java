@@ -76,6 +76,9 @@ public class TarefaControle implements Serializable {
 
 	@ManagedProperty(value = "#{variaveisTarefaServicoImpl}")
 	private VariaveisTarefaServico variaveisTarefaServico;
+	
+	@ManagedProperty(value = "#{sessaoControladorBean}")
+	private SessaoControladorBean sessaoControladorBean;
 
 	private final String PESQUISATAREFAPENDENTE = "/paginas/tarefa/pesquisatarefapendente.xhtml?faces-redirect=true";
 
@@ -88,7 +91,9 @@ public class TarefaControle implements Serializable {
 
 	private boolean status;
 
-	private Usuario usuario;
+	private Usuario usuarioSelecionado;
+	
+	private String login;
 
 	private List<Usuario> listaUsuarios;
 
@@ -144,12 +149,12 @@ public class TarefaControle implements Serializable {
 	@PostConstruct
 	public String init() throws ParseException {
 
-		this.usuario = (Usuario) SecurityContextHolder.getContext()
+		this.usuarioSelecionado = (Usuario) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
 
-		this.initTotalTarefasUsuario(this.usuario.getUserName());
+		this.initTotalTarefasUsuario(this.usuarioSelecionado.getUserName());
 
-		if (this.usuario.getCapabilities().isAdmin()) {
+		if (this.usuarioSelecionado.getCapabilities().isAdmin()) {
 			this.listaUsuarios = alfrescoServico.getUsuarios();
 		} else {
 			this.listaUsuarios = new ArrayList<Usuario>();
@@ -176,7 +181,7 @@ public class TarefaControle implements Serializable {
 	}
 
 	public String pesquisar() throws ParseException {
-		return pesquisar(this.usuario.getUserName());
+		return pesquisar(this.usuarioSelecionado.getUserName());
 	}
 
 	public String pesquisar(String login) throws ParseException {
@@ -206,10 +211,10 @@ public class TarefaControle implements Serializable {
 
 		this.variaveis = new VariavelPublicarDocumento();
 
-		// verificar se as tarefas é do usuário para atualizar o contador
-		if (this.usuario.getUserName().equals(
-				((Usuario) SecurityContextHolder.getContext()
-						.getAuthentication().getPrincipal()).getUserName()))
+		Usuario usuarioLogado = sessaoControladorBean.getUsuario();
+
+		// verificar se as tarefas Ã© do usuÃ¡rio para atualizar o contador
+		if (this.usuarioSelecionado.getUserName().equals(usuarioLogado.getUserName()))
 			this.totalTarefas = this.listaTarefasPendentes.size();
 
 		return this.PESQUISATAREFAPENDENTE;
@@ -262,7 +267,7 @@ public class TarefaControle implements Serializable {
 
 		Alerta alerta = new Alerta();
 		alerta.converterTarefaInstanciaToAlerta(tarefa); // inserir o
-		// registro de alerta de vencimento 
+		// registro de alerta de vencimento
 		alertaServico.saveOrUpdate(alerta);
 
 		aprovar();
@@ -447,7 +452,7 @@ public class TarefaControle implements Serializable {
 	public void downloadArquivo(TarefaInstancia tarefa) {
 		if (this.variaveis.getArquivoDoc() == null) {
 			FacesMessage msg = new FacesMessage(
-					"A solicitação não possui modelo anexado ", " ");
+					"A solicitaÃ§Ã£o nÃ£o possui modelo anexado ", " ");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} else {
 
@@ -484,12 +489,12 @@ public class TarefaControle implements Serializable {
 		this.alfrescoServico = alfrescoServico;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public Usuario getUsuarioSelecionado() {
+		return usuarioSelecionado;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setUsuarioSelecionado(Usuario usuarioSelecionado) {
+		this.usuarioSelecionado = usuarioSelecionado;
 	}
 
 	public List<Usuario> getListaUsuarios() {
@@ -663,6 +668,22 @@ public class TarefaControle implements Serializable {
 	public void setVariaveisTarefaServico(
 			VariaveisTarefaServico variaveisTarefaServico) {
 		this.variaveisTarefaServico = variaveisTarefaServico;
+	}
+
+	public SessaoControladorBean getSessaoControladorBean() {
+		return sessaoControladorBean;
+	}
+
+	public void setSessaoControladorBean(SessaoControladorBean sessaoControladorBean) {
+		this.sessaoControladorBean = sessaoControladorBean;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 }
