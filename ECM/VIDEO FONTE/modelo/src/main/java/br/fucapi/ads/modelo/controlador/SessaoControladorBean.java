@@ -51,7 +51,6 @@ public class SessaoControladorBean {
 		this.countTarefa = activitiServico.getHistoricoTarefasPorVariaveis(
 				filtro, usuario.getUserName(), variavel.getTipoSolicitacao(),
 				true, null).size();
-		System.out.println(this.countTarefa);
 
 	}
 
@@ -62,7 +61,6 @@ public class SessaoControladorBean {
 		alerta.setSolicitante(login);
 		alerta.setConcluida(false);
 		this.countAlerta = alertaServico.pesquisar(alerta).size();
-		System.out.println("alerta = " + this.countAlerta);
 	}
 
 	@PostConstruct
