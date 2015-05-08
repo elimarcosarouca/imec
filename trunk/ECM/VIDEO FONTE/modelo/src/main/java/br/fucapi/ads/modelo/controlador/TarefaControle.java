@@ -151,8 +151,10 @@ public class TarefaControle implements Serializable {
 
 		this.usuarioSelecionado = (Usuario) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
+		
+		this.login = this.usuarioSelecionado.getUserName();
 
-		this.initTotalTarefasUsuario(this.usuarioSelecionado.getUserName());
+		this.initTotalTarefasUsuario(this.login);
 
 		if (this.usuarioSelecionado.getCapabilities().isAdmin()) {
 			this.listaUsuarios = alfrescoServico.getUsuarios();
@@ -181,7 +183,7 @@ public class TarefaControle implements Serializable {
 	}
 
 	public String pesquisar() throws ParseException {
-		return pesquisar(this.usuarioSelecionado.getUserName());
+		return pesquisar(this.login);
 	}
 
 	public String pesquisar(String login) throws ParseException {
