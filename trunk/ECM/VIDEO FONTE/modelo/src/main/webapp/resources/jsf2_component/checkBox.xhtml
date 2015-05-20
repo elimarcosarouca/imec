@@ -14,6 +14,7 @@
 		<cc:attribute name="label" required="false" />	
 		<cc:attribute name="required" required="false" default="false" />
 		<cc:attribute name="render" required="false" default="true" />
+		<cc:attribute name="disabledBtn" default="false" />
 		
 		<cc:attribute name="value" required="true" />
 		
@@ -30,7 +31,11 @@
 		 		</p:column>
 		 		
 		 		<p:column>
-					<p:selectBooleanCheckbox id="#{cc.attrs.id}" value="#{cc.attrs.value}" required="#{cc.attrs.required}" >
+					<p:selectBooleanCheckbox 
+						id="#{cc.attrs.id}" 
+						value="#{cc.attrs.value}" 
+						required="#{cc.attrs.required}" 
+						disabled="#{cc.attrs.disabledBtn}">
 						<ui:insert />
 					</p:selectBooleanCheckbox>
 					<br />
