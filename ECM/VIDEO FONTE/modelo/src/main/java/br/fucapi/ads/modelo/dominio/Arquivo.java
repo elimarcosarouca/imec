@@ -6,7 +6,7 @@ import java.io.Serializable;
 public class Arquivo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private String uuid;
 	private File file;
 	private String processoId;
@@ -37,7 +37,12 @@ public class Arquivo implements Serializable {
 	}
 
 	public String getNomeArquivo() {
-		return nomeArquivo;
+		this.nomeArquivo = this.nomeArquivo.replace(".DOCX", "");
+		this.nomeArquivo = this.nomeArquivo.replace(".DOC", "");
+		this.nomeArquivo = this.nomeArquivo.replace(".PDF", "");
+		this.nomeArquivo = this.nomeArquivo.replace(".XLSX", "");
+		this.nomeArquivo = this.nomeArquivo.replace(".XLS", "");
+		return this.nomeArquivo;
 	}
 
 	public void setNomeArquivo(String nomeArquivo) {
