@@ -30,27 +30,35 @@ public class Alerta extends AbstractEntity implements Serializable {
 	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_ALERTA", name = "SEQ_ECM_ALERTA")
 	@Column(name = "ID_ECM_ALERTA")
 	private Long id;
-	
+
 	@Column(length = 10, nullable = false, unique = true)
 	private String protocolo;
-	
+
 	@Column(length = 30, nullable = false)
 	private String solicitante;
-	
-	@Column( nullable = false)
+
+	@Column(nullable = false)
 	private Date dataAlerta;
-	
-	@Column( nullable = false)
+
+	@Column(nullable = false)
 	private Date dataVencimento;
-	
-	@Column( nullable = false)
+
+	@Column(nullable = false)
 	private Date dataCadastro;
-	
+
 	private boolean concluida;
-	
+
 	@Column
 	private Date dataConclusao;
-	
+
+	public String getColor() {
+		Date dataConvertidaEmUtil = new Date(dataVencimento.getTime());
+		if (dataConvertidaEmUtil.after(new Date())) {
+			return "yellow";
+		} else 
+			return "red";
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -117,14 +125,18 @@ public class Alerta extends AbstractEntity implements Serializable {
 
 	public Alerta() {
 	}
-	
-	public void converterTarefaInstanciaToAlerta(TarefaInstancia tarefaInstancia){
+
+	public void converterTarefaInstanciaToAlerta(TarefaInstancia tarefaInstancia) {
 		this.concluida = false;
-		this.dataAlerta = ((VariavelPublicarDocumento) tarefaInstancia.getVariaveis()).getDataNotificacao();
+		this.dataAlerta = ((VariavelPublicarDocumento) tarefaInstancia
+				.getVariaveis()).getDataNotificacao();
 		this.dataCadastro = new Date();
-		this.dataVencimento = ((VariavelPublicarDocumento) tarefaInstancia.getVariaveis()).getDataVencimento();
-		this.protocolo = ((VariavelPublicarDocumento) tarefaInstancia.getVariaveis()).getProtocolo();
-		this.solicitante = ((VariavelPublicarDocumento) tarefaInstancia.getVariaveis()).getSolicitante();
+		this.dataVencimento = ((VariavelPublicarDocumento) tarefaInstancia
+				.getVariaveis()).getDataVencimento();
+		this.protocolo = ((VariavelPublicarDocumento) tarefaInstancia
+				.getVariaveis()).getProtocolo();
+		this.solicitante = ((VariavelPublicarDocumento) tarefaInstancia
+				.getVariaveis()).getSolicitante();
 	}
 
 	public boolean equals(Object o) {

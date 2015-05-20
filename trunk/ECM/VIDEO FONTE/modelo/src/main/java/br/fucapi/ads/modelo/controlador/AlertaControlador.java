@@ -93,5 +93,5 @@ public class AlertaControlador extends ControladorGenerico<Alerta> {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-
+	
 }

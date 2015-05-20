@@ -136,6 +136,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.aprovadoresObjeto = new ArrayList<Usuario>();
 		this.elaboradoresObjeto = new ArrayList<Usuario>();
 		this.concensosObjeto = new ArrayList<Usuario>();
+		this.notificarVencimento = 30;
 	}
 
 	public void tratarAtributos(List<Usuario> aprovadoresTarget,
@@ -728,7 +729,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("alteracoes", this.getAlteracoes());
 		params.put("nomenclatura", this.getNomenclatura());
 
-		params.put("dataVencimento", this.getDataNotificacao());
+		params.put("dataVencimento", this.getDataVencimento());
 		params.put("dataNotificacao", this.getDataNotificacao());
 
 		params.put("postosCopia", this.getPostosCopia());
