@@ -22,6 +22,8 @@
 		<cc:attribute name="paginatorPosition" default="bottom" />
 		<cc:attribute name="paginatorAlwaysVisible" default="false" />
 		<cc:attribute name="emptyMessage" default="Nenhum registro encontrado." />
+		<cc:attribute name="rowStyleClass" />
+		
 		
 		<!-- Buttons -->
 		<cc:attribute name="renderedActionColumn" default="true" shortDescription="Indica se deve exibir ou nao a coluna Ação." />
@@ -55,7 +57,8 @@
 	                 paginatorAlwaysVisible="#{cc.attrs.paginatorAlwaysVisible}"
 	                 rowsPerPageLabel=" linhas/pg "
 	                 currentPageReportTemplate="pg {currentPage} de {totalPages}"
-	                 emptyMessage="#{cc.attrs.emptyMessage}" >
+	                 emptyMessage="#{cc.attrs.emptyMessage}" 
+	                 rowStyleClass="#{cc.attrs.rowStyleClass}" >
 	                 
             <!-- If the facet is given at parent, insert it. Otherwise, provide the title given by the attribute -->
             <c:choose>
