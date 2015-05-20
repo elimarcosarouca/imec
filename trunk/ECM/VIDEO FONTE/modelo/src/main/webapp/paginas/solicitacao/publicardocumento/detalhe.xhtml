@@ -45,7 +45,7 @@
 
 			<h:form id="form">
 				<p:accordionPanel>
-					<p:tab title="Geral">
+					<p:tab title="Geral - [ Titulo ] #{publicarDocumentoControlador.processoInstancia.variaveis.arquivoDoc.nomeArquivo}">
 						<p:panel id="panel" closable="false"
 							header="Detalhes da Publicação de Documento" style="width:100%;">
 
@@ -190,9 +190,6 @@
 								rendered="#{publicarDocumentoControlador.renderDownload}"
 								actionListener="#{publicarDocumentoControlador.downloadArquivoDoc}">
 
-								<f:setPropertyActionListener value="doc"
-									target="#{publicarDocumentoControlador.tipoDocumento}" />
-
 								<p:fileDownload value="#{publicarDocumentoControlador.file}" />
 							</p:commandButton>
 
@@ -202,9 +199,6 @@
 								rendered="#{publicarDocumentoControlador.renderCancelar || publicarDocumentoControlador.renderDownload}"
 								actionListener="#{publicarDocumentoControlador.downloadArquivoControlado}">
 
-								<f:setPropertyActionListener value="controlado"
-									target="#{publicarDocumentoControlador.tipoDocumento}" />
-
 								<p:fileDownload value="#{publicarDocumentoControlador.file}" />
 							</p:commandButton>
 
@@ -213,9 +207,6 @@
 								actionListener="#{publicarDocumentoControlador.downloadArquivoNaoControlado}"
 								icon="ui-icon-document"
 								rendered="#{publicarDocumentoControlador.renderCancelar}">
-
-								<f:setPropertyActionListener value="naoControlado"
-									target="#{publicarDocumentoControlador.tipoDocumento}" />
 
 								<p:fileDownload value="#{publicarDocumentoControlador.file}" />
 							</p:commandButton>
