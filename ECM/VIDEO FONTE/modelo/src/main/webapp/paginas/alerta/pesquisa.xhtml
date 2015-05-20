@@ -31,18 +31,25 @@
 
 	<ui:define name="grid_region">
 
-		<ss:grid managedBean="#{alertaControlador}">
+		<ss:grid managedBean="#{alertaControlador}" rowStyleClass="#{item.color}">
 
 			<ss2:column value="#{item.protocolo}" header="Protocolo"
 				sortBy="protocolo" />
+
 			<ss2:column value="#{item.solicitante}" header="Solicitante"
 				sortBy="solicitante" />
-			<ss2:column value="#{item.dataAlerta}" type="date" header="Alerta"
-				sortBy="dataAlerta" />
-			<ss2:column value="#{item.dataVencimento}" type="date" header="Vencimento"
-				sortBy="dataVencimento" />
-			<ss2:column value="#{item.dataConclusao}" type="date" header="Conclusão"
-				sortBy="dataConclusao" />
+
+			<ss2:column value="#{item.dataAlerta}" header="Alerta"
+				sortBy="dataAlerta" convertDate="true" width="120"
+				textAlign="center" />
+
+			<ss2:column value="#{item.dataVencimento}" header="Vencimento"
+				sortBy="dataVencimento" convertDate="true" width="120"
+				textAlign="center" />
+
+			<ss2:column value="#{item.dataConclusao}" header="Conclusão"
+				sortBy="dataConclusao" convertDate="true" width="120"
+				textAlign="center" />
 
 		</ss:grid>
 
