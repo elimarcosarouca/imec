@@ -81,9 +81,17 @@
 			<version>2.1.7</version>
 		</dependency>
 
-		<!-- <dependency> <groupId>com.artofsolving</groupId> <artifactId>jodconverter</artifactId> 
-			<version>2.2.1</version> <exclusions> <exclusion> <artifactId>slf4j-api</artifactId> 
-			<groupId>org.slf4j</groupId> </exclusion> </exclusions> </dependency> -->
+		<dependency>
+			<groupId>com.artofsolving</groupId>
+			<artifactId>jodconverter</artifactId>
+			<version>2.2.1</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
 
 
@@ -197,7 +205,7 @@
 			<artifactId>spring-data-jpa</artifactId>
 			<version>${spring-data.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
