@@ -10,12 +10,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import net.sf.jasperreports.engine.JRException;
 import br.fucapi.ads.modelo.dominio.Colaborador;
 import br.fucapi.ads.modelo.dominio.PostoCopia;
 import br.fucapi.ads.modelo.servico.ColaboradorServico;
 import br.fucapi.ads.modelo.servico.PostoCopiaServico;
 import br.fucapi.ads.modelo.servico.Servico;
+import br.fucapi.bpms.alfresco.dominio.Usuario;
 
 @ManagedBean
 @SessionScoped
@@ -54,9 +57,14 @@ public class ColaboradorControlador extends ControladorGenerico<Colaborador> {
 		
 		this.entidade.setPostoCopia(postoCopia);
 		this.listaPesquisa = servico.pesquisar(this.entidade);
+		
+		Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
 
 		Map<String, Object> param = new HashMap<String, Object>();
-		param.put(REPORT_TITLE, "RELATÓRIO ");
+		param.put(REPORT_TITLE, "REGISTRO DE TREINAMENTO");
+		param.put("usuario", usuarioLogado.getFirstName() +" " + usuarioLogado.getLastName());
+		
 
 		gerarRelatorioWeb(this.listaPesquisa, param, "colaboradoresPostoCopia.jasper");
 
