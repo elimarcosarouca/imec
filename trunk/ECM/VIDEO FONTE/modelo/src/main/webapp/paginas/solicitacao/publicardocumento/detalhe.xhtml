@@ -236,7 +236,7 @@
 								<p:column style="text-align:left" headerText="Nome do Documento"
 									sortBy="#{item.variaveis.arquivoDoc.nomeArquivo}">
 									<h:outputText
-										value="#{item.variaveis.arquivoDoc.nomeArquivo} 1" />
+										value="#{item.variaveis.arquivoDoc.nomeArquivo}" />
 								</p:column>
 
 								<p:column style="text-align:left" headerText="Data de Criação"
@@ -294,6 +294,7 @@
 									<p:commandButton value="Imprimir" ajax="false"
 										onclick="this.form.target='_blank'" icon="ui-icon-print"
 										styleClass="ui-priority-primary"
+										rendered="#{publicarDocumentoControlador.processoInstancia.variaveis.statusProcesso ne 'PENDENTE'}"
 										action="#{colaboradorControlador.imprimirListaColaboradores(item)}" />
 								</p:column>
 
