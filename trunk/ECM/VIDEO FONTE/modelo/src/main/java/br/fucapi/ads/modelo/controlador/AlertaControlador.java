@@ -50,7 +50,7 @@ public class AlertaControlador extends ControladorGenerico<Alerta> {
 
 	@Override
 	public String getTituloRelatorio() {
-		return "RELATÓRIO DE Tipo Documento";
+		return "REGISTRO DE TREINAMENTO";
 	}
 
 	@Override
