@@ -594,7 +594,7 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	public String cancelar() {
 
-		Map<String, String> variaveis = new HashMap<String, String>();
+		Map<String, Object> variaveis = new HashMap<String, Object>();
 		variaveis.put("justificativaStatus", ((Variavel) this.processoInstancia
 				.getVariaveis()).getJustificativaStatus());
 		variaveis.put("statusProcesso", "CANCELADO");
