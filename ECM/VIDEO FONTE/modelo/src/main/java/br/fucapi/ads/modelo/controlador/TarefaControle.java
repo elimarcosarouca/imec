@@ -277,7 +277,7 @@ public class TarefaControle implements Serializable {
 
 	public void obsoletarProcessos(TarefaInstancia tarefa) {
 
-		Map<String, String> variaveis = new HashMap<String, String>();
+		Map<String, Object> variaveis = new HashMap<String, Object>();
 		variaveis.put("statusProcesso", "OBSOLETO");
 		String json = JsonUtil.converterVariaveisToJson(variaveis);
 

@@ -212,7 +212,7 @@ public class TreinamentoControlador implements Serializable {
 
 	public void cancelar() {
 
-		Map<String, String> variaveis = new HashMap<String, String>();
+		Map<String, Object> variaveis = new HashMap<String, Object>();
 		variaveis.put("parecer", this.getMotivoCancelamento());
 		variaveis.put("acaoParecer", "PROCESSO CONCELADO");
 

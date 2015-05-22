@@ -311,7 +311,7 @@ public class PesquisaSolicitacaoControlador implements Serializable {
 
 	public void cancelar() throws ParseException {
 
-		Map<String, String> variaveis = new HashMap<String, String>();
+		Map<String, Object> variaveis = new HashMap<String, Object>();
 		variaveis.put("motivoCancelamento", this.getMotivoCancelamento());
 		variaveis.put("situacao", "Cancelado");
 		variaveis.put("cancelado", "true");
