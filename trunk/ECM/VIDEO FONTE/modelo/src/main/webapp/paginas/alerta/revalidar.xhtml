@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ss2="http://www.3iti.com.br/jsf/componentes"
+	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<p:dialog id="dialogRevalidar" header="Revalidar"
+		widgetVar="dlgRevalidar" modal="true" appendToBody="true">
+
+		<h:form id="formDlg">
+			<p:growl id="msg" showDetail="false" escape="false"
+				globalOnly="false" />
+
+			<h4 style="margin-top: 0">Selecione as Revalidars para associar
+				ao Perfil: #{perfilRevalidarControlador.perfilModalRevalidar.nome}</h4>
+
+			<p:panel>
+				<ss:input type="date" id="dataVencimento" label="Data de Vencimento"
+					required="true"
+					value="#{alertaControlador.entidade.dataVencimento}" />
+
+				<ss:input value="#{alertaControlador.notificarVencimento}" label="Dias Alerta" />
+
+			</p:panel>
+
+			<p:commandButton value="Fechar" onclick="PF('dlgRevalidar').hide();"
+				styleClass="ui-priority-primary" />
+				
+			<p:commandButton value="Salvar" action="#{alertaControlador.salvarRevalidacao()}"
+				styleClass="ui-priority-primary" />
+
+		</h:form>
+
+	</p:dialog>
+
+</ui:component>

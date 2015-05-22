@@ -31,7 +31,7 @@
 
 	<ui:define name="grid_region">
 
-		<ss:grid managedBean="#{alertaControlador}" rowStyleClass="#{item.color}">
+		<ss:grid managedBean="#{alertaControlador}" rowStyleClass="#{item.color}" renderedActionColumn="false">
 
 			<ss2:column value="#{item.protocolo}" header="Protocolo"
 				sortBy="protocolo" />
@@ -50,9 +50,22 @@
 			<ss2:column value="#{item.dataConclusao}" header="Conclusão"
 				sortBy="dataConclusao" convertDate="true" width="120"
 				textAlign="center" />
+				
+			<ss2:actionColumn managedBean="#{alertaControlador}" buttonsAdded="1">
+				<p:commandButton value="Revalidar" title="Revalidar"
+								action="#{alertaControlador.showModalRevalidar(item)}"
+								icon="ui-icon-newwin" oncomplete="PF('dlgRevalidar').show();"
+								update=":formDlg" />
+			</ss2:actionColumn>
 
 		</ss:grid>
 
+	</ui:define>
+	
+	<ui:define name="modal_region">
+		
+		<ui:include src="revalidar.xhtml" />
+	
 	</ui:define>
 
 </ui:composition>
