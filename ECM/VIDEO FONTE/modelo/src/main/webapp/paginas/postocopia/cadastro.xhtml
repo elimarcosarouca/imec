@@ -18,22 +18,26 @@
 	<ui:define name="register_region">
 
 		<ss:input id="nome" label="Nome" required="true"
-			value="#{postoCopiaControlador.entidade.nome}" maxlength="30"/>
+			value="#{postoCopiaControlador.entidade.nome}" maxlength="30" />
 
 		<ss:comboBox id="setor" label="Setor"
 			value="#{postoCopiaControlador.entidade.setor}"
-			list="#{postoCopiaControlador.setores}"			
-			required="true" foreignKey="true"
-			atributo="#{item.nome}" />
+			list="#{postoCopiaControlador.setores}" required="true"
+			foreignKey="true" atributo="#{item.nome}" />
 
-		<p:outputLabel for="responsavel" value="Responsavel " />
-		<p:selectOneMenu id="responsavel"
-			value="#{postoCopiaControlador.entidade.loginResponsavel}"
-			effect="fold" editable="true">
-			<f:selectItem itemLabel="Select One" itemValue="" />
-			<f:selectItems value="#{postoCopiaControlador.usuarios}"
-				var="usuario" itemLabel="#{usuario.firstName} #{usuario.lastName}" itemValue="#{usuario.userName}" />
-		</p:selectOneMenu>
+		<h:panelGrid columns="2" cellpadding="2" width="40%">
+
+			<p:outputLabel value="  Responsavel *  "
+				styleClass="ui-priority-primary" />
+			<p:selectOneMenu id="responsavel" effect="fold" editable="true"
+				value="#{postoCopiaControlador.entidade.loginResponsavel}">
+				<f:selectItem itemLabel="Select One" itemValue="" />
+				<f:selectItems value="#{postoCopiaControlador.usuarios}"
+					var="usuario" itemLabel="#{usuario.firstName} #{usuario.lastName}"
+					itemValue="#{usuario.userName}" />
+			</p:selectOneMenu>
+
+		</h:panelGrid>
 
 	</ui:define>
 
