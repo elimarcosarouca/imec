@@ -90,6 +90,10 @@
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15,20">
 
+						<p:column style="text-align:left" headerText="processInstanceId">
+							<h:outputText value="#{item.id}" />
+						</p:column>
+						
 						<p:column style="text-align:left" headerText="Protocolo">
 							<h:outputText value="#{item.businessKey}" />
 						</p:column>
