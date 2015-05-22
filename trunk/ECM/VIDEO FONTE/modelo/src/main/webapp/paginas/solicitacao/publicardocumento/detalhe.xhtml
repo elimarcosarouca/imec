@@ -45,7 +45,8 @@
 
 			<h:form id="form">
 				<p:accordionPanel>
-					<p:tab title="Geral - [ Titulo ] #{publicarDocumentoControlador.processoInstancia.variaveis.arquivoDoc.nomeArquivo}">
+					<p:tab
+						title="Geral - [ Titulo ] #{publicarDocumentoControlador.processoInstancia.variaveis.arquivoDoc.nomeArquivo}">
 						<p:panel id="panel" closable="false"
 							header="Detalhes da Publicação de Documento" style="width:100%;">
 
@@ -71,34 +72,36 @@
 									value="#{publicarDocumentoControlador.processoInstancia.variaveis.setor.nome}" />
 
 							</h:panelGrid>
+							
+							<h:panelGrid style="width:50%" columns="2" cellspacing="2">
 
-							<p />
-
-							<h:panelGrid columns="1">
-								<h:outputText value="Justificativa "
-									styleClass="ui-priority-primary" />
-								<p:inputTextarea rows="3" cols="30" required="true"
-									requiredMessage="O campo justificativa é obrigatório!"
-									value="#{publicarDocumentoControlador.processoInstancia.variaveis.descricao}"
-									maxlength="255" style="width:450px" id="descricao"
-									autoResize="false" readonly="true" />
-							</h:panelGrid>
-
-							<p />
-
-							<h:panelGrid columns="2">
 								<p:outputLabel value="Data de Vencimento: "
 									styleClass="ui-priority-primary" />
+
 								<p:outputLabel value="Data de Notificação de vencimento: "
 									styleClass="ui-priority-primary" />
 
 								<p:calendar id="dataVencimento" pattern="dd/MM/yyyy" mask="true"
 									value="#{publicarDocumentoControlador.processoInstancia.variaveis.dataVencimento}"
 									readonly="true" />
+									
 								<p:calendar id="diasAntecedencia" pattern="dd/MM/yyyy"
 									mask="true"
 									value="#{publicarDocumentoControlador.processoInstancia.variaveis.dataNotificacao}"
 									readonly="true" />
+							
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Justificativa "
+									styleClass="ui-priority-primary" />
+
+								<p:inputTextarea rows="3" cols="30" required="true"
+									requiredMessage="O campo justificativa é obrigatório!"
+									value="#{publicarDocumentoControlador.processoInstancia.variaveis.descricao}"
+									maxlength="255" style="width:450px" id="descricao"
+									autoResize="false" readonly="true" />
+
 							</h:panelGrid>
 
 							<br />
@@ -235,8 +238,7 @@
 
 								<p:column style="text-align:left" headerText="Nome do Documento"
 									sortBy="#{item.variaveis.arquivoDoc.nomeArquivo}">
-									<h:outputText
-										value="#{item.variaveis.arquivoDoc.nomeArquivo}" />
+									<h:outputText value="#{item.variaveis.arquivoDoc.nomeArquivo}" />
 								</p:column>
 
 								<p:column style="text-align:left" headerText="Data de Criação"
