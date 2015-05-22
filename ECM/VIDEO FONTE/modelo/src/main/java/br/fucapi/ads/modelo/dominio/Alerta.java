@@ -31,7 +31,7 @@ public class Alerta extends AbstractEntity implements Serializable {
 	@Column(name = "ID_ECM_ALERTA")
 	private Long id;
 	
-	@Column(nullable=false)
+	@Column(nullable=true)
 	private String processInstanceId;
 
 	@Column(length = 10, nullable = false, unique = true)
