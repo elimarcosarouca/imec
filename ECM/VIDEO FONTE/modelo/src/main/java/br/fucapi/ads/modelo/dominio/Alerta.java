@@ -30,6 +30,9 @@ public class Alerta extends AbstractEntity implements Serializable {
 	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_ALERTA", name = "SEQ_ECM_ALERTA")
 	@Column(name = "ID_ECM_ALERTA")
 	private Long id;
+	
+	@Column(nullable=false)
+	private String processInstanceId;
 
 	@Column(length = 10, nullable = false, unique = true)
 	private String protocolo;
@@ -55,7 +58,7 @@ public class Alerta extends AbstractEntity implements Serializable {
 		Date dataConvertidaEmUtil = new Date(dataVencimento.getTime());
 		if (dataConvertidaEmUtil.after(new Date())) {
 			return "yellow";
-		} else 
+		} else
 			return "red";
 	}
 
@@ -123,6 +126,14 @@ public class Alerta extends AbstractEntity implements Serializable {
 		this.dataConclusao = dataConclusao;
 	}
 
+	public String getProcessInstanceId() {
+		return processInstanceId;
+	}
+
+	public void setProcessInstanceId(String processInstanceId) {
+		this.processInstanceId = processInstanceId;
+	}
+
 	public Alerta() {
 	}
 
@@ -137,6 +148,9 @@ public class Alerta extends AbstractEntity implements Serializable {
 				.getVariaveis()).getProtocolo();
 		this.solicitante = ((VariavelPublicarDocumento) tarefaInstancia
 				.getVariaveis()).getSolicitante();
+		
+		this.processInstanceId = tarefaInstancia
+				.getProcessInstanceId();
 	}
 
 	public boolean equals(Object o) {

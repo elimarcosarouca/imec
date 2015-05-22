@@ -50,7 +50,6 @@ public class AlertaControlador extends ControladorGenerico<Alerta> {
 	@Override
 	public void pesquisar() {
 
-		// this.pesquisa.setSolicitante(this.usuario.getUserName());
 		super.pesquisar();
 	}
 
@@ -73,14 +72,13 @@ public class AlertaControlador extends ControladorGenerico<Alerta> {
 	}
 
 	public void atualizarVencimento() {
-		//SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
 		Map<String, Object> variaveis = new HashMap<String, Object>();
 
 		variaveis.put("dataVencimento",this.entidade.getDataVencimento());
 		variaveis.put("dataNotificacao",this.entidade.getDataAlerta());
 
 		String json = JsonUtil.converterVariaveisToJson(variaveis);
-		this.activitiServico.atualizarVariaveis("2701", json);
+		this.activitiServico.atualizarVariaveis(this.entidade.getProcessInstanceId(), json);
 	}
 
 	@Override
