@@ -13,7 +13,7 @@ public class JsonUtil {
 	 * @return String
 	 * 
 	 */
-	public static String converterVariaveisToJson(Map<String, String> variaveis) {
+	public static String converterVariaveisToJson(Map<String, Object> variaveis) {
 
 		Set<String> chaves = variaveis.keySet();
 
@@ -30,7 +30,7 @@ public class JsonUtil {
 	}
 
 	public static void main(String[] args) {
-		Map<String, String> variaveis = new HashMap<String, String>();
+		Map<String, Object> variaveis = new HashMap<String, Object>();
 		variaveis.put("emailRH", "agoravai1");
 //		variaveis.put("emailDiretor", "agoravai2");
 		variaveis.put("emailCoordenador", "null");
