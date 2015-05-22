@@ -138,7 +138,7 @@ public class UsuarioControladorBean implements Serializable {
 		return page;
 	}
 
-	public void incluir() throws RemoteException {
+	public String incluir() throws RemoteException {
 
 		try {
 			if (!isEditarUsuario) {
@@ -181,8 +181,10 @@ public class UsuarioControladorBean implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
 							"Atenção. Operação realizada com sucesso", ""));
 		}
+		
+		return redirect(PESQUISA);
 	}
-
+	
 	public void isBloqueado(boolean isNovoUsuario) {
 		String operacao;
 
