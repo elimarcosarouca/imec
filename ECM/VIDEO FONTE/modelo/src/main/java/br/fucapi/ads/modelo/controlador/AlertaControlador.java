@@ -1,6 +1,5 @@
 package br.fucapi.ads.modelo.controlador;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -74,11 +73,12 @@ public class AlertaControlador extends ControladorGenerico<Alerta> {
 	public void atualizarVencimento() {
 		Map<String, Object> variaveis = new HashMap<String, Object>();
 
-		variaveis.put("dataVencimento",this.entidade.getDataVencimento());
-		variaveis.put("dataNotificacao",this.entidade.getDataAlerta());
+		variaveis.put("dataVencimento", this.entidade.getDataVencimento());
+		variaveis.put("dataNotificacao", this.entidade.getDataAlerta());
 
 		String json = JsonUtil.converterVariaveisToJson(variaveis);
-		this.activitiServico.atualizarVariaveis(this.entidade.getProcessInstanceId(), json);
+		this.activitiServico.atualizarVariaveis(
+				this.entidade.getProcessInstanceId(), json);
 	}
 
 	@Override
