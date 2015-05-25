@@ -17,17 +17,18 @@
 
 	<ui:define name="search_filter">
 
-		<ss:input label="Protocolo"
-			value="#{alertaControlador.pesquisa.protocolo}" />
+		<ss:input label="Nomenclatura"
+			value="#{alertaControlador.pesquisa.nomenclatura}" />
 
-		<ss:checkBox label="Concluído"
-			value="#{alertaControlador.pesquisa.concluida}" />
+		<ss:input label="Titulo"
+			value="#{alertaControlador.pesquisa.titulo}" />
 
-		<ss:comboBox label="Colaborador" value="#{alertaControlador.usuario}"
-			list="#{alertaControlador.usuarios}" foreignKey="true"
-			atributo="#{item.firstName} #{item.lastName}" />
-
-	</ui:define>
+		<ss:comboBox id="unidade" label="Unidade"
+			value="#{alertaControlador.pesquisa.unidade}"
+			list="#{publicarDocumentoControlador.variaveis.unidades}"			
+			foreignKey="true"
+			atributo="#{item.nome}" />
+		</ui:define>
 
 	<ui:define name="grid_region">
 
@@ -36,9 +37,17 @@
 			<ss2:column value="#{item.protocolo}" header="Protocolo"
 				sortBy="protocolo" />
 
-			<ss2:column value="#{item.solicitante}" header="Solicitante"
-				sortBy="solicitante" />
+			<ss2:column value="#{item.nomenclatura}" header="Nomenclatura"
+				sortBy="nomenclatura" />
 
+			<ss2:column value="#{item.titulo}" header="Titulo"
+				sortBy="titulo" convertDate="true" width="120"
+				textAlign="center" />
+
+			<ss2:column value="#{item.revisao}" header="Revisão"
+				sortBy="revisao" convertDate="true" width="120"
+				textAlign="center" />
+				
 			<ss2:column value="#{item.dataAlerta}" header="Alerta"
 				sortBy="dataAlerta" convertDate="true" width="120"
 				textAlign="center" />
@@ -47,25 +56,9 @@
 				sortBy="dataVencimento" convertDate="true" width="120"
 				textAlign="center" />
 
-			<ss2:column value="#{item.dataConclusao}" header="Conclusão"
-				sortBy="dataConclusao" convertDate="true" width="120"
-				textAlign="center" />
-				
-			<ss2:actionColumn managedBean="#{alertaControlador}" buttonsAdded="1">
-				<p:commandButton value="Revalidar" title="Revalidar"
-								action="#{alertaControlador.showModalRevalidar(item)}"
-								icon="ui-icon-newwin" oncomplete="PF('dlgRevalidar').show();"
-								update=":formDlg" />
-			</ss2:actionColumn>
 
 		</ss:grid>
 
-	</ui:define>
-	
-	<ui:define name="modal_region">
-		
-		<ui:include src="revalidar.xhtml" />
-	
 	</ui:define>
 
 </ui:composition>

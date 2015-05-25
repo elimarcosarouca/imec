@@ -58,8 +58,8 @@ public class SessaoControladorBean {
 
 		Alerta alerta = new Alerta();
 		alerta.setDataAlerta(new Date());
-		alerta.setSolicitante(login);
-		alerta.setConcluida(false);
+//		alerta.setSolicitante(login);
+//		alerta.setConcluida(false);
 		this.countAlerta = alertaServico.pesquisar(alerta).size();
 	}
 

@@ -5,6 +5,12 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import org.bouncycastle.mail.smime.examples.ExampleUtils;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Example;
+import org.hibernate.criterion.MatchMode;
 import org.springframework.stereotype.Repository;
 
 import br.fucapi.ads.modelo.dominio.Alerta;
@@ -17,6 +23,7 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 
 	@Override
 	public List<Alerta> pesquisar(Alerta abstractEntity) {
+		
 		StringBuilder sb = new StringBuilder();
 		List<String> condictions = new ArrayList<String>();
 
@@ -26,16 +33,17 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 			condictions.add(" est.protocolo =:protocolo ");
 		}
 
-		if (notEmpty(abstractEntity.getSolicitante())) {
-			condictions.add(" est.solicitante =:solicitante ");
+		if (notEmpty(abstractEntity.getNomenclatura())) {
+			condictions.add(" est.nomenclatura =:nomenclatura ");
 		}
 		
-		condictions.add(" est.concluida =:concluida ");
+		if (notEmpty(abstractEntity.getTitulo())) {
+			condictions.add(" est.titulo  =:titulo ");
+		}
 
-		/*if (notEmpty(abstractEntity.getDataAlerta())) {
-			condictions.add(" est.dataAlerta  >= :dataAlerta ");
-
-		}*/
+		if (notEmpty(abstractEntity.getUnidade())) {
+			condictions.add(" est.unidade  =:unidade ");
+		}
 
 		String orderBy = " order by est.dataAlerta";
 
@@ -45,17 +53,17 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 			query.setParameter("protocolo", abstractEntity.getProtocolo());
 		}
 
-		if (notEmpty(abstractEntity.getSolicitante())) {
-			query.setParameter("solicitante", abstractEntity.getSolicitante());
+		if (notEmpty(abstractEntity.getNomenclatura())) {
+			query.setParameter("nomenclatura", abstractEntity.getNomenclatura());
 		}
 		
-		query.setParameter("concluida", abstractEntity.isConcluida());
-
-		/*if (notEmpty(abstractEntity.getDataAlerta())) {
-			System.out.println("data alerta " + abstractEntity.getDataAlerta());
-			query.setParameter("dataAlerta", abstractEntity.getDataAlerta());
-		}*/
-
+		if (notEmpty(abstractEntity.getTitulo())) {
+			query.setParameter("titulo", abstractEntity.getTitulo());
+		}
+		
+		if (notEmpty(abstractEntity.getUnidade())) {
+			query.setParameter("unidade", abstractEntity.getUnidade());
+		}
 		return query.getResultList();
 	}
 }

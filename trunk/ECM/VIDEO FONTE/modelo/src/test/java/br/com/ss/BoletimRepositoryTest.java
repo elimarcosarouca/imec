@@ -25,13 +25,11 @@ public class BoletimRepositoryTest {
 	public void test() {
 		System.out.println("1");
 		Alerta alerta = new Alerta();
-		alerta.setConcluida(false);
 		alerta.setDataAlerta(new Date());
 		alerta.setDataCadastro(new Date());
 		alerta.setDataVencimento(new Date());
 		alerta.setProtocolo("20151");
-		alerta.setSolicitante("admin");
-
+		
 		repository.saveOrUpdate(alerta);
 
 	}
