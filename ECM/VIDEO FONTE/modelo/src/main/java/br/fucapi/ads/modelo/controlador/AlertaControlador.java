@@ -48,7 +48,7 @@ public class AlertaControlador extends ControladorGenerico<Alerta> {
 
 	@Override
 	public void pesquisar() {
-
+		
 		super.pesquisar();
 	}
 
@@ -83,7 +83,6 @@ public class AlertaControlador extends ControladorGenerico<Alerta> {
 
 	@Override
 	protected void init() {
-		this.pesquisa.setConcluida(false);
 		this.usuarios = alfrescoServico.getUsuarios();
 	}
 

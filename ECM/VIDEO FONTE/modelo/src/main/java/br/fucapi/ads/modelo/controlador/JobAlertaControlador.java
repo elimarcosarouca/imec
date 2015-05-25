@@ -17,11 +17,9 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import br.fucapi.ads.modelo.dominio.Alerta;
-import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
 import br.fucapi.ads.modelo.servico.AlertaServico;
 import br.fucapi.bpms.activiti.dominio.TarefaInstancia;
 import br.fucapi.bpms.activiti.servico.ActivitiServico;
-import br.fucapi.bpms.alfresco.dominio.Usuario;
 import br.fucapi.bpms.alfresco.servico.AlfrescoServico;
 
 public class JobAlertaControlador {
@@ -63,7 +61,7 @@ public class JobAlertaControlador {
 		this.listaAlerta = alertaServico.pesquisar(alerta);
 
 		for (Alerta alertaVencimento : listaAlerta) {
-			System.out.println(alertaVencimento.getSolicitante());
+			System.out.println(alertaVencimento.getNomenclatura());
 			enviarEmailAlerta(alertaVencimento);
 		}
 	}
@@ -78,10 +76,7 @@ public class JobAlertaControlador {
 	public void enviarEmailAlerta(final Alerta alerta)
 			throws Exception {
 
-		Usuario usuario = this.alfrescoServico.listarUsuarioNome(alerta
-				.getSolicitante());
-
-		final String emailDestino = usuario.getEmail();
+		final String emailDestino = "elimarcos.arouca@gmail.com";
 
 		MimeMessagePreparator preparator = new MimeMessagePreparator() {
 			public void prepare(MimeMessage mimeMessage) throws Exception {

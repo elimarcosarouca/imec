@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -36,10 +38,7 @@ public class Alerta extends AbstractEntity implements Serializable {
 
 	@Column(length = 10, nullable = false, unique = true)
 	private String protocolo;
-
-	@Column(length = 30, nullable = false)
-	private String solicitante;
-
+	
 	@Column(nullable = false)
 	private Date dataAlerta;
 
@@ -49,11 +48,16 @@ public class Alerta extends AbstractEntity implements Serializable {
 	@Column(nullable = false)
 	private Date dataCadastro;
 
-	private boolean concluida;
-
-	@Column
-	private Date dataConclusao;
-
+	@Column(nullable = false)
+	private String nomenclatura;
+	
+	@Column(nullable = false)
+	private String titulo;
+	
+	@ManyToOne
+	@JoinColumn(name = "ID_ECM_UNIDADE", nullable=false)
+	private Unidade unidade; 
+	
 	public String getColor() {
 		Date dataConvertidaEmUtil = new Date(dataVencimento.getTime());
 		if (dataConvertidaEmUtil.after(new Date())) {
@@ -76,14 +80,6 @@ public class Alerta extends AbstractEntity implements Serializable {
 
 	public void setProtocolo(String protocolo) {
 		this.protocolo = protocolo;
-	}
-
-	public String getSolicitante() {
-		return solicitante;
-	}
-
-	public void setSolicitante(String solicitante) {
-		this.solicitante = solicitante;
 	}
 
 	public Date getDataAlerta() {
@@ -110,20 +106,28 @@ public class Alerta extends AbstractEntity implements Serializable {
 		this.dataCadastro = dataCadastro;
 	}
 
-	public boolean isConcluida() {
-		return concluida;
+	public String getNomenclatura() {
+		return nomenclatura;
 	}
 
-	public void setConcluida(boolean concluida) {
-		this.concluida = concluida;
+	public void setNomenclatura(String nomenclatura) {
+		this.nomenclatura = nomenclatura;
 	}
 
-	public Date getDataConclusao() {
-		return dataConclusao;
+	public String getTitulo() {
+		return titulo;
 	}
 
-	public void setDataConclusao(Date dataConclusao) {
-		this.dataConclusao = dataConclusao;
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+	public Unidade getUnidade() {
+		return unidade;
+	}
+
+	public void setUnidade(Unidade unidade) {
+		this.unidade = unidade;
 	}
 
 	public String getProcessInstanceId() {
@@ -138,7 +142,6 @@ public class Alerta extends AbstractEntity implements Serializable {
 	}
 
 	public void converterTarefaInstanciaToAlerta(TarefaInstancia tarefaInstancia) {
-		this.concluida = false;
 		this.dataAlerta = ((VariavelPublicarDocumento) tarefaInstancia
 				.getVariaveis()).getDataNotificacao();
 		this.dataCadastro = new Date();
@@ -146,8 +149,15 @@ public class Alerta extends AbstractEntity implements Serializable {
 				.getVariaveis()).getDataVencimento();
 		this.protocolo = ((VariavelPublicarDocumento) tarefaInstancia
 				.getVariaveis()).getProtocolo();
-		this.solicitante = ((VariavelPublicarDocumento) tarefaInstancia
-				.getVariaveis()).getSolicitante();
+		
+		this.nomenclatura = ((VariavelPublicarDocumento) tarefaInstancia
+				.getVariaveis()).getNomenclatura();
+		
+		this.titulo = ((VariavelPublicarDocumento) tarefaInstancia
+				.getVariaveis()).getArquivoDoc().getNomeArquivo();
+		
+		this.unidade = ((VariavelPublicarDocumento) tarefaInstancia
+				.getVariaveis()).getUnidade();
 		
 		this.processInstanceId = tarefaInstancia
 				.getProcessInstanceId();
