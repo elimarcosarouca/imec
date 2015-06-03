@@ -49,6 +49,7 @@ import br.fucapi.ads.modelo.dominio.VariaveisTreinamento;
 import br.fucapi.ads.modelo.dominio.Variavel;
 import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
 import br.fucapi.ads.modelo.regranegocio.TreinamentoRN;
+import br.fucapi.ads.modelo.servico.AlertaServico;
 import br.fucapi.ads.modelo.servico.CategoriaServico;
 import br.fucapi.ads.modelo.servico.NomenclaturaDocumentoServico;
 import br.fucapi.ads.modelo.servico.PostoCopiaServico;
@@ -94,6 +95,8 @@ public class PublicarDocumentoControlador implements Serializable {
 	private List<TarefaInstancia> tarefas;
 
 	private TarefaInstancia tarefa;
+
+	private Alerta alerta;
 
 	private VariaveisTarefa variaveisTarefa;
 
@@ -153,6 +156,9 @@ public class PublicarDocumentoControlador implements Serializable {
 	@ManagedProperty(value = "#{categoriaServicoImpl}")
 	private CategoriaServico categoriaServico;
 
+	@ManagedProperty(value = "#{alertaServicoImpl}")
+	private AlertaServico alertaServico;
+
 	private String TELA_PESQUISA = "/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true";
 
 	private String TELA_CADASTRO = "/paginas/solicitacao/publicardocumento/cadastro.xhtml?faces-redirect=true";
@@ -162,7 +168,7 @@ public class PublicarDocumentoControlador implements Serializable {
 	private String TELA_REVISAO = "/paginas/solicitacao/publicardocumento/revisar.xhtml?faces-redirect=true";
 
 	private String TELA_DETALHE_TAREFA = "/paginas/solicitacao/publicardocumento/detalhetarefa.xhtml?faces-redirect=true";
-	
+
 	private final String PESQUISATAREFAPENDENTE = "/paginas/tarefa/pesquisatarefapendente.xhtml?faces-redirect=true";
 
 	// PickList
@@ -569,7 +575,8 @@ public class PublicarDocumentoControlador implements Serializable {
 		nomenclatura.setUnidade(this.variaveis.getUnidade());
 		nomenclatura.setCategoria(this.variaveis.getCategoria());
 		nomenclatura.setSetor(this.variaveis.getSetor());
-		nomenclatura = this.nomenclaturaDocumentoServico.pegarSequencial(nomenclatura);
+		nomenclatura = this.nomenclaturaDocumentoServico
+				.pegarSequencial(nomenclatura);
 		this.variaveis.setNomenclatura(nomenclatura.toString());
 
 		this.activitiServico.iniciarInstanciaProcessoPorParametrosByKey(
@@ -624,6 +631,10 @@ public class PublicarDocumentoControlador implements Serializable {
 				.getHistoricoTarefasPorVariaveis(null, null, null, null,
 						this.processoInstancia.getId());
 
+		this.alerta = alertaServico
+				.pesquisarProcessInstanceId(this.processoInstancia
+						.getId());
+
 		return this.TELA_DETALHE;
 
 	}
@@ -631,15 +642,16 @@ public class PublicarDocumentoControlador implements Serializable {
 	public String detalhe(TarefaInstancia tarefaInstancia)
 			throws ParseException {
 		this.TELA_PESQUISA = this.PESQUISATAREFAPENDENTE;
-		
+
 		this.processoInstancia = activitiServico
 				.getProcessosInstanciaId(tarefaInstancia.getProcessInstanceId());
-		
+
 		this.variaveis = new VariavelPublicarDocumento();
-		this.variaveis.converterListaVariaveis(this.processoInstancia.getVariables());
+		this.variaveis.converterListaVariaveis(this.processoInstancia
+				.getVariables());
 
 		this.processoInstancia.setVariaveis(variaveis);
-		
+
 		return detalhe(this.processoInstancia);
 	}
 
@@ -767,7 +779,7 @@ public class PublicarDocumentoControlador implements Serializable {
 			pInstancia.setVariaveis(variaveis);
 			this.lista.add(pInstancia);
 		}
-		
+
 		this.TELA_PESQUISA = "/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true";
 
 	}
@@ -1257,5 +1269,21 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	public void setRenderDownload(boolean renderDownload) {
 		this.renderDownload = renderDownload;
+	}
+
+	public AlertaServico getAlertaServico() {
+		return alertaServico;
+	}
+
+	public void setAlertaServico(AlertaServico alertaServico) {
+		this.alertaServico = alertaServico;
+	}
+
+	public Alerta getAlerta() {
+		return alerta;
+	}
+
+	public void setAlerta(Alerta alerta) {
+		this.alerta = alerta;
 	}
 }

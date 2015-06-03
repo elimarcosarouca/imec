@@ -30,4 +30,9 @@ public class AlertaServicoImpl extends GenericServico<Alerta, Long> implements
 	public List<Alerta> pesquisar(Alerta entity) {
 		return repositorio.pesquisar(entity);
 	}
+
+	@Override
+	public Alerta pesquisarProcessInstanceId(String processInstanceId) {
+		return repositorio.pesquisarProcessInstanceId(processInstanceId);
+	}
 }
