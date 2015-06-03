@@ -109,9 +109,6 @@ public class TarefaControle implements Serializable {
 
 	private Calendar cal = Calendar.getInstance();
 
-	@ManagedProperty(value = "#{paginaCentralControladorBean}")
-	private PaginaCentralControladorBean paginaCentralControladorBean;
-
 	private VariavelPublicarDocumento variaveis;
 
 	private List<ProcessoDefinicao> listaProcessosDefinicao;
@@ -322,6 +319,13 @@ public class TarefaControle implements Serializable {
 		VariaveisTarefa variaveisTarefa = new VariaveisTarefa();
 		variaveisTarefa.setIdProcesso(Long.valueOf(tarefaInstancia
 				.getProcessInstanceId()));
+		System.out.println("getProcessInstanceId = " + tarefaInstancia
+				.getProcessInstanceId());
+		
+		System.out.println("tarefaInstancia.getId() = " + tarefaInstancia.getId());
+		
+//		variaveisTarefa.setIdProcesso(tarefaInstancia.getProcessInstanceUrl());
+		
 		variaveisTarefa.setIdTarefa(Long.valueOf(tarefaInstancia.getId()));
 		variaveisTarefa.setLogin(tarefaInstancia.getAssignee());
 		variaveisTarefa.setParecer(this.parecer);
@@ -546,15 +550,6 @@ public class TarefaControle implements Serializable {
 
 	public void setStatus(boolean status) {
 		this.status = status;
-	}
-
-	public PaginaCentralControladorBean getPaginaCentralControladorBean() {
-		return paginaCentralControladorBean;
-	}
-
-	public void setPaginaCentralControladorBean(
-			PaginaCentralControladorBean paginaCentralControladorBean) {
-		this.paginaCentralControladorBean = paginaCentralControladorBean;
 	}
 
 	public VariavelPublicarDocumento getVariaveis() {

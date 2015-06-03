@@ -65,7 +65,7 @@ public class AlertaControlador extends ControladorGenerico<Alerta> {
 
 		this.servico.merge(this.entidade);
 		this.pesquisar();
-		atualizarVencimento();
+//		atualizarVencimento();
 
 		return this.redirect(PESQUISA);
 	}

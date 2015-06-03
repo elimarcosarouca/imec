@@ -54,6 +54,9 @@ public class Alerta extends AbstractEntity implements Serializable {
 	@Column(nullable = false)
 	private String titulo;
 	
+	@Column(nullable = false)
+	private int revisao;
+	
 	@ManyToOne
 	@JoinColumn(name = "ID_ECM_UNIDADE", nullable=false)
 	private Unidade unidade; 
@@ -136,6 +139,14 @@ public class Alerta extends AbstractEntity implements Serializable {
 
 	public void setProcessInstanceId(String processInstanceId) {
 		this.processInstanceId = processInstanceId;
+	}
+
+	public int getRevisao() {
+		return revisao;
+	}
+
+	public void setRevisao(int revisao) {
+		this.revisao = revisao;
 	}
 
 	public Alerta() {

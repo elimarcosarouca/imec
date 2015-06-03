@@ -5,12 +5,6 @@ import java.util.List;
 
 import javax.persistence.Query;
 
-import org.bouncycastle.mail.smime.examples.ExampleUtils;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Example;
-import org.hibernate.criterion.MatchMode;
 import org.springframework.stereotype.Repository;
 
 import br.fucapi.ads.modelo.dominio.Alerta;
@@ -23,7 +17,7 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 
 	@Override
 	public List<Alerta> pesquisar(Alerta abstractEntity) {
-		
+
 		StringBuilder sb = new StringBuilder();
 		List<String> condictions = new ArrayList<String>();
 
@@ -36,7 +30,7 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 		if (notEmpty(abstractEntity.getNomenclatura())) {
 			condictions.add(" est.nomenclatura =:nomenclatura ");
 		}
-		
+
 		if (notEmpty(abstractEntity.getTitulo())) {
 			condictions.add(" est.titulo  =:titulo ");
 		}
@@ -56,14 +50,38 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 		if (notEmpty(abstractEntity.getNomenclatura())) {
 			query.setParameter("nomenclatura", abstractEntity.getNomenclatura());
 		}
-		
+
 		if (notEmpty(abstractEntity.getTitulo())) {
 			query.setParameter("titulo", abstractEntity.getTitulo());
 		}
-		
+
 		if (notEmpty(abstractEntity.getUnidade())) {
 			query.setParameter("unidade", abstractEntity.getUnidade());
 		}
 		return query.getResultList();
+	}
+
+	@Override
+	public Alerta pesquisarProcessInstanceId(String processInstanceId) {
+
+		StringBuilder sb = new StringBuilder();
+		List<String> condictions = new ArrayList<String>();
+
+		sb.append(" select est from Alerta est ");
+
+		if (notEmpty(processInstanceId)) {
+			condictions.add(" est.processInstanceId =:processInstanceId ");
+		}
+
+		String orderBy = " order by est.dataAlerta";
+
+		Query query = entityManager.createQuery(generateHql(sb.toString(),
+				condictions) + orderBy);
+
+		if (notEmpty(processInstanceId)) {
+			query.setParameter("processInstanceId", processInstanceId);
+		}
+
+		return (Alerta) query.getSingleResult();
 	}
 }
