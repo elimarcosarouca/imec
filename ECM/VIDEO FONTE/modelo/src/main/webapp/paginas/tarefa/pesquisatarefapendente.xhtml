@@ -86,7 +86,7 @@
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15,20">
 
-						<p:column style="text-align:left" headerText="Protocolo"
+						<p:column style="text-align:left" headerText="Protocolo" width="100"
 							sortBy="#{item.variaveis.ano}#{item.variaveis.sequencial}">
 							<h:outputText
 								value="#{item.variaveis.ano}#{item.variaveis.sequencial}" />
@@ -103,7 +103,7 @@
 						</p:column>
 
 						<p:column style="text-align:left" headerText="Nome do Documento"
-							sortBy="#{item.variaveis.arquivoDoc.nomeArquivo}">
+							sortBy="#{item.variaveis.arquivoDoc.nomeArquivo}" width="400">
 							<h:outputText value="#{item.variaveis.arquivoDoc.nomeArquivo}" />
 						</p:column>
 
@@ -114,10 +114,10 @@
 							</h:outputText>
 						</p:column>
 
-						<p:column style="text-align:left" headerText="Detalhes"
+						<!-- <p:column style="text-align:left" headerText="Detalhes"
 							sortBy="#{item.variaveis.descricao}">
 							<h:outputText value="#{item.variaveis.descricao}" />
-						</p:column>
+						</p:column> -->
 
 						<p:column style="text-align:left" headerText="Colaborador"
 							sortBy="#{item.assignee}">

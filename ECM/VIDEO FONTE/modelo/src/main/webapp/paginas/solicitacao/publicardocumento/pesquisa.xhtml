@@ -89,22 +89,31 @@
 						emptyMessage="Nenhum registro encontrado."
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15,20">
-
-						<p:column style="text-align:left" headerText="processInstanceId">
+						
+						<p:column style="text-align:left" headerText="processInstanceId" width="50">
+							<h:outputText value="#{item.processInstanceId}" />
+						</p:column>
+						
+						<p:column style="text-align:left" headerText="id" width="50">
 							<h:outputText value="#{item.id}" />
 						</p:column>
 						
-						<p:column style="text-align:left" headerText="Protocolo">
+						<p:column style="text-align:left" headerText="Protocolo" width="100">
 							<h:outputText value="#{item.businessKey}" />
 						</p:column>
 
 						<p:column style="text-align:left" headerText="Titulo"
-							exportable="false">
+							exportable="false" width="350">
 							<h:outputText value="#{item.variaveis.arquivoDoc.nomeArquivo}" />
+						</p:column>
+						
+						<p:column style="text-align:left" headerText="Nomeclatura"
+							exportable="false"  width="350">
+							<h:outputText value="#{item.variaveis.nomenclatura}" />
 						</p:column>
 
 						<p:column style="text-align:left" headerText="Revisão"
-							exportable="false">
+							exportable="false" width="100">
 							<h:outputText value="#{item.variaveis.versaoRevisao}" />
 						</p:column>
 
@@ -113,7 +122,7 @@
 							<h:outputText value="#{item.variaveis.statusProcesso}" />
 						</p:column>
 
-						<p:column style="text-align:left" headerText="Data Criação"
+						<p:column style="text-align:left" headerText="Data Criação"  width="150"
 							exportable="false">
 							<h:outputText value="#{item.startTime}">
 								<f:convertDateTime pattern="dd/MM/yyyy" />
@@ -133,9 +142,9 @@
 								icon="ui-icon-image" update=":formImagem:panelImagem"
 								action="#{publicarDocumentoControlador.abrirImagemProcesso(item)}" />
 
-							<p:commandButton
+							<p:commandButton rendered="#{item.variaveis.statusProcesso eq 'ATIVO'}"
 								action="#{publicarDocumentoControlador.revisar(item)}"
-								icon="ui-icon-newwin" title="Revisar"
+								icon="ui-icon-pencil" title="Revisar"
 								styleClass="ui-priority-primary" update=":form" />
 
 						</p:column>
@@ -208,7 +217,6 @@
 			</p:dialog>
 
 		</div>
-
 		<!-- ======== Aditional area - for modals and external form components ========= -->
 
 		<ui:insert name="modal_region" />

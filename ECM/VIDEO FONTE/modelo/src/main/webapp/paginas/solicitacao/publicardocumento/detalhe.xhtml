@@ -72,8 +72,8 @@
 									value="#{publicarDocumentoControlador.processoInstancia.variaveis.setor.nome}" />
 
 							</h:panelGrid>
-							
-							<h:panelGrid style="width:50%" columns="2" cellspacing="2">
+
+							<h:panelGrid style="width:50%" columns="2" cellspacing="2" rendered="#{item.variaveis.statusProcesso eq 'PENDENTE'}">
 
 								<p:outputLabel value="Data de Vencimento: "
 									styleClass="ui-priority-primary" />
@@ -84,12 +84,30 @@
 								<p:calendar id="dataVencimento" pattern="dd/MM/yyyy" mask="true"
 									value="#{publicarDocumentoControlador.processoInstancia.variaveis.dataVencimento}"
 									readonly="true" />
-									
+
 								<p:calendar id="diasAntecedencia" pattern="dd/MM/yyyy"
 									mask="true"
 									value="#{publicarDocumentoControlador.processoInstancia.variaveis.dataNotificacao}"
 									readonly="true" />
-							
+
+							</h:panelGrid>
+
+							<h:panelGrid style="width:50%" columns="2" cellspacing="2" rendered="#{item.variaveis.statusProcesso ne 'PENDENTE'}">
+
+								<p:outputLabel value="Data de Vencimento: "
+									styleClass="ui-priority-primary" />
+
+								<p:outputLabel value="Data de Notificação de vencimento: "
+									styleClass="ui-priority-primary" />
+
+								<p:calendar pattern="dd/MM/yyyy" mask="true"
+									value="#{publicarDocumentoControlador.alerta.dataVencimento}"
+									readonly="true" />
+
+								<p:calendar pattern="dd/MM/yyyy" mask="true"
+									value="#{publicarDocumentoControlador.alerta.dataAlerta}"
+									readonly="true" />
+
 							</h:panelGrid>
 
 							<h:panelGrid columns="1">
@@ -119,10 +137,9 @@
 
 										<p:orderList id="listElaboradoes"
 											value="#{publicarDocumentoControlador.processoInstancia.variaveis.elaboradoresObjeto}"
-											var="item"
-											itemLabel="#{item.userName} - #{item.firstName} #{item.lastName}"
-											itemValue="#{item}" controlsLocation="none" disabled="true" />
-
+											var="item" itemLabel="#{item.userName} - #{item.firstName} #{item.lastName}"
+											itemValue="#{item}" controlsLocation="none" styleClass="ui-priority-primary"/>
+										
 									</h:panelGroup>
 								</p:panel>
 							</div>
@@ -135,9 +152,8 @@
 
 										<p:orderList id="listAprovadores"
 											value="#{publicarDocumentoControlador.processoInstancia.variaveis.aprovadoresObjeto}"
-											var="item"
-											itemLabel="#{item.userName} - #{item.firstName} #{item.lastName}"
-											itemValue="#{item}" controlsLocation="none" disabled="true" />
+											var="item" itemLabel="#{item.userName} - #{item.firstName} #{item.lastName}"
+											itemValue="#{item}" controlsLocation="none" styleClass="ui-priority-primary"/>
 
 									</h:panelGroup>
 								</p:panel>
@@ -153,8 +169,8 @@
 
 										<p:orderList id="listPostoCopia"
 											value="#{publicarDocumentoControlador.processoInstancia.variaveis.postosCopiaObjeto}"
-											var="item" itemLabel="#{item.nome}" itemValue="#{item}"
-											controlsLocation="none" disabled="true" />
+											var="item" itemLabel="#{item.nome}" itemValue="#{item}" styleClass="ui-priority-primary"
+											controlsLocation="none"/>
 
 									</h:panelGroup>
 								</p:panel>
@@ -175,9 +191,9 @@
 
 											<p:orderList id="listConcensao"
 												value="#{publicarDocumentoControlador.processoInstancia.variaveis.concensosObjeto}"
-												var="item"
+												var="item" styleClass="ui-priority-primary"
 												itemLabel="#{item.userName} - #{item.firstName} #{item.lastName}"
-												itemValue="#{item}" controlsLocation="none" disabled="true" />
+												itemValue="#{item}" controlsLocation="none"/>
 
 										</div>
 									</h:panelGroup>
@@ -234,11 +250,6 @@
 								<p:column style="text-align:left" headerText="Colaborador"
 									sortBy="#{item.assignee}">
 									<h:outputText value="#{item.assignee}" />
-								</p:column>
-
-								<p:column style="text-align:left" headerText="Nome do Documento"
-									sortBy="#{item.variaveis.arquivoDoc.nomeArquivo}">
-									<h:outputText value="#{item.variaveis.arquivoDoc.nomeArquivo}" />
 								</p:column>
 
 								<p:column style="text-align:left" headerText="Data de Criação"
@@ -336,9 +347,6 @@
 							maxlength="255" style="width:450px" id="justificativaCanelar"
 							autoResize="false" />
 
-						<p:commandButton value="Confirmar" onclick="dlgCancelar.hide()"
-							action="#{publicarDocumentoControlador.cancelar}" update=":form"
-							global="false" style="height:32px;width:25%" />
 					</h:form>
 				</div>
 			</p:dialog>
