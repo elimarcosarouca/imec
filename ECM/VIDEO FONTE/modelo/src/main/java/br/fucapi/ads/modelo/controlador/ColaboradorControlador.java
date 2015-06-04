@@ -1,5 +1,6 @@
 package br.fucapi.ads.modelo.controlador;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -35,6 +38,8 @@ public class ColaboradorControlador extends ControladorGenerico<Colaborador> {
 	private PostoCopiaServico postoCopiaServico;
 
 	private String nomeRelatorio = "setor.jasper";
+	
+	private static final String PATH_REPORT = "resources" + File.separator + "jasper" + File.separator;
 
 	@Override
 	@PostConstruct
@@ -52,9 +57,10 @@ public class ColaboradorControlador extends ControladorGenerico<Colaborador> {
 		return postoCopiaServico.pesquisar(new PostoCopia(nome));
 	}
 
-	public void imprimirListaColaboradores(PostoCopia postoCopia) throws FileNotFoundException, JRException {
-		// faz o load de mensalidades para evitar lazyException
+	public void imprimirListaColaboradores() throws FileNotFoundException, JRException {
 		
+		PostoCopia postoCopia = new PostoCopia();
+		postoCopia.setId(1l);
 		this.entidade.setPostoCopia(postoCopia);
 		this.listaPesquisa = servico.pesquisar(this.entidade);
 		
