@@ -3,6 +3,7 @@ package br.fucapi.ads.modelo.repositorio.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
@@ -67,6 +68,8 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 		StringBuilder sb = new StringBuilder();
 		List<String> condictions = new ArrayList<String>();
 
+		Alerta alerta = null;
+
 		sb.append(" select est from Alerta est ");
 
 		if (notEmpty(processInstanceId)) {
@@ -82,6 +85,14 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 			query.setParameter("processInstanceId", processInstanceId);
 		}
 
-		return (Alerta) query.getSingleResult();
+		try {
+			alerta = (Alerta) query.getSingleResult();
+		} catch (NoResultException e) {
+			System.out.println("alerta não encontrado");
+		} catch (Exception e) {
+			System.out.println("ocorreu um erro");
+		}
+
+		return alerta;
 	}
 }

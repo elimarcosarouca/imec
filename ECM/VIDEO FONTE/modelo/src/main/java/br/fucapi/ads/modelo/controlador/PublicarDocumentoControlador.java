@@ -623,36 +623,47 @@ public class PublicarDocumentoControlador implements Serializable {
 		return this.telaPesquisa();
 	}
 
-	public String detalhe(ProcessoInstancia entity) throws ParseException {
-
-		this.processoInstancia = entity;
+	public String carregarTarefas() throws ParseException {
 
 		this.tarefaInstancias = activitiServico
 				.getHistoricoTarefasPorVariaveis(null, null, null, null,
 						this.processoInstancia.getId());
 
-		this.alerta = alertaServico
-				.pesquisarProcessInstanceId(this.processoInstancia
-						.getId());
+		if (!"PENDENTE"
+				.equals(((VariavelPublicarDocumento) this.processoInstancia
+						.getVariaveis()).getStatusProcesso()))
+			this.alerta = alertaServico
+					.pesquisarProcessInstanceId(this.processoInstancia.getId());
+		else
+			this.alerta = null;
 
 		return this.TELA_DETALHE;
+
+	}
+	
+	public String detalhe(ProcessoInstancia entity) throws ParseException {
+		this.processoInstancia = entity;
+		return carregarTarefas();
 
 	}
 
 	public String detalhe(TarefaInstancia tarefaInstancia)
 			throws ParseException {
 		this.TELA_PESQUISA = this.PESQUISATAREFAPENDENTE;
+		pesquisarProcessoInstancia(tarefaInstancia.getProcessInstanceId());
+		
+		return detalhe(this.processoInstancia);
+	}
 
+	private void pesquisarProcessoInstancia(String processInstanceId) {
 		this.processoInstancia = activitiServico
-				.getProcessosInstanciaId(tarefaInstancia.getProcessInstanceId());
+				.getProcessosInstanciaId(processInstanceId);
 
 		this.variaveis = new VariavelPublicarDocumento();
 		this.variaveis.converterListaVariaveis(this.processoInstancia
 				.getVariables());
 
 		this.processoInstancia.setVariaveis(variaveis);
-
-		return detalhe(this.processoInstancia);
 	}
 
 	public void preRenderView() {
@@ -704,6 +715,9 @@ public class PublicarDocumentoControlador implements Serializable {
 	}
 
 	public String telaPesquisa() {
+		this.processoInstancia = null;
+
+		this.tarefaInstancias = null;
 		return this.TELA_PESQUISA;
 	}
 
