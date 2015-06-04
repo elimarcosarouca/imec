@@ -21,6 +21,8 @@
 			<div class="login">
 				<p:growl id="growl" binding="#{loginControlador.msg}" />
 				<h1>Infome seu Login e Senha</h1>
+				<img src="resources/imagens/logo.png" class="img-rounded"
+					alt="Cinque Terre" width="200px" height="60px" />
 				<p>
 					<h:inputText id="j_username" label="Nome" required="true"
 						styleClass="input-text" />
@@ -62,9 +64,10 @@
 		<p:commandButton value="Solicitar"
 			action="#{emailControlador.enviarEmail}"
 			style="height:32px;width:116px" update=":growl" />
-		<br/>
-		<p:outputLabel style="font-size: 10px;" value="(*) - Os passos para geração da nova senha serão reenviados para" /> 
-		<br/>
+		<br />
+		<p:outputLabel style="font-size: 10px;"
+			value="(*) - Os passos para geração da nova senha serão reenviados para" />
+		<br />
 		<p:outputLabel style="font-size: 10px;" value="o email cadastrado." />
 
 	</h:form>
