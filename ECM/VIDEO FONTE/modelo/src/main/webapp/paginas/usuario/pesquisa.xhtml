@@ -40,7 +40,8 @@
 
 			<h:form id="form">
 
-				<p:panel header="Dados de Usuario" style="width:100%" class="painelformatado">
+				<p:panel header="Dados de Usuario" style="width:100%"
+					class="painelformatado">
 					<h:panelGrid columns="2">
 
 						<p:outputLabel value="Primeiro Nome : "
@@ -50,16 +51,16 @@
 							requiredMessage="informe o nome do usuario para pesquisa"
 							size="30" />
 
-						
+
 					</h:panelGrid>
 					<p></p>
 					<p:commandButton id="pesquisa" icon="ui-icon-search"
-							action="#{usuarioControladorBean.listarUsuarioNome}"
-							value="Pesquisar" update=":form:grid" />
+						action="#{usuarioControladorBean.listarUsuarioNome}"
+						value="Pesquisar" update=":form:grid" />
 
-						<p:commandButton id="cadastrarr" icon="ui-icon-plusthick"
-							actionListener="#{usuarioControladorBean.paginaIncluir}"
-							value="Novo" update=":form" />
+					<p:commandButton id="cadastrarr" icon="ui-icon-plusthick"
+						actionListener="#{usuarioControladorBean.paginaIncluir}"
+						value="Novo" update=":form" />
 
 				</p:panel>
 				<p></p>
@@ -72,8 +73,8 @@
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15,20">
 
-						<p:column style="text-align:left" headerText="Nome" class="painelformatado"
-							sortBy="#{item.firstName}">
+						<p:column style="text-align:left" headerText="Nome"
+							class="painelformatado" sortBy="#{item.firstName}">
 							<h:outputText value="#{item.firstName} #{item.lastName}" />
 						</p:column>
 
