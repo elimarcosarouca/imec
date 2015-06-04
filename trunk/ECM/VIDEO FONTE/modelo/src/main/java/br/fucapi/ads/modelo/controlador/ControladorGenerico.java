@@ -343,6 +343,8 @@ public abstract class ControladorGenerico<T extends AbstractEntity> implements
 
 		String webPath = context.getExternalContext().getRealPath("/");
 		String reportPath = webPath + PATH_REPORT + nomeRelatorio;
+		parametros.put("PATH_IMAGEM", webPath + "resources" + File.separator
+				+ "imagens" + File.separator + "logo.png");
 
 		try {
 
@@ -355,8 +357,8 @@ public abstract class ControladorGenerico<T extends AbstractEntity> implements
 			response.setHeader("Content-Type", "application/pdf");
 			response.setHeader("Content-Length",
 					String.valueOf(fileReport.length()));
-			response.setHeader("Content-Disposition", "inline; filename=\""
-					+ fileReport.getName() + "\"");
+		    response.setHeader("content-disposition",  
+	                "attachment;filename=REGISTRO_DE_TREINAMENTO.PDF");  
 
 			JasperRunManager.runReportToPdfStream(new FileInputStream(
 					fileReport), response.getOutputStream(), parametros, jrRS);
