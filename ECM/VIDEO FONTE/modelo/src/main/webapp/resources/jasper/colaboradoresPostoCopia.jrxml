@@ -6,6 +6,7 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="report_title" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="usuario" class="java.lang.String"/>
+	<parameter name="PATH_IMAGEM" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -17,9 +18,9 @@
 		<band/>
 	</background>
 	<title>
-		<band height="74">
+		<band height="37">
 			<textField>
-				<reportElement mode="Transparent" x="77" y="50" width="378" height="22" forecolor="#000000" backcolor="#DEDEDE" uuid="e4a1853b-0ba8-4ccc-a83c-b14cbe0b5c9b">
+				<reportElement mode="Transparent" x="77" y="0" width="378" height="22" forecolor="#000000" backcolor="#DEDEDE" uuid="e4a1853b-0ba8-4ccc-a83c-b14cbe0b5c9b">
 					<property name="local_mesure_unitwidth" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="local_mesure_unitx" value="pixel"/>
@@ -35,8 +36,8 @@
 				<textFieldExpression><![CDATA[$P{report_title}]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="2" y="0" width="75" height="72" uuid="8cf3ad58-43ca-428e-b9b3-1cd616398b43"/>
-				<imageExpression><![CDATA["C:\\ferramentas\\eclipse\\workspace\\projeto imec\\ECM\\VIDEO FONTE\\modelo\\src\\main\\webapp\\resources\\imagens\\logo.png"]]></imageExpression>
+				<reportElement x="2" y="0" width="75" height="26" uuid="8cf3ad58-43ca-428e-b9b3-1cd616398b43"/>
+				<imageExpression><![CDATA[$P{PATH_IMAGEM}]]></imageExpression>
 			</image>
 		</band>
 	</title>
