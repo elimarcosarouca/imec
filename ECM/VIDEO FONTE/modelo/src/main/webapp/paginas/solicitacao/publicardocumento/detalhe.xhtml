@@ -44,11 +44,11 @@
 		<div class="mainForm">
 
 			<h:form id="form">
-				<p:accordionPanel>
-					<p:tab
+				<p:accordionPanel class="painelformatado">
+					<p:tab class="painelformatado"
 						title="Geral - [ Titulo ] #{publicarDocumentoControlador.processoInstancia.variaveis.arquivoDoc.nomeArquivo}">
 						<p:panel id="panel" closable="false"
-							header="Detalhes da Publicação de Documento" style="width:100%;">
+							header="Detalhes da Publicação de Documento #{item.variaveis.statusProcesso}" style="width:100%;">
 
 							<h:panelGrid style="width:30%" columns="5" cellspacing="4">
 								<h:outputLabel value="Nome: " styleClass="ui-priority-primary" />
@@ -75,10 +75,10 @@
 
 							<h:panelGrid style="width:50%" columns="2" cellspacing="2" rendered="#{item.variaveis.statusProcesso eq 'PENDENTE'}">
 
-								<p:outputLabel value="Data de Vencimento: "
+								<p:outputLabel value="Data de Vencimento: 0"
 									styleClass="ui-priority-primary" />
 
-								<p:outputLabel value="Data de Notificação de vencimento: "
+								<p:outputLabel value="Data de Notificação de vencimento: 0"
 									styleClass="ui-priority-primary" />
 
 								<p:calendar id="dataVencimento" pattern="dd/MM/yyyy" mask="true"
@@ -94,10 +94,10 @@
 
 							<h:panelGrid style="width:50%" columns="2" cellspacing="2" rendered="#{item.variaveis.statusProcesso ne 'PENDENTE'}">
 
-								<p:outputLabel value="Data de Vencimento: "
+								<p:outputLabel value="Data de Vencimento:"
 									styleClass="ui-priority-primary" />
 
-								<p:outputLabel value="Data de Notificação de vencimento: "
+								<p:outputLabel value="Data de Notificação de vencimento:"
 									styleClass="ui-priority-primary" />
 
 								<p:calendar pattern="dd/MM/yyyy" mask="true"
@@ -297,6 +297,11 @@
 									sortBy="#{item.nome}">
 									<h:outputText value="#{item.nome}" />
 								</p:column>
+								
+								<p:column style="text-align:left" headerText="Posto de Cópia"
+									sortBy="#{item.id}">
+									<h:outputText value="#{item.id}" />
+								</p:column>
 
 								<p:column style="text-align:left" headerText="Responsável"
 									sortBy="#{item.loginResponsavel}">
@@ -304,11 +309,11 @@
 								</p:column>
 
 								<p:column>
-									<p:commandButton value="Imprimir" ajax="false"
+									<p:commandButton value="Imprimir #{item.loginResponsavel}" ajax="false"
 										onclick="this.form.target='_blank'" icon="ui-icon-print"
 										styleClass="ui-priority-primary"
 										rendered="#{publicarDocumentoControlador.processoInstancia.variaveis.statusProcesso ne 'PENDENTE'}"
-										action="#{colaboradorControlador.imprimirListaColaboradores(item)}" />
+										action="#{colaboradorControlador.imprimirListaColaboradores(item)}"/>
 								</p:column>
 
 								<f:facet name="footer">

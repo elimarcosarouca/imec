@@ -41,7 +41,7 @@
 			<h:form id="form">
 
 				<p:panel header="Pesquisa Documento / Workflow" style="width:99%"
-					id="painel">
+					id="painel" class="painelformatado">
 					<p:growl id="growl" />
 
 
@@ -81,22 +81,14 @@
 					<p:graphicImage value="/resources/imagens/ajax-loader.gif" />
 				</p:blockUI>
 
-				<p:panel header="Lista de Solicitações">
-					<p:dataTable id="grid" var="item"
+				<p:panel header="Lista de Solicitações" class="painelformatado">
+					<p:dataTable id="grid" var="item" styleClass="grid"
 						value="#{publicarDocumentoControlador.lista}" rows="10"
 						paginator="true" paginatorPosition="bottom"
 						paginatorAlwaysVisible="true"
 						emptyMessage="Nenhum registro encontrado."
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15,20">
-						
-						<p:column style="text-align:left" headerText="processInstanceId" width="50">
-							<h:outputText value="#{item.processInstanceId}" />
-						</p:column>
-						
-						<p:column style="text-align:left" headerText="id" width="50">
-							<h:outputText value="#{item.id}" />
-						</p:column>
 						
 						<p:column style="text-align:left" headerText="Protocolo" width="100">
 							<h:outputText value="#{item.businessKey}" />
@@ -119,7 +111,7 @@
 
 						<p:column style="text-align:left" headerText="Situação"
 							exportable="false">
-							<h:outputText value="#{item.variaveis.statusProcesso}" />
+							<h:outputText value="#{item.variaveis.dataVencimento}" />
 						</p:column>
 
 						<p:column style="text-align:left" headerText="Data Criação"  width="150"
