@@ -43,7 +43,7 @@
 				<p:growl id="message" showDetail="true" />
 
 				<p:panel header="Tarefas Pendentes #{tarefaControle.login}" style="width:99%"
-					id="painelPesquisa">
+					id="painelPesquisa" class="painelformatado">
 					<p:growl id="growl" />
 
 					<h:panelGrid columns="2" cellspacing="5" style="width:100%">
@@ -78,7 +78,7 @@
 					<p:graphicImage value="/resources/imagens/ajax-loader.gif" />
 				</p:blockUI>
 
-				<p:panel header="Lista de Tarefas" id="painelGrid">
+				<p:panel header="Lista de Tarefas" id="painelGrid"  class="painelformatado">
 					<p:dataTable id="gridSearch" var="item" rows="10" paginator="true"
 						value="#{tarefaControle.listaTarefasPendentes}"
 						paginatorPosition="bottom" paginatorAlwaysVisible="true"

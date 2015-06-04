@@ -42,25 +42,26 @@
 
 				<p:growl id="message" showDetail="true" />
 
-				<p:panel header="Dado de Grupo" style="width:100%">
+				<p:panel header="Dado de Grupo" style="width:100%" class="painelformatado">
 					<h:panelGrid columns="2">
 
 						<p:outputLabel value="Grupo : " styleClass="ui-priority-primary" />
 						<p:inputText id="nome" required="false" maxlength="40"
 							value="#{grupoControladorBean.shortName}"
 							requiredMessage="informe o nome do grupo para pesquisa" size="30" />
-
-						<p:commandButton value="Pesquisar"
-							action="#{grupoControladorBean.listarGrupoNome}" update=":form" />
-
-						<p:commandButton value="Novo"
-							action="#{grupoControladorBean.cadastro()}" update=":form" />
-
+						<p></p>
 					</h:panelGrid>
 
+
+					<p:commandButton value="Pesquisar"
+						action="#{grupoControladorBean.listarGrupoNome}" update=":form" />
+
+					<p:commandButton value="Novo"
+						action="#{grupoControladorBean.cadastro()}" update=":form" />
+					<p></p>
 				</p:panel>
 
-				<p:panel header="Lista de Grupos">
+				<p:panel header="Lista de Grupos" class="painelformatado">
 					<p:dataTable id="grid" var="item"
 						value="#{grupoControladorBean.grupos}" rows="10" paginator="true"
 						paginatorPosition="bottom" paginatorAlwaysVisible="true"
@@ -83,7 +84,7 @@
 								styleClass="ui-priority-primary" icon="ui-icon-trash"
 								title="Excluir grupo" update=":form:grid :form:message">
 								<f:setPropertyActionListener
-									target="#{grupoControladorBean.usuarioGrupo}" value="#{item}"/>
+									target="#{grupoControladorBean.usuarioGrupo}" value="#{item}" />
 							</p:commandButton>
 						</p:column>
 					</p:dataTable>
