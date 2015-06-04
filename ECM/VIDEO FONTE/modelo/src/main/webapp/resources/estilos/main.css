@@ -44,10 +44,15 @@
 		vertical-align: middle;
 	}
 	#headcontent {
-		height: 80px;
-		background: #225588;
+		height: 20px;
+		background: white;
 		position: relative;
 		padding: 10px;
+		background-image: url("images/titulo.png");
+		background-repeat: no-repeat;
+		background-position: 2px -60px;
+		float: bout;
+		
 	}
 	#headerSystemTop {
 		float: left;
@@ -72,12 +77,11 @@
 
 	/* ------------------------------------ */
 	#menu {
-		/* 		height: 30px;
+		height: 30px;
 		background: #ccc;
 		padding: 10px;
 		border-top: 2px solid #fefece;
 		border-bottom: 2px solid #0000c0;
-		 */
 		
 	}
 	nav {
@@ -619,10 +623,14 @@ a {
 	font-weight: bold;
 }
 
-.grid {
+.grid th{
 	width: 100%;
-	/*     padding:4px; */
 	padding: 2px 0px 0px 7px;
+	background:	#933;
+}
+
+th {
+  /* color: red !important; */
 }
 
 .btn_edit_grid {
@@ -660,6 +668,11 @@ a {
 	font-weight: bold;
 	font-family: Arial, Verdana, sans-serif;
 	font-size: 11px;
+}
+
+.painelformatado .ui-panel-titlebar {
+    background: #933;
+    color:white;
 }
 
 .input_value {
@@ -705,10 +718,10 @@ a {
 /* -------- Overrides --------- */
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active
 	{
-	border: 1px solid #77D5F7;
+	border: 1px solid #933;
 	background:
 		url('../javax.faces.resource/images/ui-bg_glass_45_0078ae_1x400.png.xhtml?ln=primefaces-start')
-		repeat-x scroll 50% 50% #0078AE;
+		repeat-x scroll 50% 50% #933;
 	color: #FFF;
 	font-weight: bold;
 }
@@ -716,10 +729,10 @@ a {
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover,
 	.ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header 
 	.ui-state-focus {
-	border: 1px solid #77D5F7;
+	border: 1px solid #933;
 	background:
 		url('../javax.faces.resource/images/ui-bg_glass_45_0078ae_1x400.png.xhtml?ln=primefaces-start')
-		repeat-x scroll 50% 50% #0078AE;
+		repeat-x scroll 50% 50% #933;
 	color: #FFF;
 }
 
@@ -732,13 +745,13 @@ a {
 	.ui-state-focus, .ui-widget-content 
 	.ui-state-focus, .ui-widget-header .ui-state-focus {
 	color: #FFF;
-	border: 1px solid #77D5F7;
+	border: 1px solid #933;
 }
 
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover,
 	.ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus
 	{
-	border: 1px solid #77D5F7;
+	border: 1px solid #933;
 	color: #FFF;
 }
 
@@ -979,4 +992,15 @@ o
 	color: #fef9ee;
 	overflow: hidden;
 	border-top: 5px solid #D5DFE5;
+}
+
+h1{
+	color: #A3A375;
+	text-align: left;
+	height: 100;
+}
+
+.hr {
+	background-color: #933;
+	height: 8px;
 }
