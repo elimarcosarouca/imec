@@ -1,6 +1,7 @@
 package br.fucapi.ads.modelo.repositorio.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -39,7 +40,11 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 		if (notEmpty(abstractEntity.getUnidade())) {
 			condictions.add(" est.unidade  =:unidade ");
 		}
-
+		
+		if (notEmpty(abstractEntity.getDataAlerta())) {
+			condictions.add(" est.dataAlerta <:dataAtual ");
+		}
+		
 		String orderBy = " order by est.dataAlerta";
 
 		Query query = entityManager.createQuery(generateHql(sb.toString(),
@@ -59,6 +64,12 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 		if (notEmpty(abstractEntity.getUnidade())) {
 			query.setParameter("unidade", abstractEntity.getUnidade());
 		}
+		
+		if (notEmpty(abstractEntity.getDataAlerta())) {
+			System.out.println(abstractEntity.getDataAlerta());
+			query.setParameter("dataAtual", abstractEntity.getDataAlerta());
+		}
+		
 		return query.getResultList();
 	}
 

@@ -48,7 +48,7 @@ public class AlertaControlador extends ControladorGenerico<Alerta> {
 
 	@Override
 	public void pesquisar() {
-		
+		this.pesquisa.setDataAlerta(new Date());
 		super.pesquisar();
 	}
 
