@@ -358,7 +358,7 @@ public abstract class ControladorGenerico<T extends AbstractEntity> implements
 			response.setHeader("Content-Length",
 					String.valueOf(fileReport.length()));
 		    response.setHeader("content-disposition",  
-	                "attachment;filename=REGISTRO_DE_TREINAMENTO.PDF");  
+	                "attachment;filename=" + getNomeRelatorioJasper());  
 
 			JasperRunManager.runReportToPdfStream(new FileInputStream(
 					fileReport), response.getOutputStream(), parametros, jrRS);

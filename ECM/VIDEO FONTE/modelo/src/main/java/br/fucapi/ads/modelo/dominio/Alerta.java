@@ -1,6 +1,7 @@
 package br.fucapi.ads.modelo.dominio;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -32,13 +33,13 @@ public class Alerta extends AbstractEntity implements Serializable {
 	@SequenceGenerator(allocationSize = 1, initialValue = 1, sequenceName = "SEQ_ECM_ALERTA", name = "SEQ_ECM_ALERTA")
 	@Column(name = "ID_ECM_ALERTA")
 	private Long id;
-	
-	@Column(nullable=true)
+
+	@Column(nullable = true)
 	private String processInstanceId;
 
 	@Column(length = 10, nullable = false, unique = true)
 	private String protocolo;
-	
+
 	@Column(nullable = false)
 	private Date dataAlerta;
 
@@ -50,23 +51,23 @@ public class Alerta extends AbstractEntity implements Serializable {
 
 	@Column(nullable = false)
 	private String nomenclatura;
-	
+
 	@Column(nullable = false)
 	private String titulo;
-	
+
 	@Column(nullable = false)
 	private int revisao;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "ID_ECM_UNIDADE", nullable=false)
-	private Unidade unidade; 
-	
+	@JoinColumn(name = "ID_ECM_UNIDADE", nullable = false)
+	private Unidade unidade;
+
 	public String getColor() {
 		Date dataConvertidaEmUtil = new Date(dataVencimento.getTime());
 		if (dataConvertidaEmUtil.after(new Date())) {
-			return "yellow";
+			return "../../resources/imagens/icon-alert-icon.png";
 		} else
-			return "red";
+			return "../../resources/imagens/action-stop-icon.png";
 	}
 
 	public Long getId() {
@@ -160,18 +161,31 @@ public class Alerta extends AbstractEntity implements Serializable {
 				.getVariaveis()).getDataVencimento();
 		this.protocolo = ((VariavelPublicarDocumento) tarefaInstancia
 				.getVariaveis()).getProtocolo();
-		
+
 		this.nomenclatura = ((VariavelPublicarDocumento) tarefaInstancia
 				.getVariaveis()).getNomenclatura();
-		
+
 		this.titulo = ((VariavelPublicarDocumento) tarefaInstancia
 				.getVariaveis()).getArquivoDoc().getNomeArquivo();
-		
+
 		this.unidade = ((VariavelPublicarDocumento) tarefaInstancia
 				.getVariaveis()).getUnidade();
-		
-		this.processInstanceId = tarefaInstancia
-				.getProcessInstanceId();
+
+		this.processInstanceId = tarefaInstancia.getProcessInstanceId();
+	}
+
+	public int getDias() {
+		Calendar a = Calendar.getInstance();
+
+		Calendar b = Calendar.getInstance();
+
+		a.setTime(getDataVencimento());
+		b.setTime(new Date());
+
+		a.add(Calendar.DATE, -b.get(Calendar.DAY_OF_MONTH));
+		System.out.println(a.get(Calendar.DAY_OF_MONTH));
+
+		return a.get(Calendar.DAY_OF_MONTH);
 	}
 
 	public boolean equals(Object o) {
