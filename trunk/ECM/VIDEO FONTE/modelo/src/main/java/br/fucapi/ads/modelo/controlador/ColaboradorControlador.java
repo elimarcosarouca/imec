@@ -37,7 +37,7 @@ public class ColaboradorControlador extends ControladorGenerico<Colaborador> {
 	@ManagedProperty(value = "#{postoCopiaServicoImpl}")
 	private PostoCopiaServico postoCopiaServico;
 
-	private String nomeRelatorio = "setor.jasper";
+	private String nomeRelatorio = "REGISTRO_DE_TREINAMENTO.PDF";
 	
 	private static final String PATH_REPORT = "resources" + File.separator + "jasper" + File.separator;
 
