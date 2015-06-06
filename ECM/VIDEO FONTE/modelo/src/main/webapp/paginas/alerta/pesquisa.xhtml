@@ -20,33 +20,34 @@
 		<ss:input label="Nomenclatura"
 			value="#{alertaControlador.pesquisa.nomenclatura}" />
 
-		<ss:input label="Titulo"
-			value="#{alertaControlador.pesquisa.titulo}" />
+		<ss:input label="Titulo" value="#{alertaControlador.pesquisa.titulo}" />
 
 		<ss:comboBox id="unidade" label="Unidade"
 			value="#{alertaControlador.pesquisa.unidade}"
-			list="#{publicarDocumentoControlador.variaveis.unidades}"			
-			foreignKey="true"
-			atributo="#{item.nome}" />
-		</ui:define>
+			list="#{publicarDocumentoControlador.variaveis.unidades}"
+			foreignKey="true" atributo="#{item.nome}" />
+	</ui:define>
 
 	<ui:define name="grid_region">
 
-		<ss:grid managedBean="#{alertaControlador}" rowStyleClass="#{item.color}" renderedActionColumn="false">
+		<ss:grid managedBean="#{alertaControlador}"
+			 renderedActionColumn="false">
+			<p:column style="width:20px">
+				<p:graphicImage url="#{item.color}"	width="20px" height="20px" />
+			</p:column>
 
 			<ss2:column value="#{item.protocolo}" header="Protocolo"
-				sortBy="protocolo" width="100"/>
+				sortBy="protocolo" width="100" />
 
 			<ss2:column value="#{item.nomenclatura}" header="Nomenclatura"
 				sortBy="nomenclatura" />
 
-			<ss2:column value="#{item.titulo}" header="Titulo"
-				sortBy="titulo" textAlign="center" />
-
-			<ss2:column value="#{item.revisao}" header="Revisão"
-				sortBy="revisao" width="120"
+			<ss2:column value="#{item.titulo}" header="Titulo" sortBy="titulo"
 				textAlign="center" />
-				
+
+			<ss2:column value="#{item.revisao}" header="Revisão" sortBy="revisao"
+				width="120" textAlign="center" />
+
 			<ss2:column value="#{item.dataAlerta}" header="Alerta"
 				sortBy="dataAlerta" convertDate="true" width="120"
 				textAlign="center" />
@@ -54,22 +55,25 @@
 			<ss2:column value="#{item.dataVencimento}" header="Vencimento"
 				sortBy="dataVencimento" convertDate="true" width="120"
 				textAlign="center" />
-				
+
+			<ss2:column value="#{item.dias}" header="Dias para Venc"
+				sortBy="dias" width="120" textAlign="center" />
+
 			<ss2:actionColumn managedBean="#{alertaControlador}" buttonsAdded="1">
 				<p:commandButton value="Revalidar" title="Revalidar"
-								action="#{alertaControlador.showModalRevalidar(item)}"
-								icon="ui-icon-newwin" oncomplete="PF('dlgRevalidar').show();"
-								update=":formDlg" />
+					action="#{alertaControlador.showModalRevalidar(item)}"
+					icon="ui-icon-newwin" oncomplete="PF('dlgRevalidar').show();"
+					update=":formDlg" />
 			</ss2:actionColumn>
 
 		</ss:grid>
 
 	</ui:define>
-	
+
 	<ui:define name="modal_region">
-		
+
 		<ui:include src="revalidar.xhtml" />
-	
+
 	</ui:define>
 
 </ui:composition>

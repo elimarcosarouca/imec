@@ -111,7 +111,7 @@
 
 						<p:column style="text-align:left" headerText="Situação"
 							exportable="false">
-							<h:outputText value="#{item.variaveis.dataVencimento}" />
+							<h:outputText value="#{item.variaveis.statusProcesso}" />
 						</p:column>
 
 						<p:column style="text-align:left" headerText="Data Criação"  width="150"
@@ -130,6 +130,7 @@
 								styleClass="ui-priority-primary" update=":form" />
 
 							<p:commandButton oncomplete="PF('widgetVarImagem').show()"
+								rendered="#{item.variaveis.statusProcesso eq 'PENDENTE'}"
 								title="Imagem Solicitação" styleClass="ui-priority-primary"
 								icon="ui-icon-image" update=":formImagem:panelImagem"
 								action="#{publicarDocumentoControlador.abrirImagemProcesso(item)}" />
