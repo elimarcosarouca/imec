@@ -48,6 +48,7 @@ import br.fucapi.ads.modelo.dominio.VariaveisTarefa;
 import br.fucapi.ads.modelo.dominio.VariaveisTreinamento;
 import br.fucapi.ads.modelo.dominio.Variavel;
 import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
+import br.fucapi.ads.modelo.enumerated.StatusProcesso;
 import br.fucapi.ads.modelo.regranegocio.TreinamentoRN;
 import br.fucapi.ads.modelo.servico.AlertaServico;
 import br.fucapi.ads.modelo.servico.CategoriaServico;
@@ -188,6 +189,8 @@ public class PublicarDocumentoControlador implements Serializable {
 	private DualListModel<PostoCopia> postosCopia;
 	private List<PostoCopia> postosCopiaTarget;
 	private List<PostoCopia> postosCopiaSource;
+	
+	private StatusProcesso status;
 
 	private StreamedContent file;
 
@@ -604,7 +607,7 @@ public class PublicarDocumentoControlador implements Serializable {
 		Map<String, Object> variaveis = new HashMap<String, Object>();
 		variaveis.put("justificativaStatus", ((Variavel) this.processoInstancia
 				.getVariaveis()).getJustificativaStatus());
-		variaveis.put("statusProcesso", "CANCELADO");
+		variaveis.put("statusProcesso", StatusProcesso.CANCELADO);
 
 		String json = JsonUtil.converterVariaveisToJson(variaveis);
 		this.activitiServico.atualizarVariaveis(this.processoInstancia.getId(),
@@ -614,7 +617,7 @@ public class PublicarDocumentoControlador implements Serializable {
 				.getId());
 
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "",
-				"Solicitação cancelado com sucesso!");
+				"Solicitação cancelada com sucesso!");
 		FacesContext.getCurrentInstance().addMessage("msg", message);
 
 		// Atualiza a lista de processos
@@ -670,7 +673,7 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		if (this.usuarioLogado.getCapabilities().isAdmin()) {
 			this.renderDownload = true;
-			if ((!"CANCELADO".equals(((Variavel) this.processoInstancia
+			if ((!StatusProcesso.CANCELADO.equals(((Variavel) this.processoInstancia
 					.getVariaveis()).getStatusProcesso()))) {
 				this.renderCancelar = true;
 			} else {
@@ -1300,4 +1303,8 @@ public class PublicarDocumentoControlador implements Serializable {
 	public void setAlerta(Alerta alerta) {
 		this.alerta = alerta;
 	}
+	
+	public StatusProcesso[] getStatusProcesso(){  
+        return StatusProcesso.values();  
+    }  
 }

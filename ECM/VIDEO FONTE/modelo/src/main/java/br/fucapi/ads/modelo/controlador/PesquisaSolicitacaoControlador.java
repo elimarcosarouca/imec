@@ -20,6 +20,7 @@ import javax.faces.model.SelectItem;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.fucapi.ads.modelo.dominio.VariaveisTreinamento;
+import br.fucapi.ads.modelo.enumerated.StatusProcesso;
 import br.fucapi.ads.modelo.ireport.RelatorioUtil;
 import br.fucapi.bpms.activiti.dominio.ProcessoDefinicao;
 import br.fucapi.bpms.activiti.dominio.ProcessoInstancia;
@@ -313,7 +314,7 @@ public class PesquisaSolicitacaoControlador implements Serializable {
 
 		Map<String, Object> variaveis = new HashMap<String, Object>();
 		variaveis.put("motivoCancelamento", this.getMotivoCancelamento());
-		variaveis.put("situacao", "Cancelado");
+		variaveis.put("situacao", StatusProcesso.CANCELADO);
 		variaveis.put("cancelado", "true");
 
 		String json = JsonUtil.converterVariaveisToJson(variaveis);

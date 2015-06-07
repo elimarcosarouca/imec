@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 import br.fucapi.ads.modelo.dominio.Alerta;
+import br.fucapi.ads.modelo.enumerated.StatusProcesso;
 import br.fucapi.ads.modelo.servico.AlertaServico;
 import br.fucapi.ads.modelo.servico.Servico;
 import br.fucapi.ads.modelo.utils.GeralUtils;
@@ -49,6 +50,7 @@ public class AlertaControlador extends ControladorGenerico<Alerta> {
 	@Override
 	public void pesquisar() {
 		this.pesquisa.setDataAlerta(new Date());
+		this.pesquisa.setStatus(StatusProcesso.ATIVO);
 		super.pesquisar();
 	}
 
@@ -65,7 +67,6 @@ public class AlertaControlador extends ControladorGenerico<Alerta> {
 
 		this.servico.merge(this.entidade);
 		this.pesquisar();
-//		atualizarVencimento();
 
 		return this.redirect(PESQUISA);
 	}
