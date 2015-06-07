@@ -73,12 +73,12 @@
 
 							</h:panelGrid>
 
-							<h:panelGrid style="width:50%" columns="2" cellspacing="2" rendered="#{item.variaveis.statusProcesso eq 'PENDENTE'}">
+							<h:panelGrid style="width:50%" columns="2" cellspacing="2" rendered="#{ empty publicarDocumentoControlador.alerta}">
 
-								<p:outputLabel value="Data de Vencimento: 0"
+								<p:outputLabel value="Data de Vencimento:"
 									styleClass="ui-priority-primary" />
 
-								<p:outputLabel value="Data de Notificação de vencimento: 0"
+								<p:outputLabel value="Data de Notificação de vencimento:"
 									styleClass="ui-priority-primary" />
 
 								<p:calendar id="dataVencimento" pattern="dd/MM/yyyy" mask="true"
@@ -92,7 +92,7 @@
 
 							</h:panelGrid>
 
-							<h:panelGrid style="width:50%" columns="2" cellspacing="2" rendered="#{item.variaveis.statusProcesso ne 'PENDENTE'}">
+							<h:panelGrid style="width:50%" columns="2" cellspacing="2" rendered="#{not empty publicarDocumentoControlador.alerta}">
 
 								<p:outputLabel value="Data de Vencimento:"
 									styleClass="ui-priority-primary" />

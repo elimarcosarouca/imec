@@ -52,15 +52,9 @@
 						<p:inputText
 							value="#{publicarDocumentoControlador.variaveisPesquisa.protocolo}" />
 
-						<p:selectOneMenu
-							value="#{publicarDocumentoControlador.variaveisPesquisa.statusProcesso}">
+						<p:selectOneMenu value="#{publicarDocumentoControlador.variaveisPesquisa.statusProcesso}">
 							<f:selectItem itemLabel="TODOS" itemValue="" />
-							<f:selectItem itemLabel="ATIVO" itemValue="ATIVO" />
-							<f:selectItem itemLabel="CANCELADO" itemValue="CANCELADO" />
-							<f:selectItem itemLabel="OBSOLETO" itemValue="OBSOLETO" />
-							<f:selectItem itemLabel="PENDENTE" itemValue="PENDENTE" />
-							<f:selectItem itemLabel="REPROVADO" itemValue="REPROVADO" />
-
+							<f:selectItems value="#{publicarDocumentoControlador.statusProcesso}" />
 						</p:selectOneMenu>
 
 					</h:panelGrid>
@@ -89,8 +83,9 @@
 						emptyMessage="Nenhum registro encontrado."
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15,20">
-						
-						<p:column style="text-align:left" headerText="Protocolo" width="100">
+
+						<p:column style="text-align:left" headerText="Protocolo"
+							width="100">
 							<h:outputText value="#{item.businessKey}" />
 						</p:column>
 
@@ -98,9 +93,9 @@
 							exportable="false" width="350">
 							<h:outputText value="#{item.variaveis.arquivoDoc.nomeArquivo}" />
 						</p:column>
-						
+
 						<p:column style="text-align:left" headerText="Nomeclatura"
-							exportable="false"  width="350">
+							exportable="false" width="350">
 							<h:outputText value="#{item.variaveis.nomenclatura}" />
 						</p:column>
 
@@ -114,8 +109,8 @@
 							<h:outputText value="#{item.variaveis.statusProcesso}" />
 						</p:column>
 
-						<p:column style="text-align:left" headerText="Data Criação"  width="150"
-							exportable="false">
+						<p:column style="text-align:left" headerText="Data Criação"
+							width="150" exportable="false">
 							<h:outputText value="#{item.startTime}">
 								<f:convertDateTime pattern="dd/MM/yyyy" />
 							</h:outputText>
@@ -135,7 +130,8 @@
 								icon="ui-icon-image" update=":formImagem:panelImagem"
 								action="#{publicarDocumentoControlador.abrirImagemProcesso(item)}" />
 
-							<p:commandButton rendered="#{item.variaveis.statusProcesso eq 'ATIVO'}"
+							<p:commandButton
+								rendered="#{item.variaveis.statusProcesso eq 'ATIVO'}"
 								action="#{publicarDocumentoControlador.revisar(item)}"
 								icon="ui-icon-pencil" title="Revisar"
 								styleClass="ui-priority-primary" update=":form" />
