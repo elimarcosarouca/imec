@@ -42,6 +42,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import br.fucapi.ads.modelo.dominio.Alerta;
 import br.fucapi.ads.modelo.dominio.VariaveisTarefa;
 import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
+import br.fucapi.ads.modelo.enumerated.StatusProcesso;
 import br.fucapi.ads.modelo.regranegocio.TreinamentoRN;
 import br.fucapi.ads.modelo.servico.AlertaServico;
 import br.fucapi.ads.modelo.servico.VariaveisTarefaServico;
@@ -265,8 +266,9 @@ public class TarefaControle implements Serializable {
 		obsoletarProcessos(tarefa);
 
 		Alerta alerta = new Alerta();
-		alerta.converterTarefaInstanciaToAlerta(tarefa); // inserir o
-		// registro de alerta de vencimento
+		alerta.setStatus(StatusProcesso.ATIVO);
+		alerta.converterTarefaInstanciaToAlerta(tarefa); 
+		// inserir o registro de alerta de vencimento
 		alertaServico.saveOrUpdate(alerta);
 
 		aprovar();
@@ -275,7 +277,7 @@ public class TarefaControle implements Serializable {
 	public void obsoletarProcessos(TarefaInstancia tarefa) {
 
 		Map<String, Object> variaveis = new HashMap<String, Object>();
-		variaveis.put("statusProcesso", "OBSOLETO");
+		variaveis.put("statusProcesso", StatusProcesso.OBSOLETO);
 		String json = JsonUtil.converterVariaveisToJson(variaveis);
 
 		List<ProcessoInstancia> listaResultado = new ArrayList<ProcessoInstancia>();
@@ -319,13 +321,7 @@ public class TarefaControle implements Serializable {
 		VariaveisTarefa variaveisTarefa = new VariaveisTarefa();
 		variaveisTarefa.setIdProcesso(Long.valueOf(tarefaInstancia
 				.getProcessInstanceId()));
-		System.out.println("getProcessInstanceId = " + tarefaInstancia
-				.getProcessInstanceId());
-		
-		System.out.println("tarefaInstancia.getId() = " + tarefaInstancia.getId());
-		
-//		variaveisTarefa.setIdProcesso(tarefaInstancia.getProcessInstanceUrl());
-		
+
 		variaveisTarefa.setIdTarefa(Long.valueOf(tarefaInstancia.getId()));
 		variaveisTarefa.setLogin(tarefaInstancia.getAssignee());
 		variaveisTarefa.setParecer(this.parecer);
