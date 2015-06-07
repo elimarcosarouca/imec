@@ -6,6 +6,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import br.fucapi.ads.modelo.enumerated.StatusProcesso;
 import br.fucapi.bpms.activiti.dominio.TarefaInstancia;
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
@@ -57,6 +60,10 @@ public class Alerta extends AbstractEntity implements Serializable {
 
 	@Column(nullable = false)
 	private int revisao;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, length=15)
+	private StatusProcesso status;
 
 	@ManyToOne
 	@JoinColumn(name = "ID_ECM_UNIDADE", nullable = false)
@@ -148,6 +155,14 @@ public class Alerta extends AbstractEntity implements Serializable {
 
 	public void setRevisao(int revisao) {
 		this.revisao = revisao;
+	}
+
+	public StatusProcesso getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusProcesso status) {
+		this.status = status;
 	}
 
 	public Alerta() {
