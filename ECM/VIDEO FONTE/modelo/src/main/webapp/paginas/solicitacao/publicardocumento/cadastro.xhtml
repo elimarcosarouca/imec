@@ -41,7 +41,7 @@
 			<h:form enctype="multipart/form-data" id="form">
 				
 				<p:panel id="panel" closable="false" footer="*Campos Obrigatórios"
-					header="Cadastro de Publicação de Documento" style="width:99%" class="painelformatado">
+					header="Cadastro de Publicação de Documento" style="width:99.5%" class="painelformatado">
 					
 					<br />	
 					<p:wizard id="wizard" styleClass="wizard" class="painelformatado"
@@ -53,9 +53,9 @@
 						
 							<p:fieldset legend="Geral">
 								<h:panelGrid style="width:30%" columns="3" cellspacing="4">
-									<p:outputLabel value="Categoria *" styleClass="ui-priority-primary" />
-									<p:outputLabel value="Unidade: *" styleClass="ui-priority-primary" />
-									<p:outputLabel value="Setor: *" styleClass="ui-priority-primary" />
+									<h:outputText value="Categoria *" styleClass="ui-priority-primary"/>
+									<h:outputText value="Unidade: *" styleClass="ui-priority-primary"/>
+									<h:outputText value="Setor: *" styleClass="ui-priority-primary"/>
 	
 									<p:selectOneMenu required="true" requiredMessage="O campo categoria é obrigatório!"
 										value="#{publicarDocumentoControlador.variaveis.categoria}"
@@ -120,7 +120,7 @@
 							<br/>
 						
 							<div style="float: left; width:50%; position: relative;" align="center">							
-								<p:panel header="Elaboradores *" style="height: 324px;">
+								<p:panel header="Elaboradores *" style="height: 340px;">
 									<h:panelGroup style="width:99%">
 										<p />
 											<p:pickList id="pickListElaboradores" required="true" requiredMessage="O campo elaboradores é obrigatório!"
@@ -140,7 +140,7 @@
 							</div>	
 						
 							<div style="float: left; width:50%; position: relative;" align="center">
-								<p:panel header="Aprovadores *" style="height: 324px;">
+								<p:panel header="Aprovadores *" style="height: 340px;">
 									<h:panelGroup style="width:99%">
 										<p />
 											<p:pickList id="pickListAprovadores" required="true" requiredMessage="O campo aprovadores é obrigatório!"
@@ -166,7 +166,7 @@
 							<p:growl />
 							
 							<div style="float: left; width:50%; position: relative; height: 311px;" align="center">
-								<p:panel header="Posto de Cópia *" style="height: 100%;">
+								<p:panel header="Posto de Cópia *" style="height: 370px;">
 									<h:panelGroup style="width:99%">
 		
 										<p />
@@ -253,9 +253,9 @@
     									<p:outputPanel id="op2">
 											<p:commandButton id="buttonSalvar" value="Gerar Solicitação" 
 												ajax="false" 
-												styleClass="ui-priority-primary" icon="ui-icon-circle-check"
+												styleClass="btn-success" icon="ui-icon-circle-plus"
 												action="#{publicarDocumentoControlador.validarFormulario}" process="@this"/>
-												
+													
 										</p:outputPanel>	
 									</div>
     								
@@ -268,7 +268,7 @@
 					</p:wizard>
 					
 					<p:commandButton id="buttonCancelar" value="Cancelar Cadastro" immediate="true"
-						styleClass="ui-priority-primary" icon="ui-icon-circle-check"
+						icon="ui-icon-circle-close"
 						action="#{publicarDocumentoControlador.telaPesquisa}" />
 				</p:panel>
 

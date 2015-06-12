@@ -78,7 +78,7 @@
 	/* ------------------------------------ */
 	#menu {
 		height: 30px;
-		background: #ccc;
+		background: #ffff;
 		padding: 10px;
 		border-top: 2px solid #fefece;
 		border-bottom: 2px solid #0000c0;
@@ -99,7 +99,7 @@
 	.menu {
 		color: orange;
 		font-weight: bold;
-		background: none repeat scroll 0% 0% #0094FF;
+		background: none repeat scroll 0% 0% #11517A;
 		margin: 0 auto;
 		list-style: none;
 		text-align: left;
@@ -584,7 +584,7 @@
 }
 
 hr {
-	/* 	color:#919090;  */
+	color:#919090;
 	background-color: #A6C9E2;
 	height: 1.0px;
 	border: none;
@@ -626,7 +626,7 @@ a {
 .grid th{
 	width: 100%;
 	padding: 2px 0px 0px 7px;
-	background:	#933;
+	background:	#006DCC;
 }
 
 th {
@@ -671,7 +671,7 @@ th {
 }
 
 .painelformatado .ui-panel-titlebar {
-    background: #933;
+    background: #006DCC;
     color:white;
 }
 
@@ -718,10 +718,10 @@ th {
 /* -------- Overrides --------- */
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active
 	{
-	border: 1px solid #933;
+	border: 1px solid #006DCC;
 	background:
 		url('../javax.faces.resource/images/ui-bg_glass_45_0078ae_1x400.png.xhtml?ln=primefaces-start')
-		repeat-x scroll 50% 50% #933;
+		repeat-x scroll 50% 50% #006DCC;
 	color: #FFF;
 	font-weight: bold;
 }
@@ -729,12 +729,33 @@ th {
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover,
 	.ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header 
 	.ui-state-focus {
-	border: 1px solid #933;
+	border: 1px solid #006DCC;
 	background:
 		url('../javax.faces.resource/images/ui-bg_glass_45_0078ae_1x400.png.xhtml?ln=primefaces-start')
-		repeat-x scroll 50% 50% #933;
+		repeat-x scroll 50% 50% #006DCC;
 	color: #FFF;
 }
+
+.button-cancelar-excluir {
+	background: #FF0000 !important;
+	color : #0000 !important;
+}
+
+.ui-button.ui-state-hover, .ui-button.ui-state-hover.ui-priority-primary, .ui-button.ui-state-hover.ui-button-icon-only, .ui-selectonemenu-trigger.ui-state-hover .btn-success {
+    color: #FFF !important;
+    background-color: #5CB85C !important;
+    border-color: #4CAE4C !important;
+}
+
+.ui-button.ui-state-hover, .ui-button.ui-state-hover.ui-priority-primary, .ui-button.ui-state-hover.ui-button-icon-only, .ui-selectonemenu-trigger.ui-state-hover{
+	background: #1F3650 !important;
+	color : #ffffff !important;
+}
+
+.ui-button.ui-state-hover .ui-icon, .ui-selectonemenu.ui-state-hover .ui-icon{
+	background-image: url(images/ui-icons_ffffff_256x240.png);
+}
+
 
 .ui-inputfield.ui-state-focus, .ui-widget-content .ui-inputfield.ui-state-focus,
 	.ui-widget-header .ui-inputfield.ui-state-focus {
@@ -745,13 +766,17 @@ th {
 	.ui-state-focus, .ui-widget-content 
 	.ui-state-focus, .ui-widget-header .ui-state-focus {
 	color: #FFF;
-	border: 1px solid #933;
+	border: 1px solid #006DCC;
+}
+
+.ui-selectonemenu.ui-widget.ui-state-default, .ui-widget-content.ui-state-default, .ui-widget-header.ui-state-default.ui-state-default.ui-corner-all.ui-state-hover {
+	color : #333 !important;
 }
 
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover,
 	.ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus
 	{
-	border: 1px solid #933;
+	border: 1px solid #006DCC;
 	color: #FFF;
 }
 
@@ -1001,6 +1026,6 @@ h1{
 }
 
 .hr {
-	background-color: #933;
+	background-color: #006DCC;
 	height: 8px;
 }

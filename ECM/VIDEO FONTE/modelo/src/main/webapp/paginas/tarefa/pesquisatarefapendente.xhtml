@@ -42,14 +42,15 @@
 
 				<p:growl id="message" showDetail="true" />
 
-				<p:panel header="Tarefas Pendentes #{tarefaControle.login}" style="width:99%"
+				<p:panel header="Tarefas Pendentes - #{tarefaControle.login}" style="width:99%"
 					id="painelPesquisa" class="painelformatado">
 					<p:growl id="growl" />
 
-					<h:panelGrid columns="2" cellspacing="5" style="width:100%">
+					<h:panelGrid columns="1" cellspacing="5" style="width:100%">
 
 						<h:outputText value="Colaborador:"
 							styleClass="ui-priority-primary" />
+						
 						<p:inputText value="#{tarefaControle.login}"
 							rendered="#{!tarefaControle.usuarioSelecionado.getCapabilities().isAdmin()}"
 							disabled="true" />
@@ -66,15 +67,15 @@
 
 					</h:panelGrid>
 
-					<p:commandButton id="pesquisa" icon="ui-icon-search"
+					<p:commandButton id="pesquisa" icon="ui-icon-circle-zoomout"
 						action="#{tarefaControle.pesquisar()}"
 						styleClass="ui-priority-primary" value="Pesquisa"
 						update=":form" />
 
 				</p:panel>
 
-				<p:blockUI block="pesquisa" trigger="pesquisa">  
-	        Processando...<br />
+				<p:blockUI block="form" trigger="pesquisa">  
+	        		Processando...<br />
 					<p:graphicImage value="/resources/imagens/ajax-loader.gif" />
 				</p:blockUI>
 

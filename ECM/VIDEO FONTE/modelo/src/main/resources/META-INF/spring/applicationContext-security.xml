@@ -14,12 +14,13 @@
 		<intercept-url pattern="/javax.faces.resource/**" access="permitAll"/>
 		<intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/lembrarsenha.xhtml" access="permitAll" />
-		<intercept-url pattern="/index.xhtml" access="hasAnyRole('ROLE_ALFRESCO_ADMINISTRATORS')" />
+		<intercept-url pattern="/index.xhtml" access="permitAll" />
+		
 		<intercept-url pattern="/login.xhtml" access="permitAll" />
 		
 		<intercept-url pattern="/paginas/**"
 			access="hasAnyRole('ROLE_ALFRESCO_ADMINISTRATORS')" />
-		<form-login login-page="/login.xhtml" default-target-url="/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true" />
+		<form-login login-page="/login.xhtml" default-target-url="/index.xhtml?faces-redirect=true" />
 		
 	</http>
 
