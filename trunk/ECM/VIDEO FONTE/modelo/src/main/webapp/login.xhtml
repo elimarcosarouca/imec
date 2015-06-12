@@ -9,11 +9,7 @@
 <h:head>
 	<title><ui:insert name="titulo_pagina">Login Sistema</ui:insert>
 	</title>
-	<!-- 	<link type="text/css" rel="stylesheet" href="resources/css/style.css" /> -->
-	<link type="text/css" rel="stylesheet"
-		href="resources/estilos/style-custom.css" />
-	<link type="text/css" rel="stylesheet"
-		href="resources/css/config_component.css" />
+	<link type="text/css" rel="stylesheet" href="resources/estilos/style-custom-verde.css" />	
 </h:head>
 <h:body styleClass="body">
 	<form action="/modelo/j_spring_security_check" method="post">
@@ -21,8 +17,7 @@
 			<div class="login">
 				<p:growl id="growl" binding="#{loginControlador.msg}" />
 				<h1>Infome seu Login e Senha</h1>
-				<img src="resources/imagens/logo.png" class="img-rounded"
-					alt="Cinque Terre" width="200px" height="60px" />
+				
 				<p>
 					<h:inputText id="j_username" label="Nome" required="true"
 						styleClass="input-text" />

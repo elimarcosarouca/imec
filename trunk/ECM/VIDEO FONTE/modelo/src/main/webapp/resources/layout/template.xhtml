@@ -15,7 +15,7 @@
 
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="author" content="Software Solutions - www.3iti.com.br" />
-		<title>:: VIDEOLAR : SISTEMAS CONTROLE DE DOCUMENTOS  #{empty pageTitle ? '*' : pageTitle}</title>
+		<title>CDOC - Sistema de Controle de Documentos</title>
 		<link rel="icon" href="#{request.contextPath}/resources/imagens/favicon.ico" />
 		
 		<script language="JavaScript" type="text/javascript" src="#{request.contextPath}/resources/scripts/main.js" />
@@ -27,33 +27,32 @@
 		
 	</f:facet>
 
-	<link type="text/css" rel="stylesheet" 	href="#{request.contextPath}/resources/estilos/main.css" />
+	<link type="text/css" rel="stylesheet" 	href="#{request.contextPath}/resources/estilos/style-custom-verde.css" />
 		
 <style type="text/css">
 	.ui-datatable .ui-datatable-footer {
 		text-align: left;
 	}
 </style>
-
-	<!-- Add conteudo adicional para o head informado pela pagina -->
-	<ui:insert name="head" />
-
+	
 </h:head>
 
-<h:body onload="JavaScript:document.body.focus();" onkeydown="return disableRefresh(event);">
+<h:body styleClass="body-template" onload="JavaScript:document.body.focus();" onkeydown="return disableRefresh(event);">
 	
 	<h:outputScript library="js" name="translations_pt_BR.js" />
 	
-	<div >
-		<div>
-			<ui:include src="header.xhtml" />
-		</div>
-	
-		<div>
-			<ui:include src="menu.xhtml" />
+	<div class="geral">
+		<div id="header" class="estilo-top">
+			<div>
+				<ui:include src="header.xhtml" />
+			</div>
+			<p:separator />
+			<div align="center">
+				<ui:include src="menu.xhtml" />
+			</div>
 		</div>
 		
-		<div id="main">
+		<div id="main" class="estilo-main">
 			
 			<div id="content">
 				<ui:insert name="content"/>
@@ -61,11 +60,11 @@
 			
 		</div>
 
-		<!-- <div id="footer">
+		<div id="footer" class="estilo-footer">
 			<div id="footerContent">
 				<ui:include src="footer.xhtml" />
 			</div>
-		</div> -->
+		</div>
 
 	</div>
 	

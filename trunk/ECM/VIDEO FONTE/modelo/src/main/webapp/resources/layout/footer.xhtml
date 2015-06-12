@@ -6,7 +6,8 @@
     		xmlns:c="http://java.sun.com/jsp/jstl/core"
 			xmlns:p="http://primefaces.org/ui">
 	
-	<p>
+	<div align="center">
+	<p style="margin-top: 0%;">
 		<h:outputText value="Copyright © #{msg.company}" />
 		<br/>
 		<div> 
@@ -15,9 +16,10 @@
 			<img src="#{request.contextPath}/resources/imagens/contato.png" width="20" height="15" align="top"/> 
 			<h:outputText value="  #{msg.contact_email}" />
 		</div>
-		<h:form>
-			<a href="http://#{msg.company_site}" target="_blank" >#{msg.company_site}</a>
-		</h:form>
+<!-- 		<h:form> -->
+<!-- 			<a href="http://#{msg.company_site}" target="_blank" >#{msg.company_site}</a> -->
+<!-- 		</h:form> -->
 	</p>
+	</div>
 	
 </ui:component>

@@ -9,46 +9,48 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<h:form id="formMenu">
-
-		<p:menubar class="menu">
-			<p:submenu label="Solicitacao" icon="ui-icon-document">
+		
+		<p:menubar style="background: -moz-linear-gradient(bottom, #5F9EA0, #fff 100%);
+							background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #5F9EA0), color-stop(0.20, #fff)); width: 99%; ">
+			<p:submenu label="Solicitacao" icon="ui-icon-grip-dotted-vertical">
 				<p:menuitem value="Pesquisar WorkFlow"
-					url="/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true"
-					icon="ui-icon-arrowreturnthick-1-w" />
+					url="/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true" />
 				<p:separator />
-				<p:menuitem value="Tarefas" action="#{tarefaControle.init}"
-					icon="ui-icon-arrowreturnthick-1-w" update=":form" />
+				
+				<p:menuitem value="Tarefas" action="#{tarefaControle.init}" update=":form" />
+				
 				<p:separator />
+				
 				<p:menuitem value="Alerta"
 					url="/paginas/alerta/pesquisa.xhtml?faces-redirect=true"
-					icon="ui-icon-arrowreturnthick-1-w" />
+					/>
+				
 			</p:submenu>
-
-			<p:submenu label="Cadastros" icon="ui-icon-pencil"
+			
+			<p:submenu label="Cadastros" icon="ui-icon-grip-dotted-vertical"
 				rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}">
 				<p:menuitem value="Unidades"
 					url="/paginas/unidade/pesquisa.xhtml?faces-redirect=true"
-					icon="ui-icon-arrowreturnthick-1-w" />
-				<p:menuitem value="Setores"
-					url="/paginas/setor/pesquisa.xhtml?faces-redirect=true"
-					icon="ui-icon-arrowreturnthick-1-w" />
+					/>
+				<p:menuitem value="Setores" url="/paginas/setor/pesquisa.xhtml?faces-redirect=true"
+					/>
 				<p:menuitem value="Categorias"
 					url="/paginas/categoria/pesquisa.xhtml?faces-redirect=true"
-					icon="ui-icon-arrowreturnthick-1-w" />
+					/>
 				<p:menuitem value="Postos de Cópia"
 					url="/paginas/postocopia/pesquisa.xhtml?faces-redirect=true"
-					icon="ui-icon-arrowreturnthick-1-w" />
+					/>
 				<p:menuitem value="Colaboradores"
 					url="/paginas/colaborador/pesquisa.xhtml?faces-redirect=true"
-					icon="ui-icon-arrowreturnthick-1-w" />
+					/>
 
 				<p:menuitem value="Grupo"
 					url="/paginas/grupo/pesquisa.xhtml?faces-redirect=true"
-					icon="ui-icon-arrowreturnthick-1-w" />
+					/>
 
 				<p:menuitem value="Usuario"
 					url="/paginas/usuario/pesquisa.xhtml?faces-redirect=true"
-					icon="ui-icon-arrowreturnthick-1-w" />
+					/>
 
 			</p:submenu>
 

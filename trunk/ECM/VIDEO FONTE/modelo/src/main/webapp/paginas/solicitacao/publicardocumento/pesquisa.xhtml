@@ -40,7 +40,7 @@
 
 			<h:form id="form">
 
-				<p:panel header="Pesquisa Documento / Workflow" style="width:99%"
+				<p:panel header="Pesquisa Documento / Workflow" style="width:99.4%"
 					id="painel" class="painelformatado">
 					<p:growl id="growl" />
 
@@ -59,19 +59,19 @@
 
 					</h:panelGrid>
 
-					<p:commandButton id="pesquisa" icon="ui-icon-search"
+					<p:commandButton id="pesquisa" icon="ui-icon-circle-zoomout"
 						actionListener="#{publicarDocumentoControlador.pesquisar}"
 						value="Pesquisar" update=":form" />
 
-					<p:commandButton id="novo" icon="ui-icon-search"
+					<p:commandButton id="novo" icon="ui-icon-circle-plus"
 						action="#{publicarDocumentoControlador.inicioNovaSolicitacao}"
 						rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
 						value="Novo" update=":form" />
 
 				</p:panel>
 
-				<p:blockUI block="pesquisa" trigger="pesquisa">  
-	        Processando...<br />
+				<p:blockUI block="form" trigger="pesquisa">  
+	        		Processando...<br />
 					<p:graphicImage value="/resources/imagens/ajax-loader.gif" />
 				</p:blockUI>
 
