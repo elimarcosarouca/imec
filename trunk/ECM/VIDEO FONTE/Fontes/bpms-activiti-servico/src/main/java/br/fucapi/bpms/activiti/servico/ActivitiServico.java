@@ -9,6 +9,7 @@ import br.fucapi.bpms.activiti.dominio.ProcessoDefinicao;
 import br.fucapi.bpms.activiti.dominio.ProcessoInstancia;
 import br.fucapi.bpms.activiti.dominio.TarefaInstancia;
 import br.fucapi.bpms.activiti.dominio.Variaveis;
+import br.fucapi.bpms.activiti.enumerated.NomeVariavel;
 
 
 /**
@@ -249,4 +250,12 @@ public interface ActivitiServico {
 	 * @throws ParseException
 	 */
 	int incrementarVersaoDocumento(Map<String, Object> variables);
+	
+	/**
+	 * Metodo utilizado para autalizaro status do processo
+	 * @param processoInstanceId
+	 * @param NomeVariavel
+	 * @param status
+	 */
+	void atualizarVariavelProcesso(String processoInstanceId, NomeVariavel nomeVariavel, String valor);
 }
