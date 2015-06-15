@@ -14,6 +14,7 @@ import br.fucapi.ads.modelo.enumerated.StatusProcesso;
 import br.fucapi.ads.modelo.servico.AlertaServico;
 import br.fucapi.ads.modelo.servico.Servico;
 import br.fucapi.ads.modelo.utils.GeralUtils;
+import br.fucapi.bpms.activiti.dao.VariavelDAO;
 import br.fucapi.bpms.activiti.servico.ActivitiServico;
 import br.fucapi.bpms.activiti.util.JsonUtil;
 import br.fucapi.bpms.alfresco.dominio.Usuario;

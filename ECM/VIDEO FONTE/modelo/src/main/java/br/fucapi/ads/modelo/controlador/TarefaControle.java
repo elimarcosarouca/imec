@@ -77,7 +77,7 @@ public class TarefaControle implements Serializable {
 
 	@ManagedProperty(value = "#{variaveisTarefaServicoImpl}")
 	private VariaveisTarefaServico variaveisTarefaServico;
-	
+
 	@ManagedProperty(value = "#{sessaoControladorBean}")
 	private SessaoControladorBean sessaoControladorBean;
 
@@ -93,7 +93,7 @@ public class TarefaControle implements Serializable {
 	private boolean status;
 
 	private Usuario usuarioSelecionado;
-	
+
 	private String login;
 
 	private List<Usuario> listaUsuarios;
@@ -149,7 +149,7 @@ public class TarefaControle implements Serializable {
 
 		this.usuarioSelecionado = (Usuario) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
-		
+
 		this.login = this.usuarioSelecionado.getUserName();
 
 		this.initTotalTarefasUsuario(this.login);
@@ -214,7 +214,8 @@ public class TarefaControle implements Serializable {
 		Usuario usuarioLogado = sessaoControladorBean.getUsuario();
 
 		// verificar se as tarefas Ã© do usuÃ¡rio para atualizar o contador
-		if (this.usuarioSelecionado.getUserName().equals(usuarioLogado.getUserName()))
+		if (this.usuarioSelecionado.getUserName().equals(
+				usuarioLogado.getUserName()))
 			this.totalTarefas = this.listaTarefasPendentes.size();
 
 		return this.PESQUISATAREFAPENDENTE;
@@ -267,11 +268,31 @@ public class TarefaControle implements Serializable {
 
 		Alerta alerta = new Alerta();
 		alerta.setStatus(StatusProcesso.ATIVO);
-		alerta.converterTarefaInstanciaToAlerta(tarefa); 
+		alerta.converterTarefaInstanciaToAlerta(tarefa);
 		// inserir o registro de alerta de vencimento
 		alertaServico.saveOrUpdate(alerta);
 
 		aprovar();
+	}
+
+	/**
+	 * metodo utilizado para colocar o alerta da solicitação anterios no status
+	 * OBSOLETO
+	 * @param tarefa
+	 */
+	public void buscarAlerta(TarefaInstancia tarefa) {
+
+		if (((VariavelPublicarDocumento) tarefa.getVariaveis()).getIdAlerta() != null
+				&& ((VariavelPublicarDocumento) tarefa.getVariaveis())
+						.getIdAlerta() >= 1l) {
+
+			Alerta alerta = (Alerta) alertaServico
+					.getByPrimaryKey(((VariavelPublicarDocumento) tarefa
+							.getVariaveis()).getIdAlerta());
+			alerta.setStatus(StatusProcesso.OBSOLETO);
+			alertaServico.saveOrUpdate(alerta);
+		}
+
 	}
 
 	public void obsoletarProcessos(TarefaInstancia tarefa) {
@@ -298,7 +319,6 @@ public class TarefaControle implements Serializable {
 						processoInstancia.getId(), json);
 			}
 		}
-
 	}
 
 	public void reprovarOutrasTarefas(String processInstanceId)
@@ -667,7 +687,8 @@ public class TarefaControle implements Serializable {
 		return sessaoControladorBean;
 	}
 
-	public void setSessaoControladorBean(SessaoControladorBean sessaoControladorBean) {
+	public void setSessaoControladorBean(
+			SessaoControladorBean sessaoControladorBean) {
 		this.sessaoControladorBean = sessaoControladorBean;
 	}
 

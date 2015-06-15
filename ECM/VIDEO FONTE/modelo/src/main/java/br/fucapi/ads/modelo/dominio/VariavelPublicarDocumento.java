@@ -50,18 +50,20 @@ public class VariavelPublicarDocumento extends Variavel {
 	private Arquivo arquivoObsoleto;
 
 	private Arquivo arquivoCancelado;
-	
+
 	private boolean possuiTarja;
 
 	private boolean publicacaoAutomatica;
 
 	private boolean enviarConcensao;
-	
+
 	private boolean finalizarProcesso;
 
 	private String alteracoes;
 
 	private String nomenclatura;
+
+	private Long idAlerta;
 
 	// dados da telas
 	private PostoCopia postoCopia;
@@ -119,6 +121,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.setor = new Setor();
 		this.postoCopia = new PostoCopia();
 		this.versaoRevisao = 0;
+		this.idAlerta = 0l;
 		this.possuiTarja = true;
 		this.publicacaoAutomatica = true;
 		this.aprovadores = new ArrayList<String>();
@@ -375,6 +378,14 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.versaoRevisao = versaoRevisao;
 	}
 
+	public Long getIdAlerta() {
+		return idAlerta;
+	}
+
+	public void setIdAlerta(Long idAlerta) {
+		this.idAlerta = idAlerta;
+	}
+
 	public Arquivo getArquivoDoc() {
 		return arquivoDoc;
 	}
@@ -410,7 +421,7 @@ public class VariavelPublicarDocumento extends Variavel {
 	public void setArquivoCancelado(Arquivo arquivoCancelado) {
 		this.arquivoCancelado = arquivoCancelado;
 	}
-	
+
 	public void setArquivoDoc(Arquivo arquivoDoc) {
 		this.arquivoDoc = arquivoDoc;
 	}
@@ -535,7 +546,7 @@ public class VariavelPublicarDocumento extends Variavel {
 			} else if (var.getName().equals("arquivoNaoControlado")) {
 				setArquivoNaoControlado(var.getValue() != null ? (Arquivo) var
 						.getValue() : null);
-				
+
 			} else if (var.getName().equals("arquivoObsoleto")) {
 				setArquivoObsoleto(var.getValue() != null ? (Arquivo) var
 						.getValue() : null);
@@ -555,7 +566,7 @@ public class VariavelPublicarDocumento extends Variavel {
 			} else if (var.getName().equals("tipoSolicitacao")
 					&& var.getValue() != null) {
 				setTipoSolicitacao(var.getValue().toString());
-				
+
 			} else if (var.getName().equals("solicitante")
 					&& var.getValue() != null) {
 				setSolicitante(var.getValue().toString());
@@ -571,7 +582,7 @@ public class VariavelPublicarDocumento extends Variavel {
 			} else if (var.getName().equals("enviarConcensao")
 					&& var.getValue() != null) {
 				this.setEnviarConcensao(new Boolean(var.getValue().toString()));
-				
+
 			} else if (var.getName().equals("finalizarProcesso")
 					&& var.getValue() != null) {
 				this.setFinalizarProcesso(new Boolean(var.getValue().toString()));
@@ -595,6 +606,13 @@ public class VariavelPublicarDocumento extends Variavel {
 					&& var.getValue() != null) {
 				this.setElaboradores(var.getValue() != null ? (List<String>) var
 						.getValue() : null);
+
+			} else if (var.getName().equals("idAlerta")) {
+				try {
+					this.setIdAlerta(Long.valueOf(var.getValue().toString()));
+				} catch (NumberFormatException e) {
+
+				}
 
 			} else if (var.getName().equals("versaoRevisao")) {
 				try {
@@ -690,7 +708,7 @@ public class VariavelPublicarDocumento extends Variavel {
 	public Map<String, Object> converterVariaveis() {
 
 		Map<String, Object> params = super.converterVariaveis();
-		
+
 		params = super.converterVariaveis();
 
 		params.put("tipoSolicitacao", this.getTipoSolicitacao());
@@ -706,6 +724,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("emailArovadores", this.getEmailAprovadores());
 
 		params.put("versaoRevisao", this.getVersaoRevisao());
+		params.put("idAlerta", this.getIdAlerta());
 		params.put("possuiTarja", this.isPossuiTarja());
 		params.put("publicacaoAutomatica", this.isPublicacaoAutomatica());
 		params.put("enviarConcensao", this.isEnviarConcensao());
