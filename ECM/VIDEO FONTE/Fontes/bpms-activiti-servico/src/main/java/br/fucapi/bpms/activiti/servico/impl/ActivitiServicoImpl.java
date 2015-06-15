@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.xml.ws.Response;
+
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
@@ -38,8 +40,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import br.fucapi.bpms.activiti.dao.VariavelDAO;
 import br.fucapi.bpms.activiti.dominio.ProcessoDefinicao;
 import br.fucapi.bpms.activiti.dominio.ProcessoDefinicaoEntidade;
 import br.fucapi.bpms.activiti.dominio.ProcessoInstancia;
@@ -47,6 +52,7 @@ import br.fucapi.bpms.activiti.dominio.ProcessoInstanciaEntidade;
 import br.fucapi.bpms.activiti.dominio.TarefaInstancia;
 import br.fucapi.bpms.activiti.dominio.TarefaInstanciaEntidade;
 import br.fucapi.bpms.activiti.dominio.Variaveis;
+import br.fucapi.bpms.activiti.enumerated.NomeVariavel;
 import br.fucapi.bpms.activiti.servico.ActivitiServico;
 
 @Service("activitiServicoImpl")
@@ -83,6 +89,9 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 
 	@Autowired
 	private IdentityService identityService;
+
+	@Autowired
+	private VariavelDAO variavelDAO;
 
 	public List<TarefaInstancia> getTarefasUsuario(String userName) {
 
@@ -373,19 +382,19 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 	public ProcessoInstancia getProcessosInstanciaId(String processInstanceId) {
 
 		// Solucao temporaria
-		String uri = MessageFormat.format(
-				activitiProperties.getProperty("activiti.server.processo.instanciado.byid"),
+		String uri = MessageFormat.format(activitiProperties
+				.getProperty("activiti.server.processo.instanciado.byid"),
 				processInstanceId);
-		
+
 		ResponseEntity<String> response = restTemplate.getForEntity(uri,
 				String.class);
 
 		ProcessoInstancia processoInstancia = ProcessoInstancia
 				.fromJsonToObject(response.getBody());
-		
+
 		List<Variaveis> listaVariaveis = this
 				.getVariaveisAPIExplorer(processoInstancia.getId());
-		
+
 		processoInstancia.setVariables(listaVariaveis);
 
 		return processoInstancia;
@@ -430,29 +439,42 @@ public class ActivitiServicoImpl implements ActivitiServico, Serializable {
 				.getProperty("activiti.server.processo.variaveis"), idProcesso);
 		ResponseEntity<String> response = restTemplate.getForEntity(uri,
 				String.class);
-		 return Variaveis.fromJsonArrayToVariaveis(response.getBody());
-//		return Variaveis.fromJsonArrayToVariaveisList(response.getBody());
+		return Variaveis.fromJsonArrayToVariaveis(response.getBody());
+		// return Variaveis.fromJsonArrayToVariaveisList(response.getBody());
 	}
 
 	@Override
 	public String atualizarVariaveis(String idProcesso, String json) {
 
 		/*
-		 * ESTRUTURA DO JSON EX:
-		 * 
 		 * [{\"name\" : \"nomeVariavel\", \"value\" : \"valorVariavel\"}]
 		 */
 
-		String uri = MessageFormat.format(activitiProperties
-				.getProperty("activiti.server.processo.variaveis"), idProcesso);
+		try {
+			String uri = MessageFormat.format(activitiProperties
+					.getProperty("activiti.server.processo.variaveis"),
+					idProcesso);
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Content-type", this.CONTENT_TYPE);
+			HttpHeaders headers = new HttpHeaders();
+			headers.set("Content-type", this.CONTENT_TYPE);
 
-		HttpEntity<String> request = new HttpEntity<String>(json, headers);
-		restTemplate.put(uri, request);
+			HttpEntity<String> request = new HttpEntity<String>(json, headers);
+			restTemplate.put(uri, request);
 
-		return HttpStatus.OK + "";
+		} catch (HttpServerErrorException e) {
+			return HttpStatus.INTERNAL_SERVER_ERROR+"";
+		} catch (Exception e) {
+
+		}
+
+		return HttpStatus.OK+"";
+	}
+
+	@Override
+	public void atualizarVariavelProcesso(String processoInstanceId,
+			NomeVariavel nomeVariavel, String valor) {
+		variavelDAO.atualizarVariavelProcesso(processoInstanceId, nomeVariavel,
+				valor);
 	}
 
 	public String iniciarInstanciaProcesso(String json) {
