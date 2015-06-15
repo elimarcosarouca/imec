@@ -10,17 +10,19 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+
+import net.sf.jasperreports.engine.JRException;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import net.sf.jasperreports.engine.JRException;
 import br.fucapi.ads.modelo.dominio.Colaborador;
 import br.fucapi.ads.modelo.dominio.PostoCopia;
+import br.fucapi.ads.modelo.dominio.VariavelPublicarDocumento;
 import br.fucapi.ads.modelo.servico.ColaboradorServico;
 import br.fucapi.ads.modelo.servico.PostoCopiaServico;
 import br.fucapi.ads.modelo.servico.Servico;
+import br.fucapi.bpms.activiti.dominio.ProcessoInstancia;
 import br.fucapi.bpms.alfresco.dominio.Usuario;
 
 @ManagedBean
@@ -31,15 +33,20 @@ public class ColaboradorControlador extends ControladorGenerico<Colaborador> {
 
 	private List<PostoCopia> postosCopia;
 
+	private PostoCopia postoCopia = new PostoCopia();
+
+	private ProcessoInstancia processo;
+
 	@ManagedProperty(value = "#{colaboradorServicoImpl}")
 	private ColaboradorServico servico;
-	
+
 	@ManagedProperty(value = "#{postoCopiaServicoImpl}")
 	private PostoCopiaServico postoCopiaServico;
 
 	private String nomeRelatorio = "REGISTRO_DE_TREINAMENTO.PDF";
-	
-	private static final String PATH_REPORT = "resources" + File.separator + "jasper" + File.separator;
+
+	private static final String PATH_REPORT = "resources" + File.separator
+			+ "jasper" + File.separator;
 
 	@Override
 	@PostConstruct
@@ -57,22 +64,49 @@ public class ColaboradorControlador extends ControladorGenerico<Colaborador> {
 		return postoCopiaServico.pesquisar(new PostoCopia(nome));
 	}
 
-	public void imprimirListaColaboradores() throws FileNotFoundException, JRException {
-		
-		PostoCopia postoCopia = new PostoCopia();
-		postoCopia.setId(1l);
+	public void imprimirListaColaboradores(ProcessoInstancia processo)
+			throws FileNotFoundException, JRException {
+
+		Map<String, String> params = FacesContext.getCurrentInstance()
+				.getExternalContext().getRequestParameterMap();
+		Long idPostoCopia = Long.valueOf(params.get("idPostoCopia"));
+		this.postoCopia.setId(idPostoCopia);
+
+		this.processo = processo;
 		this.entidade.setPostoCopia(postoCopia);
 		this.listaPesquisa = servico.pesquisar(this.entidade);
-		
+
 		Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
 
 		Map<String, Object> param = new HashMap<String, Object>();
+		param = pegarParametro(param, processo);
 		param.put(REPORT_TITLE, "REGISTRO DE TREINAMENTO");
-		param.put("usuario", usuarioLogado.getFirstName() +" " + usuarioLogado.getLastName());
+		param.put("nomePostoCopia", params.get("nomePostoCopia"));
+		param.put(
+				"usuario",
+				usuarioLogado.getFirstName() + " "
+						+ usuarioLogado.getLastName());
 		
 
-		gerarRelatorioWeb(this.listaPesquisa, param, "colaboradoresPostoCopia.jasper");
+		gerarRelatorioWeb(this.listaPesquisa, param,
+				"colaboradoresPostoCopia.jasper");
+
+	}
+
+	public Map<String, Object> pegarParametro(Map<String, Object> param,
+			ProcessoInstancia processo) {
+
+		param.put("versaoRevisao", ((VariavelPublicarDocumento) processo
+				.getVariaveis()).getVersaoRevisao());
+		
+		param.put("nomenclatura", ((VariavelPublicarDocumento) processo
+				.getVariaveis()).getNomenclatura());
+		
+		param.put("nomeArquivo", ((VariavelPublicarDocumento) processo
+				.getVariaveis()).getArquivoDoc().getNomeArquivo());
+
+		return param;
 
 	}
 
@@ -117,6 +151,14 @@ public class ColaboradorControlador extends ControladorGenerico<Colaborador> {
 
 	public void setPostoCopiaServico(PostoCopiaServico postoCopiaServico) {
 		this.postoCopiaServico = postoCopiaServico;
+	}
+
+	public PostoCopia getPostoCopia() {
+		return postoCopia;
+	}
+
+	public void setPostoCopia(PostoCopia postoCopia) {
+		this.postoCopia = postoCopia;
 	}
 
 }

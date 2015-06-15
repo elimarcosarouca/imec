@@ -63,6 +63,7 @@ import br.fucapi.ads.modelo.utils.Watermark;
 import br.fucapi.bpms.activiti.dominio.ProcessoDefinicao;
 import br.fucapi.bpms.activiti.dominio.ProcessoInstancia;
 import br.fucapi.bpms.activiti.dominio.TarefaInstancia;
+import br.fucapi.bpms.activiti.enumerated.NomeVariavel;
 import br.fucapi.bpms.activiti.servico.ActivitiServico;
 import br.fucapi.bpms.activiti.util.JsonUtil;
 import br.fucapi.bpms.alfresco.dominio.Usuario;
@@ -189,7 +190,7 @@ public class PublicarDocumentoControlador implements Serializable {
 	private DualListModel<PostoCopia> postosCopia;
 	private List<PostoCopia> postosCopiaTarget;
 	private List<PostoCopia> postosCopiaSource;
-	
+
 	private StatusProcesso status;
 
 	private StreamedContent file;
@@ -604,17 +605,29 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	public String cancelar() {
 
+		this.activitiServico.atualizarVariavelProcesso(
+				this.processoInstancia.getId(), NomeVariavel.STATUS_PROCESSO,
+				StatusProcesso.CANCELADO.getStatus());
+
 		Map<String, Object> variaveis = new HashMap<String, Object>();
 		variaveis.put("justificativaStatus", ((Variavel) this.processoInstancia
 				.getVariaveis()).getJustificativaStatus());
 		variaveis.put("statusProcesso", StatusProcesso.CANCELADO);
 
-		String json = JsonUtil.converterVariaveisToJson(variaveis);
-		this.activitiServico.atualizarVariaveis(this.processoInstancia.getId(),
-				json);
+		try {
+			String json = JsonUtil.converterVariaveisToJson(variaveis);
+			this.activitiServico.atualizarVariaveis(
+					this.processoInstancia.getId(), json);
 
-		this.activitiServico.cancelarProcessoInstaciado(processoInstancia
-				.getId());
+		} catch (Exception e) {
+			// ocorreu um erro ao cancelar o processo
+
+		}
+
+		/*
+		 * this.activitiServico.cancelarProcessoInstaciado(processoInstancia
+		 * .getId());
+		 */
 
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "",
 				"Solicitação cancelada com sucesso!");
@@ -643,7 +656,7 @@ public class PublicarDocumentoControlador implements Serializable {
 		return this.TELA_DETALHE;
 
 	}
-	
+
 	public String detalhe(ProcessoInstancia entity) throws ParseException {
 		this.processoInstancia = entity;
 		return carregarTarefas();
@@ -654,7 +667,7 @@ public class PublicarDocumentoControlador implements Serializable {
 			throws ParseException {
 		this.TELA_PESQUISA = this.PESQUISATAREFAPENDENTE;
 		pesquisarProcessoInstancia(tarefaInstancia.getProcessInstanceId());
-		
+
 		return detalhe(this.processoInstancia);
 	}
 
@@ -673,8 +686,9 @@ public class PublicarDocumentoControlador implements Serializable {
 
 		if (this.usuarioLogado.getCapabilities().isAdmin()) {
 			this.renderDownload = true;
-			if ((!StatusProcesso.CANCELADO.equals(((Variavel) this.processoInstancia
-					.getVariaveis()).getStatusProcesso()))) {
+			if ((!StatusProcesso.CANCELADO
+					.equals(((Variavel) this.processoInstancia.getVariaveis())
+							.getStatusProcesso()))) {
 				this.renderCancelar = true;
 			} else {
 				this.renderCancelar = false;
@@ -685,17 +699,30 @@ public class PublicarDocumentoControlador implements Serializable {
 		}
 	}
 
+	public boolean isHabilitarBotaoCancelar() {
+		if (this.usuarioLogado.getCapabilities().isAdmin()) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public String revisar(ProcessoInstancia entity) {
 
 		this.variaveis = (VariavelPublicarDocumento) entity.getVariaveis();
+		// seta o protocolo anterior para realizar futuras pesquisas
 		this.variaveis.setVersaoRevisao(this.incrementarVersao(this.variaveis
 				.getProtocoloOrigem()));
+		// seta o id do alerta da solicitação anterios, para mudar o status do
+		// alerta para obsoleto.
+		this.variaveis.setIdAlerta(this.alerta.getId());
 
 		return this.TELA_REVISAO;
 	}
 
 	public String revisar(Alerta entity) {
 
+		this.alerta = entity;
 		List<ProcessoInstancia> listaResultado = null;
 		this.lista = new ArrayList<ProcessoInstancia>();
 
@@ -1303,8 +1330,8 @@ public class PublicarDocumentoControlador implements Serializable {
 	public void setAlerta(Alerta alerta) {
 		this.alerta = alerta;
 	}
-	
-	public StatusProcesso[] getStatusProcesso(){  
-        return StatusProcesso.values();  
-    }  
+
+	public StatusProcesso[] getStatusProcesso() {
+		return StatusProcesso.values();
+	}
 }

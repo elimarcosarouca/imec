@@ -8,6 +8,7 @@ public enum StatusProcesso {
 	private String status;
 
 	StatusProcesso(String status) {
+		this.status = status;
 
 	}
 
