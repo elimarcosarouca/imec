@@ -48,7 +48,8 @@
 					<p:tab class="painelformatado"
 						title="Geral - [ Titulo ] #{publicarDocumentoControlador.processoInstancia.variaveis.arquivoDoc.nomeArquivo}">
 						<p:panel id="panel" closable="false"
-							header="Detalhes da Publicação de Documento #{item.variaveis.statusProcesso}" style="width:100%;">
+							header="Detalhes da Publicação de Documento #{item.variaveis.statusProcesso}"
+							style="width:100%;">
 
 							<h:panelGrid style="width:30%" columns="5" cellspacing="4">
 								<h:outputLabel value="Nome: " styleClass="ui-priority-primary" />
@@ -73,7 +74,8 @@
 
 							</h:panelGrid>
 
-							<h:panelGrid style="width:50%" columns="2" cellspacing="2" rendered="#{ empty publicarDocumentoControlador.alerta}">
+							<h:panelGrid style="width:50%" columns="2" cellspacing="2"
+								rendered="#{ empty publicarDocumentoControlador.alerta}">
 
 								<p:outputLabel value="Data de Vencimento:"
 									styleClass="ui-priority-primary" />
@@ -92,7 +94,8 @@
 
 							</h:panelGrid>
 
-							<h:panelGrid style="width:50%" columns="2" cellspacing="2" rendered="#{not empty publicarDocumentoControlador.alerta}">
+							<h:panelGrid style="width:50%" columns="2" cellspacing="2"
+								rendered="#{not empty publicarDocumentoControlador.alerta}">
 
 								<p:outputLabel value="Data de Vencimento:"
 									styleClass="ui-priority-primary" />
@@ -137,9 +140,11 @@
 
 										<p:orderList id="listElaboradoes"
 											value="#{publicarDocumentoControlador.processoInstancia.variaveis.elaboradoresObjeto}"
-											var="item" itemLabel="#{item.userName} - #{item.firstName} #{item.lastName}"
-											itemValue="#{item}" controlsLocation="none" styleClass="ui-priority-primary"/>
-										
+											var="item"
+											itemLabel="#{item.userName} - #{item.firstName} #{item.lastName}"
+											itemValue="#{item}" controlsLocation="none"
+											styleClass="ui-priority-primary" />
+
 									</h:panelGroup>
 								</p:panel>
 							</div>
@@ -152,8 +157,10 @@
 
 										<p:orderList id="listAprovadores"
 											value="#{publicarDocumentoControlador.processoInstancia.variaveis.aprovadoresObjeto}"
-											var="item" itemLabel="#{item.userName} - #{item.firstName} #{item.lastName}"
-											itemValue="#{item}" controlsLocation="none" styleClass="ui-priority-primary"/>
+											var="item"
+											itemLabel="#{item.userName} - #{item.firstName} #{item.lastName}"
+											itemValue="#{item}" controlsLocation="none"
+											styleClass="ui-priority-primary" />
 
 									</h:panelGroup>
 								</p:panel>
@@ -169,8 +176,8 @@
 
 										<p:orderList id="listPostoCopia"
 											value="#{publicarDocumentoControlador.processoInstancia.variaveis.postosCopiaObjeto}"
-											var="item" itemLabel="#{item.nome}" itemValue="#{item}" styleClass="ui-priority-primary"
-											controlsLocation="none"/>
+											var="item" itemLabel="#{item.nome}" itemValue="#{item}"
+											styleClass="ui-priority-primary" controlsLocation="none" />
 
 									</h:panelGroup>
 								</p:panel>
@@ -193,7 +200,7 @@
 												value="#{publicarDocumentoControlador.processoInstancia.variaveis.concensosObjeto}"
 												var="item" styleClass="ui-priority-primary"
 												itemLabel="#{item.userName} - #{item.firstName} #{item.lastName}"
-												itemValue="#{item}" controlsLocation="none"/>
+												itemValue="#{item}" controlsLocation="none" />
 
 										</div>
 									</h:panelGroup>
@@ -281,31 +288,21 @@
 
 					<p:tab title="Colaboradores do Posto de Cópia ">
 						<p:panel header="Lista de Posto de Cópia">
-							<p:dataTable var="item" rows="10" paginator="true"
+							<p:dataTable var="itemPosto" rows="10" paginator="true"
 								value="#{publicarDocumentoControlador.processoInstancia.variaveis.postosCopiaObjeto}"
 								paginatorPosition="bottom" paginatorAlwaysVisible="true"
 								emptyMessage="Nenhum registro encontrado."
 								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rowsPerPageTemplate="5,10,15,20">
 
-								<p:column style="text-align:left" headerText="ID"
-									sortBy="#{item.id}">
-									<h:outputText value="#{item.id}" />
-								</p:column>
-
 								<p:column style="text-align:left" headerText="Posto de Cópia"
-									sortBy="#{item.nome}">
-									<h:outputText value="#{item.nome}" />
-								</p:column>
-								
-								<p:column style="text-align:left" headerText="Posto de Cópia"
-									sortBy="#{item.id}">
-									<h:outputText value="#{item.id}" />
+									sortBy="#{itemPosto.nome}">
+									<h:outputText value="#{itemPosto.nome}" />
 								</p:column>
 
 								<p:column style="text-align:left" headerText="Responsável"
-									sortBy="#{item.loginResponsavel}">
-									<h:outputText value="#{item.loginResponsavel}" />
+									sortBy="#{itemPosto.loginResponsavel}">
+									<h:outputText value="#{itemPosto.loginResponsavel}" />
 								</p:column>
 
 								<p:column>
@@ -313,7 +310,12 @@
 										onclick="this.form.target='_blank'" icon="ui-icon-print"
 										styleClass="ui-priority-primary"
 										rendered="#{publicarDocumentoControlador.processoInstancia.variaveis.statusProcesso ne 'PENDENTE'}"
-										action="#{colaboradorControlador.imprimirListaColaboradores()}"/>
+										action="#{colaboradorControlador.imprimirListaColaboradores(publicarDocumentoControlador.processoInstancia)}">
+
+										<f:param name="idPostoCopia" value="#{itemPosto.id}" />
+										<f:param name="nomePostoCopia" value="#{itemPosto.nome}" />
+
+									</p:commandButton>
 								</p:column>
 
 								<f:facet name="footer">
@@ -329,11 +331,11 @@
 				<h:panelGrid style="width:99%" columns="2">
 					<p:commandButton id="buttonRetornar" value="Voltar" ajax="false"
 						styleClass="ui-priority-primary" icon="ui-icon-circle-arrow-w"
-						action="#{publicarDocumentoControlador.telaPesquisa()}"
+						action="#{publicarDocumentoControlador.pesquisar()}"
 						update=":form" />
 
 					<p:commandButton id="buttonCancelar" value="Cancelar"
-						rendered="#{publicarDocumentoControlador.renderCancelar}"
+						rendered="#{publicarDocumentoControlador.habilitarBotaoCancelar}"
 						styleClass="ui-priority-primary" icon="ui-icon-circle-arrow-w"
 						onclick="PF('dlgCancelar').show();" />
 
@@ -351,6 +353,10 @@
 							value="#{publicarDocumentoControlador.processoInstancia.variaveis.justificativaStatus}"
 							maxlength="255" style="width:450px" id="justificativaCanelar"
 							autoResize="false" />
+
+						<p:commandButton value="Confirmar Cancelamento"
+							action="#{publicarDocumentoControlador.cancelar()}"
+							styleClass="ui-priority-primary" />
 
 					</h:form>
 				</div>

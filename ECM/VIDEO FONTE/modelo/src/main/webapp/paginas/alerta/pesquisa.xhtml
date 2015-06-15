@@ -31,9 +31,9 @@
 	<ui:define name="grid_region">
 
 		<ss:grid managedBean="#{alertaControlador}"
-			 renderedActionColumn="false">
+			renderedActionColumn="false">
 			<p:column style="width:20px">
-				<p:graphicImage url="#{item.color}"	width="20px" height="20px" />
+				<p:graphicImage url="#{item.color}" width="20px" height="20px" />
 			</p:column>
 
 			<ss2:column value="#{item.protocolo}" header="Protocolo"
@@ -59,11 +59,16 @@
 			<ss2:column value="#{item.dias}" header="Dias para Venc"
 				sortBy="dias" width="120" textAlign="center" />
 
-			<ss2:actionColumn managedBean="#{alertaControlador}" buttonsAdded="1">
+			<ss2:actionColumn managedBean="#{alertaControlador}" buttonsAdded="1" renderedActionColumn="false">
 				<p:commandButton value="Revalidar" title="Revalidar"
 					action="#{alertaControlador.showModalRevalidar(item)}"
 					icon="ui-icon-newwin" oncomplete="PF('dlgRevalidar').show();"
 					update=":formDlg" />
+
+				<p:commandButton value="Revisar" title="Revisar"
+					action="#{publicarDocumentoControlador.revisar(item)}"
+					icon="ui-icon-newwin" update=":form" />
+
 			</ss2:actionColumn>
 
 		</ss:grid>
