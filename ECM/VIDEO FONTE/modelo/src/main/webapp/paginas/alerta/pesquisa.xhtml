@@ -32,34 +32,34 @@
 
 		<ss:grid managedBean="#{alertaControlador}"
 			renderedActionColumn="false">
-			<p:column style="width:20px">
-				<p:graphicImage url="#{item.color}" width="20px" height="20px" />
+			<p:column style="width:30px">
+				<p:graphicImage url="#{item.color}" width="40px" />
 			</p:column>
 
 			<ss2:column value="#{item.protocolo}" header="Protocolo"
-				sortBy="protocolo" width="100" />
+				sortBy="protocolo" width="5px"  />
 
 			<ss2:column value="#{item.nomenclatura}" header="Nomenclatura"
-				sortBy="nomenclatura" />
+				sortBy="nomenclatura" width="200px"/>
 
 			<ss2:column value="#{item.titulo}" header="Titulo" sortBy="titulo"
-				textAlign="center" />
+				textAlign="center" width="200px" />
 
 			<ss2:column value="#{item.revisao}" header="Revisão" sortBy="revisao"
-				width="120" textAlign="center" />
+				 textAlign="center" />
 
 			<ss2:column value="#{item.dataAlerta}" header="Alerta"
-				sortBy="dataAlerta" convertDate="true" width="120"
+				sortBy="dataAlerta" convertDate="true"  width="5px"  
 				textAlign="center" />
 
-			<ss2:column value="#{item.dataVencimento}" header="Vencimento"
-				sortBy="dataVencimento" convertDate="true" width="120"
-				textAlign="center" />
+			<ss2:column value="#{item.dataVencimento}" header="Vencimento"  width="5px"  
+				sortBy="dataVencimento" convertDate="true"	textAlign="center" />
 
-			<ss2:column value="#{item.dias}" header="Dias para Venc"
-				sortBy="dias" width="120" textAlign="center" />
+			<ss2:column value="#{item.dias}" header="Dias"
+				sortBy="dias" width="5px" textAlign="center" />
 
-			<ss2:actionColumn managedBean="#{alertaControlador}" buttonsAdded="1" renderedActionColumn="false">
+			<ss2:actionColumn managedBean="#{alertaControlador}" buttonsAdded="1" 
+			renderedRemove="false" renderedDetail="false" renderedActionColumn="false"  width="300px">
 				<p:commandButton value="Revalidar" title="Revalidar"
 					action="#{alertaControlador.showModalRevalidar(item)}"
 					icon="ui-icon-newwin" oncomplete="PF('dlgRevalidar').show();"
