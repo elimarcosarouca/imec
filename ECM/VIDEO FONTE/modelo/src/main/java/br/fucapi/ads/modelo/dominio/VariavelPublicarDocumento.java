@@ -67,6 +67,8 @@ public class VariavelPublicarDocumento extends Variavel {
 
 	// dados da telas
 	private PostoCopia postoCopia;
+	
+	private List<PostoCopia> postoCopias;
 
 	private Setor setor;
 
@@ -504,6 +506,14 @@ public class VariavelPublicarDocumento extends Variavel {
 
 	public void setConcensosObjeto(List<Usuario> concensosObjeto) {
 		this.concensosObjeto = concensosObjeto;
+	}
+
+	public List<PostoCopia> getPostoCopias() {
+		return postoCopias;
+	}
+
+	public void setPostoCopias(List<PostoCopia> postoCopias) {
+		this.postoCopias = postoCopias;
 	}
 
 	/**

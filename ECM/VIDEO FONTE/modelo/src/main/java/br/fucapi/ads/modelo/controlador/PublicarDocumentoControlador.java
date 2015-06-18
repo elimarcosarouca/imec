@@ -44,6 +44,7 @@ import br.fucapi.ads.modelo.dominio.NomenclaturaDocumento;
 import br.fucapi.ads.modelo.dominio.PostoCopia;
 import br.fucapi.ads.modelo.dominio.Protocolo;
 import br.fucapi.ads.modelo.dominio.Setor;
+import br.fucapi.ads.modelo.dominio.Unidade;
 import br.fucapi.ads.modelo.dominio.VariaveisTarefa;
 import br.fucapi.ads.modelo.dominio.VariaveisTreinamento;
 import br.fucapi.ads.modelo.dominio.Variavel;
@@ -117,6 +118,10 @@ public class PublicarDocumentoControlador implements Serializable {
 	private String imagem;
 
 	private VariaveisTreinamento variaveisTreinamento;
+	
+	private Unidade unidade;
+	
+	private PostoCopia postoCopia;
 
 	private ProcessoInstancia processoStart;
 
@@ -145,7 +150,7 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	@ManagedProperty(value = "#{unidadeServicoImpl}")
 	private UnidadeServico unidadeServico;
-
+	
 	@ManagedProperty(value = "#{postoCopiaServicoImpl}")
 	private PostoCopiaServico postoCopiaServico;
 
@@ -527,13 +532,16 @@ public class PublicarDocumentoControlador implements Serializable {
 	}
 
 	@PostConstruct
-	public void init() {
+	public String init() {
 		this.usuarioLogado = (Usuario) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
 
-		this.inicioNovaSolicitacao();
+//		this.inicioNovaSolicitacao();
 		this.variaveisPesquisa = new VariavelPublicarDocumento();
+		this.variaveisPesquisa.setPostosCopiaObject(postoCopiaServico.listAll());
+		this.variaveisPesquisa.setUnidades(unidadeServico.listAll());
 
+		return TELA_PESQUISA;
 	}
 
 	public String validarFormulario() {
@@ -821,11 +829,34 @@ public class PublicarDocumentoControlador implements Serializable {
 			this.variaveis.converterListaVariaveis(pInstancia.getVariables());
 
 			pInstancia.setVariaveis(variaveis);
-			this.lista.add(pInstancia);
+			if (filtrarProcessoInstancia())
+				this.lista.add(pInstancia);
 		}
 
 		this.TELA_PESQUISA = "/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true";
 
+	}
+	
+	private boolean filtrarProcessoInstancia(){
+		boolean retorno = true;
+		
+		 if (this.postoCopia != null){
+			 for (PostoCopia posto : this.variaveis.getPostoCopias()) {
+				 if (posto.getId() == this.postoCopia.getId()){
+					 retorno = true;
+					 break;
+				 }
+				 retorno = true;
+			}
+		 }
+		 
+		 if (this.unidade != null){
+			 if (this.unidade.getId() != this.variaveis.getUnidade().getId()){
+				 retorno = false;
+			 }
+		 }
+		
+		return retorno;
 	}
 
 	public void pesquisarHistoricoDocumento(String protocoloOrigem) {
@@ -1333,5 +1364,21 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	public StatusProcesso[] getStatusProcesso() {
 		return StatusProcesso.values();
+	}
+
+	public Unidade getUnidade() {
+		return unidade;
+	}
+
+	public void setUnidade(Unidade unidade) {
+		this.unidade = unidade;
+	}
+
+	public PostoCopia getPostoCopia() {
+		return postoCopia;
+	}
+
+	public void setPostoCopia(PostoCopia postoCopia) {
+		this.postoCopia = postoCopia;
 	}
 }
