@@ -13,17 +13,16 @@
 		<p:menubar style="background: -moz-linear-gradient(bottom, #5F9EA0, #fff 100%);
 							background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #5F9EA0), color-stop(0.20, #fff)); width: 99%; ">
 			<p:submenu label="Solicitacao" icon="ui-icon-grip-dotted-vertical">
-				<p:menuitem value="Pesquisar WorkFlow"
-					url="/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true" />
+			
+				<p:menuitem value="Workflow" action="#{publicarDocumentoControlador.init}" update=":form" />
+				
 				<p:separator />
 				
 				<p:menuitem value="Tarefas" action="#{tarefaControle.init}" update=":form" />
 				
 				<p:separator />
 				
-				<p:menuitem value="Alerta"
-					url="/paginas/alerta/pesquisa.xhtml?faces-redirect=true"
-					/>
+				<p:menuitem value="Alerta" url="/paginas/alerta/pesquisa.xhtml?faces-redirect=true"/>
 				
 			</p:submenu>
 			
