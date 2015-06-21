@@ -53,7 +53,7 @@ public class JobAlertaControlador {
 						(System.currentTimeMillis()))));
 
 		Alerta alerta = new Alerta();
-		alerta.setChecked(false);
+//		alerta.setChecked(false);
 		alerta.setDataAlerta(new Date());
 
 		System.out

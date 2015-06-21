@@ -40,6 +40,7 @@ import br.com.jm.conversor.pdf.ConversaoParaPDF;
 import br.com.jm.conversor.pdf.office.ConversaoAPartirDeTextoOffice;
 import br.fucapi.ads.modelo.dominio.Alerta;
 import br.fucapi.ads.modelo.dominio.Arquivo;
+import br.fucapi.ads.modelo.dominio.Categoria;
 import br.fucapi.ads.modelo.dominio.NomenclaturaDocumento;
 import br.fucapi.ads.modelo.dominio.PostoCopia;
 import br.fucapi.ads.modelo.dominio.Protocolo;
@@ -118,9 +119,13 @@ public class PublicarDocumentoControlador implements Serializable {
 	private String imagem;
 
 	private VariaveisTreinamento variaveisTreinamento;
-	
+
 	private Unidade unidade;
-	
+
+	private Categoria categoria;
+
+	private Setor setor;
+
 	private PostoCopia postoCopia;
 
 	private ProcessoInstancia processoStart;
@@ -150,7 +155,7 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	@ManagedProperty(value = "#{unidadeServicoImpl}")
 	private UnidadeServico unidadeServico;
-	
+
 	@ManagedProperty(value = "#{postoCopiaServicoImpl}")
 	private PostoCopiaServico postoCopiaServico;
 
@@ -536,10 +541,13 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.usuarioLogado = (Usuario) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
 
-//		this.inicioNovaSolicitacao();
+		// this.inicioNovaSolicitacao();
 		this.variaveisPesquisa = new VariavelPublicarDocumento();
-		this.variaveisPesquisa.setPostosCopiaObject(postoCopiaServico.listAll());
+		this.variaveisPesquisa
+				.setPostosCopiaObject(postoCopiaServico.listAll());
 		this.variaveisPesquisa.setUnidades(unidadeServico.listAll());
+		this.variaveisPesquisa.setCategorias(categoriaServico.listAll());
+		this.variaveisPesquisa.setSetores(setorServico.listAll());
 
 		return TELA_PESQUISA;
 	}
@@ -836,26 +844,41 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.TELA_PESQUISA = "/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true";
 
 	}
-	
-	private boolean filtrarProcessoInstancia(){
+
+	private boolean filtrarProcessoInstancia() {
 		boolean retorno = true;
-		
-		 if (this.postoCopia != null){
-			 for (PostoCopia posto : this.variaveis.getPostoCopias()) {
-				 if (posto.getId() == this.postoCopia.getId()){
-					 retorno = true;
-					 break;
-				 }
-				 retorno = true;
+
+		if (this.postoCopia != null) {
+			for (PostoCopia posto : this.variaveis.getPostosCopiaObjeto()) {
+				if (posto.getId().equals(this.postoCopia.getId())) {
+					retorno = true;
+					break;
+				} else
+					retorno = false;
 			}
-		 }
-		 
-		 if (this.unidade != null){
-			 if (this.unidade.getId() != this.variaveis.getUnidade().getId()){
-				 retorno = false;
-			 }
-		 }
+			if (!retorno)
+				return retorno;
+		}
+
+		if (this.unidade != null) {
+			if (!this.unidade.getId().equals(
+					this.variaveis.getUnidade().getId()))
+				return false;
+		}
 		
+		if (this.setor != null) {
+			if (!this.setor.getId().equals(
+					this.variaveis.getSetor().getId())) 
+				return false;
+		}
+		
+		if (this.categoria != null) {
+			if (!this.categoria.getId().equals(
+					this.variaveis.getCategoria().getId())) 
+				return false;
+			
+		}
+
 		return retorno;
 	}
 
@@ -1380,5 +1403,21 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	public void setPostoCopia(PostoCopia postoCopia) {
 		this.postoCopia = postoCopia;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+	public Setor getSetor() {
+		return setor;
+	}
+
+	public void setSetor(Setor setor) {
+		this.setor = setor;
 	}
 }
