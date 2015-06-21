@@ -68,6 +68,16 @@
 							value="#{publicarDocumentoControlador.postoCopia}"
 							list="#{publicarDocumentoControlador.variaveisPesquisa.postosCopiaObjeto}"
 							foreignKey="true" atributo="#{item.nome}" />
+							
+						<ss:comboBox  label="Categoria"
+							value="#{publicarDocumentoControlador.categoria}"
+							list="#{publicarDocumentoControlador.variaveisPesquisa.categorias}"
+							foreignKey="true" atributo="#{item.nome}" />
+							
+						<ss:comboBox label="Setor"
+							value="#{publicarDocumentoControlador.setor}"
+							list="#{publicarDocumentoControlador.variaveisPesquisa.setores}"
+							foreignKey="true" atributo="#{item.nome}" />
 
 					</h:panelGrid>
 
