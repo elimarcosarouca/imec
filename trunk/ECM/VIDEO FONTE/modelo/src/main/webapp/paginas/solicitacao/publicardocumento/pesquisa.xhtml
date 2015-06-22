@@ -45,13 +45,12 @@
 					<p:growl id="growl" />
 
 
-					<h:panelGrid columns="2">
+					<h:panelGrid columns="4">
 						<h:outputText value="Protocolo: " />
-						<h:outputText value="Situação: " />
-
 						<p:inputText
 							value="#{publicarDocumentoControlador.variaveisPesquisa.protocolo}" />
 
+						<h:outputText value="Situação: " />
 						<p:selectOneMenu
 							value="#{publicarDocumentoControlador.variaveisPesquisa.statusProcesso}">
 							<f:selectItem itemLabel="TODOS" itemValue="" />
@@ -59,28 +58,32 @@
 								value="#{publicarDocumentoControlador.statusProcesso}" />
 						</p:selectOneMenu>
 
+					</h:panelGrid>
+
+					<h:panelGrid columns="2">
+
 						<ss:comboBox id="unidade" label="Unidade"
 							value="#{publicarDocumentoControlador.unidade}"
 							list="#{publicarDocumentoControlador.variaveisPesquisa.unidades}"
 							foreignKey="true" atributo="#{item.nome}" />
-							
+
 						<ss:comboBox label="Posto de Copia"
 							value="#{publicarDocumentoControlador.postoCopia}"
 							list="#{publicarDocumentoControlador.variaveisPesquisa.postosCopiaObjeto}"
 							foreignKey="true" atributo="#{item.nome}" />
-							
-						<ss:comboBox  label="Categoria"
+
+						<ss:comboBox label="Categoria"
 							value="#{publicarDocumentoControlador.categoria}"
 							list="#{publicarDocumentoControlador.variaveisPesquisa.categorias}"
 							foreignKey="true" atributo="#{item.nome}" />
-							
+
 						<ss:comboBox label="Setor"
 							value="#{publicarDocumentoControlador.setor}"
 							list="#{publicarDocumentoControlador.variaveisPesquisa.setores}"
 							foreignKey="true" atributo="#{item.nome}" />
 
 					</h:panelGrid>
-
+					
 					<p:commandButton id="pesquisa" icon="ui-icon-circle-zoomout"
 						actionListener="#{publicarDocumentoControlador.pesquisar}"
 						value="Pesquisar" update=":form" />
