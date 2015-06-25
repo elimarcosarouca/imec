@@ -5,80 +5,156 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions"
-	xmlns:ss2="http://www.3iti.com.br/jsf/componentes"
 	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
-	template="/resources/layout/search_template.xhtml">
+	template="/resources/layout/template.xhtml">
 
-	<ui:param name="pageTitle" value="Alerta" />
-	<ui:param name="pageHeader" value="Alerta" />
-	<ui:param name="managedBean" value="#{alertaControlador}" />
+	<!--  ====== Params ================ 
+			. Obrigatorios: 
+				- managedBean
+		 -->
 
-	<ui:define name="search_filter">
+	<ui:define name="content">
 
-		<ss:input label="Nomenclatura"
-			value="#{alertaControlador.pesquisa.nomenclatura}" />
+		<c:if test="#{empty widthContainer}">
+			<c:set var="widthContainer" value="100%" />
+		</c:if>
 
-		<ss:input label="Titulo" value="#{alertaControlador.pesquisa.titulo}" />
+		<c:if test="#{empty renderCancelar}">
+			<c:set var="renderCancelar" value="true" />
+		</c:if>
 
-		<ss:comboBox id="unidade" label="Unidade"
-			value="#{alertaControlador.pesquisa.unidade}"
-			list="#{publicarDocumentoControlador.variaveis.unidades}"
-			foreignKey="true" atributo="#{item.nome}" />
+		<c:if test="#{empty disabledBtnSalvar}">
+			<c:set var="disabledBtnSalvar" value="false" />
+		</c:if>
+
+		<c:if test="#{empty containerTitle}">
+			<c:set var="containerTitle" value="Preencher campos" />
+		</c:if>
+
+		<ui:param name="pageTitle" value="-- TODO definir titulo --" />
+
+		<div class="mainForm">
+
+			<h:form id="form">
+
+				<p:panel header="Pesquisa Alerta" id="painel"
+					class="painelformatado">
+					<p:growl id="growl" />
+
+
+					<h:panelGrid columns="3">
+						<h:outputText value="Nomenclatura: " />
+						<h:outputText value="Titulo: " />
+						<h:outputText value="Unidade: " />
+
+						<p:inputText value="#{alertaControlador.pesquisa.nomenclatura}" />
+
+						<p:inputText value="#{alertaControlador.pesquisa.titulo}" />
+
+						<p:selectOneMenu
+							value="#{alertaControlador.pesquisa.unidade}">
+							<f:selectItem itemLabel="TODOS" itemValue="" />
+							<f:selectItems itemValue="unidade" var="unidade" itemLabel="#{unidade.nome}"
+								value="#{publicarDocumentoControlador.variaveis.unidades}" />
+						</p:selectOneMenu>
+
+					</h:panelGrid>
+
+					<p:commandButton id="pesquisa" icon="ui-icon-circle-zoomout"
+						actionListener="#{alertaControlador.pesquisar}"
+						value="Pesquisar" update=":form" />
+
+					<p:commandButton id="novo" icon="ui-icon-circle-plus"
+						action="#{alertaControlador.novo}"
+						rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+						value="Novo" update=":form" />
+
+				</p:panel>
+
+				<p:blockUI block="form" trigger="pesquisa">  
+	        		Processando...<br />
+					<p:graphicImage value="/resources/imagens/ajax-loader.gif" />
+				</p:blockUI>
+
+				<p:panel header="Lista de Alerta" class="painelformatado">
+					<p:dataTable id="grid" var="item" styleClass="grid"
+						value="#{alertaControlador.listaPesquisa}" rows="10"
+						paginator="true" paginatorPosition="bottom"
+						paginatorAlwaysVisible="true"
+						emptyMessage="Nenhum registro encontrado."
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15,20">
+
+						<p:column style="text-align:center" headerText="Protocolo"
+							width="100">
+							<h:outputText value="#{item.businessKey}" />
+						</p:column>
+
+						<p:column style="text-align:center" headerText="Nomeclatura"
+							exportable="false" width="300">
+							<h:outputText value="#{item.variaveis.nomenclatura}" />
+						</p:column>
+
+						<p:column style="text-align:center" headerText="Titulo"
+							exportable="false" width="350">
+							<h:outputText value="#{item.variaveis.arquivoDoc.nomeArquivo}" />
+						</p:column>
+
+						<p:column style="text-align:center" headerText="Revisão"
+							exportable="false" width="100">
+							<h:outputText value="#{item.variaveis.versaoRevisao}" />
+						</p:column>
+
+						<p:column style="text-align:center" headerText="Alerta"
+							exportable="false">
+							<h:outputText value="#{item.variaveis.statusProcesso}" />
+						</p:column>
+
+						<p:column style="text-align:center" headerText="Vencimento"
+							width="150" exportable="false">
+							<h:outputText value="#{item.dataVencimento}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column style="text-align:center" headerText="Dias para Venc."
+							exportable="false">
+							<h:outputText value="#{item.dias}" />
+						</p:column>
+
+						<p:column style="text-align:center; width:100px"
+							headerText="Opção" exportable="false">
+
+							<p:commandButton value="Revalidar" title="Revalidar"
+								action="#{alertaControlador.showModalRevalidar(item)}"
+								icon="ui-icon-newwin" oncomplete="PF('dlgRevalidar').show();"
+								update=":formDlg" />
+
+						</p:column>
+
+						<f:facet name="footer">
+							<h:outputText
+								value="#{fn:length(alertaControlador.listaPesquisa)} Registro(s) encontrado(s)." />
+						</f:facet>
+
+					</p:dataTable>
+
+					<p:commandButton icon="ui-icon-print" value="Imprimir" ajax="false"
+						rendered="#{fn:length(alertaControlador.listaPesquisa) > 0}">
+						<p:dataExporter type="pdf" target="grid"
+							fileName="ListagemSolicitacoes" />
+					</p:commandButton>
+
+				</p:panel>
+			</h:form>
+		</div>	
 	</ui:define>
-
-	<ui:define name="grid_region">
-
-		<ss:grid managedBean="#{alertaControlador}"
-			renderedActionColumn="false">
-			<p:column style="width:30px">
-				<p:graphicImage url="#{item.color}" width="40px" />
-			</p:column>
-
-			<ss2:column value="#{item.protocolo}" header="Protocolo"
-				sortBy="protocolo" width="5px"  />
-
-			<ss2:column value="#{item.nomenclatura}" header="Nomenclatura"
-				sortBy="nomenclatura" width="200px"/>
-
-			<ss2:column value="#{item.titulo}" header="Titulo" sortBy="titulo"
-				textAlign="center" width="200px" />
-
-			<ss2:column value="#{item.revisao}" header="Revisão" sortBy="revisao"
-				 textAlign="center" />
-
-			<ss2:column value="#{item.dataAlerta}" header="Alerta"
-				sortBy="dataAlerta" convertDate="true"  width="5px"  
-				textAlign="center" />
-
-			<ss2:column value="#{item.dataVencimento}" header="Vencimento"  width="5px"  
-				sortBy="dataVencimento" convertDate="true"	textAlign="center" />
-
-			<ss2:column value="#{item.dias}" header="Dias"
-				sortBy="dias" width="5px" textAlign="center" />
-
-			<ss2:actionColumn managedBean="#{alertaControlador}" buttonsAdded="1" 
-			renderedRemove="false" renderedDetail="false" renderedActionColumn="false"  width="300px">
-				<p:commandButton value="Revalidar" title="Revalidar"
-					action="#{alertaControlador.showModalRevalidar(item)}"
-					icon="ui-icon-newwin" oncomplete="PF('dlgRevalidar').show();"
-					update=":formDlg" />
-
-				<p:commandButton value="Revisar" title="Revisar"
-					action="#{publicarDocumentoControlador.revisar(item)}"
-					icon="ui-icon-newwin" update=":form" />
-
-			</ss2:actionColumn>
-
-		</ss:grid>
-
-	</ui:define>
-
+	
 	<ui:define name="modal_region">
-
 		<ui:include src="revalidar.xhtml" />
-
 	</ui:define>
 
 </ui:composition>

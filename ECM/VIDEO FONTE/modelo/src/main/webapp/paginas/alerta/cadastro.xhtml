@@ -5,29 +5,84 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
-	template="/resources/layout/register_template.xhtml">
+	template="/resources/layout/template.xhtml">
 
-	<ui:param name="pageHeader" value="Cadastro de Alerta" />
-	<ui:param name="pageTitle" value="Cadastro de Alerta" />
-	<ui:param name="managedBean" value="#{alertaControlador}" />
-	<ui:param name="widthContainer" value="950px" />
+	<!--  ====== Params ================ 
+			. Obrigatorios: 
+				- managedBean
+		 -->
 
-	<ui:define name="register_region">
+	<ui:define name="content">
 
-		<ss:input id="protocolo" label="Protocolo" required="true"
-			value="#{alertaControlador.entidade.protocolo}" />
-		<ss:input id="Nomenclatura" label="Nomenclatura" required="true"
-			value="#{alertaControlador.entidade.nomenclatura}" />
-		<ss:input type="date" id="dataAlerta" label="Data de Alerta"
-			required="true" value="#{alertaControlador.entidade.dataAlerta}" />
-		<ss:input type="date" id="dataCadastro" label="Data de Cadastro"
-			required="true" value="#{alertaControlador.entidade.dataCadastro}" />
-		<ss:input type="date" id="dataVencimento" label="Data de Vencimento"
-			required="true" value="#{alertaControlador.entidade.dataVencimento}" />
-		
+		<c:if test="#{empty widthContainer}">
+			<c:set var="widthContainer" value="100%" />
+		</c:if>
+
+		<c:if test="#{empty renderCancelar}">
+			<c:set var="renderCancelar" value="true" />
+		</c:if>
+
+		<c:if test="#{empty disabledBtnSalvar}">
+			<c:set var="disabledBtnSalvar" value="false" />
+		</c:if>
+
+		<c:if test="#{empty containerTitle}">
+			<c:set var="containerTitle" value="Preencher campos" />
+		</c:if>
+
+		<ui:param name="pageTitle" value="-- TODO definir titulo --" />
+
+		<div class="mainForm">
+
+			<h:form id="form">
+				<p:growl id="growl" life="4000" />
+				<p:panel id="panel" closable="false" footer="*Campos Obrigatorios"
+					header="Cadastro de Alerta" class="painelformatado">
+					<h:panelGrid style="width:50%" columns="2" cellspacing="4">
+						<p:outputLabel value="Protocolo: *" />
+						<p:outputLabel value="Nomenclatura:* " />
+
+						<p:inputText id="protocolo" required="true" style="width: 99%"
+							value="#{alertaControlador.entidade.protocolo}"
+							requiredMessage="Informe o Protocolo." />
+
+						<p:inputText id="nomenclatura" required="true"
+							value="#{alertaControlador.entidade.nomenclatura}"
+							requiredMessage="Informe a Nomenclatura" />
+
+					</h:panelGrid>
+
+					<h:panelGrid style="width:30%" columns="3" cellspacing="4">
+						<p:outputLabel value="Data de Alerta: *" />
+						<p:outputLabel value="Data de Cadastro: *" />
+						<p:outputLabel value="Data de Vencimento: *" />
+
+						<p:calendar required="true" id="dataAlerta" pattern="dd/MM/yyyy" mask="true" requiredMessage="Informe a Data de Alerta."
+							value="#{alertaControlador.entidade.dataAlerta}" />
+
+						<p:calendar required="true" id="dataCadastro" pattern="dd/MM/yyyy" mask="true" requiredMessage="Informe a Data de Cadastro."
+							value="#{alertaControlador.entidade.dataCadastro}" />
+							
+						<p:calendar required="true" id="dataVencimento" pattern="dd/MM/yyyy" mask="true" requiredMessage="Informe a Data de Vencimento."
+							value="#{alertaControlador.entidade.dataVencimento}" />	
+							
+					</h:panelGrid>
+					
+					<p:commandButton id="btnVoltar" value="Cancelar" immediate="true"
+						actionListener="#{alertaControlador.cancelar()}"
+						icon="ui-icon-circle-arrow-w" 
+						update=":form" />
+
+					<p:commandButton id="save" icon="ui-icon-plusthick" value="Salvar"
+						action="#{alertaControlador.salvar}" update=":form" />
+				</p:panel>
+
+			</h:form>
+		</div>
 	</ui:define>
 
 </ui:composition>
