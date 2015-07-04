@@ -28,7 +28,6 @@ import br.fucapi.ads.modelo.enumerated.Constants;
 import br.fucapi.ads.modelo.servico.UsuarioGrupoLogServico;
 import br.fucapi.ads.modelo.servico.UsuarioLogServico;
 import br.fucapi.ads.modelo.utils.FacesUtils;
-import br.fucapi.ads.modelo.utils.ItemMenu;
 import br.fucapi.ads.modelo.utils.Menu;
 import br.fucapi.bpms.alfresco.dominio.Capabilities;
 import br.fucapi.bpms.alfresco.dominio.GrupoAlfresco;
@@ -181,10 +180,10 @@ public class UsuarioControladorBean implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
 							"Atenção. Operação realizada com sucesso", ""));
 		}
-		
+
 		return redirect(PESQUISA);
 	}
-	
+
 	public void isBloqueado(boolean isNovoUsuario) {
 		String operacao;
 
@@ -598,9 +597,11 @@ public class UsuarioControladorBean implements Serializable {
 
 		Menu menu = new Menu("Cadastro", null);
 
-		ItemMenu item = new ItemMenu(null, "TIPO DE DOCUMENTO",
-				"/paginas/tipodocumento/pesquisa.xhtml" + redirec);
-		menu.getItemMenus().add(item);
+		/*
+		 * ItemMenu item = new ItemMenu(null, "TIPO DE DOCUMENTO",
+		 * "/paginas/tipodocumento/pesquisa.xhtml" + redirec);
+		 * menu.getItemMenus().add(item);
+		 */
 
 		menuList.add(menu);
 

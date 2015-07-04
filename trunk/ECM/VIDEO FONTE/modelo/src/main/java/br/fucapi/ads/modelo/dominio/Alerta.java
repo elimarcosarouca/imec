@@ -53,7 +53,7 @@ public class Alerta extends AbstractEntity implements Serializable {
 	private Date dataCadastro;
 
 	@Column(nullable = false)
-	private String nomenclatura;
+	private String codigo;
 
 	@Column(nullable = false)
 	private String titulo;
@@ -117,12 +117,12 @@ public class Alerta extends AbstractEntity implements Serializable {
 		this.dataCadastro = dataCadastro;
 	}
 
-	public String getNomenclatura() {
-		return nomenclatura;
+	public String getCodigo() {
+		return codigo;
 	}
 
-	public void setNomenclatura(String nomenclatura) {
-		this.nomenclatura = nomenclatura;
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getTitulo() {
@@ -177,8 +177,8 @@ public class Alerta extends AbstractEntity implements Serializable {
 		this.protocolo = ((VariavelPublicarDocumento) tarefaInstancia
 				.getVariaveis()).getProtocolo();
 
-		this.nomenclatura = ((VariavelPublicarDocumento) tarefaInstancia
-				.getVariaveis()).getNomenclatura();
+		this.codigo = ((VariavelPublicarDocumento) tarefaInstancia
+				.getVariaveis()).getCodigo();
 
 		this.titulo = ((VariavelPublicarDocumento) tarefaInstancia
 				.getVariaveis()).getArquivoDoc().getNomeArquivo();

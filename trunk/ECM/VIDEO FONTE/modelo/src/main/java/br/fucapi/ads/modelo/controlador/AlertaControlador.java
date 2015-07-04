@@ -1,5 +1,6 @@
 package br.fucapi.ads.modelo.controlador;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,13 +9,16 @@ import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import br.fucapi.ads.modelo.dominio.Alerta;
+import br.fucapi.ads.modelo.enumerated.Constants;
 import br.fucapi.ads.modelo.enumerated.StatusProcesso;
 import br.fucapi.ads.modelo.servico.AlertaServico;
 import br.fucapi.ads.modelo.servico.Servico;
 import br.fucapi.ads.modelo.utils.GeralUtils;
-import br.fucapi.bpms.activiti.dao.VariavelDAO;
 import br.fucapi.bpms.activiti.servico.ActivitiServico;
 import br.fucapi.bpms.activiti.util.JsonUtil;
 import br.fucapi.bpms.alfresco.dominio.Usuario;
@@ -42,6 +46,34 @@ public class AlertaControlador extends ControladorGenerico<Alerta> {
 	private ActivitiServico activitiServico;
 
 	private String nomeRelatorio = "alerta.jasper";
+
+	public String telaPesquisa() {
+		super.setup();
+		return redirecionar(PESQUISA);
+	}
+
+	public String redirecionar(String page) {
+		try {
+
+			ExternalContext context = FacesContext.getCurrentInstance()
+					.getExternalContext();
+			HttpServletRequest request = (HttpServletRequest) context
+					.getRequest();
+
+			String fullUrl = request.getRequestURL().toString();
+			String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("");
+			String url = path + Constants.BARRA + "paginas/alerta"+ Constants.BARRA +page + Constants.EXTENSION
+					+ Constants.REDIRECT;
+
+			
+			context.redirect(url);
+			FacesContext.getCurrentInstance().responseComplete();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return page;
+	}
 
 	@Override
 	protected String getNomeRelatorioJasper() {

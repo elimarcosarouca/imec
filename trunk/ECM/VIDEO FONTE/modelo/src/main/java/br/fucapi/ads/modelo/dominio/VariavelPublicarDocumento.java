@@ -33,9 +33,9 @@ public class VariavelPublicarDocumento extends Variavel {
 
 	private List<String> emailAprovadores;
 
-	private List<String> concensos;
+	private List<String> concessoes;
 
-	private List<String> emailConcensos;
+	private List<String> emailConcessoes;
 
 	private List<Long> postosCopia;
 
@@ -61,7 +61,7 @@ public class VariavelPublicarDocumento extends Variavel {
 
 	private String alteracoes;
 
-	private String nomenclatura;
+	private String codigo;
 
 	private Long idAlerta;
 
@@ -114,7 +114,7 @@ public class VariavelPublicarDocumento extends Variavel {
 	 * Atributo utilizado para guardar no activiti o objeto completo de usuario
 	 * concenso.
 	 */
-	private List<Usuario> concensosObjeto;
+	private List<Usuario> concessoesObjeto;
 
 	public VariavelPublicarDocumento() {
 		this.tipoSolicitacao = PUBLICAR_DOCUMENTO;
@@ -128,10 +128,10 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.publicacaoAutomatica = true;
 		this.aprovadores = new ArrayList<String>();
 		this.elaboradores = new ArrayList<String>();
-		this.concensos = new ArrayList<String>();
+		this.concessoes = new ArrayList<String>();
 		this.postosCopia = new ArrayList<Long>();
 		this.emailAprovadores = new ArrayList<String>();
-		this.emailConcensos = new ArrayList<String>();
+		this.emailConcessoes = new ArrayList<String>();
 		this.arquivoDoc = new Arquivo();
 		this.arquivoControlado = new Arquivo();
 		this.arquivoNaoControlado = new Arquivo();
@@ -140,12 +140,12 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.postosCopiaObjeto = new ArrayList<PostoCopia>();
 		this.aprovadoresObjeto = new ArrayList<Usuario>();
 		this.elaboradoresObjeto = new ArrayList<Usuario>();
-		this.concensosObjeto = new ArrayList<Usuario>();
+		this.concessoesObjeto = new ArrayList<Usuario>();
 		this.notificarVencimento = 30;
 	}
 
 	public void tratarAtributos(List<Usuario> aprovadoresTarget,
-			List<Usuario> concensosTarget, List<Usuario> elaboradoesTarget,
+			List<Usuario> concessoesTarget, List<Usuario> elaboradoesTarget,
 			List<PostoCopia> postosCopiaTarget) {
 
 		this.dataNotificacao = GeralUtils.gerarDataNotificacao(
@@ -160,11 +160,11 @@ public class VariavelPublicarDocumento extends Variavel {
 			}
 		}
 
-		if (concensosTarget != null && concensosTarget.size() > 0) {
-			this.concensosObjeto = concensosTarget;
-			for (Usuario u : concensosTarget) {
-				this.concensos.add(u.getUserName());
-				this.emailConcensos.add(u.getEmail());
+		if (concessoesTarget != null && concessoesTarget.size() > 0) {
+			this.concessoesObjeto = concessoesTarget;
+			for (Usuario u : concessoesTarget) {
+				this.concessoes.add(u.getUserName());
+				this.emailConcessoes.add(u.getEmail());
 			}
 		}
 
@@ -204,20 +204,20 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.emailAprovadores = emailAprovadores;
 	}
 
-	public List<String> getConcensos() {
-		return concensos;
+	public List<String> getConcessoes() {
+		return concessoes;
 	}
 
-	public void setConcensos(List<String> concensos) {
-		this.concensos = concensos;
+	public void setConcessoes(List<String> concessoes) {
+		this.concessoes = concessoes;
 	}
 
-	public List<String> getEmailConcensos() {
-		return emailConcensos;
+	public List<String> getEmailConcessoes() {
+		return emailConcessoes;
 	}
 
-	public void setEmailConcensos(List<String> emailConcensos) {
-		this.emailConcensos = emailConcensos;
+	public void setEmailConcessoes(List<String> emailConcessoes) {
+		this.emailConcessoes = emailConcessoes;
 	}
 
 	public List<Long> getPostosCopia() {
@@ -468,12 +468,12 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.alteracoes = alteracoes;
 	}
 
-	public String getNomenclatura() {
-		return nomenclatura;
+	public String getCodigo() {
+		return codigo;
 	}
 
-	public void setNomenclatura(String nomenclatura) {
-		this.nomenclatura = nomenclatura;
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public List<PostoCopia> getPostosCopiaObject() {
@@ -500,12 +500,12 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.elaboradoresObjeto = elaboradoresObjeto;
 	}
 
-	public List<Usuario> getConcensosObjeto() {
-		return concensosObjeto;
+	public List<Usuario> getConcessoesObjeto() {
+		return concessoesObjeto;
 	}
 
-	public void setConcensosObjeto(List<Usuario> concensosObjeto) {
-		this.concensosObjeto = concensosObjeto;
+	public void setConcessoesObjeto(List<Usuario> concessoesObjeto) {
+		this.concessoesObjeto = concessoesObjeto;
 	}
 
 	public List<PostoCopia> getPostoCopias() {
@@ -565,12 +565,12 @@ public class VariavelPublicarDocumento extends Variavel {
 				setArquivoCancelado(var.getValue() != null ? (Arquivo) var
 						.getValue() : null);
 
-			} else if (var.getName().equals("concensos")) {
-				setConcensos(var.getValue() != null ? (List<String>) var
+			} else if (var.getName().equals("concessoes")) {
+				setConcessoes(var.getValue() != null ? (List<String>) var
 						.getValue() : null);
 
-			} else if (var.getName().equals("emailConcensos")) {
-				setEmailConcensos(var.getValue() != null ? (List<String>) var
+			} else if (var.getName().equals("emailConcessoes")) {
+				setEmailConcessoes(var.getValue() != null ? (List<String>) var
 						.getValue() : null);
 
 			} else if (var.getName().equals("tipoSolicitacao")
@@ -636,9 +636,9 @@ public class VariavelPublicarDocumento extends Variavel {
 					&& var.getValue() != null) {
 				this.setAlteracoes(var.getValue().toString());
 
-			} else if (var.getName().equals("nomenclatura")
+			} else if (var.getName().equals("codigo")
 					&& var.getValue() != null) {
-				this.setNomenclatura(var.getValue().toString());
+				this.setCodigo(var.getValue().toString());
 
 			} else if (var.getName().equals("categoria")
 					&& var.getValue() != null) {
@@ -699,9 +699,9 @@ public class VariavelPublicarDocumento extends Variavel {
 				this.setElaboradoresObjeto(var.getValue() != null ? (List<Usuario>) var
 						.getValue() : null);
 
-			} else if ("concensosObjeto".equals(var.getName())
+			} else if ("concessoesObjeto".equals(var.getName())
 					&& var.getValue() != null) {
-				this.setConcensosObjeto(var.getValue() != null ? (List<Usuario>) var
+				this.setConcessoesObjeto(var.getValue() != null ? (List<Usuario>) var
 						.getValue() : null);
 
 			} else if (var.getName().equals("statusProcesso")
@@ -727,8 +727,8 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("elaboradores", this.getElaboradores());
 		params.put("emailProprietario", this.getEmailProprietario());
 
-		params.put("concensos", this.getConcensos());
-		params.put("emailConcensos", this.getEmailConcensos());
+		params.put("concessoes", this.getConcessoes());
+		params.put("emailConcessoes", this.getEmailConcessoes());
 
 		params.put("aprovadores", this.getAprovadores());
 		params.put("emailArovadores", this.getEmailAprovadores());
@@ -756,7 +756,7 @@ public class VariavelPublicarDocumento extends Variavel {
 			params.put("protocoloOrigem", this.getProtocoloOrigem());
 
 		params.put("alteracoes", this.getAlteracoes());
-		params.put("nomenclatura", this.getNomenclatura());
+		params.put("codigo", this.getCodigo());
 
 		params.put("dataVencimento", this.getDataVencimento());
 		params.put("dataNotificacao", this.getDataNotificacao());
@@ -766,7 +766,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		params.put("postosCopiaObjeto", this.getPostosCopiaObjeto());
 		params.put("aprovadoresObjeto", this.getAprovadoresObjeto());
 		params.put("elaboradoresObjeto", this.getElaboradoresObjeto());
-		params.put("concensosObjeto", this.getConcensosObjeto());
+		params.put("concessoesObjeto", this.getConcessoesObjeto());
 
 		return params;
 	}
