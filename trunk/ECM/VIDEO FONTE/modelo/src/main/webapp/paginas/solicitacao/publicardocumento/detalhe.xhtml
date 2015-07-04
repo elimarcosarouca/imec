@@ -53,7 +53,7 @@
 
 							<h:panelGrid style="width:30%" columns="5" cellspacing="4">
 								<h:outputLabel value="Nome: " styleClass="ui-priority-primary" />
-								<h:outputLabel value="Nomenclatura: "
+								<h:outputLabel value="Código "
 									styleClass="ui-priority-primary" />
 								<h:outputLabel value="Categoria: "
 									styleClass="ui-priority-primary" />
@@ -63,8 +63,8 @@
 
 								<p:inputText id="nomeDocumento" readonly="true"
 									value="#{publicarDocumentoControlador.processoInstancia.variaveis.arquivoDoc.nomeArquivo}" />
-								<p:inputText id="nomenclatura" readonly="true"
-									value="#{publicarDocumentoControlador.processoInstancia.variaveis.nomenclatura}" />
+								<p:inputText id="codigo" readonly="true"
+									value="#{publicarDocumentoControlador.processoInstancia.variaveis.codigo}" />
 								<p:inputText id="categoria" readonly="true"
 									value="#{publicarDocumentoControlador.processoInstancia.variaveis.categoria.sigla} - #{publicarDocumentoControlador.processoInstancia.variaveis.categoria.nome}" />
 								<p:inputText id="unidade" readonly="true"
@@ -197,7 +197,7 @@
 											</p:selectBooleanCheckbox>
 
 											<p:orderList id="listConcensao"
-												value="#{publicarDocumentoControlador.processoInstancia.variaveis.concensosObjeto}"
+												value="#{publicarDocumentoControlador.processoInstancia.variaveis.concessoesObjeto}"
 												var="item" styleClass="ui-priority-primary"
 												itemLabel="#{item.userName} - #{item.firstName} #{item.lastName}"
 												itemValue="#{item}" controlsLocation="none" />
