@@ -100,8 +100,8 @@ public class ColaboradorControlador extends ControladorGenerico<Colaborador> {
 		param.put("versaoRevisao", ((VariavelPublicarDocumento) processo
 				.getVariaveis()).getVersaoRevisao());
 		
-		param.put("nomenclatura", ((VariavelPublicarDocumento) processo
-				.getVariaveis()).getNomenclatura());
+		param.put("codigo", ((VariavelPublicarDocumento) processo
+				.getVariaveis()).getCodigo());
 		
 		param.put("nomeArquivo", ((VariavelPublicarDocumento) processo
 				.getVariaveis()).getArquivoDoc().getNomeArquivo());

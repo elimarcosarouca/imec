@@ -189,9 +189,9 @@ public class PublicarDocumentoControlador implements Serializable {
 	private List<Usuario> aprovadoresTarget;
 	private List<Usuario> aprovadoresSource;
 
-	private DualListModel<Usuario> concensos;
-	private List<Usuario> concensosTarget;
-	private List<Usuario> concensosSource;
+	private DualListModel<Usuario> concessoes;
+	private List<Usuario> concessoesTarget;
+	private List<Usuario> concessoesSource;
 
 	private DualListModel<Usuario> elaboradores;
 	private List<Usuario> elaboradoresTarget;
@@ -507,12 +507,12 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.aprovadores = new DualListModel<Usuario>(this.aprovadoresSource,
 				this.aprovadoresTarget);
 
-		// PickList Concensos
-		this.concensosSource = new ArrayList<Usuario>();
-		this.concensosSource.addAll(this.usuarios);
-		this.concensosTarget = new ArrayList<Usuario>();
-		this.concensos = new DualListModel<Usuario>(this.concensosSource,
-				this.concensosTarget);
+		// PickList Concessoes
+		this.concessoesSource = new ArrayList<Usuario>();
+		this.concessoesSource.addAll(this.usuarios);
+		this.concessoesTarget = new ArrayList<Usuario>();
+		this.concessoes = new DualListModel<Usuario>(this.concessoesSource,
+				this.concessoesTarget);
 
 		// PickList Elaboradores
 		this.elaboradoresSource = new ArrayList<Usuario>();
@@ -575,11 +575,11 @@ public class PublicarDocumentoControlador implements Serializable {
 		System.out.println(this.protocolo.toString());
 
 		/*
-		 * Trata a lista de aprovadores (login e email) e concensos (login e
+		 * Trata a lista de aprovadores (login e email) e concessoes (login e
 		 * email) que devem ser enviadas ao Activiti
 		 */
 		this.variaveis.tratarAtributos(this.aprovadores.getTarget(),
-				this.concensos.getTarget(), this.elaboradores.getTarget(),
+				this.concessoes.getTarget(), this.elaboradores.getTarget(),
 				this.postosCopia.getTarget());
 
 		// Chamada para converter o arquivo .doc e salvar os arquivos no
@@ -597,7 +597,8 @@ public class PublicarDocumentoControlador implements Serializable {
 		nomenclatura.setSetor(this.variaveis.getSetor());
 		nomenclatura = this.nomenclaturaDocumentoServico
 				.pegarSequencial(nomenclatura);
-		this.variaveis.setNomenclatura(nomenclatura.toString());
+		
+		this.variaveis.setCodigo(nomenclatura.toString());
 
 		this.activitiServico.iniciarInstanciaProcessoPorParametrosByKey(
 				variaveis.getPUBLICAR_DOCUMENTO(), this.protocolo.toString(),
@@ -1248,28 +1249,28 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.aprovadoresSource = aprovadoresSource;
 	}
 
-	public DualListModel<Usuario> getConcensos() {
-		return concensos;
+	public DualListModel<Usuario> getConcessoes() {
+		return concessoes;
 	}
 
-	public void setConcensos(DualListModel<Usuario> concensos) {
-		this.concensos = concensos;
+	public void setConcessoes(DualListModel<Usuario> concessoes) {
+		this.concessoes = concessoes;
 	}
 
-	public List<Usuario> getConcensosTarget() {
-		return concensosTarget;
+	public List<Usuario> getConcessoesTarget() {
+		return concessoesTarget;
 	}
 
-	public void setConcensosTarget(List<Usuario> concensosTarget) {
-		this.concensosTarget = concensosTarget;
+	public void setConcessoesTarget(List<Usuario> concessoesTarget) {
+		this.concessoesTarget = concessoesTarget;
 	}
 
-	public List<Usuario> getConcensosSource() {
-		return concensosSource;
+	public List<Usuario> getConcessoesSource() {
+		return concessoesSource;
 	}
 
-	public void setConcensosSource(List<Usuario> concensosSource) {
-		this.concensosSource = concensosSource;
+	public void setConcessoesSource(List<Usuario> concessoesSource) {
+		this.concessoesSource = concessoesSource;
 	}
 
 	public DualListModel<Usuario> getElaboradores() {

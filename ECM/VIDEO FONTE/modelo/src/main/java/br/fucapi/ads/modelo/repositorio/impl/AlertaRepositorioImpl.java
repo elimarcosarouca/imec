@@ -28,8 +28,8 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 			condictions.add(" est.protocolo =:protocolo ");
 		}
 
-		if (notEmpty(abstractEntity.getNomenclatura())) {
-			condictions.add(" est.nomenclatura =:nomenclatura ");
+		if (notEmpty(abstractEntity.getCodigo())) {
+			condictions.add(" est.codigo =:codigo ");
 		}
 
 		if (notEmpty(abstractEntity.getTitulo())) {
@@ -52,8 +52,8 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 			query.setParameter("protocolo", abstractEntity.getProtocolo());
 		}
 
-		if (notEmpty(abstractEntity.getNomenclatura())) {
-			query.setParameter("nomenclatura", abstractEntity.getNomenclatura());
+		if (notEmpty(abstractEntity.getCodigo())) {
+			query.setParameter("nomenclatura", abstractEntity.getCodigo());
 		}
 
 		if (notEmpty(abstractEntity.getTitulo())) {

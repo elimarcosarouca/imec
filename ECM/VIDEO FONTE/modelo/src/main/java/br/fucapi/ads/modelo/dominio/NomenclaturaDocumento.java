@@ -106,8 +106,8 @@ public class NomenclaturaDocumento extends AbstractEntity implements
 	}
 
 	public String toString() {
-		return getUnidade().getSigla() + "_" + getSetor().getSigla() + "_"
-				+ getCategoria().getSigla() + "_" + getSequencialFormatado();
+		return getUnidade().getSigla() + "." + getSetor().getSigla() + "."
+				+ getCategoria().getSigla() + "." + getSequencialFormatado();
 	}
 
 	public boolean equals(Object o) {

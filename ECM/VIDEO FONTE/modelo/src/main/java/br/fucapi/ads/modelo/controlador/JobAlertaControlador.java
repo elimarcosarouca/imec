@@ -61,7 +61,6 @@ public class JobAlertaControlador {
 		this.listaAlerta = alertaServico.pesquisar(alerta);
 
 		for (Alerta alertaVencimento : listaAlerta) {
-			System.out.println(alertaVencimento.getNomenclatura());
 			enviarEmailAlerta(alertaVencimento);
 		}
 	}

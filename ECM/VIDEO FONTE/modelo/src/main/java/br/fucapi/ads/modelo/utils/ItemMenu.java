@@ -10,15 +10,18 @@ public class ItemMenu implements Serializable {
 
 	private String descricao;
 
+	private String icon;
+
 	private String link;
 
 	private static int count;
 
-	public ItemMenu(String id, String descricao, String link) {
+	public ItemMenu(String id, String descricao, String link, String icon) {
 		count++;
 		this.id = id != null ? id : count + "";
 		this.descricao = descricao;
 		this.link = link;
+		this.icon = icon;
 	}
 
 	public String getId() {
@@ -43,6 +46,14 @@ public class ItemMenu implements Serializable {
 
 	public void setLink(String link) {
 		this.link = link;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
 }
