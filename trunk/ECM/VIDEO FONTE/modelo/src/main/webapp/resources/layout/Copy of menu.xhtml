@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="formMenu">
+
+		<p:menubar style="background: #00868B;">
+			<p:submenu label="Solicitacao" icon="ui-icon-grip-dotted-vertical">
+
+				<p:menuitem value="Workflow"
+					action="#{publicarDocumentoControlador.init}" update=":form" />
+
+				<p:separator />
+
+				<p:menuitem value="Tarefas" action="#{tarefaControle.init}"
+					update=":form" />
+
+				<p:separator />
+
+				<p:menuitem value="Alerta"
+					url="/paginas/alerta/pesquisa.xhtml?faces-redirect=true" />
+
+			</p:submenu>
+
+			<p:submenu label="Cadastros" icon="ui-icon-grip-dotted-vertical"
+				rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}">
+				<p:menuitem value="Unidades"
+					url="/paginas/unidade/pesquisa.xhtml?faces-redirect=true" />
+				<p:menuitem value="Setores"
+					url="/paginas/setor/pesquisa.xhtml?faces-redirect=true" />
+				<p:menuitem value="Categorias"
+					url="/paginas/categoria/pesquisa.xhtml?faces-redirect=true" />
+				<p:menuitem value="Postos de Cópia"
+					url="/paginas/postocopia/pesquisa.xhtml?faces-redirect=true" />
+				<p:menuitem value="Colaboradores"
+					url="/paginas/colaborador/pesquisa.xhtml?faces-redirect=true" />
+
+				<p:menuitem value="Grupo"
+					url="/paginas/grupo/pesquisa.xhtml?faces-redirect=true" />
+
+				<p:menuitem value="Usuario"
+					url="/paginas/usuario/pesquisa.xhtml?faces-redirect=true" />
+
+			</p:submenu>
+
+			<f:facet name="options">
+				<p:commandButton
+					value="#{sessaoControladorBean.countTarefa} Tarefa(s) Pendente(s)"
+					id="totalTarefa" />
+ 
+				<p:commandButton
+					value="#{sessaoControladorBean.countAlerta} Alerta(s) Pendente(s)"
+					id="totalAlerta" update=":formMenu:totalAlerta" />
+
+				<p:poll interval="5"
+					listener="#{sessaoControladorBean.countTarefaPendente(sessaoControladorBean.usuario.userName)}"
+					update=":formMenu:totalTarefa" />
+
+				<p:poll interval="5"
+					listener="#{sessaoControladorBean.countAlertaPendente(sessaoControladorBean.usuario.userName)}"
+					update=":formMenu:totalAlerta" />
+
+			</f:facet>
+
+			<f:facet name="options" class="menu">
+				<p:menuButton value="#{sessaoControladorBean.usuario.userName}"
+					class="menu">
+					<p:menuitem value="Sair" action="#{sessaoControladorBean.logout}"
+						icon="ui-icon-extlink" />
+				</p:menuButton>
+			</f:facet>
+		</p:menubar> 
+
+		<div>
+			<p:dock position="bottom" >
+				<p:menuitem value="WorkFlows" icon="/resources/estilos/tarefa.png"
+					rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+					action="#{publicarDocumentoControlador.init}" update=":form" />
+
+				<p:menuitem value="Tarefas" icon="/resources/estilos/tarefa1.png"
+					action="#{tarefaControle.init}" update=":form" />
+
+				<p:menuitem value="Alertas" icon="/resources/estilos/alerta.png"
+					rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+					url="/paginas/alerta/pesquisa.xhtml?faces-redirect=true" />
+
+				<p:menuitem value="Unidades" icon="/resources/estilos/unidade.png"
+					rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+					url="/paginas/unidade/pesquisa.xhtml?faces-redirect=true" />
+
+				<p:menuitem value="Setores" icon="/resources/estilos/setor1.png"
+					rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+					url="/paginas/setor/pesquisa.xhtml?faces-redirect=true" />
+
+				<p:menuitem value="Categorias"
+					rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+					icon="/resources/estilos/categoria.png"
+					url="/paginas/categoria/pesquisa.xhtml?faces-redirect=true" />
+
+				<p:menuitem value="Postos de Cópia"
+					rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+					icon="/resources/estilos/copia.png"
+					url="/paginas/postocopia/pesquisa.xhtml?faces-redirect=true" />
+
+				<p:menuitem value="Colaboradores" icon="/resources/estilos/job.png"
+					rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+					url="/paginas/colaborador/pesquisa.xhtml?faces-redirect=true" />
+
+				<p:menuitem value="Usuários" icon="/resources/estilos/usuarios.png"
+					rendered="#{pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+					url="/paginas/usuario/pesquisa.xhtml?faces-redirect=true" />
+
+				<p:menuitem value="Grupos" icon="/resources/estilos/grupo.png"
+					rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+					url="/paginas/grupo/pesquisa.xhtml?faces-redirect=true" />
+
+			</p:dock>
+		</div>
+
+	</h:form>
+</ui:component>
