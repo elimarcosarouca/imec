@@ -9,76 +9,87 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<h:form id="formMenu">
-		
-		<p:menubar style="background: #00868B;">
-			<p:submenu label="Solicitacao" icon="ui-icon-grip-dotted-vertical">
-			
-				<p:menuitem value="Workflow" action="#{publicarDocumentoControlador.init}" update=":form" />
-				
-				<p:separator />
-				
-				<p:menuitem value="Tarefas" action="#{tarefaControle.init}" update=":form" />
-				
-				<p:separator />
-				
-				<p:menuitem value="Alerta" url="/paginas/alerta/pesquisa.xhtml?faces-redirect=true"/>
-				
-			</p:submenu>
-			
-			<p:submenu label="Cadastros" icon="ui-icon-grip-dotted-vertical"
-				rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}">
-				<p:menuitem value="Unidades"
-					url="/paginas/unidade/pesquisa.xhtml?faces-redirect=true"
-					/>
-				<p:menuitem value="Setores" url="/paginas/setor/pesquisa.xhtml?faces-redirect=true"
-					/>
-				<p:menuitem value="Categorias"
-					url="/paginas/categoria/pesquisa.xhtml?faces-redirect=true"
-					/>
-				<p:menuitem value="Postos de Cópia"
-					url="/paginas/postocopia/pesquisa.xhtml?faces-redirect=true"
-					/>
-				<p:menuitem value="Colaboradores"
-					url="/paginas/colaborador/pesquisa.xhtml?faces-redirect=true"
-					/>
 
-				<p:menuitem value="Grupo"
-					url="/paginas/grupo/pesquisa.xhtml?faces-redirect=true"
-					/>
+		<p:dock position="bottom" id="ui-dock">
+			<p:menuitem value="WorkFlows" icon="/resources/estilos/tarefa.png"
+				rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+				action="#{publicarDocumentoControlador.init}" update=":form" />
 
-				<p:menuitem value="Usuario"
-					url="/paginas/usuario/pesquisa.xhtml?faces-redirect=true"
-					/>
+			<p:menuitem value="Tarefas" icon="/resources/estilos/tarefa1.png"
+				action="#{tarefaControle.init}" update=":form" />
 
-			</p:submenu>
+			<p:menuitem value="Alertas" icon="/resources/estilos/alerta.png"
+				rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+				url="/paginas/alerta/pesquisa.xhtml?faces-redirect=true" />
 
-			<f:facet name="options">
-				<!-- <p:commandButton
-					value="#{sessaoControladorBean.countTarefa} Tarefa(s) Pendente(s)"
-					id="totalTarefa" />
+			<p:menuitem value="Unidades" icon="/resources/estilos/unidade.png"
+				rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+				url="/paginas/unidade/pesquisa.xhtml?faces-redirect=true" />
 
-				<p:commandButton
-					value="#{sessaoControladorBean.countAlerta} Alerta(s) Pendente(s)"
-					id="totalAlerta" update=":formMenu:totalAlerta" />
+			<p:menuitem value="Setor" icon="/resources/estilos/setor.png"
+				rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+				url="/paginas/setor/pesquisa.xhtml?faces-redirect=true" />
 
-				<p:poll interval="5"
-					listener="#{sessaoControladorBean.countTarefaPendente(sessaoControladorBean.usuario.userName)}"
-					update=":formMenu:totalTarefa" />
+			<p:menuitem value="Categorias"
+				rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+				icon="/resources/estilos/categoria.png"
+				url="/paginas/categoria/pesquisa.xhtml?faces-redirect=true" />
 
-				<p:poll interval="5"
-					listener="#{sessaoControladorBean.countAlertaPendente(sessaoControladorBean.usuario.userName)}"
-					update=":formMenu:totalAlerta" /> -->
+			<p:menuitem value="Postos de Cópia"
+				rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+				icon="/resources/estilos/copia.png"
+				url="/paginas/postocopia/pesquisa.xhtml?faces-redirect=true" />
 
-			</f:facet>
+			<p:menuitem value="Colaborador"
+				icon="/resources/estilos/colaborador.png"
+				rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+				url="/paginas/colaborador/pesquisa.xhtml?faces-redirect=true" />
 
-			<f:facet name="options" class="menu">
-				<p:menuButton value="#{sessaoControladorBean.usuario.userName}"
-					class="menu">
-					<p:menuitem value="Sair" action="#{sessaoControladorBean.logout}"
-						icon="ui-icon-extlink" />
-				</p:menuButton>
-			</f:facet>
-		</p:menubar>
+			<p:menuitem value="Usuários" icon="/resources/estilos/usuarios.png"
+				rendered="#{pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+				url="/paginas/usuario/pesquisa.xhtml?faces-redirect=true" />
+
+			<p:menuitem value="Grupos" icon="/resources/estilos/grupo.png"
+				rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
+				url="/paginas/grupo/pesquisa.xhtml?faces-redirect=true" />
+
+		</p:dock>
+
+		<p:stack icon="/resources/estilos/stack.png">
+			<p:menuitem value="Usuário" icon="/resources/estilos/usuarios.png"
+				url="#" />
+
+			<p:menuitem value="Grupo" icon="/resources/estilos/grupo.png" url="#" />
+
+			<p:menuitem value="Unidade" icon="/resources/estilos/unidade.png"
+				url="/paginas/unidade/pesquisa.xhtml?faces-redirect=true" />
+
+			<p:menuitem value="Colaborador"
+				icon="/resources/estilos/colaborador.png"
+				url="/paginas/colaborador/pesquisa.xhtml?faces-redirect=true" />
+
+			<p:menuitem value="WorkFlow" icon="/resources/estilos/tarefa.png"
+				action="#{publicarDocumentoControlador.init}" update=":form" />
+
+			<p:menuitem value="Tarefa" icon="/resources/estilos/tarefa1.png"
+				action="#{tarefaControle.init}" update=":form" />
+
+			<p:menuitem value="Alerta" icon="/resources/estilos/alerta.png"
+				url="/paginas/alerta/pesquisa.xhtml?faces-redirect=true" />
+
+			<p:menuitem value="Setor" icon="/resources/estilos/setor.png"
+				url="/paginas/setor/pesquisa.xhtml?faces-redirect=true" />
+
+			<p:menuitem value="Categoria"
+				icon="/resources/estilos/categoria.png"
+				url="/paginas/categoria/pesquisa.xhtml?faces-redirect=true" />
+
+			<p:menuitem value="Posto"
+				icon="/resources/estilos/copia.png"
+				url="/paginas/postocopia/pesquisa.xhtml?faces-redirect=true" />
+
+
+		</p:stack>
 
 	</h:form>
 </ui:component>
