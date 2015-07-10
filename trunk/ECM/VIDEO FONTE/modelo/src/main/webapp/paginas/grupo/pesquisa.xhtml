@@ -36,30 +36,40 @@
 
 		<ui:param name="pageTitle" value="-- TODO definir titulo --" />
 
+		<div class="titlePanel">
+			<ss:titlePanel title="Grupo" />
+		</div>
+
 		<div class="mainForm">
 
 			<h:form id="form">
 
 				<p:growl id="message" showDetail="true" />
 
-				<p:panel header="Dado de Grupo" style="width:100%" class="painelformatado">
-					<h:panelGrid columns="2">
+				<p:accordionPanel id="accordion" styleClass="filtro_pesquisa">
+					<p:tab title="Filtro de Pesquisa">
 
-						<p:outputLabel value="Grupo : " styleClass="ui-priority-primary" />
-						<p:inputText id="nome" required="false" maxlength="40"
-							value="#{grupoControladorBean.shortName}"
-							requiredMessage="informe o nome do grupo para pesquisa" size="30" />
-						<p></p>
-					</h:panelGrid>
+						<h:panelGrid columns="2" cellspacing="8">
 
+							<p:outputLabel value="Grupo" styleClass="ui-priority-primary" />
+							<p:inputText id="nome" required="false" maxlength="40"
+								value="#{grupoControladorBean.shortName}"
+								requiredMessage="informe o nome do grupo para pesquisa"
+								size="30" />
+							<p></p>
+						</h:panelGrid>
 
-					<p:commandButton value="Pesquisar"
-						action="#{grupoControladorBean.listarGrupoNome}" update=":form" />
+						<br />
+						<hr />
+						<br />
+						<p:commandButton value="Pesquisar" icon="ui-icon-search"
+							action="#{grupoControladorBean.listarGrupoNome}" update=":form" />
+						<p:spacer width="5px"/>
+						<p:commandButton value="Novo" icon="ui-icon-circle-plus"
+							action="#{grupoControladorBean.cadastro()}" update=":form" />
+					</p:tab>
 
-					<p:commandButton value="Novo"
-						action="#{grupoControladorBean.cadastro()}" update=":form" />
-					<p></p>
-				</p:panel>
+				</p:accordionPanel>
 
 				<p:panel header="Lista de Grupos" class="painelformatado">
 					<p:dataTable id="grid" var="item"
