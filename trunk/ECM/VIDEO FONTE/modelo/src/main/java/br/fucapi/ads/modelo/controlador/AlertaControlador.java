@@ -14,10 +14,12 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
 import br.fucapi.ads.modelo.dominio.Alerta;
+import br.fucapi.ads.modelo.dominio.Unidade;
 import br.fucapi.ads.modelo.enumerated.Constants;
 import br.fucapi.ads.modelo.enumerated.StatusProcesso;
 import br.fucapi.ads.modelo.servico.AlertaServico;
 import br.fucapi.ads.modelo.servico.Servico;
+import br.fucapi.ads.modelo.servico.UnidadeServico;
 import br.fucapi.ads.modelo.utils.GeralUtils;
 import br.fucapi.bpms.activiti.servico.ActivitiServico;
 import br.fucapi.bpms.activiti.util.JsonUtil;
@@ -34,6 +36,8 @@ public class AlertaControlador extends ControladorGenerico<Alerta> {
 
 	private List<Usuario> usuarios;
 
+	private List<Unidade> unidades;
+
 	private int notificarVencimento;
 
 	@ManagedProperty(value = "#{alfrescoServicoImpl}")
@@ -41,6 +45,9 @@ public class AlertaControlador extends ControladorGenerico<Alerta> {
 
 	@ManagedProperty(value = "#{alertaServicoImpl}")
 	private AlertaServico servico;
+
+	@ManagedProperty(value = "#{unidadeServicoImpl}")
+	private UnidadeServico unidadeServico;
 
 	@ManagedProperty(value = "#{activitiServicoImpl}")
 	private ActivitiServico activitiServico;
@@ -61,11 +68,12 @@ public class AlertaControlador extends ControladorGenerico<Alerta> {
 					.getRequest();
 
 			String fullUrl = request.getRequestURL().toString();
-			String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("");
-			String url = path + Constants.BARRA + "paginas/alerta"+ Constants.BARRA +page + Constants.EXTENSION
+			String path = FacesContext.getCurrentInstance()
+					.getExternalContext().getRealPath("");
+			String url = path + Constants.BARRA + "paginas/alerta"
+					+ Constants.BARRA + page + Constants.EXTENSION
 					+ Constants.REDIRECT;
 
-			
 			context.redirect(url);
 			FacesContext.getCurrentInstance().responseComplete();
 
@@ -118,6 +126,7 @@ public class AlertaControlador extends ControladorGenerico<Alerta> {
 	@Override
 	protected void init() {
 		this.usuarios = alfrescoServico.getUsuarios();
+		this.unidades = unidadeServico.listAll();
 	}
 
 	@Override
@@ -180,6 +189,22 @@ public class AlertaControlador extends ControladorGenerico<Alerta> {
 
 	public void setActivitiServico(ActivitiServico activitiServico) {
 		this.activitiServico = activitiServico;
+	}
+
+	public List<Unidade> getUnidades() {
+		return unidades;
+	}
+
+	public void setUnidades(List<Unidade> unidades) {
+		this.unidades = unidades;
+	}
+
+	public UnidadeServico getUnidadeServico() {
+		return unidadeServico;
+	}
+
+	public void setUnidadeServico(UnidadeServico unidadeServico) {
+		this.unidadeServico = unidadeServico;
 	}
 
 }
