@@ -60,14 +60,13 @@ body {
 	margin-top: -1.4%;
 } 
 */
-
 .geral {
 	min-height: 100%;
-    height: auto;
-    margin: 0px auto -80px;
-    padding: 0px 0px 80px;
-    height: 100%;
-    
+	height: auto;
+	margin: 0px auto -80px;
+	padding: 0px 0px 80px;
+	height: 100%;
+
 	/* min-height: 100%;
 	position: relative;
 	width: 100%;
@@ -75,7 +74,9 @@ body {
 }
 
 .estilo-top {
-	background: transparent -moz-linear-gradient(center right, #00868B, #FFF 100%) repeat scroll 0% 0%;
+	background: transparent
+		-moz-linear-gradient(center right, #00868B, #FFF 100%) repeat scroll
+		0% 0%;
 }
 
 .tile-header {
@@ -103,7 +104,7 @@ body {
 .estilo-footer {
 	height: 10%;
 	background: #00868B;
-    padding-top: 15px;
+	padding-top: 15px;
 }
 
 .menu {
@@ -235,7 +236,11 @@ body {
 	border-radius: 3px;
 	-webkit-box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px;
 	zoom: 200%;
-		rgba(0, 0, 0, 0.3);
+	rgba
+	(0,
+	0,
+	0,
+	0.3);
 	/* box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3); */
 	/* background-image: url("images/logo.png");
   background-repeat: no-repeat; */
@@ -395,10 +400,9 @@ body {
 }
 
 /* Componentes primefaces */
-
 .ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
-    margin-top: 4px;
-    margin-left: -4px;
+	margin-top: 4px;
+	margin-left: -4px;
 }
 
 .ui-picklist .ui-picklist-filter {
@@ -455,8 +459,8 @@ body {
 
 /* Interaction states
 ----------------------------------*/
-
-.ui-state-default.ui-widget-content.ui-state-default.ui-picklist-filter.ui-inputfield.ui-inputtext.ui-widget.ui-state-default.ui-corner-all {
+.ui-state-default.ui-widget-content.ui-state-default.ui-picklist-filter.ui-inputfield.ui-inputtext.ui-widget.ui-state-default.ui-corner-all
+	{
 	width: 250px;
 }
 
@@ -1337,4 +1341,44 @@ body {
 	opacity: .3;
 	filter: Alpha(Opacity = 30); /* support: IE8 */
 	border-radius: 8px;
+}
+
+.filtro_pesquisa {
+	width: 99%;
+	padding: 2px 0px 1px 10px;
+	font-weight: bold;
+}
+
+.grid th {
+	width: 100%;
+	padding: 2px 0px 0px 7px;
+	background: #006DCC;
+}
+
+th {
+	/* color: red !important; */
+}
+
+.ui-dock-{
+	position: bottom;
+}
+
+.ui-dock-container-{
+	position: bottom;
+}
+
+.ui-dock-item-{
+	position: bottom;
+}
+
+#ui-stack {
+	bottom: 28px;
+	right: 90%;
+}
+
+.ui-stack .openStack li span {
+    font-family: "Lucida Grande",Lucida,Verdana,sans-serif;
+    display: block;
+    height: 22px;
+    
 }
