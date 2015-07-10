@@ -35,34 +35,48 @@
 		</c:if>
 
 		<ui:param name="pageTitle" value="-- TODO definir titulo --" />
+		
+		<div class="titlePanel">
+			<ss:titlePanel title="Usuário" />
+		</div>
 
 		<div class="mainForm">
 
 			<h:form id="form">
 
-				<p:panel header="Dados de Usuario" style="width:100%"
-					class="painelformatado">
-					<h:panelGrid columns="2">
+				<p:accordionPanel id="accordion" styleClass="filtro_pesquisa">
+					<p:tab title="Filtro de Pesquisa">
 
-						<p:outputLabel value="Primeiro Nome : "
-							styleClass="ui-priority-primary" />
-						<p:inputText id="nome" required="false" maxlength="40"
-							value="#{usuarioControladorBean.usuario.userName}"
-							requiredMessage="informe o nome do usuario para pesquisa"
-							size="30" />
+						<h:panelGrid columns="2" cellspacing="8">
+
+							<p:outputLabel value="Primeiro Nome "
+								styleClass="ui-priority-primary" />
+							<p:inputText id="nome" required="false" maxlength="40"
+								value="#{usuarioControladorBean.usuario.userName}"
+								requiredMessage="informe o nome do usuario para pesquisa"
+								size="30" />
 
 
-					</h:panelGrid>
-					<p></p>
-					<p:commandButton id="pesquisa" icon="ui-icon-search"
-						action="#{usuarioControladorBean.listarUsuarioNome}"
-						value="Pesquisar" update=":form:grid" />
+						</h:panelGrid>
+						<br />
+						<hr />
+						<br />
+						<h:panelGrid columns="5" cellpadding="0" cellspacing="0"
+							style="margin-top: 10;">
+							<p:commandButton id="pesquisa" icon="ui-icon-search"
+								action="#{usuarioControladorBean.listarUsuarioNome}"
+								value="Pesquisar" update=":form:grid" />
 
-					<p:commandButton id="cadastrarr" icon="ui-icon-plusthick"
-						actionListener="#{usuarioControladorBean.paginaIncluir}"
-						value="Novo" update=":form" />
+							<p:commandButton id="cadastrarr" icon="ui-icon-circle-plus"
+								actionListener="#{usuarioControladorBean.paginaIncluir}"
+								value="Novo" update=":form" />
 
-				</p:panel>
+						</h:panelGrid>
+
+					</p:tab>
+
+				</p:accordionPanel>
+
 				<p></p>
 				<p:panel header="Lista de Usuários" class="painelformatado">
 					<p:dataTable id="grid" var="item" class="painelformatado"
