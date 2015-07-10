@@ -65,7 +65,6 @@ public class AlertaRepositorioImpl extends GenericRepositorioImpl<Alerta, Long>
 		}
 
 		if (notEmpty(abstractEntity.getDataAlerta())) {
-			System.out.println(abstractEntity.getDataAlerta());
 			query.setParameter("dataAtual", abstractEntity.getDataAlerta());
 		}
 
