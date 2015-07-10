@@ -35,6 +35,10 @@
 		</c:if>
 
 		<ui:param name="pageTitle" value="-- TODO definir titulo --" />
+		
+		<div class="titlePanel">
+			<ss:titlePanel title="Tarefa" />
+		</div>
 
 		<div class="mainForm">
 
@@ -42,44 +46,43 @@
 
 				<p:growl id="message" showDetail="true" />
 
-				<p:panel header="Tarefas Pendentes - #{tarefaControle.login}" 
-					id="painelPesquisa" class="painelformatado">
-					<p:growl id="growl" />
+				<p:accordionPanel id="accordion" styleClass="filtro_pesquisa">
+					<p:tab title="Filtro de Pesquisa">
 
-					<h:panelGrid columns="1" cellspacing="5" style="width:100%">
+						<p:growl id="growl" />
 
-						<h:outputText value="Colaborador:"
-							styleClass="ui-priority-primary" />
-						
-						<p:inputText value="#{tarefaControle.login}"
-							rendered="#{!tarefaControle.usuarioSelecionado.getCapabilities().isAdmin()}"
-							disabled="true" />
+						<h:panelGrid columns="2" style="width:50%">
 
-						<p:selectOneMenu value="#{tarefaControle.login}"
-							style="width:300px;"
-							rendered="#{tarefaControle.usuarioSelecionado.getCapabilities().isAdmin()}">
-							<f:selectItem itemLabel="TODAS" />
-							<f:selectItems value="#{tarefaControle.listaUsuarios}"
-								var="usuario"
-								itemLabel="#{usuario.firstName} #{usuario.lastName}"
-								itemValue="#{usuario.userName}" />
-						</p:selectOneMenu>
+							<h:outputText value="Colaborador:" style="width:20px;"
+								styleClass="ui-priority-primary" />
 
-					</h:panelGrid>
+							<p:inputText value="#{tarefaControle.login}"
+								rendered="#{!tarefaControle.usuarioSelecionado.getCapabilities().isAdmin()}"
+								disabled="true" />
 
-					<p:commandButton id="pesquisa" icon="ui-icon-circle-zoomout"
-						action="#{tarefaControle.pesquisar()}"
-						styleClass="ui-priority-primary" value="Pesquisa"
-						update=":form" />
+							<p:selectOneMenu value="#{tarefaControle.login}"
+								style="width:50%;"
+								rendered="#{tarefaControle.usuarioSelecionado.getCapabilities().isAdmin()}">
+								<f:selectItem itemLabel="TODAS" />
+								<f:selectItems value="#{tarefaControle.listaUsuarios}"
+									var="usuario"
+									itemLabel="#{usuario.firstName} #{usuario.lastName}"
+									itemValue="#{usuario.userName}" />
+							</p:selectOneMenu>
 
-				</p:panel>
+						</h:panelGrid>
+						<br />
+						<hr />
+						<br />
+						<p:commandButton id="pesquisa" icon="ui-icon-circle-zoomout"
+							action="#{tarefaControle.pesquisar()}"
+							styleClass="ui-priority-primary" value="Pesquisa" update=":form" />
 
-				<p:blockUI block="form" trigger="pesquisa">  
-	        		Processando...<br />
-					<p:graphicImage value="/resources/imagens/ajax-loader.gif" />
-				</p:blockUI>
+					</p:tab>
+				</p:accordionPanel>
 
-				<p:panel header="Lista de Tarefas" id="painelGrid"  class="painelformatado">
+				<p:panel header="Lista de Tarefas" id="painelGrid"
+					class="painelformatado">
 					<p:dataTable id="gridSearch" var="item" rows="10" paginator="true"
 						value="#{tarefaControle.listaTarefasPendentes}"
 						paginatorPosition="bottom" paginatorAlwaysVisible="true"
@@ -87,45 +90,41 @@
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15,20">
 
-						<p:column style="text-align:left" headerText="Protocolo" width="130"
+						<p:column style="text-align:left" headerText="Protocolo"
+							width="8%"
 							sortBy="#{item.variaveis.ano}#{item.variaveis.sequencial}">
 							<h:outputText
 								value="#{item.variaveis.ano}#{item.variaveis.sequencial}" />
 						</p:column>
 
-						<p:column style="text-align:left" headerText="Tarefa"
+						<p:column style="text-align:left" headerText="Tarefa" width="20%"
 							sortBy="#{item.name}">
 							<h:outputText value="#{item.name}" />
 						</p:column>
 
-						<p:column style="text-align:left" headerText="Código"
+						<p:column style="text-align:left" headerText="Código" width="15%"
 							sortBy="#{item.variaveis.codigo}">
 							<h:outputText value="#{item.variaveis.codigo}" />
 						</p:column>
 
 						<p:column style="text-align:left" headerText="Nome do Documento"
-							sortBy="#{item.variaveis.arquivoDoc.nomeArquivo}" width="400">
+							width="20%" sortBy="#{item.variaveis.arquivoDoc.nomeArquivo}">
 							<h:outputText value="#{item.variaveis.arquivoDoc.nomeArquivo}" />
 						</p:column>
 
-						<p:column style="text-align:left" headerText="Data de Criação"
+						<p:column style="text-align:left" headerText="Data" width="10%"
 							sortBy="#{item.startTime}">
 							<h:outputText value="#{item.startTime}">
 								<f:convertDateTime pattern="dd/MM/yyyy" />
 							</h:outputText>
 						</p:column>
 
-						<!-- <p:column style="text-align:left" headerText="Detalhes"
-							sortBy="#{item.variaveis.descricao}">
-							<h:outputText value="#{item.variaveis.descricao}" />
-						</p:column> -->
-
 						<p:column style="text-align:left" headerText="Colaborador"
-							sortBy="#{item.assignee}">
+							width="10%" sortBy="#{item.assignee}">
 							<h:outputText value="#{item.assignee}" />
 						</p:column>
 
-						<p:column style="text-align:left" headerText="Ações">
+						<p:column style="text-align:left" headerText="Ações" width="11%">
 
 							<p:commandButton ajax="false" immediate="true"
 								action="#{publicarDocumentoControlador.detalhe(item)}"
@@ -150,9 +149,9 @@
 								styleClass="ui-priority-primary"
 								actionListener="#{tarefaControle.prepararParecer(item)}" />
 
-							<p:commandButton icon="ui-icon-circle-check" title="Notificar Publicacao"
-								rendered="#{item.variaveis.finalizarProcesso}"
-								update=":form"
+							<p:commandButton icon="ui-icon-circle-check"
+								title="Notificar Publicacao"
+								rendered="#{item.variaveis.finalizarProcesso}" update=":form"
 								styleClass="ui-priority-primary"
 								actionListener="#{tarefaControle.notificarPublicacao(item)}" />
 
