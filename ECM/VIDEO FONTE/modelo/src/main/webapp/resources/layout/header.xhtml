@@ -7,7 +7,18 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<div class="tile-header">
-		<h1>CDOC - Sistema de Controle de Documentos</h1>
+		<h:form>
+			<div style="float: left; width: 99%;">
+				<h2>CDOC - Controle de Documento</h2>
+				<p:menuButton value="#{sessaoControladorBean.usuario.userName}"
+					styleClass="ui-menubutton_tool">
+					<p:menuitem value="Sair" update=":form"
+						url="/login.xhtml?faces-redirect=true" />
+				</p:menuButton>
+
+			</div>
+
+		</h:form>
 	</div>
-			
+
 </ui:component>
