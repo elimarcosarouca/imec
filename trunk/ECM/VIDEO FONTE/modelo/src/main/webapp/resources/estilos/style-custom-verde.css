@@ -66,11 +66,10 @@ body {
 	margin: 0px auto -80px;
 	padding: 0px 0px 80px;
 	height: 100%;
-
-	/* min-height: 100%;
+	min-height: 100%;
 	position: relative;
 	width: 100%;
-	height: 100%; */
+	height: 100%;
 }
 
 .estilo-top {
@@ -80,9 +79,9 @@ body {
 }
 
 .tile-header {
-	height: 70px;
+	height: 93px;
 	position: relative;
-	top: 50%;
+	top: 10%;
 	transform: translateY(50%);
 	padding-left: 1%;
 	font-family: Impact, Haettenschweiler, Franklin Gothic Bold, Charcoal,
@@ -1357,17 +1356,18 @@ body {
 
 th {
 	/* color: red !important; */
+	
 }
 
-.ui-dock-{
+.ui-dock- {
 	position: bottom;
 }
 
-.ui-dock-container-{
+.ui-dock-container- {
 	position: bottom;
 }
 
-.ui-dock-item-{
+.ui-dock-item- {
 	position: bottom;
 }
 
@@ -1377,8 +1377,26 @@ th {
 }
 
 .ui-stack .openStack li span {
-    font-family: "Lucida Grande",Lucida,Verdana,sans-serif;
-    display: block;
-    height: 22px;
-    
+	font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
+	display: block;
+	height: 22px;
+}
+
+.ui-menubutton_tool {
+	position: relative;
+	display: inline-block;
+	float: right;
+	background: #008B8B url("images/ui-bg_glass_75_e6e6e6_1x400.png")
+		repeat-x scroll 50% 50%;
+	background-color: #008B8B;
+	background: #008B8B;
+	background-image: url("images/ui-bg_glass_75_e6e6e6_1x400.png");
+	background-repeat: repeat-x;
+	background-attachment: scroll;
+	background-position: 50% 50%;
+	background-clip: border-box;
+	background-origin: padding-box;
+	background-size: auto auto;
+	font-weight: bold;
+	
 }
