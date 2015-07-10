@@ -40,7 +40,7 @@
 		<c:set var="method"  value="#{not empty cc.attrs.method ? cc.attrs.method : 'excluir'}" />
 		<c:set var="update"  value="#{empty cc.attrs.update ? ':form:grid' : cc.attrs.update}" />
 		
-		<p:commandButton value="#{label}" 
+		<p:commandButton  
 						title="#{title}"
 						action="#{cc.attrs.managedBean[method]}" 
 						icon="#{icon}"
@@ -62,7 +62,7 @@
 		<c:set var="id"  value="#{not empty cc.attrs.id ? cc.attrs.id : 'btnDetail'}" />
 		
 		<p:commandButton id="#{id}" 
-						value="#{label}" 
+						
 						action="#{cc.attrs.managedBean[method]}" 
 						icon="#{icon}"
 						rendered="#{cc.attrs.render}"
