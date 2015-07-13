@@ -14,9 +14,7 @@
 				<a href="http://#{msg.company_site}" target="_blank"
 					style="color: #333;">#{msg.company_site}</a>
 
-
-
-				<p:dock position="bottom" id="ui-dock">
+				<p:dock position="bottom" class="p-dock" id="p-dock">
 					<p:menuitem value="WorkFlows" icon="/resources/estilos/tarefa.png"
 						rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
 						action="#{publicarDocumentoControlador.init}" update=":form" />

@@ -6,16 +6,17 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui">
 
-	<div class="tile-header">
+	<div>
 		<h:form>
-			<div style="float: left; width: 99%;">
-				<h2>CDOC - Controle de Documento</h2>
-				<p:menuButton value="#{sessaoControladorBean.usuario.userName}"
-					styleClass="ui-menubutton_tool">
+			<div id="header-left">
+				<img class="logo-imagem" src="#{request.contextPath}/resources/estilos/logo.png"/>
+			</div>
+
+			<div id="header-right-7bit">
+				<p:menuButton value="#{sessaoControladorBean.usuario.userName}">
 					<p:menuitem value="Sair" update=":form"
 						url="/login.xhtml?faces-redirect=true" />
 				</p:menuButton>
-
 			</div>
 
 		</h:form>
