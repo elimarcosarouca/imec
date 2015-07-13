@@ -20,7 +20,7 @@
 		
 		<intercept-url pattern="/paginas/**"
 			access="hasAnyRole('ROLE_ALFRESCO_ADMINISTRATORS')" />
-		<form-login login-page="/login.xhtml" default-target-url="/index.xhtml?faces-redirect=true" />
+		<form-login login-page="/login.xhtml" default-target-url="/paginas/home/index.xhtml?faces-redirect=true" />
 		
 	</http>
 
