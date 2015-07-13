@@ -5,10 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -30,7 +30,9 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 @ManagedBean
 @SessionScoped
-public class RelatorioUtil {
+public class RelatorioUtil implements Serializable {
+
+	private static final long serialVersionUID = 6871245511981341364L;
 
 	@ManagedProperty(value = "#{dataSource}")
 	private DriverManagerDataSource dataSource;
@@ -188,5 +190,5 @@ public class RelatorioUtil {
 	public void setDataSource(DriverManagerDataSource dataSource) {
 		this.dataSource = dataSource;
 	}
-	
+
 }

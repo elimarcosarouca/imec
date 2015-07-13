@@ -824,7 +824,7 @@ public class PublicarDocumentoControlador implements Serializable {
 		}
 	}
 
-	public void pesquisar() {
+	public String pesquisar() {
 
 		List<ProcessoInstancia> listaResultado = null;
 		this.lista = new ArrayList<ProcessoInstancia>();
@@ -842,7 +842,7 @@ public class PublicarDocumentoControlador implements Serializable {
 				this.lista.add(pInstancia);
 		}
 
-		this.TELA_PESQUISA = "/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true";
+		return this.TELA_PESQUISA = "/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true";
 
 	}
 
