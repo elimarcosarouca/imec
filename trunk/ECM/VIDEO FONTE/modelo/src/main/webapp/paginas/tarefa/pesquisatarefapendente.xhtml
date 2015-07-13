@@ -35,7 +35,7 @@
 		</c:if>
 
 		<ui:param name="pageTitle" value="-- TODO definir titulo --" />
-		
+
 		<div class="titlePanel">
 			<ss:titlePanel title="Tarefa" />
 		</div>
@@ -48,12 +48,11 @@
 
 				<p:accordionPanel id="accordion" styleClass="filtro_pesquisa">
 					<p:tab title="Filtro de Pesquisa">
-
 						<p:growl id="growl" />
 
 						<h:panelGrid columns="2" style="width:50%">
 
-							<h:outputText value="Colaborador:" style="width:20px;"
+							<h:outputText value="Colaborador" style="width:10px;"
 								styleClass="ui-priority-primary" />
 
 							<p:inputText value="#{tarefaControle.login}"
@@ -71,8 +70,6 @@
 							</p:selectOneMenu>
 
 						</h:panelGrid>
-						<br />
-						<hr />
 						<br />
 						<p:commandButton id="pesquisa" icon="ui-icon-circle-zoomout"
 							action="#{tarefaControle.pesquisar()}"
