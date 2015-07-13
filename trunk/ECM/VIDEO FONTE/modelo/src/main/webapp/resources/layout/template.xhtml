@@ -8,47 +8,47 @@
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head>
-	
+
 	<f:facet name="first">
-		<!-- msg: messages_pt.properties -->
-		<f:loadBundle basename="messages" var="msg" />
+		<!-- msg: messages_pt.properties
+		<f:loadBundle basename="messages" var="msg" /> -->
 
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="author" content="Software Solutions - www.7bit.com.br" />
 		<title>CDOC - Sistema de Controle de Documentos</title>
-		<link rel="icon" href="#{request.contextPath}/resources/imagens/favicon.ico" />
-		
+		<link rel="icon"
+			href="#{request.contextPath}/resources/imagens/favicon.ico" />
+
 		<!-- <script language="JavaScript" type="text/javascript" src="#{request.contextPath}/resources/scripts/main.js" /> -->
-		
+
 		<script type="text/javascript">
 			/* Desabilita o botao voltar. */
 			window.history.forward(1);
 		</script>
-		
+
 	</f:facet>
 
-	<link type="text/css" rel="stylesheet" 	href="#{request.contextPath}/resources/estilos/style-custom-verde.css" />
-		
-<style type="text/css">
-	.ui-datatable .ui-datatable-footer {
-		text-align: left;
-	}
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/resources/estilos/style-custom-verde.css" />
+
+	<style type="text/css">
+.ui-datatable .ui-datatable-footer {
+	text-align: left;
+}
 </style>
-	
+
 </h:head>
 
-<h:body styleClass="body-template" onload="JavaScript:document.body.focus();" onkeydown="return disableRefresh(event);">
-	
-	<h:outputScript library="js" name="translations_pt_BR.js" />
-	
-	<div class="geral">
-		<div id="header" class="estilo-top">
-			<div>
-				<ui:include src="header.xhtml" />
-			</div>
+<h:body onload="JavaScript:document.body.focus();"
+	onkeydown="return disableRefresh(event);">
+
+	<div id="header">
+		<div>
+			<ui:include src="header.xhtml" />
 		</div>
-		
-		<div id="main" class="estilo-main">
+	</div>
+
+	<div id="section">
 			
 			<div id="content">
 				<ui:insert name="content"/>
@@ -56,13 +56,9 @@
 			
 		</div>
 
-		<div id="footer" class="estilo-footer">
-			<div id="footerContent">
-				<ui:include src="footer.xhtml" />
-			</div>
-		</div>
-
+	<div id="footer">
+		<ui:include src="footer.xhtml" />
 	</div>
-	
+
 </h:body>
 </html>

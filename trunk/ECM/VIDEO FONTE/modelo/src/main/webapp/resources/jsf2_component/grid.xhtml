@@ -58,8 +58,10 @@
 	                 rowsPerPageLabel=" linhas/pg "
 	                 currentPageReportTemplate="pg {currentPage} de {totalPages}"
 	                 emptyMessage="#{cc.attrs.emptyMessage}" 
-	                 rowStyleClass="#{cc.attrs.rowStyleClass}" >
+	                 style="width: 100%;"
+	                 >
 	                 
+	        <!-- rowStyleClass="#{cc.attrs.rowStyleClass}"  -->      
             <!-- If the facet is given at parent, insert it. Otherwise, provide the title given by the attribute -->
             <c:choose>
                 <c:when test="#{not empty cc.facets.header}">
