@@ -18,6 +18,11 @@ public class CategoriaControlador extends ControladorGenerico<Categoria> {
 	private CategoriaServico servico;
 
 	private String nomeRelatorio = "tipoDocumento.jasper";
+	
+	public String telaPesquisa() {
+		super.setup();
+		return "/paginas/categoria/pesquisa.xhtml?faces-redirect=true";
+	}
 
 	@Override
 	protected String getNomeRelatorioJasper() {

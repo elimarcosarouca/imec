@@ -144,7 +144,7 @@ public class TarefaControle implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
-	@PostConstruct
+//	@PostConstruct
 	public String init() throws ParseException {
 
 		this.usuarioSelecionado = (Usuario) SecurityContextHolder.getContext()

@@ -10,55 +10,8 @@
 		<p style="margin-top: 0%;">
 			<h:outputText value="Copyright © #{msg.company}" />
 			<br />
-			<h:form>
-				<a href="http://#{msg.company_site}" target="_blank"
+			<a href="http://#{msg.company_site}" target="_blank"
 					style="color: #333;">#{msg.company_site}</a>
-
-				<p:dock position="bottom" class="p-dock" id="p-dock">
-					<p:menuitem value="WorkFlows" icon="/resources/estilos/tarefa.png"
-						rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
-						action="#{publicarDocumentoControlador.init}" update=":form" />
-
-					<p:menuitem value="Tarefas" icon="/resources/estilos/tarefa1.png"
-						action="#{tarefaControle.init}" update=":form" />
-
-					<p:menuitem value="Alertas" icon="/resources/estilos/alerta.png"
-						rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
-						url="/paginas/alerta/pesquisa.xhtml?faces-redirect=true" />
-
-					<p:menuitem value="Unidades" icon="/resources/estilos/unidade.png"
-						rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
-						url="/paginas/unidade/pesquisa.xhtml?faces-redirect=true" />
-
-					<p:menuitem value="Setor" icon="/resources/estilos/setor.png"
-						rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
-						url="/paginas/setor/pesquisa.xhtml?faces-redirect=true" />
-
-					<p:menuitem value="Categorias"
-						rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
-						icon="/resources/estilos/categoria.png"
-						url="/paginas/categoria/pesquisa.xhtml?faces-redirect=true" />
-
-					<p:menuitem value="Postos"
-						rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
-						icon="/resources/estilos/copia.png"
-						url="/paginas/postocopia/pesquisa.xhtml?faces-redirect=true" />
-
-					<p:menuitem value="Colaborador"
-						icon="/resources/estilos/colaborador.png"
-						rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
-						url="/paginas/colaborador/pesquisa.xhtml?faces-redirect=true" />
-
-					<p:menuitem value="Usuários" icon="/resources/estilos/usuarios.png"
-						rendered="#{pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
-						url="/paginas/usuario/pesquisa.xhtml?faces-redirect=true" />
-
-					<p:menuitem value="Grupos" icon="/resources/estilos/grupo.png"
-						rendered="#{sessaoControladorBean.usuario.isAnalista() or pesquisaSolicitacaoControlador.usuarioLogado.getCapabilities().isAdmin()}"
-						url="/paginas/grupo/pesquisa.xhtml?faces-redirect=true" />
-
-				</p:dock>
-			</h:form>
 		</p>
 	</div>
 

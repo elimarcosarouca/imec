@@ -141,9 +141,6 @@ public class PublicarDocumentoControlador implements Serializable {
 	@Property(value = "#{bpmswebproperties}")
 	private Properties bpmswebproperties;
 
-	@ManagedProperty(value = "#{paginaCentralControladorBean}")
-	private PaginaCentralControladorBean paginaCentralControladorBean;
-
 	@ManagedProperty(value = "#{treinamentoRN}")
 	private TreinamentoRN treinamentoRN;
 
@@ -1095,15 +1092,6 @@ public class PublicarDocumentoControlador implements Serializable {
 	public void setVariaveisTreinamento(
 			VariaveisTreinamento variaveisTreinamento) {
 		this.variaveisTreinamento = variaveisTreinamento;
-	}
-
-	public PaginaCentralControladorBean getPaginaCentralControladorBean() {
-		return paginaCentralControladorBean;
-	}
-
-	public void setPaginaCentralControladorBean(
-			PaginaCentralControladorBean paginaCentralControladorBean) {
-		this.paginaCentralControladorBean = paginaCentralControladorBean;
 	}
 
 	public String getImagem() {

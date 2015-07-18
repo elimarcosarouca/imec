@@ -250,6 +250,8 @@ public abstract class ControladorGenerico<T extends AbstractEntity> implements
 					fullUrl.lastIndexOf(Constants.BARRA));
 			String url = path + Constants.BARRA + page + Constants.EXTENSION
 					+ Constants.REDIRECT;
+			
+			System.out.println(url);
 
 			context.redirect(url);
 			FacesContext.getCurrentInstance().responseComplete();
