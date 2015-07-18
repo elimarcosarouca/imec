@@ -91,6 +91,10 @@ public class GrupoControladorBean implements Serializable {
 	public String getPaginaCadastro() {
 		return redirect(CADASTRO);
 	}
+	
+	public String telaPesquisa() {
+		return "/paginas/grupo/pesquisa.xhtml?faces-redirect=true";
+	}
 
 	protected String redirect(String page) {
 		try {

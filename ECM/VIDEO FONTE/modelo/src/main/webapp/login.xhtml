@@ -9,15 +9,17 @@
 <h:head>
 	<title><ui:insert name="titulo_pagina">Login Sistema</ui:insert>
 	</title>
-	<link type="text/css" rel="stylesheet" href="resources/estilos/style-custom-verde.css" />	
+	<link type="text/css" rel="stylesheet"
+		href="resources/estilos/style-custom-verde.css" />
 </h:head>
-<h:body styleClass="body">
+<h:body id="body-login">
 	<form action="/modelo/j_spring_security_check" method="post">
 		<div id="principal">
+			<!-- <img src="logo.png" style="width: 400px; height: 200px;" /> -->
 			<div class="login">
 				<p:growl id="growl" binding="#{loginControlador.msg}" />
 				<h1>Infome seu Login e Senha</h1>
-				
+
 				<p>
 					<h:inputText id="j_username" label="Nome" required="true"
 						styleClass="input-text" />
@@ -35,9 +37,9 @@
 					<h:commandButton styleClass="botao-login" value="Entrar" />
 				</div>
 			</div>
-	
-			<p style="padding: 1%;"/>
-			
+
+			<p style="padding: 1%;" />
+
 			<div>
 				<h:form>
 					<h:commandLink styleClass="login-help" action="inicio"

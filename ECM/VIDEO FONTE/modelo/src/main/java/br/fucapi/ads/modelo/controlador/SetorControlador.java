@@ -29,6 +29,11 @@ public class SetorControlador extends
 
 	private String nomeRelatorio = "setor.jasper";
 	
+	public String telaPesquisa() {
+		super.setup();
+		return "/paginas/setor/pesquisa.xhtml?faces-redirect=true";
+	}
+	
 	@Override
 	public String novo(){
 		this.unidades = unidadeServico.listAll();

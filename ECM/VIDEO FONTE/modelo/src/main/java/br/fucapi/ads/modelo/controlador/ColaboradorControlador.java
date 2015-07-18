@@ -47,6 +47,11 @@ public class ColaboradorControlador extends ControladorGenerico<Colaborador> {
 
 	private static final String PATH_REPORT = "resources" + File.separator
 			+ "jasper" + File.separator;
+	
+	public String telaPesquisa() {
+		super.setup();
+		return "/paginas/colaborador/pesquisa.xhtml?faces-redirect=true";
+	}
 
 	@Override
 	@PostConstruct

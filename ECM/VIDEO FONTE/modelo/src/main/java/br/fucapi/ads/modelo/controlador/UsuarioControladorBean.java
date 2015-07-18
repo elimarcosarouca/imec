@@ -84,6 +84,10 @@ public class UsuarioControladorBean implements Serializable {
 
 	@ManagedProperty(value = "#{usuarioGrupoLogServicoImpl}")
 	private UsuarioGrupoLogServico usuarioGrupoLogServico;
+	
+	public String telaPesquisa() {
+		return "/paginas/usuario/pesquisa.xhtml?faces-redirect=true";
+	}
 
 	@PostConstruct
 	public void init() {

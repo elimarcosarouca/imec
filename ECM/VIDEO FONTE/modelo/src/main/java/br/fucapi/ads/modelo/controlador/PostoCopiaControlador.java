@@ -35,6 +35,11 @@ public class PostoCopiaControlador extends ControladorGenerico<PostoCopia> {
 	
 	private String nomeRelatorio = "setor.jasper";
 	
+	public String telaPesquisa() {
+		super.setup();
+		return "/paginas/postocopia/pesquisa.xhtml?faces-redirect=true";
+	}
+	
 	public void init(){
 		this.usuarios = alfrescoServico.getUsuarios();
 		this.setores = setorServico.listAll();

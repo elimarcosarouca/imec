@@ -9,14 +9,99 @@
 	<div>
 		<h:form>
 			<div id="header-left">
-				<img class="logo-imagem" src="#{request.contextPath}/resources/estilos/logo.png"/>
-			</div>
+				<div id="divlogo">
+					<img class="logo-imagem" alt="TEXTO A APARECER"
+						style="float: left; height: 105px; position: relative; top: -3px; width: 105px"
+						src="#{request.contextPath}/resources/estilos/logo.png" />
+				</div>
 
-			<div id="header-right-7bit">
-				<p:menuButton value="#{sessaoControladorBean.usuario.userName}">
-					<p:menuitem value="Sair" update=":form"
-						url="/login.xhtml?faces-redirect=true" />
-				</p:menuButton>
+				<div style="float: right;">
+					<p:commandLink action="#{publicarDocumentoControlador.init}"
+						update=":form">
+						<h:graphicImage value="/resources/estilos/logoff.png"
+							style="height: 90px" title="Sair do sistema" />
+					</p:commandLink>
+				</div>
+
+				<div style="float: right;">
+					<p:commandLink action="#{publicarDocumentoControlador.init}"
+						update=":form">
+						<h:graphicImage value="/resources/estilos/workflow.png"
+							style="height: 90px" title="Workflow" />
+					</p:commandLink>
+				</div>
+
+				<div style="float: right">
+					<p:commandLink action="#{tarefaControle.init}" update=":form">
+						<h:graphicImage value="/resources/estilos/tarefa.png"
+							style="height: 90px" title="Tarefa" />
+					</p:commandLink>
+				</div>
+
+				<div style="float: right">
+					<p:commandLink action="#{alertaControlador.telaPesquisa}"
+						update=":form">
+						<h:graphicImage value="/resources/estilos/alerta.png"
+							style="height: 90px" title="Alerta" />
+					</p:commandLink>
+				</div>
+
+				<div style="float: right; height: 90px">
+					<p:commandLink action="#{unidadeControlador.telaPesquisa}"
+						update=":form">
+						<h:graphicImage value="/resources/estilos/unidade.png"
+							style="height: 90px" title="Unidade" />
+					</p:commandLink>
+				</div>
+
+				<div style="float: right; height: 90px">
+					<p:commandLink action="#{categoriaControlador.telaPesquisa}"
+						update=":form">
+						<h:graphicImage value="/resources/estilos/categoria.png"
+							style="height: 90px" title="Categoria" />
+					</p:commandLink>
+				</div>
+
+				<div style="float: right">
+					<p:commandLink action="#{setorControlador.telaPesquisa}"
+						update=":form">
+						<h:graphicImage value="/resources/estilos/setor.png"
+							style="height: 90px" title="Setor" />
+					</p:commandLink>
+				</div>
+
+				<div style="float: right; height: 90px">
+					<h:commandLink action="#{postoCopiaControlador.telaPesquisa}"
+						update=":form">
+						<h:graphicImage value="/resources/estilos/copia.png"
+							style="height: 90px" title="Posto de Cópia" />
+					</h:commandLink>
+				</div>
+
+				<div style="float: right; height: 90px">
+					<p:commandLink action="#{colaboradorControlador.telaPesquisa}"
+						update=":form">
+						<h:graphicImage value="/resources/estilos/colaborador.png"
+							style="height: 90px" title="Colaborador" />
+					</p:commandLink>
+				</div>
+
+				<div style="float: right; height: 90px">
+					<p:commandLink action="#{usuarioControladorBean.telaPesquisa}"
+						update=":form">
+						<h:graphicImage value="/resources/estilos/usuario.png"
+							style="height: 90px" title="Usuário" />
+					</p:commandLink>
+				</div>
+
+				<div style="float: right; height: 90px">
+					<p:commandLink action="#{grupoControladorBean.telaPesquisa}"
+						update=":form">
+						<h:graphicImage value="/resources/estilos/grupo.png"
+							style="height: 90px" title="Grupo" />
+					</p:commandLink>
+				</div>
+
 			</div>
 
 		</h:form>

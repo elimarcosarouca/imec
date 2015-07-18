@@ -19,6 +19,11 @@ public class UnidadeControlador extends
 	private UnidadeServico servico;
 
 	private String nomeRelatorio = "unidade.jasper";
+	
+	public String telaPesquisa() {
+		super.setup();
+		return "/paginas/unidade/pesquisa.xhtml?faces-redirect=true";
+	}
 
 	@Override
 	protected String getNomeRelatorioJasper() {

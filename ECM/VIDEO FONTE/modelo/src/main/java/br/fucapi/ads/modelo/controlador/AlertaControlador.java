@@ -56,7 +56,7 @@ public class AlertaControlador extends ControladorGenerico<Alerta> {
 
 	public String telaPesquisa() {
 		super.setup();
-		return redirecionar(PESQUISA);
+		return "/paginas/alerta/pesquisa.xhtml?faces-redirect=true";
 	}
 
 	public String redirecionar(String page) {

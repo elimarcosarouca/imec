@@ -12,11 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.component.growl.Growl;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import br.fucapi.bpms.alfresco.dominio.Usuario;
 
 @ManagedBean
 @ViewScoped
-public class LoginControlador implements Serializable{
-		
+public class LoginControlador implements Serializable {
+
 	private static final long serialVersionUID = -8179037067799616207L;
 
 	private Growl msg;
@@ -29,27 +32,36 @@ public class LoginControlador implements Serializable{
 		if (loginStatus.isShowMsgErro()) {
 			this.testeMensagem();
 		}
-		
-		HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+
+		HttpServletRequest request = (HttpServletRequest) FacesContext
+				.getCurrentInstance().getExternalContext().getRequest();
 		HttpSession session = request.getSession();
-		Boolean token_utilizado = (Boolean)session.getAttribute("sucesso");
-		
+		Boolean token_utilizado = (Boolean) session.getAttribute("sucesso");
+
 		if (token_utilizado != null) {
 			session.removeAttribute("sucesso");
-			
+
 			if (!token_utilizado) {
 				FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(null, new FacesMessage(
-						FacesMessage.SEVERITY_WARN,
-						"Esse link não é válido.", ""));
+						FacesMessage.SEVERITY_WARN, "Esse link não é válido.",
+						""));
 			} else {
 				FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(null, new FacesMessage(
 						FacesMessage.SEVERITY_INFO,
 						"Operação realizada com sucesso!", ""));
-				
+
 			}
 		}
+	}
+
+	public String logoff() {
+		
+		Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+
+		return "/login.xhtml?faces-redirect=true";
 	}
 
 	public void testeMensagem() {
