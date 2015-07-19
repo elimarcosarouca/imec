@@ -60,6 +60,8 @@ public class LoginControlador implements Serializable {
 		
 		Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
+		
+		//TODO deletar o ticket da sesao
 
 		return "/login.xhtml?faces-redirect=true";
 	}
