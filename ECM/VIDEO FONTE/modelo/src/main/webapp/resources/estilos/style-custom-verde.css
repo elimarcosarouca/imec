@@ -42,13 +42,13 @@
 	height: 100%;
 }
 
-#body-login {
-	background: url(fundo6.jpg) no-repeat center top fixed;
+/* #body-login {
+	background: url(fundo.jpg) no-repeat center top fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-}
+} */
 
 body {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
