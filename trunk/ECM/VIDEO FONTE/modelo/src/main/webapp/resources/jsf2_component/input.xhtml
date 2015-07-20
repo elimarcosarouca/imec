@@ -58,7 +58,7 @@
 		
 		<c:set var="label_style"  value="#{empty cc.attrs.labelStyle ? 'input-label-bold' : cc.attrs.labelStyle}" />
 		
-		<h:panelGrid columns="#{not empty cc.attrs.label ? 2 : 1}" rendered="#{cc.attrs.render}" width="#{cc.attrs.width}" columnClasses="#{label_style}, input_required">
+		<h:panelGrid columns="#{not empty cc.attrs.label ? 1 : 1}" rendered="#{cc.attrs.render}" width="#{cc.attrs.width}" columnClasses="#{label_style}, input_required">
 		 		
 	 		<p:column width="150" rendered="#{not empty cc.attrs.label}" >
 				<h:outputLabel value="#{cc.attrs.label}" for="#{cc.attrs.id}" styleClass="labelBold"/>
