@@ -44,7 +44,7 @@
 	
 	<cc:implementation>
 	
-		<h:panelGrid columns="1" width="500" rendered="#{cc.attrs.render}" columnClasses="input-label-bold, input_required">
+		<h:panelGrid columns="1" width="50%" rendered="#{cc.attrs.render}" columnClasses="input-label-bold, input_required">
 		  
 		 		<p:column width="150px" rendered="#{not empty cc.attrs.label}" >
 					<h:outputLabel value="#{cc.attrs.label}" for="#{cc.attrs.id}" rendered="#{not empty cc.attrs.label}" styleClass="labelBold"/>
