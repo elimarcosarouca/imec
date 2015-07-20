@@ -534,19 +534,21 @@ public class PublicarDocumentoControlador implements Serializable {
 	}
 
 	@PostConstruct
-	public String init() {
+	public void initUsuario(){
 		this.usuarioLogado = (Usuario) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
-
-		// this.inicioNovaSolicitacao();
+	}
+	public String init() {
+		initUsuario();
+		
 		this.variaveisPesquisa = new VariavelPublicarDocumento();
 		this.variaveisPesquisa
 				.setPostosCopiaObject(postoCopiaServico.listAll());
 		this.variaveisPesquisa.setUnidades(unidadeServico.listAll());
 		this.variaveisPesquisa.setCategorias(categoriaServico.listAll());
 		this.variaveisPesquisa.setSetores(setorServico.listAll());
-
-		return TELA_PESQUISA;
+		
+		return TELA_PESQUISA = "/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true";
 	}
 
 	public String validarFormulario() {
@@ -697,6 +699,8 @@ public class PublicarDocumentoControlador implements Serializable {
 	}
 
 	public void preRenderView() {
+		
+		initUsuario();
 
 		if (this.usuarioLogado.getCapabilities().isAdmin()) {
 			this.renderDownload = true;

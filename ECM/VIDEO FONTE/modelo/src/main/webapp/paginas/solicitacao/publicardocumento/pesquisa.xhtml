@@ -45,21 +45,17 @@
 				<p:accordionPanel id="accordion"  styleClass="filtro_pesquisa">
 					<p:tab title="[ Workflow ] - Filtro de Pesquisa" >
 
-						<h:panelGrid columns="8" cellpadding="0" cellspacing="0">
-							<p:outputLabel value="Protocolo:         " />
-							<p:spacer width="30px" />
-							<p:inputText
-								value="#{publicarDocumentoControlador.variaveisPesquisa.protocolo}" />
-							<p:spacer width="60px" />
-
+						<h:panelGrid columns="2" cellpadding="0" cellspacing="0" style="width: 95%">
 							<p:outputLabel value="Situação" />
-							<p:spacer width="30px" />
-							<p:selectOneMenu
+							<p:outputLabel value="Protocolo" />
+							
+							<p:selectOneMenu  
 								value="#{publicarDocumentoControlador.variaveisPesquisa.statusProcesso}">
 								<f:selectItem itemLabel="TODOS" itemValue="" />
-								<f:selectItems
-									value="#{publicarDocumentoControlador.statusProcesso}" />
+								<f:selectItems value="#{publicarDocumentoControlador.statusProcesso}" />
 							</p:selectOneMenu>
+							<p:inputText  
+								value="#{publicarDocumentoControlador.variaveisPesquisa.protocolo}" />
 
 						</h:panelGrid>
 
@@ -102,7 +98,7 @@
 				</p:accordionPanel>
 
 				<p:panel header="Lista de Solicitações" class="painelformatado">
-					<p:dataTable id="grid" var="item" styleClass="grid"
+					<p:dataTable id="grid" var="item" styleClass="grid" 
 						value="#{publicarDocumentoControlador.lista}" rows="10"
 						paginator="true" paginatorPosition="bottom"
 						paginatorAlwaysVisible="true"
@@ -116,22 +112,22 @@
 						</p:column>
 
 						<p:column style="text-align:left" headerText="Titulo"
-							exportable="false" width="350">
+							exportable="false" width="300">
 							<h:outputText value="#{item.variaveis.arquivoDoc.nomeArquivo}" />
 						</p:column>
 
 						<p:column style="text-align:left" headerText="Código"
-							exportable="false" width="350">
+							exportable="false" width="300">
 							<h:outputText value="#{item.variaveis.codigo}" />
 						</p:column>
 
 						<p:column style="text-align:left" headerText="Revisão"
-							exportable="false" width="100">
+							exportable="false" width="60">
 							<h:outputText value="#{item.variaveis.versaoRevisao}" />
 						</p:column>
 
 						<p:column style="text-align:left" headerText="Situação"
-							exportable="false">
+							exportable="false"  width="60">
 							<h:outputText value="#{item.variaveis.statusProcesso}" />
 						</p:column>
 
