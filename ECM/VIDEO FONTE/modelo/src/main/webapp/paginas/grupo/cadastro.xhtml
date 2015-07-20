@@ -40,23 +40,25 @@
 			<h:form id="form">
 
 				<p:growl id="growl" />
-				<p:panel header="Criação de Grupo " style="width:100%" class="painelformatado">
-					<h:panelGrid columns="2">
-						<p:outputLabel value="Nome do Grupo : "
+				<p:panel header="Cadastro de Grupo " style="width:100%" class="painelformatado">
+					<h:panelGrid columns="1">
+						<p:outputLabel value="Nome *"
 							styleClass="ui-priority-primary" />
 						<p:inputText id="nome" required="true" maxlength="40"
 							requiredMessage="Informe o nome do grupo que será adicionado."
 							value="#{grupoControladorBean.shortName}" size="30" />
 					</h:panelGrid>
-
-					<p:commandButton id="save" icon="ui-icon-plusthick" value="Salvar"
-						styleClass="ui-priority-primary"  style="margin-right:20px;"
-						action="#{grupoControladorBean.incluir}" update=":form" />
+					<br/>
 
 					<p:commandButton id="btnCancelar" value="Cancelar" immediate="true"
 						action="#{grupoControladorBean.cancelar}"
 						icon="ui-icon-circle-arrow-w" style="margin-right:20px;"
 						styleClass="ui-priority-primary" update=":form" />
+
+					<p:commandButton id="save" icon="ui-icon-disk" value="Salvar"
+						styleClass="ui-priority-primary"  style="margin-right:20px;"
+						action="#{grupoControladorBean.incluir}" update=":form" />
+					
 				</p:panel>
 			</h:form>
 		</div>

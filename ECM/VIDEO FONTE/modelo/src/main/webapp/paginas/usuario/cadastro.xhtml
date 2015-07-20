@@ -40,37 +40,37 @@
 			<h:form id="form">
 
 				<p:growl id="growl" life="4000" />
-				<p:panel id="panel" closable="false" footer="*Campos Obrigatorios"
-					header="Cadastro de Usuario" style="width: 99%" class="painelformatado">
-					<h:panelGrid id="pg" columns="4" style="margin-bottom:10px"
-						cellpadding="5">
+				<p:panel id="panel" closable="false" footer="* Campos Obrigatorios"
+					header="Cadastro de Usuário" style="width: 100%" class="painelformatado">
+					<h:panelGrid id="pg" columns="2" style="margin-bottom: 10px; width: 60%"
+						cellpadding="2">
 
-
-						<p:outputLabel value="Primeiro Nome: *" />
-						<p:inputText id="primeiroNome" required="true" style="width: 99%"
+						<p:outputLabel value="Primeiro Nome *" styleClass="ui-priority-primary" style="width: 80%"/>
+						<p:outputLabel value="Último Nome * " styleClass="ui-priority-primary" style="width: 80%"/>
+						
+						<p:inputText id="primeiroNome" required="true" style="width: 80%"
 							value="#{usuarioControladorBean.usuario.firstName}"
 							requiredMessage="Informe o Primeiro Nome" />
-
-						<p:outputLabel value="Último Nome:* " />
-						<p:inputText id="ultimoNome" required="true"
+						<p:inputText id="ultimoNome" required="true" style="width: 80%"
 							value="#{usuarioControladorBean.usuario.lastName}"
 							requiredMessage="Informe o Último Nome" />
 
-						<p:outputLabel value="E-Mail *" />
-						<p:inputText id="email" required="true"
+						<p:outputLabel value="E-Mail *" styleClass="ui-priority-primary"/>
+						<p:outputLabel value="Login *" styleClass="ui-priority-primary"/>
+						
+						<p:inputText id="email" required="true" style="width: 80%"
 							value="#{usuarioControladorBean.usuario.email}"
 							requiredMessage="Informe o Email" />
-
-						<p:outputLabel value="Login *" />
-						<p:inputText id="nomeUsuario" required="true"
+						<p:inputText id="nomeUsuario" required="true" style="width: 80%"
 							value="#{usuarioControladorBean.usuario.userName}"
 							disabled="#{usuarioControladorBean.isEditarUsuario}"
 							requiredMessage="Informe o login" />
+							
 					</h:panelGrid>
 					<h:panelGrid id="pg2" columns="4" style="margin-bottom:10px"
 						cellpadding="5">
 
-						<p:outputLabel value="Administrador" />
+						<p:outputLabel value="Administrador"  styleClass="ui-priority-primary"/>
 
 						<p:selectBooleanCheckbox id="isAdmin"
 							value="#{usuarioControladorBean.isAdmin}"
@@ -80,9 +80,9 @@
 								checked="#{usuarioControladorBean.isAdmin}" />
 						</p:selectBooleanCheckbox>
 
-						<p:outputLabel value="Bloqueado" />
+						<p:outputLabel value="Bloqueado" styleClass="ui-priority-primary"/>
 
-						<p:selectBooleanCheckbox id="isBloqueado"
+						<p:selectBooleanCheckbox id="isBloqueado" 
 							value="#{usuarioControladorBean.isBloqueado}"
 							disabled="#{sessaoControladorBean.usuario.userName eq usuarioControladorBean.usuario.userName}">
 
@@ -98,13 +98,13 @@
 
 					<p style="height: 1%" />
 
-					<p:commandButton id="save" icon="ui-icon-plusthick" value="Salvar"
-						action="#{usuarioControladorBean.incluir}" update=":form" />
-
 					<p:commandButton id="btnVoltar" value="Cancelar" immediate="true"
 						actionListener="#{usuarioControladorBean.cancelar()}"
 						icon="ui-icon-circle-arrow-w" style="margin-right:20px;"
 						styleClass="ui-priority-primary" update=":form" />
+
+					<p:commandButton id="save" icon="ui-icon-disk" value="Salvar"
+						action="#{usuarioControladorBean.incluir}" update=":form" />
 				</p:panel>
 
 			</h:form>

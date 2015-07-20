@@ -18,14 +18,13 @@
 	<ui:define name="register_region">
 
 		<ss:input id="nome" label="Nome" required="true"
-			value="#{setorControlador.entidade.nome}" maxlength="30"/>
-			
-		<ss:input label="Sigla" required="true" value="#{setorControlador.entidade.sigla}" maxlength="4"/>
-			
+			value="#{setorControlador.entidade.nome}" maxlength="30" />
+
+		<ss:input label="Sigla" required="true"
+			value="#{setorControlador.entidade.sigla}" maxlength="4" />
 		<ss:comboBox id="unidade" label="Unidade"
 			value="#{setorControlador.entidade.unidade}"
-			 list="#{setorControlador.unidades}"			
-			required="true" foreignKey="true"
+			list="#{setorControlador.unidades}" required="true" foreignKey="true"
 			atributo="#{item.nome}" />
 
 	</ui:define>
