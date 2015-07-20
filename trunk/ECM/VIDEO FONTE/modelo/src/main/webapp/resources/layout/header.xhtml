@@ -9,17 +9,15 @@
 	<div>
 		<h:form>
 			<div id="header-left">
-				<div id="divlogo">
-					<img class="logo-imagem" alt="TEXTO A APARECER"
-						style="float: left; height: 105px; position: relative; top: -3px; width: 105px"
-						src="#{request.contextPath}/resources/estilos/logo.png" />
+				<div style="width: 200px; float: left; padding-left: 10px; padding-top: -20px; position: relative; top: 35%; transform: translateY(-50%); ">
+					<h1 style="font-family: Lucida Calligraphy; background: #CCC; border-radius: 5px; padding-left: 10px; font-size: 40px; color: #4D4D4D; float: left; margin-bottom: 10px; width:140px">CDOC</h1>
 				</div>
 
 				<div style="float: right;">
 					<p:commandLink action="#{loginControlador.logoff}"
 						update=":form">
 						<h:graphicImage value="/resources/estilos/logoff.png"
-							style="height: 90px" title="Sair do sistema" />
+							style="height: 50px" title="Sair do sistema" />
 					</p:commandLink>
 				</div>
 
@@ -27,14 +25,14 @@
 					<p:commandLink action="#{publicarDocumentoControlador.init}"
 						update=":form">
 						<h:graphicImage value="/resources/estilos/workflow.png"
-							style="height: 90px" title="Workflow" />
+							style="height: 50px" title="Workflow" />
 					</p:commandLink>
 				</div>
 
 				<div style="float: right">
 					<p:commandLink action="#{tarefaControle.init}" update=":form">
 						<h:graphicImage value="/resources/estilos/tarefa.png"
-							style="height: 90px" title="Tarefa" />
+							style="height: 50px" title="Tarefa" />
 					</p:commandLink>
 				</div>
 
@@ -42,23 +40,23 @@
 					<p:commandLink action="#{alertaControlador.telaPesquisa}"
 						update=":form">
 						<h:graphicImage value="/resources/estilos/alerta.png"
-							style="height: 90px" title="Alerta" />
+							style="height: 50px" title="Alerta" />
 					</p:commandLink>
 				</div>
 
-				<div style="float: right; height: 90px">
+				<div style="float: right; height: 50px">
 					<p:commandLink action="#{unidadeControlador.telaPesquisa}"
 						update=":form">
 						<h:graphicImage value="/resources/estilos/unidade.png"
-							style="height: 90px" title="Unidade" />
+							style="height: 50px" title="Unidade" />
 					</p:commandLink>
 				</div>
 
-				<div style="float: right; height: 90px">
+				<div style="float: right; height: 50px">
 					<p:commandLink action="#{categoriaControlador.telaPesquisa}"
 						update=":form">
 						<h:graphicImage value="/resources/estilos/categoria.png"
-							style="height: 90px" title="Categoria" />
+							style="height: 50px" title="Categoria" />
 					</p:commandLink>
 				</div>
 
@@ -66,39 +64,39 @@
 					<p:commandLink action="#{setorControlador.telaPesquisa}"
 						update=":form">
 						<h:graphicImage value="/resources/estilos/setor.png"
-							style="height: 90px" title="Setor" />
+							style="height: 50px" title="Setor" />
 					</p:commandLink>
 				</div>
 
-				<div style="float: right; height: 90px">
+				<div style="float: right; height: 50px">
 					<h:commandLink action="#{postoCopiaControlador.telaPesquisa}"
 						update=":form">
 						<h:graphicImage value="/resources/estilos/copia.png"
-							style="height: 90px" title="Posto de Cópia" />
+							style="height: 50px" title="Posto de Cópia" />
 					</h:commandLink>
 				</div>
 
-				<div style="float: right; height: 90px">
+				<div style="float: right; height: 50px">
 					<p:commandLink action="#{colaboradorControlador.telaPesquisa}"
 						update=":form">
 						<h:graphicImage value="/resources/estilos/colaborador.png"
-							style="height: 90px" title="Colaborador" />
+							style="height: 50px" title="Colaborador" />
 					</p:commandLink>
 				</div>
 
-				<div style="float: right; height: 90px">
+				<div style="float: right; height: 50px">
 					<p:commandLink action="#{usuarioControladorBean.telaPesquisa}"
 						update=":form">
 						<h:graphicImage value="/resources/estilos/usuario.png"
-							style="height: 90px" title="Usuário" />
+							style="height: 50px" title="Usuário" />
 					</p:commandLink>
 				</div>
 
-				<div style="float: right; height: 90px">
+				<div style="float: right; height: 50px">
 					<p:commandLink action="#{grupoControladorBean.telaPesquisa}"
 						update=":form">
 						<h:graphicImage value="/resources/estilos/grupo.png"
-							style="height: 90px" title="Grupo" />
+							style="height: 50px" title="Grupo" />
 					</p:commandLink>
 				</div>
 
