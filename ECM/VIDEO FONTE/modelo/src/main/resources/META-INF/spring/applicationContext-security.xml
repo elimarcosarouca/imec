@@ -7,7 +7,7 @@
 
 	<!-- auto-config="true" -->
 
-	<http use-expressions="true" auto-config="true">
+	<http use-expressions="true" auto-config="true"  access-denied-page="/login.xhtml" >
 	
 		<session-management invalid-session-url="/login.xhtml"/>
 
@@ -22,8 +22,11 @@
 			access="hasAnyRole('ROLE_ALFRESCO_ADMINISTRATORS')" />
 		<form-login login-page="/login.xhtml" default-target-url="/paginas/home/index.xhtml?faces-redirect=true" />
 		
+		<!-- <logout invalidate-session="true" logout-success-url="/login.xhtml" logout-url="/logout"/> -->
+		<logout logout-url="/logout" logout-success-url="/login.xhtml"/>
+		
 	</http>
-
+	
 	<beans:bean id="modeloFiltro" class="br.fucapi.ads.modelo.controlador.ModeloFiltro"/>
 	
 	<beans:bean id="adsAuthenticationProvider" class="br.fucapi.ads.modelo.controlador.AlfrescoAuthenticationProvider" />

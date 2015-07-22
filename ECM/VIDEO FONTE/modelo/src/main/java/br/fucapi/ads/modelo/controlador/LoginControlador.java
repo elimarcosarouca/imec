@@ -12,9 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.component.growl.Growl;
-import org.springframework.security.core.context.SecurityContextHolder;
 
-import br.fucapi.bpms.alfresco.dominio.Usuario;
 
 @ManagedBean
 @ViewScoped
@@ -54,16 +52,6 @@ public class LoginControlador implements Serializable {
 
 			}
 		}
-	}
-
-	public String logoff() {
-		
-		Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal();
-		
-		//TODO deletar o ticket da sesao
-
-		return "/login.xhtml?faces-redirect=true";
 	}
 
 	public void testeMensagem() {
