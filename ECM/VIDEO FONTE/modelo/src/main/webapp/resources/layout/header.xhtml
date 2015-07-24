@@ -15,10 +15,12 @@
 						style="font-family: Lucida Calligraphy; background: #CCC; border-radius: 5px; padding-left: 10px; font-size: 40px; color: #4D4D4D; float: left; margin-bottom: 10px; width: 140px">CDOC</h1>
 				</div>
 
-				<div style="float: right; height: 50px">
-					<a href="/modelo/logout"> <h:graphicImage
-							value="/resources/estilos/logoff.png"
-							style="height: 50px; margin-top: 20%;" title="Sair do sistema" /></a>
+				<div style="float: right;">
+					<a
+						href="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">
+						<h:graphicImage value="/resources/estilos/logoff.png"
+							style="height: 50px; margin-top: 20%;" title="Sair" />
+					</a>
 				</div>
 
 				<div style="float: right;">
