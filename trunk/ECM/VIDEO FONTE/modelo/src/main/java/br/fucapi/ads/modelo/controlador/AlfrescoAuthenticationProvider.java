@@ -28,58 +28,64 @@ public class AlfrescoAuthenticationProvider implements AuthenticationProvider {
 
 	@Value("${alfresco.grupo.adm}")
 	private String alfrescoGrupoAdmin;
-	
+
 	@Autowired
 	private LoginStatus loginStatus;
-	
+
 	@PostConstruct
-	private void init() {		
+	private void init() {
 
 	}
-	
+
 	@Override
 	public Authentication authenticate(Authentication authentication)
 			throws AuthenticationException {
 
-		Usuario usuario =  null;
+		Usuario usuario = null;
 		UsernamePasswordAuthenticationToken authenticatedUser = null;
+		List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
+		SimpleGrantedAuthority simpleGrantedAuthority;
 		try {
-			usuario = alfrescoServico.autenticarUsuario(authentication.getPrincipal()
-					.toString(), authentication.getCredentials().toString());
-			
+			usuario = alfrescoServico.autenticarUsuario(authentication
+					.getPrincipal().toString(), authentication.getCredentials()
+					.toString());
+
 			// verificar se o usuario é adminstrador
-			// Solucao temporaria para resolver problema de json que define se o usuario e administrador
-			
+			// Solucao temporaria para resolver problema de json que define se o
+			// usuario e administrador
+
 			for (GrupoAlfresco grupoAlfresco : usuario.getGroups()) {
+				System.out.println("grupo = " + grupoAlfresco.getDisplayName());
 				if (grupoAlfresco.getDisplayName().equals(alfrescoGrupoAdmin)) {
 					usuario.getCapabilities().setAdmin(true);
-					break;
-				}
-			}
-			
-			for (GrupoAlfresco grupoAlfresco : usuario.getGroups()) {
-				if (grupoAlfresco.getDisplayName().equals("ANALISTA")) {
+					simpleGrantedAuthority = new SimpleGrantedAuthority(grupoAlfresco.getDisplayName().trim());
+					grantedAuthorities.add(simpleGrantedAuthority);
+
+				} else if (grupoAlfresco.getDisplayName().equals("ANALISTA")) {
 					usuario.setAnalista(true);
-					break;
+					simpleGrantedAuthority = new SimpleGrantedAuthority(grupoAlfresco.getDisplayName());
+					grantedAuthorities.add(simpleGrantedAuthority);
+
 				}
+
 			}
 
-			List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
-			
-			SimpleGrantedAuthority  simpleGrantedAuthority = new SimpleGrantedAuthority("ROLE_ALFRESCO_ADMINISTRATORS");
+			// ADD perfil de usuario
+			simpleGrantedAuthority = new SimpleGrantedAuthority("USER");
 			grantedAuthorities.add(simpleGrantedAuthority);
 			
 			authenticatedUser = new UsernamePasswordAuthenticationToken(
-	                usuario, null, grantedAuthorities);
-			
-	        SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
-	        loginStatus.setShowMsgErro(false);
+					usuario, null, grantedAuthorities);
+
+			SecurityContextHolder.getContext().setAuthentication(
+					authenticatedUser);
+			loginStatus.setShowMsgErro(false);
 
 		} catch (HttpClientErrorException e) {
-						
-			loginStatus.setShowMsgErro(true);			
+
+			loginStatus.setShowMsgErro(true);
 			e.printStackTrace();
-						
+
 		} catch (DocumentException e) {
 			e.printStackTrace();
 			loginStatus.setShowMsgErro(true);
@@ -87,7 +93,6 @@ public class AlfrescoAuthenticationProvider implements AuthenticationProvider {
 
 		return authenticatedUser;
 	}
-	
 
 	@Override
 	public boolean supports(Class<?> arg0) {
