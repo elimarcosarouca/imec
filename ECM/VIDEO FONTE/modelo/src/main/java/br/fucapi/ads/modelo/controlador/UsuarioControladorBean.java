@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.alfresco.repo.webservice.administration.AdministrationFault;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -63,6 +65,12 @@ public class UsuarioControladorBean implements Serializable {
 	private List<Usuario> usuarios;
 
 	private String token;
+	
+	private Usuario usuarioLogado;
+
+	private boolean administrador;
+
+	private boolean analista;
 
 	/**
 	 * Alias para redirecionar para a tela de cadastro.
@@ -95,8 +103,22 @@ public class UsuarioControladorBean implements Serializable {
 
 		this.isAdmin = false;
 		this.isBloqueado = false;
+		this.administrador = false;
+		this.analista = false;
 
-		this.usuario.setSenha("teste");
+		this.usuarioLogado = (Usuario) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+		
+		Collection<GrantedAuthority> perfis = (Collection<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+		
+		for (GrantedAuthority grantedAuthority : perfis) {
+			if(grantedAuthority.getAuthority().equals("ALFRESCO_ADMINISTRATORS"))
+				this.administrador = true;
+			else if(grantedAuthority.getAuthority().equals("ANALISTA"))
+				this.analista = true;
+			
+		}
+		
 
 		/*
 		 * HttpServletRequest request =
@@ -613,4 +635,28 @@ public class UsuarioControladorBean implements Serializable {
 		FacesUtils.getRequest().getSession().setAttribute("menuList", menuList);
 	}
 
+	public Usuario getUsuarioLogado() {
+		return usuarioLogado;
+	}
+
+	public void setUsuarioLogado(Usuario usuarioLogado) {
+		this.usuarioLogado = usuarioLogado;
+	}
+
+	public boolean isAdministrador() {
+		return administrador;
+	}
+
+	public void setAdministrador(boolean administrador) {
+		this.administrador = administrador;
+	}
+
+	public boolean isAnalista() {
+		return analista;
+	}
+
+	public void setAnalista(boolean analista) {
+		this.analista = analista;
+	}
+	
 }
