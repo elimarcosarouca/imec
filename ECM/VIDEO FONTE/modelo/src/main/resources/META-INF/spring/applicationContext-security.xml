@@ -19,7 +19,11 @@
 		<intercept-url pattern="/login.xhtml" access="permitAll" />
 
 		<intercept-url pattern="/paginas/**"
-			access="hasAnyRole('ROLE_ALFRESCO_ADMINISTRATORS')" />
+			access="hasAnyRole('ALFRESCO_ADMINISTRATORS')" />
+
+		<intercept-url pattern="/paginas/**" access="hasAnyRole('ANALISTA')" />
+
+		<intercept-url pattern="/paginas/**" access="hasAnyRole('USER')" />
 
 		<form-login login-page="/login.xhtml"
 			default-target-url="/paginas/home/index.xhtml?faces-redirect=true" />
@@ -28,22 +32,15 @@
 			authentication-failure-url="/login.xhtml?login_error=1"
 			default-target-url="/index.jsp" always-use-default-target="true" />
 
-		<logout logout-success-url="/login.xhtml" invalidate-session="true" />
+		<logout logout-success-url="/login.xhtml" invalidate-session="true"
+			delete-cookies="true" />
 
 	</http>
-
-	<beans:bean id="modeloFiltro"
-		class="br.fucapi.ads.modelo.controlador.ModeloFiltro" />
 
 	<beans:bean id="adsAuthenticationProvider"
 		class="br.fucapi.ads.modelo.controlador.AlfrescoAuthenticationProvider" />
 
 	<authentication-manager>
-		<authentication-provider>
-			<user-service>
-				<user name="user" password="user1" authorities="ROLE_USER" />
-			</user-service>
-		</authentication-provider>
 		<authentication-provider ref="adsAuthenticationProvider" />
 	</authentication-manager>
 
