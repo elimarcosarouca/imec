@@ -181,7 +181,7 @@ public class Alerta extends AbstractEntity implements Serializable {
 				.getVariaveis()).getCodigo();
 
 		this.titulo = ((VariavelPublicarDocumento) tarefaInstancia
-				.getVariaveis()).getArquivoDoc().getNomeArquivo();
+				.getVariaveis()).getNomeDocumento();
 
 		this.unidade = ((VariavelPublicarDocumento) tarefaInstancia
 				.getVariaveis()).getUnidade();

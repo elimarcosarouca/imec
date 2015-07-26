@@ -132,8 +132,6 @@ public class PublicarDocumentoControlador implements Serializable {
 
 	private boolean habilitar = false;
 	
-	private String nomeDocumento = "";
-
 	@ManagedProperty(value = "#{activitiServicoImpl}")
 	private ActivitiServico activitiServico;
 
@@ -203,8 +201,6 @@ public class PublicarDocumentoControlador implements Serializable {
 	private StatusProcesso status;
 
 	private StreamedContent file;
-
-	// Upload File
 
 	private UploadedFile uploadFile;
 
@@ -309,8 +305,6 @@ public class PublicarDocumentoControlador implements Serializable {
 
 			File fileTempOriginal = GeralUtils
 					.converterFileUploadToFile(this.uploadFile);
-
-			this.variaveis.getArquivoDoc().setNomeArquivo(getNomeDocumento().toUpperCase());
 
 			this.variaveis.setArquivoDoc(new Arquivo());
 			this.variaveis.getArquivoDoc().setNomeArquivo(
@@ -1415,11 +1409,4 @@ public class PublicarDocumentoControlador implements Serializable {
 		this.setor = setor;
 	}
 
-	public String getNomeDocumento() {
-		return nomeDocumento;
-	}
-
-	public void setNomeDocumento(String nomeDocumento) {
-		this.nomeDocumento = nomeDocumento;
-	}
 }
