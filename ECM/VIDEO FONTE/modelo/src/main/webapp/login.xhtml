@@ -13,8 +13,10 @@
 		href="resources/estilos/style-custom-azul.css" />
 </h:head>
 <h:body class="body">
-	<form action="/modelo/j_spring_security_check" method="post">
+	<form action="#{facesContext.externalContext.requestContextPath}/j_spring_security_check" method="post">
 		<div id="principal">
+		
+			<img src="#{facesContext.externalContext.requestContextPath}/logo.png" alt="" />
 			<div class="login">
 				<p:growl id="growl" binding="#{loginControlador.msg}" />
 				<h1>Infome seu Login e Senha</h1>
