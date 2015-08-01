@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
@@ -18,7 +19,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 public class Watermark {
 
 	public static File inserirTarja(byte[] bytes, String tipoCopia,
-			String pathMarcaDagua) {
+			String pathMarcaDagua, String rodape) {
 		PdfStamper stamp = null;
 		String pathFile = null;
 		try {
@@ -36,7 +37,7 @@ public class Watermark {
 						new FileOutputStream(pathFile));
 				image = Image.getInstance(pathMarcaDagua
 						+ "copiacontrolada.png");
-
+				
 			} else if ("copianaocontrolado".equals(tipoCopia)) {
 				pathFile = pathMarcaDagua + "copianaocontrolada.pdf";
 				stamp = new PdfStamper(watermark,
@@ -64,6 +65,14 @@ public class Watermark {
 				add_watermark = stamp.getUnderContent(i);
 				// stamp.
 				add_watermark.addImage(image);
+				
+				add_watermark.setFontAndSize(BaseFont.createFont(
+						BaseFont.TIMES_ROMAN, BaseFont.CP1250, true), 12);
+				add_watermark.beginText();
+				add_watermark.setTextMatrix(50, 830);
+
+				add_watermark.showTextAligned(Element.ALIGN_CENTER, rodape + i,
+						300, 20, 0);
 			}
 			// add_watermark.
 			stamp.close();
