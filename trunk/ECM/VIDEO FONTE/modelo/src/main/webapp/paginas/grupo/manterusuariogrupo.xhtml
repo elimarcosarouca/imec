@@ -9,14 +9,16 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
-	template="/resources/layout/template.xhtml">
+	template="/resources/layout/register_template.xhtml">
 
-	<!--  ====== Params ================ 
-			. Obrigatorios: 
-				- managedBean
-		 -->
+	<ui:param name="containerTitle" value="Associar Usuário(s) ao Grupo #{grupoControladorBean.usuarioGrupo.shortName}" />
+	<ui:param name="pageTitle" value="Associar Usuário(s) ao Grupo #{grupoControladorBean.usuarioGrupo.shortName}" />
+	<ui:param name="widthContainer" value="950px" />
 
-	<ui:define name="content">
+	<ui:define name="register_region">
+		
+		<c:set var="renderCancelar" value="false" />
+		<c:set var="renderSalvar" value="false" />
 
 		<c:if test="#{empty widthContainer}">
 			<c:set var="widthContainer" value="100%" />
@@ -35,53 +37,46 @@
 		</c:if>
 
 		<ui:param name="pageTitle" value="-- TODO definir titulo --" />
-
+		
 		<div class="mainForm">
 
-			<h:form id="form">
+			<p style="height: 1%" />
 
-				<p style="height: 1%" />
+			<p:growl id="msg" />
 
-				<p:panel id="panel" closable="false" footer="*Campos Obrigatórios" class="painelformatado"
-					header="Associar Usuário(s) ao Grupo #{grupoControladorBean.usuarioGrupo.shortName}" style="width:99%">
-					<p:growl id="msg" />
+			<div align="center">
+				<p:pickList id="pojoPickList"
+					value="#{grupoControladorBean.usuariosPickList}" var="usuario"
+					effect="bounce" itemValue="#{usuario}"
+					itemLabel="#{usuario.firstName} - #{usuario.lastName}"
+					converter="usuarioConverter" showSourceControls="true"
+					showTargetControls="true" showCheckbox="true"
+					showSourceFilter="true" showTargetFilter="true"
+					filterMatchMode="contains">
 
-					<div align="center">
-						<p:pickList id="pojoPickList"
-							value="#{grupoControladorBean.usuariosPickList}" var="usuario"
-							effect="bounce" itemValue="#{usuario}"
-							itemLabel="#{usuario.firstName} - #{usuario.lastName}"
-							converter="usuarioConverter" showSourceControls="true"
-							showTargetControls="true" showCheckbox="true"
-							showSourceFilter="true" showTargetFilter="true"
-							filterMatchMode="contains">
+					<p:ajax event="transfer"
+						listener="#{grupoControladorBean.onTransfer}" update="msg" />
 
-							<p:ajax event="transfer"
-								listener="#{grupoControladorBean.onTransfer}" update="msg" />
+					<f:facet name="sourceCaption">Listagem de usuários</f:facet>
+					<f:facet name="targetCaption">Usuários selecionados</f:facet>
 
-							<f:facet name="sourceCaption">Listagem de usuários</f:facet>
-							<f:facet name="targetCaption">Usuários selecionados</f:facet>
+					<p:column style="width:25%">
+						<p:graphicImage
+							value="/resources/imagens/barca/#{usuario.userName}.jpg"
+							width="30" height="40" />
+					</p:column>
 
-							<p:column style="width:25%">
-								<p:graphicImage
-									value="/resources/imagens/barca/#{usuario.userName}.jpg"
-									width="30" height="40" />
-							</p:column>
+					<p:column style="width:75%;">
+                      #{usuario.firstName} #{usuario.lastName}
+                  </p:column>
+				</p:pickList>
+			</div>
 
-							<p:column style="width:75%;">
-                        #{usuario.firstName} #{usuario.lastName}
-                    </p:column>
-						</p:pickList>
-					</div>
+			<p:commandButton id="btnVoltar" value="Cancelar" immediate="true"
+				action="#{grupoControladorBean.cancelar()}"
+				icon="ui-icon-circle-arrow-w" style="margin-right:20px;"
+				styleClass="ui-priority-primary" update="form" />
 
-				</p:panel>
-
-				<p:commandButton id="btnVoltar" value="Cancelar" immediate="true"
-					action="#{grupoControladorBean.cancelar()}"
-					icon="ui-icon-circle-arrow-w" style="margin-right:20px;"
-					styleClass="ui-priority-primary" update=":form" />
-
-			</h:form>
 		</div>
 	</ui:define>
 

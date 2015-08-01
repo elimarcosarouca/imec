@@ -5,15 +5,16 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
 	template="/resources/layout/register_template.xhtml">
 
-	<ui:param name="pageHeader" value="Cadastro de Categoria"/>
-	<ui:param name="pageTitle" value="Cadastro de Categoria"/>
+	<ui:param name="containerTitle" value="Cadastro de Categoria" />
+	<ui:param name="pageTitle" value="Cadastro de Categoria" />
+	<ui:param name="widthContainer" value="950px" />
 	<ui:param name="managedBean" value="#{categoriaControlador}"/>
-	<ui:param name="widthContainer" value="950px"/>
 
 	<ui:define name="register_region">
 	

@@ -9,14 +9,17 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
-	template="/resources/layout/template.xhtml">
+	template="/resources/layout/register_template.xhtml">
 
-	<!--  ====== Params ================ 
-			. Obrigatorios: 
-				- managedBean
-		 -->
+	<ui:param name="containerTitle" value="Cadastro de Usuário" />
+	<ui:param name="pageTitle" value="Cadastro de Usuário" />
+	<ui:param name="managedBean" value="#{usuarioControladorBean}" />
+	<ui:param name="widthContainer" value="950px" />
 
-	<ui:define name="content">
+	<ui:define name="register_region">
+	
+		<c:set var="renderCancelar" value="false" />
+		<c:set var="renderSalvar" value="false" />
 
 		<c:if test="#{empty widthContainer}">
 			<c:set var="widthContainer" value="100%" />
@@ -37,78 +40,69 @@
 		<ui:param name="pageTitle" value="-- TODO definir titulo --" />
 
 		<div class="mainForm">
-			<h:form id="form">
-
 				<p:growl id="growl" life="4000" />
-				<p:panel id="panel" closable="false" footer="* Campos Obrigatorios"
-					header="Cadastro de Usuário" style="width: 100%" class="painelformatado">
-					<h:panelGrid id="pg" columns="2" style="margin-bottom: 10px; width: 60%"
-						cellpadding="2">
+				
+				<h:panelGrid id="pg" columns="2" style="margin-bottom: 10px; width: 60%"
+					cellpadding="2">
 
-						<p:outputLabel value="Primeiro Nome *" styleClass="ui-priority-primary" style="width: 80%"/>
-						<p:outputLabel value="Último Nome * " styleClass="ui-priority-primary" style="width: 80%"/>
+					<p:outputLabel value="Primeiro Nome *" styleClass="ui-priority-primary" style="width: 80%"/>
+					<p:outputLabel value="Último Nome * " styleClass="ui-priority-primary" style="width: 80%"/>
+					
+					<p:inputText id="primeiroNome" required="true" style="width: 80%"
+						value="#{usuarioControladorBean.usuario.firstName}"
+						requiredMessage="Informe o Primeiro Nome" />
+					<p:inputText id="ultimoNome" required="true" style="width: 80%"
+						value="#{usuarioControladorBean.usuario.lastName}"
+						requiredMessage="Informe o Último Nome" />
+
+					<p:outputLabel value="E-Mail *" styleClass="ui-priority-primary"/>
+					<p:outputLabel value="Login *" styleClass="ui-priority-primary"/>
+					
+					<p:inputText id="email" required="true" style="width: 80%"
+						value="#{usuarioControladorBean.usuario.email}"
+						requiredMessage="Informe o Email" />
+					<p:inputText id="nomeUsuario" required="true" style="width: 80%"
+						value="#{usuarioControladorBean.usuario.userName}"
+						disabled="#{usuarioControladorBean.isEditarUsuario}"
+						requiredMessage="Informe o login" />
 						
-						<p:inputText id="primeiroNome" required="true" style="width: 80%"
-							value="#{usuarioControladorBean.usuario.firstName}"
-							requiredMessage="Informe o Primeiro Nome" />
-						<p:inputText id="ultimoNome" required="true" style="width: 80%"
-							value="#{usuarioControladorBean.usuario.lastName}"
-							requiredMessage="Informe o Último Nome" />
+				</h:panelGrid>
+				<h:panelGrid id="pg2" columns="4" style="margin-bottom:10px"
+					cellpadding="5">
 
-						<p:outputLabel value="E-Mail *" styleClass="ui-priority-primary"/>
-						<p:outputLabel value="Login *" styleClass="ui-priority-primary"/>
-						
-						<p:inputText id="email" required="true" style="width: 80%"
-							value="#{usuarioControladorBean.usuario.email}"
-							requiredMessage="Informe o Email" />
-						<p:inputText id="nomeUsuario" required="true" style="width: 80%"
-							value="#{usuarioControladorBean.usuario.userName}"
-							disabled="#{usuarioControladorBean.isEditarUsuario}"
-							requiredMessage="Informe o login" />
-							
-					</h:panelGrid>
-					<h:panelGrid id="pg2" columns="4" style="margin-bottom:10px"
-						cellpadding="5">
+					<p:outputLabel value="Administrador"  styleClass="ui-priority-primary"/>
 
-						<p:outputLabel value="Administrador"  styleClass="ui-priority-primary"/>
+					<p:selectBooleanCheckbox id="isAdmin"
+						value="#{usuarioControladorBean.isAdmin}"
+						disabled="#{usuarioControladorBean.isBloqueado or sessaoControladorBean.usuario.userName eq usuarioControladorBean.usuario.userName}">
 
-						<p:selectBooleanCheckbox id="isAdmin"
-							value="#{usuarioControladorBean.isAdmin}"
-							disabled="#{usuarioControladorBean.isBloqueado or sessaoControladorBean.usuario.userName eq usuarioControladorBean.usuario.userName}">
+						<p:ajax update="pg2"
+							checked="#{usuarioControladorBean.isAdmin}" />
+					</p:selectBooleanCheckbox>
 
-							<p:ajax update=":form:pg2"
-								checked="#{usuarioControladorBean.isAdmin}" />
-						</p:selectBooleanCheckbox>
+					<p:outputLabel value="Bloqueado" styleClass="ui-priority-primary"/>
 
-						<p:outputLabel value="Bloqueado" styleClass="ui-priority-primary"/>
+					<p:selectBooleanCheckbox id="isBloqueado" 
+						value="#{usuarioControladorBean.isBloqueado}"
+						disabled="#{sessaoControladorBean.usuario.userName eq usuarioControladorBean.usuario.userName}">
 
-						<p:selectBooleanCheckbox id="isBloqueado" 
-							value="#{usuarioControladorBean.isBloqueado}"
-							disabled="#{sessaoControladorBean.usuario.userName eq usuarioControladorBean.usuario.userName}">
+						<p:ajax update="pg2"
+							listener="#{usuarioControladorBean.atualizarUsuarioAdmin}"
+							checked="#{usuarioControladorBean.isBloqueado}" />
 
-							<p:ajax update=":form:pg2"
-								listener="#{usuarioControladorBean.atualizarUsuarioAdmin}"
-								checked="#{usuarioControladorBean.isBloqueado}" />
+					</p:selectBooleanCheckbox>
 
-						</p:selectBooleanCheckbox>
+				</h:panelGrid>
 
-					</h:panelGrid>
+				<p:commandButton id="btnVoltar" value="Cancelar" immediate="true"
+					actionListener="#{usuarioControladorBean.cancelar()}"
+					icon="ui-icon-circle-arrow-w" style="margin-right:20px;"
+					styleClass="ui-priority-primary" update=":form" />
 
-					<p style="height: 1%" />
-
-					<p style="height: 1%" />
-
-					<p:commandButton id="btnVoltar" value="Cancelar" immediate="true"
-						actionListener="#{usuarioControladorBean.cancelar()}"
-						icon="ui-icon-circle-arrow-w" style="margin-right:20px;"
-						styleClass="ui-priority-primary" update=":form" />
-
-					<p:commandButton id="save" icon="ui-icon-disk" value="Salvar"
-						action="#{usuarioControladorBean.incluir}" update=":form" />
-				</p:panel>
-
-			</h:form>
+				<p:commandButton id="save" icon="ui-icon-disk" value="Salvar"
+					action="#{usuarioControladorBean.incluir}" update=":form" />
 		</div>
+				
 	</ui:define>
 
 </ui:composition>

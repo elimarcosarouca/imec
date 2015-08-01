@@ -14,8 +14,8 @@
 </h:head>
 <h:body class="body">
 	<form action="#{facesContext.externalContext.requestContextPath}/j_spring_security_check" method="post">
-		<div id="principal">
 		
+		<div id="principal">
 			<img src="#{facesContext.externalContext.requestContextPath}/logo.png" alt="" />
 			<div class="login">
 				<p:growl id="growl" binding="#{loginControlador.msg}" />
@@ -42,7 +42,7 @@
 			<div>
 				<h:form>
 					<h:commandLink styleClass="login-help" action="inicio"
-						onclick="lembrete.show()" value="Esqueceu sua senha?" />
+						onclick="PF('lembrete').show()" value="Esqueceu sua senha?" />
 				</h:form>
 			</div>
 
@@ -51,8 +51,8 @@
 </h:body>
 
 
-<p:confirmDialog message="SOLICITAR NOVA SENHA DE USUÁRIO GEDEasy"
-	header="Esqueceu sua Senha" severity="alert" appendToBody="false"
+<p:confirmDialog message="SOLICITAR NOVA SENHA DE USUÁRIO CDOC"
+	header="Esqueceu sua Senha" severity="alert" appendToBody="true"
 	widgetVar="lembrete" closable="true" style="height:500px;width:300px">
 	<h:form>
 		<h:inputText id="j_username" label="Nome" required="true"

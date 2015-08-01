@@ -29,6 +29,7 @@ import br.fucapi.ads.modelo.dominio.UsuarioLog;
 import br.fucapi.ads.modelo.enumerated.Constants;
 import br.fucapi.ads.modelo.servico.UsuarioGrupoLogServico;
 import br.fucapi.ads.modelo.servico.UsuarioLogServico;
+import br.fucapi.ads.modelo.utils.DateUtil;
 import br.fucapi.ads.modelo.utils.FacesUtils;
 import br.fucapi.ads.modelo.utils.Menu;
 import br.fucapi.bpms.alfresco.dominio.Capabilities;
@@ -65,7 +66,7 @@ public class UsuarioControladorBean implements Serializable {
 	private List<Usuario> usuarios;
 
 	private String token;
-	
+
 	private Usuario usuarioLogado;
 
 	private boolean administrador;
@@ -92,7 +93,9 @@ public class UsuarioControladorBean implements Serializable {
 
 	@ManagedProperty(value = "#{usuarioGrupoLogServicoImpl}")
 	private UsuarioGrupoLogServico usuarioGrupoLogServico;
-	
+
+	private String dataServidor;
+
 	public String telaPesquisa() {
 		return "/paginas/usuario/pesquisa.xhtml?faces-redirect=true";
 	}
@@ -108,17 +111,20 @@ public class UsuarioControladorBean implements Serializable {
 
 		this.usuarioLogado = (Usuario) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
-		
-		Collection<GrantedAuthority> perfis = (Collection<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-		
+
+		Collection<GrantedAuthority> perfis = (Collection<GrantedAuthority>) SecurityContextHolder
+				.getContext().getAuthentication().getAuthorities();
+
 		for (GrantedAuthority grantedAuthority : perfis) {
-			if(grantedAuthority.getAuthority().equals("ALFRESCO_ADMINISTRATORS"))
+			if (grantedAuthority.getAuthority().equals(
+					"ALFRESCO_ADMINISTRATORS"))
 				this.administrador = true;
-			else if(grantedAuthority.getAuthority().equals("ANALISTA"))
+			else if (grantedAuthority.getAuthority().equals("ANALISTA"))
 				this.analista = true;
-			
+
 		}
-		
+
+		this.dataServidor = DateUtil.geradorDatePorExtenso();
 
 		/*
 		 * HttpServletRequest request =
@@ -658,5 +664,13 @@ public class UsuarioControladorBean implements Serializable {
 	public void setAnalista(boolean analista) {
 		this.analista = analista;
 	}
-	
+
+	public String getDataServidor() {
+		return dataServidor;
+	}
+
+	public void setDataServidor(String dataServidor) {
+		this.dataServidor = dataServidor;
+	}
+
 }

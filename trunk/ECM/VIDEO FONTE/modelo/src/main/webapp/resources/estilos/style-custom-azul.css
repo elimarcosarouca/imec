@@ -1,3 +1,28 @@
+.painelformatado .ui-panel-titlebar {
+	padding-top: 8px;
+	padding-bottom: 8px;
+	padding-left: 8px;
+	background: #ADD8E6;
+	color: black;
+	width: 98.8%;
+}
+
+.ui-widget-header {
+	text-shadow: none;
+}
+
+.ui-widget .ui-widget {
+	font-size: 15px;
+}
+
+.ui-widget {
+	font-size: 15px;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+	text-shadow: none;
+}
+
 #header {
 	background-color: #3A5795;
 	color: white;
@@ -11,23 +36,19 @@
 	float: none;
 	padding: 0px;
 	background-color: #FFFFFF;
-	min-height: 520px;
-	
+	min-height: 670px;
 }
 
 #footer {
 	background-color: #3A5795;
-	color:white;
-	
-    clear:both;
-    text-align:center;
+	color: white;
+	clear: both;
+	text-align: center;
 	padding: 0px;
- 
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-   	
- }
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
 
 #geral {
 	min-height: 100%;
@@ -52,8 +73,12 @@ body {
 	font-size: 10px;
 	line-height: 1.42857;
 	margin: 0px;
-	background-color: #3A5795;
 	width: 100%;
+	background: url(images-azul/plano-fundo.png) no-repeat center top fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 *#principal {
@@ -77,12 +102,10 @@ body {
 	position: relative;
 	margin: 0 auto;
 	padding: 20px 20px 20px;
-	margin-top: 0px;
-	width: 310px;
+	width: 350px;
 	background: white;
 	border-radius: 3px;
 	-webkit-box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px;
-	zoom: 200%;
 	rgba
 	(0,
 	0,
@@ -185,7 +208,8 @@ body {
 }
 
 .login input[type=text], .login input[type=password] {
-	width: 200px;
+	width: 320px;
+	height: 25px;
 }
 
 .login:before {
@@ -286,11 +310,7 @@ th {
 	text-decoration: none;
 }
 
-.painelformatado .ui-panel-titlebar {
-	background: #ADD8E6;
-	color: black;
-	width: 98%;
-}
+
 
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
 	border: 1px solid #7096AB;
@@ -370,6 +390,7 @@ th {
 
 .labelBold {
 	font-weight: bold;
+	font-size: 15px;
 }
 
 .required {

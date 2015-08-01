@@ -52,7 +52,7 @@ public class RecuperaSenhaControlador implements Serializable {
 		token = request.getParameter("token");
 	
 		// TODO AJUSTAR
-		UsuarioToken usuarioToken = null ;//usuarioTokenServico.getByPrimaryKey(new Long (token));
+		UsuarioToken usuarioToken = (UsuarioToken) usuarioTokenServico.getByPrimaryKey(new Long (token));
 		
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(usuarioToken.getDataGeracao());
