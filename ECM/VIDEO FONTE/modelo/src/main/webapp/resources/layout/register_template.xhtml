@@ -26,12 +26,16 @@
   			<c:set var="renderCancelar" value="true" />
   		</c:if>
   		
+  		<c:if test="#{empty renderSalvar}" >
+  			<c:set var="renderSalvar" value="true" />
+  		</c:if>
+  		
   		<c:if test="#{empty disabledBtnSalvar}" >
   			<c:set var="disabledBtnSalvar" value="false" />
   		</c:if>
   		
   		<c:if test="#{empty containerTitle}" >
-  			<c:set var="containerTitle" value="Preencher campos" />
+  			<c:set var="containerTitle" value="" />
   		</c:if>
   		
   		<ui:param name="pageTitle" value="-- TODO definir titulo --"/>
@@ -39,10 +43,6 @@
   		<div class="mainForm">
 			
 			<h:form id="form">
-			
-				<div class="titlePanel">
-					<ss:titlePanel title="#{pageHeader}" />
-				</div>
 				
 				<div class="messagePanel">
 					<h:panelGrid cellpadding="0" cellspacing="0" style="margin-left: 10px;">
@@ -52,7 +52,6 @@
 				</div>
 				
 				<h:panelGrid width="100%">
-					
 					
 					<ss:container title="#{containerTitle}" >
 						
@@ -80,16 +79,18 @@
 						<ss:button id="btnCancelar" type="cancelar" managedBean="#{managedBean}" update=":form" />
 					</c:if>
 					
-					<ss:button id="btnSalvar" disabledBtn="#{disabledBtnSalvar}" type="salvar" managedBean="#{managedBean}" update=":form :form:msg" />
+					<c:if test="#{renderSalvar}">
+						<ss:button id="btnSalvar" disabledBtn="#{disabledBtnSalvar}" type="salvar" managedBean="#{managedBean}" update=":form :form:msg" />
+					</c:if>
 					
 					<ui:insert name="aditional_button_region" />
 					
 				</h:panelGrid>
 				
-				<p:blockUI block=":form" trigger="btnSalvar:btnSalvar">
+				<!-- <p:blockUI block=":form" trigger="btnSalvar:btnSalvar">
 		        	PROCESSANDO...<br />
 					<p:graphicImage value="/resources/imagens/ajax-loader.gif" />
-				</p:blockUI>
+				</p:blockUI> -->
 				
 			</h:form>
 			

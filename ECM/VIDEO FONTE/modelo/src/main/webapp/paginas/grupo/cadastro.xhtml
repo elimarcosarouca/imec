@@ -9,14 +9,16 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:ss="http://java.sun.com/jsf/composite/jsf2_component"
-	template="/resources/layout/template.xhtml">
+	template="/resources/layout/register_template.xhtml">
 
-	<!--  ====== Params ================ 
-			. Obrigatorios: 
-				- managedBean
-		 -->
+	<ui:param name="containerTitle" value="Cadastro de Grupo" />
+	<ui:param name="pageTitle" value="Cadastro de Grupo" />
+	<ui:param name="widthContainer" value="950px" />
 
-	<ui:define name="content">
+	<ui:define name="register_region">
+	
+		<c:set var="renderCancelar" value="false" />
+		<c:set var="renderSalvar" value="false" />
 
 		<c:if test="#{empty widthContainer}">
 			<c:set var="widthContainer" value="100%" />
@@ -37,30 +39,26 @@
 		<ui:param name="pageTitle" value="-- TODO definir titulo --" />
 
 		<div class="mainForm">
-			<h:form id="form">
+			<p:growl id="growl" />
+		
+			<h:panelGrid columns="1">
+				<p:outputLabel value="Nome *"
+					styleClass="ui-priority-primary" />
+				<p:inputText id="nome" required="true" maxlength="40"
+					requiredMessage="Informe o nome do grupo que será adicionado."
+					value="#{grupoControladorBean.shortName}" size="30" />
+			</h:panelGrid>
+			<br/>
 
-				<p:growl id="growl" />
-				<p:panel header="Cadastro de Grupo " style="width:100%" class="painelformatado">
-					<h:panelGrid columns="1">
-						<p:outputLabel value="Nome *"
-							styleClass="ui-priority-primary" />
-						<p:inputText id="nome" required="true" maxlength="40"
-							requiredMessage="Informe o nome do grupo que será adicionado."
-							value="#{grupoControladorBean.shortName}" size="30" />
-					</h:panelGrid>
-					<br/>
+			<p:commandButton id="btnCancelar" value="Cancelar" immediate="true"
+				action="#{grupoControladorBean.cancelar}"
+				icon="ui-icon-circle-arrow-w" style="margin-right:20px;"
+				styleClass="ui-priority-primary" update=":form" />
 
-					<p:commandButton id="btnCancelar" value="Cancelar" immediate="true"
-						action="#{grupoControladorBean.cancelar}"
-						icon="ui-icon-circle-arrow-w" style="margin-right:20px;"
-						styleClass="ui-priority-primary" update=":form" />
-
-					<p:commandButton id="save" icon="ui-icon-disk" value="Salvar"
-						styleClass="ui-priority-primary"  style="margin-right:20px;"
-						action="#{grupoControladorBean.incluir}" update=":form" />
-					
-				</p:panel>
-			</h:form>
+			<p:commandButton id="save" icon="ui-icon-disk" value="Salvar"
+				styleClass="ui-priority-primary"  style="margin-right:20px;"
+				action="#{grupoControladorBean.incluir}" update=":form" />
+			
 		</div>
 	</ui:define>
 

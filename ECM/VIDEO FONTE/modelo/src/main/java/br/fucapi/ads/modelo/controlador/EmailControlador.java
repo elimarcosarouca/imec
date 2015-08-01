@@ -125,7 +125,7 @@ public class EmailControlador {
 		};
 		this.mailSender.send(preparator);		
 		RequestContext request = RequestContext.getCurrentInstance();
-		request.execute("enviado.show()");
+		request.execute("PF('enviado').show()");
 	}
 	
 	/**

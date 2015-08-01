@@ -9,15 +9,19 @@
 	<div>
 		<h:form>
 			<div id="header-left">
-				<div
-					style="width: 200px; float: left; padding-left: 10px; padding-top: -20px; position: relative; top: 35%; transform: translateY(-50%);">
-					<h1
-						style="font-family: Lucida Calligraphy; background: #CCC; border-radius: 5px; padding-left: 10px; font-size: 40px; color: #4D4D4D; float: left; margin-bottom: 10px; width: 140px">CDOC</h1>
+				<div style="float: left;">
+					<h:graphicImage value="/resources/estilos/logo-cdoc.png"
+						style="height: 50px; zoom: 1.4;" />
 				</div>
 				
 				<div
-					style="width: 200px; float: left; padding-left: 10px; padding-top: -20px; position: relative; top: 35%; transform: translateY(-50%);">
-					<p:outputLabel value="Bem vindo #{usuarioControladorBean.usuarioLogado.firstName} #{usuarioControladorBean.usuarioLogado.lastName}"/>
+					style="width: 500px; float: left; margin-top: 10px; position: relative; transform: translateX(3%);">
+					<p:outputLabel style="font-size: 18px; font-family: Metrophobic;"
+						value="#{usuarioControladorBean.dataServidor}"/>
+					<br/>	
+						
+					<p:outputLabel style="font-size: 18px; font-family: Metrophobic;"
+						value="Usuário: #{usuarioControladorBean.usuarioLogado.firstName} #{usuarioControladorBean.usuarioLogado.lastName}"/>
 				</div>
 
 				<div style="float: right;">
