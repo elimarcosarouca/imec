@@ -72,6 +72,7 @@ import br.fucapi.bpms.alfresco.dominio.Usuario;
 import br.fucapi.bpms.alfresco.dominio.UsuarioGrupo;
 import br.fucapi.bpms.alfresco.servico.AlfrescoServico;
 
+import com.lowagie.text.DocumentException;
 import com.sun.xml.ws.api.PropertySet.Property;
 
 import flexjson.JSONDeserializer;
@@ -131,7 +132,7 @@ public class PublicarDocumentoControlador implements Serializable {
 	private ProcessoInstancia processoStart;
 
 	private boolean habilitar = false;
-	
+
 	@ManagedProperty(value = "#{activitiServicoImpl}")
 	private ActivitiServico activitiServico;
 
@@ -295,7 +296,7 @@ public class PublicarDocumentoControlador implements Serializable {
 		}
 	}
 
-	public void converterDocToPDF() {
+	public void converterDocToPDF() throws DocumentException {
 		List<Arquivo> listaArquivos = new ArrayList<Arquivo>();
 		String pathMarcaDagua = FacesContext.getCurrentInstance()
 				.getExternalContext().getRealPath("/")
@@ -329,28 +330,28 @@ public class PublicarDocumentoControlador implements Serializable {
 							"copiacontrolado.pdf");
 					this.variaveis.getArquivoControlado().setFile(
 							Watermark.inserirTarja(pdf, "copiacontrolado",
-									pathMarcaDagua));
+									pathMarcaDagua, "Nome: " + this.variaveis.getNomeDocumento() +" - Codigo: " + this.variaveis.getCodigo()));
 					listaArquivos.add(this.variaveis.getArquivoControlado());
 
 					this.variaveis.getArquivoNaoControlado().setNomeArquivo(
 							"copianaocontrolado.pdf");
 					this.variaveis.getArquivoNaoControlado().setFile(
 							Watermark.inserirTarja(pdf, "copianaocontrolado",
-									pathMarcaDagua));
+									pathMarcaDagua, this.variaveis.getCodigo()));
 					listaArquivos.add(this.variaveis.getArquivoNaoControlado());
 
 					this.variaveis.getArquivoObsoleto().setNomeArquivo(
 							"arquivoobsoleto.pdf");
 					this.variaveis.getArquivoObsoleto().setFile(
 							Watermark.inserirTarja(pdf,
-									"copia-arquivo-obsoleto", pathMarcaDagua));
+									"copia-arquivo-obsoleto", pathMarcaDagua, "Nome: " + this.variaveis.getNomeDocumento() +" - Codigo: " + this.variaveis.getCodigo()));
 					listaArquivos.add(this.variaveis.getArquivoObsoleto());
 
 					this.variaveis.getArquivoCancelado().setNomeArquivo(
 							"copia-arquivo-cancelado.pdf");
 					this.variaveis.getArquivoCancelado().setFile(
 							Watermark.inserirTarja(pdf,
-									"copia-arquivo-cancelado", pathMarcaDagua));
+									"copia-arquivo-cancelado", pathMarcaDagua, "Nome: " + this.variaveis.getNomeDocumento() +" - Codigo: " + this.variaveis.getCodigo()));
 					listaArquivos.add(this.variaveis.getArquivoCancelado());
 
 				} catch (IOException e) {
@@ -529,24 +530,25 @@ public class PublicarDocumentoControlador implements Serializable {
 	}
 
 	@PostConstruct
-	public void initUsuario(){
+	public void initUsuario() {
 		this.usuarioLogado = (Usuario) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
 	}
+
 	public String init() {
 		initUsuario();
-		
+
 		this.variaveisPesquisa = new VariavelPublicarDocumento();
 		this.variaveisPesquisa
 				.setPostosCopiaObject(postoCopiaServico.listAll());
 		this.variaveisPesquisa.setUnidades(unidadeServico.listAll());
 		this.variaveisPesquisa.setCategorias(categoriaServico.listAll());
 		this.variaveisPesquisa.setSetores(setorServico.listAll());
-		
+
 		return TELA_PESQUISA = "/paginas/solicitacao/publicardocumento/pesquisa.xhtml?faces-redirect=true";
 	}
 
-	public String validarFormulario() {
+	public String validarFormulario() throws DocumentException {
 		if (!"".equals(this.uploadFile.getFileName())) {
 			return this.salvarNovaSolicitacao();
 		} else {
@@ -562,8 +564,10 @@ public class PublicarDocumentoControlador implements Serializable {
 	/**
 	 * Metodo responsavel por salvar uma nova solicitacao de treinamento no
 	 * activiti
+	 * 
+	 * @throws DocumentException
 	 */
-	public String salvarNovaSolicitacao() {
+	public String salvarNovaSolicitacao() throws DocumentException {
 
 		this.protocolo = protocoloServico.gerarProtocolo();
 		System.out.println(this.protocolo.toString());
@@ -576,14 +580,6 @@ public class PublicarDocumentoControlador implements Serializable {
 				this.concessoes.getTarget(), this.elaboradores.getTarget(),
 				this.postosCopia.getTarget());
 
-		// Chamada para converter o arquivo .doc e salvar os arquivos no
-		// Alfresco
-		this.converterDocToPDF();
-
-		this.variaveis.setSequencial(this.protocolo.getSequencial());
-		this.variaveis.setAno(this.protocolo.getAno());
-		this.variaveis.setSolicitante(this.usuarioLogado.getUserName());
-
 		// Bloco para setar Nomenclatura
 		NomenclaturaDocumento nomenclatura = new NomenclaturaDocumento();
 		nomenclatura.setUnidade(this.variaveis.getUnidade());
@@ -591,8 +587,16 @@ public class PublicarDocumentoControlador implements Serializable {
 		nomenclatura.setSetor(this.variaveis.getSetor());
 		nomenclatura = this.nomenclaturaDocumentoServico
 				.pegarSequencial(nomenclatura);
-		
+
 		this.variaveis.setCodigo(nomenclatura.toString());
+
+		// Chamada para converter o arquivo .doc e salvar os arquivos no
+		// Alfresco
+		this.converterDocToPDF();
+
+		this.variaveis.setSequencial(this.protocolo.getSequencial());
+		this.variaveis.setAno(this.protocolo.getAno());
+		this.variaveis.setSolicitante(this.usuarioLogado.getUserName());
 
 		this.activitiServico.iniciarInstanciaProcessoPorParametrosByKey(
 				variaveis.getPUBLICAR_DOCUMENTO(), this.protocolo.toString(),
@@ -694,7 +698,7 @@ public class PublicarDocumentoControlador implements Serializable {
 	}
 
 	public void preRenderView() {
-		
+
 		initUsuario();
 
 		if (this.usuarioLogado.getCapabilities().isAdmin()) {
@@ -862,18 +866,17 @@ public class PublicarDocumentoControlador implements Serializable {
 					this.variaveis.getUnidade().getId()))
 				return false;
 		}
-		
+
 		if (this.setor != null) {
-			if (!this.setor.getId().equals(
-					this.variaveis.getSetor().getId())) 
+			if (!this.setor.getId().equals(this.variaveis.getSetor().getId()))
 				return false;
 		}
-		
+
 		if (this.categoria != null) {
 			if (!this.categoria.getId().equals(
-					this.variaveis.getCategoria().getId())) 
+					this.variaveis.getCategoria().getId()))
 				return false;
-			
+
 		}
 
 		return retorno;
