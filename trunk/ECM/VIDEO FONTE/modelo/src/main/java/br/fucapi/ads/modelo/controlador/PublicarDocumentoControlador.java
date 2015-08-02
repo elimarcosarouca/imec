@@ -330,28 +330,32 @@ public class PublicarDocumentoControlador implements Serializable {
 							"copiacontrolado.pdf");
 					this.variaveis.getArquivoControlado().setFile(
 							Watermark.inserirTarja(pdf, "copiacontrolado",
-									pathMarcaDagua, "Nome: " + this.variaveis.getNomeDocumento() +" - Codigo: " + this.variaveis.getCodigo()));
+									pathMarcaDagua,
+									this.variaveis.pegarRodape()));
 					listaArquivos.add(this.variaveis.getArquivoControlado());
 
 					this.variaveis.getArquivoNaoControlado().setNomeArquivo(
 							"copianaocontrolado.pdf");
 					this.variaveis.getArquivoNaoControlado().setFile(
 							Watermark.inserirTarja(pdf, "copianaocontrolado",
-									pathMarcaDagua, this.variaveis.getCodigo()));
+									pathMarcaDagua,
+									this.variaveis.pegarRodape()));
 					listaArquivos.add(this.variaveis.getArquivoNaoControlado());
 
 					this.variaveis.getArquivoObsoleto().setNomeArquivo(
 							"arquivoobsoleto.pdf");
 					this.variaveis.getArquivoObsoleto().setFile(
 							Watermark.inserirTarja(pdf,
-									"copia-arquivo-obsoleto", pathMarcaDagua, "Nome: " + this.variaveis.getNomeDocumento() +" - Codigo: " + this.variaveis.getCodigo()));
+									"copia-arquivo-obsoleto", pathMarcaDagua,
+									this.variaveis.pegarRodape()));
 					listaArquivos.add(this.variaveis.getArquivoObsoleto());
 
 					this.variaveis.getArquivoCancelado().setNomeArquivo(
 							"copia-arquivo-cancelado.pdf");
 					this.variaveis.getArquivoCancelado().setFile(
 							Watermark.inserirTarja(pdf,
-									"copia-arquivo-cancelado", pathMarcaDagua, "Nome: " + this.variaveis.getNomeDocumento() +" - Codigo: " + this.variaveis.getCodigo()));
+									"copia-arquivo-cancelado", pathMarcaDagua,
+									this.variaveis.pegarRodape()));
 					listaArquivos.add(this.variaveis.getArquivoCancelado());
 
 				} catch (IOException e) {

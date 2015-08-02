@@ -50,7 +50,7 @@ public class VariavelPublicarDocumento extends Variavel {
 	private Arquivo arquivoObsoleto;
 
 	private Arquivo arquivoCancelado;
-	
+
 	private String nomeDocumento;
 
 	private boolean possuiTarja;
@@ -69,7 +69,7 @@ public class VariavelPublicarDocumento extends Variavel {
 
 	// dados da telas
 	private PostoCopia postoCopia;
-	
+
 	private List<PostoCopia> postoCopias;
 
 	private Setor setor;
@@ -526,6 +526,10 @@ public class VariavelPublicarDocumento extends Variavel {
 		this.nomeDocumento = nomeDocumento;
 	}
 
+	public String pegarRodape() {
+		return "Nome: " + getNomeDocumento() + " - Código: " + getCodigo();
+	}
+
 	/**
 	 * Metodo responsavel por converter lista de variaveis (Map) em um objeto
 	 * VariaveisProcesso
@@ -646,8 +650,7 @@ public class VariavelPublicarDocumento extends Variavel {
 					&& var.getValue() != null) {
 				this.setAlteracoes(var.getValue().toString());
 
-			} else if (var.getName().equals("codigo")
-					&& var.getValue() != null) {
+			} else if (var.getName().equals("codigo") && var.getValue() != null) {
 				this.setCodigo(var.getValue().toString());
 
 			} else if (var.getName().equals("categoria")
@@ -721,8 +724,8 @@ public class VariavelPublicarDocumento extends Variavel {
 			} else if (var.getName().equals("justificativaStatus")
 					&& var.getValue() != null) {
 				this.setJustificativaStatus(var.getValue().toString());
-				
-			}else if (var.getName().equals("nomeDocumento")
+
+			} else if (var.getName().equals("nomeDocumento")
 					&& var.getValue() != null) {
 				this.setNomeDocumento(var.getValue().toString());
 			}
@@ -733,7 +736,7 @@ public class VariavelPublicarDocumento extends Variavel {
 		Map<String, Object> params = super.converterVariaveis();
 
 		params = super.converterVariaveis();
-		
+
 		params.put("nomeDocumento", this.getNomeDocumento().toUpperCase());
 		params.put("tipoSolicitacao", this.getTipoSolicitacao());
 		params.put("gruposNotificar", this.getGruposNotificar());
