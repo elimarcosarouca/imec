@@ -12,11 +12,11 @@
 }
 
 .ui-widget .ui-widget {
-	font-size: 15px;
+	font-size: 11px;
 }
 
 .ui-widget {
-	font-size: 15px;
+	font-size: 11px;
 }
 
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
@@ -36,7 +36,7 @@
 	float: none;
 	padding: 0px;
 	background-color: #FFFFFF;
-	min-height: 670px;
+	min-height: 600px;
 }
 
 #footer {
