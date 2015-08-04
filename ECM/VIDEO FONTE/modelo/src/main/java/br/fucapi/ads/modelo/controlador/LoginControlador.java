@@ -53,6 +53,10 @@ public class LoginControlador implements Serializable {
 			}
 		}
 	}
+	
+	public String telaHome(){
+		return "/paginas/home/index.xhtml?faces-redirect=true";
+	}
 
 	public void testeMensagem() {
 		if (loginStatus.isShowMsgErro()) {
