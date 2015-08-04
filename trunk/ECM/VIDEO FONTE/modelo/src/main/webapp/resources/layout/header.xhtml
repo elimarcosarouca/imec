@@ -13,15 +13,15 @@
 					<h:graphicImage value="/resources/estilos/logo-cdoc.png"
 						style="height: 50px; zoom: 1.4;" />
 				</div>
-				
+
 				<div
 					style="width: 400px; float: left; margin-top: 10px; position: relative; transform: translateX(3%);">
 					<p:outputLabel style="font-size: 18px; font-family: Metrophobic;"
-						value="#{usuarioControladorBean.dataServidor}"/>
-					<br/>	
-						
+						value="#{usuarioControladorBean.dataServidor}" />
+					<br />
+
 					<p:outputLabel style="font-size: 18px; font-family: Metrophobic;"
-						value="Usuário: #{usuarioControladorBean.usuarioLogado.firstName} #{usuarioControladorBean.usuarioLogado.lastName}"/>
+						value="Usuário: #{usuarioControladorBean.usuarioLogado.firstName} #{usuarioControladorBean.usuarioLogado.lastName}" />
 				</div>
 
 				<div style="float: right;">
@@ -30,6 +30,13 @@
 						<h:graphicImage value="/resources/imagens/menu/shutdown.png"
 							style="height: 50px; margin-top: 20%;" title="Sair" />
 					</a>
+				</div>
+
+				<div style="float: right;">
+					<p:commandLink action="#{loginControlador.telaHome}" update=":form">
+						<h:graphicImage value="/resources/imagens/menu/home.png"
+							style="height: 50px; margin-top: 20%;" title="Workflow" />
+					</p:commandLink>
 				</div>
 
 				<div style="float: right;">
@@ -47,7 +54,8 @@
 					</p:commandLink>
 				</div>
 
-				<p:outputPanel rendered="#{usuarioControladorBean.analista or usuarioControladorBean.administrador}">
+				<p:outputPanel
+					rendered="#{usuarioControladorBean.analista or usuarioControladorBean.administrador}">
 
 					<div style="float: right">
 						<p:commandLink action="#{alertaControlador.telaPesquisa}"
