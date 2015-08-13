@@ -46,11 +46,8 @@
 					<p:tab title="[ Grupo ] - Filtro de Pesquisa">
 
 						<h:panelGrid columns="1">
-							<p:outputLabel value="Grupo" styleClass="ui-priority-primary" />
-							<p:inputText id="nome" required="false" maxlength="40"
-								value="#{grupoControladorBean.shortName}"
-								requiredMessage="informe o nome do grupo para pesquisa"
-								size="30" />
+							<ss:input id="nome" label="Grupo"
+								value="#{grupoControladorBean.shortName}" maxlength="30"/>	
 						</h:panelGrid>
 
 						<br />

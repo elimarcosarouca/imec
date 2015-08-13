@@ -16,8 +16,11 @@
 	<form action="#{facesContext.externalContext.requestContextPath}/j_spring_security_check" method="post">
 		
 		<div id="principal">
-			<img src="#{facesContext.externalContext.requestContextPath}/logo.png" alt="" />
-			<div class="login">
+				
+			<div style="right: 10%; float: right; padding-right: 60%; position: fixed; top: 0%;">
+				<img src="#{facesContext.externalContext.requestContextPath}/7bit.png" alt="" style="padding-right: 20%;"/>
+			</div>
+			<div class="login" style="float: left;">
 				<p:growl id="growl" binding="#{loginControlador.msg}" />
 				<h1>Infome seu Login e Senha</h1>
 
@@ -33,18 +36,20 @@
 				</p>
 
 				<br />
-
+				
 				<div align="right">
 					<h:commandButton styleClass="botao-login" value="Entrar" />
 				</div>
 			</div>
-
+			
 			<div>
 				<h:form>
 					<h:commandLink styleClass="login-help" action="inicio"
 						onclick="PF('lembrete').show()" value="Esqueceu sua senha?" />
 				</h:form>
 			</div>
+			
+			
 
 		</div>
 	</form>
