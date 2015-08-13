@@ -43,14 +43,9 @@
 				<p:accordionPanel id="accordion" styleClass="filtro_pesquisa">
 					<p:tab title="[ Usuário ] - Filtro de Pesquisa">
 
-						<h:panelGrid columns="1">
-
-							<p:outputLabel value="Primeiro Nome "
-								styleClass="ui-priority-primary" />
-							<p:inputText id="nome" required="false" maxlength="40"
-								value="#{usuarioControladorBean.usuario.userName}"
-								requiredMessage="informe o nome do usuario para pesquisa"
-								size="30" />
+						<h:panelGrid columns="1">								
+							<ss:input id="nome" label="Primeiro Nome"
+								value="#{usuarioControladorBean.usuario.userName}" maxlength="30"/>	
 						</h:panelGrid>
 						<br />
 							<p:commandButton id="pesquisa" icon="ui-icon-search"

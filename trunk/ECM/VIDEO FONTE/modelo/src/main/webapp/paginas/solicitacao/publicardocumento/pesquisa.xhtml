@@ -45,21 +45,11 @@
 				<p:accordionPanel id="accordion"  styleClass="filtro_pesquisa">
 					<p:tab title="[ Workflow ] - Filtro de Pesquisa" >
 
-						<h:panelGrid columns="2" style="width: 49.5%">
-							<p:outputLabel value="Situação" />
-							<p:outputLabel value="Protocolo" />
-							
-							<p:selectOneMenu  
-								value="#{publicarDocumentoControlador.variaveisPesquisa.statusProcesso}">
-								<f:selectItem itemLabel="TODOS" itemValue="" />
-								<f:selectItems value="#{publicarDocumentoControlador.statusProcesso}" />
-							</p:selectOneMenu>
-							<p:inputText  
-								value="#{publicarDocumentoControlador.variaveisPesquisa.protocolo}" />
-
-						</h:panelGrid>
-
-						<h:panelGrid columns="2" style="width: 45%">
+						<h:panelGrid columns="3" style="width: 75%">
+							<ss:comboBox id="situacao" label="Situação"
+								value="#{publicarDocumentoControlador.variaveisPesquisa.statusProcesso}"
+								list="#{publicarDocumentoControlador.statusProcesso}"
+								foreignKey="true" atributo="#{item}" />
 
 							<ss:comboBox id="unidade" label="Unidade"
 								value="#{publicarDocumentoControlador.unidade}"
@@ -80,6 +70,9 @@
 								value="#{publicarDocumentoControlador.setor}"
 								list="#{publicarDocumentoControlador.variaveisPesquisa.setores}"
 								foreignKey="true" atributo="#{item.nome}" />
+
+							<ss:input id="protocolo" label="Protocolo" required="true"
+										value="#{publicarDocumentoControlador.variaveisPesquisa.protocolo}" />							
 
 						</h:panelGrid>
 						<br />

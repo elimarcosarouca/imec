@@ -18,11 +18,8 @@
 	<ui:define name="search_filter">
 
 		<h:panelGrid columns="1">
-
-			<p:outputLabel value="Nome "
-				styleClass="ui-priority-primary" />
-			<p:inputText id="nome" required="false" maxlength="40"
-				value="#{colaboradorControlador.pesquisa.nome}"	/>		
+			<ss:input id="nome" label="Nome"
+				value="#{colaboradorControlador.pesquisa.nome}" maxlength="30"/>	
 		</h:panelGrid>
 		
 	</ui:define>
